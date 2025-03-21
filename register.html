@@ -3,25 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unversity Clinic Login Page</title>
+    <title>University Clinic Sign Up</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-    <div id="login-container">
-        <div id="pic-container">
-            <img id="office-pic" src="office-pic.jpg">
-        </div>
-        <form id="loginform" class="forms">
-            <img id="logo-lspu" src="lspulogo.png">
-            <h1>University Clinic</h1>
-            <h2>Sign up to continue</h2>
-            <div id="divinputs">
-                <input type="email" class="inputs" placeholder="email" required>
-                <input type="password" class="inputs" placeholder="password" required>
-                <button class="buttons">Sign Up</button>    
+<body onload="autoScrollToLogin()">
+    <div class="container">
+        <div class="left-section">
+            <div class="overlay">
+                <img id="lspulogo" src="LSPU logo.png" alt="LSPU Logo" class="logo">
+                <h1 id="welcomesmg">Welcome!<br>To University Clinic Online</h1>
+                <p id="loginsmg">Manage your health records and appointments with ease. Keep your details up-to-date for a smooth experience.</p>
             </div>
-            <a href="index.html" class="register-link">Already have an account? Sign in here</a>
-        </form>
+        </div>
+        <div class="right-section">
+            <h2 id="signup">Sign Up</h2>
+            <form>
+                <div class="input-group">
+                    <input class="inputs" type="text" placeholder="First Name" required>
+                    <input class="inputs" type="text" placeholder="Last Name" required>
+                </div>
+                <input class="inputs" type="email" placeholder="Email" required>
+                <input class="inputs" type="password" placeholder="Password" required>
+                <input class="inputs" type="password" placeholder="Confirm Password" required>
+                <button type="submit">Create Account</button>
+                <p>Already have an account? <a href="index.html">Sign in</a></p>
+            </form>
+        </div>
     </div>
+    <script src="script.js"></script> 
 </body>
 </html>

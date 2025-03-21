@@ -1,152 +1,218 @@
-* {
-    margin: 0;
-    padding: 0;
+*{
+    margin: 0px;
+    padding: 0px;
     box-sizing: border-box;
 }
 
 body {
+    font-family: Arial, sans-serif;
+    background-color: #e5e7eb;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #D4D8E1;
+    margin: 0;
 }
 
-#login-container {
-    width: 60%; 
-    max-width: 900px;
+.container {
     display: flex;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-}
-
-#pic-container {
-    width: 60%;
-    margin: 10px;
-    background: linear-gradient(to top, #2E68CC, #50DDE6);
-    border-radius: 12px;
+    flex-direction: row;  
+    width: 80%;
+    max-width: 900px;
+    height: 80%;
+    max-height: 700px;
+    background: white;
+    border-radius: 10px;
     overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-#office-pic {
+.left-section {
+    flex: 1;
+    background: url("office-photo.png") center/cover no-repeat;
+    position: relative;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.overlay {
+    position: absolute;
+    padding: 10;
     width: 100%;
     height: 100%;
-    object-fit: cover;
-    opacity: 0.6;
-}
-
-#loginform {
-    width: 60%;
-    padding: 40px;
+    background: linear-gradient(to right, #0748eeb9, #429cfc8a);
+    color: white;
+    text-align: center;
+    padding: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-right: 12px;
-    font-family: Arial, sans-serif;
-    gap: 15px;
+    justify-content: center;
+    border-radius: 10px;
 }
 
-#logo-lspu {
-    width: 90px;
-    height: 90px;
+.logo {
+    width: 100px;
+    margin-bottom: 10px;
 }
 
-h1 {
-    color: #0562BA;
-    font-size: 24px;
+.right-section {
+    flex: 1;
+    padding: 40px;
 }
 
-h2 {
-    color: #333;
-    font-size: 14px;
-    font-weight: normal;
+#signup{
+    color: #0056b3;
+    margin-top: 85px;
 }
 
-#divinputs {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+#login{
+    color: #0056b3;
+    margin-top: 130px;
 }
 
-.inputs {
-    width: 100%;
-    height: 40px;
-    padding: 10px;
-    border: 1px solid #e0e0e0;
-    border-radius: 6px;
-    outline: none;
-    font-size: 16px;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
 
 .inputs:focus {
-    border-color: #a0c4ff;
-    box-shadow: 0 0 5px rgba(160, 196, 255, 0.5);
+    border-color: #13c8ff; 
+    outline: none; 
 }
 
-.buttons {
+#lspulogo{
+    margin-top: -60px;
+    width: 250px;
+    height: 250px;
+}
+
+#welcomesmg{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+    margin-top: -20px;
+}
+
+#loginsmg{
+    text-align: left; 
+    max-width: 300px; 
+    color: white; 
+    font-size: 16px; 
+    line-height: 1.2; 
+    margin-left: 30px;
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+}
+
+input {
     width: 100%;
-    height: 45px;
-    background-color: #0858D9;
-    color: #ffffff;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background: #0858D9;
+    color: white;
     border: none;
-    border-radius: 6px;
-    font-size: 16px;
-    font-weight: bold;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-.buttons:hover {
-    background-color: #06409c;
+button:hover {
+    background: #003f80;
 }
 
-.register-link {
-    color: #0562BA;
-    font-size: 14px;
-    text-decoration: none;
+p {
+    text-align: center;
     margin-top: 10px;
 }
 
-.register-link:hover {
+a {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+a:hover {
     text-decoration: underline;
 }
 
-@media (max-width: 768px) {
-    #login-container {
-        width: 90%; 
-        flex-direction: column; 
+
+@media (max-width: 600px) {
+    body {
+        flex-direction: column;
+        align-items: stretch;
         height: auto;
+    }
+
+    .container {
+        flex-direction: column;
+        width: 100%;
+        height: 100vh;
+        max-height: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .left-section {
+        width: 100%;
+        height: 60vh; 
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .overlay {
         padding: 20px;
+        font-size: 14px;
+        border-radius: 0;
     }
 
-    #pic-container {
-        width: 100%; 
-        height: 150px; 
-        margin-bottom: 20px;
-    }
-
-    #office-pic {
-        height: 100%;
+    .right-section {
         width: 100%;
-        border-radius: 10px;
+        height: 70vh;
+        padding: 20px;
+        border-radius: 45px 0 0 0;
+        
+        position: absolute; 
+        top: 50vh; 
+        left: 0;
+        background-color: white; 
+        z-index: 10; 
     }
 
-    #loginform {
-        width: 100%; 
-        gap: 15px;
+    input, button {
+        padding: 12px;
     }
 
-    #divinputs {
-        width: 100%;
-        gap: 15px;
+    #signup, #login {
+        margin-top: 40px;
     }
 
-    .buttons {
-        width: 100%; 
-        height: 40px;
+    #lspulogo{
+        position: absolute;
+        top: 180px;
+        width: 150px;
+        height: 150px;
+    }
+    
+    #welcomesmg{
+        position: absolute;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 15px;
+        top: 270px;
+    }
+    
+    #loginsmg{
+        position: absolute;
+        text-align: left; 
+        max-width: 300px; 
+        color: white; 
+        font-size: 8px; 
+        line-height: 1.2; 
+        margin-left: 30px;
+        top: 285px;
     }
 }
 
