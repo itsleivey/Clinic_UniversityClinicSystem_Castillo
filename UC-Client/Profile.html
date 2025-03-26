@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layout Example</title>
+    <link rel="stylesheet" href="ClientStyles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="script.js" defer></script>
+    <title>Manage Profile</title>
+</head>
+</head>
+
+<body>
+
+    <div class="header">
+        <img src="LSPU logo.png" alt="Logo">
+        <div class="title">
+            <span>University</span>
+            <span>Clinic</span>
+        </div>
+        <button id="toggle-btn">
+            <img id="btnicon" src="menu-icon.svg">
+        </button>
+    </div>
+
+    <div class="main-container">
+        <nav class="navbar">
+            <a href="Profile.html">
+                <button class="buttons" id="profileBtn">
+                    <img src="Usericon2.svg" class="button-icon">
+                    <span class="nav-text">Manage Profile</span>
+                </button>
+            </a>
+            <a href="Medical_Form.html">
+                <button class="buttons" id="medicalBtn">
+                    <img src="Form-icon.svg" class="button-icon">
+                    <span class="nav-text">Medical Form</span>
+                </button>
+            </a>
+        </nav>
+
+        <main class="content">
+            <div id="left-content">
+                <div id="profile">
+                    <div id="profile-div">
+                        <input type="file" id="image-upload" accept="image/*" style="display: none;">
+                        <img id="profile-pic"  alt="Profile Picture">
+                        <p id="Name" name="Client-Name" class="ptext">John Doe</p>
+                        <p id="Email" name="Client-Email" class="ptext">johndoe@gmail.com</p>
+                        <button class="page-buttons" id="profilebtn">
+                            Edit Profile
+                        </button>
+                    </div>
+                    <div id="left-profile-sec">
+                        <div id="status-info">
+                            <div id="left-text" class="divtext">
+                                <p class="info-label">Department: <span class="info-value">College of Computer
+                                        Studies</span></p>
+                                <p class="info-label">Course: <span class="info-value">Information Technology</span></p>
+                                <p class="info-label">Registration Date: <span class="info-value">02.28.25</span></p>
+                            </div>
+                            <div id="right-text" class="divtext">
+                                <p class="info-label">Client Type: <span class="info-value">Student</span></p>
+                                <p class="info-label">Completion Date: <span class="info-value">03.04.2025</span></p>
+                                <p class="info-label">Status: <span class="status-badge">In Progress</Progress></span>
+                                </p>
+                            </div>
+                        </div>
+                        <button class="page-buttons" id="medicalBtn">View Documents</button>
+
+                    </div>
+                </div>
+                <div id="info-div">
+                    <div class="tabs">
+                        <button class="tab active" onclick="switchTab(event, 'personal-info')">Personal
+                            Information</button>
+                        <button class="tab" onclick="switchTab(event, 'medical-history')">Medical History</button>
+                        <button class="tab" onclick="switchTab(event, 'medical-certificate')">Medical
+                            Certificate</button>
+                    </div>
+                    <div id="personal-info" class="tab-content active">
+                        <div class="info-grid">
+                            <p><span class="person-info-label">Surname:</span> <br> <span
+                                    class="person-value-label">Doe</span></p>
+                            <p><span class="person-info-label">Given Name:</span> <br> <span
+                                    class="person-value-label">John</span></p>
+                            <p><span class="person-info-label">Middle Name:</span> <br> <span
+                                    class="person-value-label">Whane</span></p>
+                            <p><span class="person-info-label">Age:</span> <br> <span
+                                    class="person-value-label">21</span></p>
+                            <p><span class="person-info-label">Sex:</span> <br> <span
+                                    class="person-value-label">Male</span></p>
+                            <p><span class="person-info-label">Birthday:</span> <br> <span
+                                    class="person-value-label">February 18, 2004</span></p>
+                            <p><span class="person-info-label">Course:</span> <br> <span
+                                    class="person-value-label">Information Technology</span></p>
+                            <p><span class="person-info-label">School Year Entered:</span> <br> <span
+                                    class="person-value-label">2023-2024</span></p>
+                            <p><span class="person-info-label">Phone Number:</span> <br> <span
+                                    class="person-value-label">0921 2143 5432</span></p>
+                            <p><span class="person-info-label">Address:</span> <br> <span
+                                    class="person-value-label">Brgy Nayon</span></p>
+                            <p><span class="person-info-label">City:</span> <br> <span class="person-value-label">Los
+                                    Baños</span></p>
+                            <p><span class="person-info-label">ZIP Code:</span> <br> <span
+                                    class="person-value-label">4030</span></p>
+                            <p><span class="person-info-label">City:</span> <br> <span class="person-value-label">Los
+                                    Baños</span></p>
+                            <p><span class="person-info-label">ZIP Code:</span> <br> <span
+                                    class="person-value-label">4030</span></p>
+                            <p><span class="person-info-label">City:</span> <br> <span class="person-value-label">Los
+                                    Baños</span></p>
+                            <p><span class="person-info-label">ZIP Code:</span> <br> <span
+                                    class="person-value-label">4030</span></p>
+                            <p><span class="person-info-label">City:</span> <br> <span class="person-value-label">Los
+                                    Baños</span></p>
+                            <p><span class="person-info-label">ZIP Code:</span> <br> <span
+                                    class="person-value-label">4030</span></p>
+                        </div>
+                    </div>
+
+                    <div id="medical-history" class="tab-content">
+                        <p>This section contains the medical history of the student.</p>
+                    </div>
+
+                    <div id="medical-certificate" class="tab-content">
+                        <p>This section contains the medical certificate details.</p>
+                    </div>
+
+                    <div class="div-info-buttons">
+                        <button class="btn save">
+                            <img src="File-icon.png" class="button-icon">
+                            Save Documents
+                        </button>
+                        <button class="btn edit">
+                            <img src="Edit-icon.png" class="button-icon">
+                            Edit Information
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div id="right-content">
+                <div id="calendar">
+                    <div class="Calendarheader">
+                        <p id="calendar-header-text">My Calendar</h2>
+                        <select id="date-select"></select>
+                    </div>
+                    
+                    <div class="calendar">
+                        <div class="weekdays"></div> 
+                        <div class="days"></div> 
+                    </div>
+                    <div class="time-display" id="time"></div>
+                    <div class="status">
+                        <div class="status-icon"></div>
+                        <p class="status-text"><span id="selected-date">--.--.--</span> In-progress</p>
+                    </div>
+                </div>
+                <div id="call-div">
+                    <div id="text-overlay">
+                        <h3>Emergency Contacts:</h3>
+                        <p>Clinic Hotline: (+63) 912-345-6789</p>
+                        <p>Campus Emergency: (+63) 911-123-4567</p>
+                        <p>Email: support@universityclinic.edu</p>
+                    </div>
+                    <div id="pic-div">                
+                        <img id="picimg" src="office-pic.svg">
+                    </div>
+                    <h2>Need help?</h2>
+                    <a href="#"> <p><span class="clinic-policies-label">View Clinic Policies | FAQs:</span><span</a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+</body>
+
+</html>
