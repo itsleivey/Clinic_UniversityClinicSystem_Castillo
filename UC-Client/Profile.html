@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Layout Example</title>
     <link rel="stylesheet" href="ClientStyles.css">
+    <link rel="stylesheet" href="MediaQuery.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="script.js" defer></script>
+    <script src="script.js" defer></script>
     <title>Manage Profile</title>
 </head>
 </head>
@@ -15,7 +16,7 @@
 <body>
 
     <div class="header">
-        <img src="LSPU logo.png" alt="Logo">
+        <img src="LSPU logo.png" alt="Logo" type="image/webp" loading="lazy">
         <div class="title">
             <span>University</span>
             <span>Clinic</span>
@@ -29,13 +30,13 @@
         <nav class="navbar">
             <a href="Profile.html">
                 <button class="buttons" id="profileBtn">
-                    <img src="Usericon2.svg" class="button-icon">
+                    <img src="Usericon2.svg" class="button-icon" loading="lazy">
                     <span class="nav-text">Manage Profile</span>
                 </button>
             </a>
             <a href="Medical_Form.html">
                 <button class="buttons" id="medicalBtn">
-                    <img src="Form-icon.svg" class="button-icon">
+                    <img src="Form-icon.svg" class="button-icon" loading="lazy">
                     <span class="nav-text">Medical Form</span>
                 </button>
             </a>
@@ -45,8 +46,8 @@
             <div id="left-content">
                 <div id="profile">
                     <div id="profile-div">
-                        <input type="file" id="image-upload" accept="image/*" style="display: none;">
-                        <img id="profile-pic"  alt="Profile Picture">
+                        <input type="file" id="image-upload" accept="image/*" style="display: none;" type="image/webp" loading="lazy">
+                        <img id="profile-pic"  alt="Profile Picture" loading="lazy">
                         <p id="Name" name="Client-Name" class="ptext">John Doe</p>
                         <p id="Email" name="Client-Email" class="ptext">johndoe@gmail.com</p>
                         <button class="page-buttons" id="profilebtn">
@@ -128,17 +129,16 @@
                     <div id="medical-certificate" class="tab-content">
                         <p>This section contains the medical certificate details.</p>
                     </div>
-
                     <div class="div-info-buttons">
                         <button class="btn save">
-                            <img src="File-icon.png" class="button-icon">
+                            <img src="File-icon.png" class="button-icon" loading="lazy">
                             Save Documents
                         </button>
                         <button class="btn edit">
-                            <img src="Edit-icon.png" class="button-icon">
+                            <img src="Edit-icon.png" class="button-icon" loading="lazy">
                             Edit Information
                         </button>
-                    </div>
+                    </div>                
                 </div>
             </div>
             <div id="right-content">
@@ -166,7 +166,7 @@
                         <p>Email: support@universityclinic.edu</p>
                     </div>
                     <div id="pic-div">                
-                        <img id="picimg" src="office-pic.svg">
+                        <img id="picimg" src="office-pic.svg" type="image/webp" loading="lazy">
                     </div>
                     <h2>Need help?</h2>
                     <a href="#"> <p><span class="clinic-policies-label">View Clinic Policies | FAQs:</span><span</a>

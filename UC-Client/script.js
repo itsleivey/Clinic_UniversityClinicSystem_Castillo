@@ -1,159 +1,149 @@
-const toggleButton = document.getElementById('toggle-btn');
-const navbar = document.querySelector('.navbar');
-const content = document.querySelector('.content');
-
-toggleButton.addEventListener('click', () => {
-    navbar.classList.toggle('collapsed');
-    navbar.classList.toggle('expanded');
-});
-
-document.addEventListener("click", (event) => {
-    if (event.target.classList.contains('buttons') && navbar.classList.contains('collapsed')) {
-        navbar.classList.remove('collapsed');
-        navbar.classList.add('expanded');
-    }
-});
-
 document.addEventListener("DOMContentLoaded", () => {
-    const currentPage = window.location.pathname.split("/").pop();
-    const activeButton = {
-        "Profile.html": "profileBtn",
-        "Medical_Form.html": "medicalBtn"
-    }[currentPage];
-
-    if (activeButton) {
-        document.getElementById(activeButton).classList.add("active");
-    }
+    // Cache DOM elements
+    const elements = cacheDOMElements();
+    
+    // Initialize components
+    initializeNavbar(elements);
+    initializeTabs();
+    initializeDateSelect(elements);
+    initializeProfileUpload(elements);
+    generateCalendar(elements, selectedDate.month, selectedDate.year);
+    startClock(elements);
 });
 
-function switchTab(event, sectionId) {
-    document.querySelector(".tab-content.active")?.classList.remove("active");
-    document.querySelector(".tab.active")?.classList.remove("active");
-
-    document.getElementById(sectionId).classList.add("active");
-    event.target.classList.add("active");
+function cacheDOMElements() {
+    return {
+        navbar: document.querySelector(".navbar"),
+        toggleButton: document.getElementById("toggle-btn"),
+        content: document.querySelector(".content"),
+        profilePic: document.getElementById("profile-pic"),
+        imageUpload: document.getElementById("image-upload"),
+        selectedDate: document.getElementById("selected-date"),
+        dateSelect: document.getElementById("date-select"),
+        weekdaysContainer: document.querySelector(".weekdays"),
+        daysContainer: document.querySelector(".days"),
+        timeDisplay: document.getElementById("time")
+    };
 }
 
-//Calendar functions ----------------------------------- >>>>
-document.addEventListener("DOMContentLoaded", function () {
-    const selectedDate = document.getElementById("selected-date");
-    const dateSelect = document.getElementById("date-select"); // Single dropdown
-    const weekdaysContainer = document.querySelector(".weekdays");
-    const daysContainer = document.querySelector(".days");
-
-    let currentDate = new Date();
-    let currentDay = currentDate.getDate();
-    let currentMonth = currentDate.getMonth();
-    let currentYear = currentDate.getFullYear();
-
-    let selectedMonth = currentMonth;
-    let selectedYear = currentYear;
-
-    function generateCalendar(month, year) {
-        weekdaysContainer.innerHTML = "";
-        daysContainer.innerHTML = "";
-
-        const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        weekdays.forEach(day => {
-            let weekdayElement = document.createElement("div");
-            weekdayElement.classList.add("weekday");
-            weekdayElement.textContent = day;
-            weekdaysContainer.appendChild(weekdayElement);
-        });
-
-        let firstDay = new Date(year, month, 1).getDay();
-        let daysInMonth = new Date(year, month + 1, 0).getDate();
-
-        for (let i = 0; i < firstDay; i++) {
-            let emptySlot = document.createElement("div");
-            emptySlot.classList.add("day", "empty");
-            daysContainer.appendChild(emptySlot);
+function initializeNavbar(elements) {
+    elements.toggleButton?.addEventListener("click", () => {
+        elements.navbar?.classList.toggle("collapsed");
+        elements.navbar?.classList.toggle("expanded");
+    });
+    
+    document.addEventListener("click", (event) => {
+        if (event.target.classList.contains("buttons") && elements.navbar?.classList.contains("collapsed")) {
+            elements.navbar.classList.replace("collapsed", "expanded");
         }
+    });
+}
 
-        for (let i = 1; i <= daysInMonth; i++) {
-            let dayElement = document.createElement("div");
-            dayElement.classList.add("day");
-            dayElement.textContent = i;
+function initializeTabs() {
+    const pageMap = {
+        "Profile.html": "profileBtn",
+        "Medical_Form.html": "medicalBtn"
+    };
+    const activePage = pageMap[window.location.pathname.split("/").pop()];
+    document.getElementById(activePage)?.classList.add("active");
+    
+    window.switchTab = (event, sectionId) => {
+        document.querySelector(".tab-content.active")?.classList.remove("active");
+        document.querySelector(".tab.active")?.classList.remove("active");
+        
+        document.getElementById(sectionId)?.classList.add("active");
+        event.target.classList.add("active");
+    };
+}
 
-            if (i === currentDay && month === currentMonth && year === currentYear) {
-                dayElement.classList.add("current-day"); 
-            }
+const currentDate = new Date();
+let selectedDate = { month: currentDate.getMonth(), year: currentDate.getFullYear() };
 
-            dayElement.addEventListener("click", function () {
-                document.querySelectorAll(".day").forEach(el => el.classList.remove("selected"));
-                this.classList.add("selected");
-                selectedDate.textContent = `${i.toString().padStart(2, '0')}.${(month + 1).toString().padStart(2, '0')}.${year}`;
-            });
-
-            daysContainer.appendChild(dayElement);
-        }
+function generateCalendar(elements, month, year) {
+    const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const weekdayFragment = document.createDocumentFragment();
+    const daysFragment = document.createDocumentFragment();
+    
+    elements.weekdaysContainer.innerHTML = "";
+    elements.daysContainer.innerHTML = "";
+    
+    weekdays.forEach(day => {
+        const div = document.createElement("div");
+        div.className = "weekday";
+        div.textContent = day;
+        weekdayFragment.appendChild(div);
+    });
+    elements.weekdaysContainer.appendChild(weekdayFragment);
+    
+    const firstDay = new Date(year, month, 1).getDay();
+    for (let i = 0; i < firstDay; i++) {
+        const emptyDay = document.createElement("div");
+        emptyDay.className = "day empty";
+        daysFragment.appendChild(emptyDay);
     }
+    
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    for (let day = 1; day <= daysInMonth; day++) {
+        const dayElement = document.createElement("div");
+        dayElement.className = "day";
+        
+        if (day === currentDate.getDate() && month === currentDate.getMonth() && year === currentDate.getFullYear()) {
+            dayElement.classList.add("current-day");
+        }
+        
+        dayElement.textContent = day;
+        dayElement.addEventListener("click", (event) => selectDate(event, elements, day, month, year));
+        daysFragment.appendChild(dayElement);
+    }
+    
+    elements.daysContainer.appendChild(daysFragment);
+}
 
-    // Populate dropdown with <optgroup> divisions for the current year + next 3 years
-    for (let y = currentYear; y <= currentYear + 3; y++) {
-        let yearGroup = document.createElement("optgroup");
-        yearGroup.label = y; // Set year as group label
+function selectDate(event, elements, day, month, year) {
+    document.querySelectorAll(".day").forEach(el => el.classList.remove("selected"));
+    event.target.classList.add("selected");
+    elements.selectedDate.textContent = `${String(day).padStart(2, '0')}.${String(month + 1).padStart(2, '0')}.${year}`;
+}
 
+function initializeDateSelect(elements) {
+    let html = "";
+    for (let y = currentDate.getFullYear(); y <= currentDate.getFullYear() + 3; y++) {
+        html += `<optgroup label="${y}">`;
         for (let m = 0; m < 12; m++) {
-            let option = document.createElement("option");
-            option.value = `${m}-${y}`; // Store as "month-year"
-            option.textContent = `${new Date(0, m).toLocaleString("en", { month: "long" })} ${y}`;
-            
-            // Set the current date as selected
-            if (y === selectedYear && m === selectedMonth) option.selected = true;
-
-            yearGroup.appendChild(option);
+            const isSelected = y === selectedDate.year && m === selectedDate.month;
+            html += `<option value="${m}-${y}" ${isSelected ? "selected" : ""}>${
+                new Date(0, m).toLocaleString("en", { month: "long" })
+            } ${y}</option>`;
         }
-
-        dateSelect.appendChild(yearGroup);
+        html += "</optgroup>";
     }
-
-    dateSelect.addEventListener("change", function () {
-        let [month, year] = this.value.split("-").map(Number);
-        selectedMonth = month;
-        selectedYear = year;
-        generateCalendar(selectedMonth, selectedYear);
+    elements.dateSelect.innerHTML = html;
+    elements.dateSelect.addEventListener("change", () => {
+        const [month, year] = elements.dateSelect.value.split("-").map(Number);
+        selectedDate = { month, year };
+        generateCalendar(elements, month, year);
     });
+}
 
-    generateCalendar(selectedMonth, selectedYear);
-
-    function updateTime() {
-        const timeDisplay = document.getElementById("time");
+function startClock(elements) {
+    function updateClock() {
         const now = new Date();
-
-        let hours = now.getHours();
-        const minutes = now.getMinutes().toString().padStart(2, "0");
-        const seconds = now.getSeconds().toString().padStart(2, "0");
-
-        const amPm = hours >= 12 ? "PM" : "AM";
-
-        hours = hours % 12 || 12;
-
-        timeDisplay.textContent = `${hours}:${minutes}:${seconds} ${amPm}`;
+        const hours = now.getHours() % 12 || 12;
+        elements.timeDisplay.textContent = 
+            `${hours}:${now.getMinutes().toString().padStart(2, "0")}:${now.getSeconds().toString().padStart(2, "0")} ${now.getHours() >= 12 ? "PM" : "AM"}`;
     }
+    updateClock();
+    setInterval(updateClock, 1000);
+}
 
-    setInterval(updateTime, 1000);
-    updateTime();
-});
-
-
-// Inserting Profile Picture
-document.addEventListener("DOMContentLoaded", function () {
-    const profilePic = document.getElementById("profile-pic");
-    const imageUpload = document.getElementById("image-upload");
-
-    profilePic.addEventListener("click", function () {
-        imageUpload.click();
-    });
-
-    imageUpload.addEventListener("change", function () {
+function initializeProfileUpload(elements) {
+    elements.profilePic?.addEventListener("click", () => elements.imageUpload?.click());
+    elements.imageUpload?.addEventListener("change", function() {
         const file = this.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function (e) {
-                profilePic.src = e.target.result;
-            };
+            reader.onload = e => elements.profilePic.src = e.target.result;
             reader.readAsDataURL(file);
         }
     });
-});
+}

@@ -16,6 +16,7 @@ body {
     height: 130vh;
     background-color: #EAF0FC;
     grid-template-columns: auto 1fr;
+    font-family:'Roboto', sans-serif;
     overflow-y: auto;
     overflow-x: hidden;
 }
@@ -32,7 +33,6 @@ body {
     padding: 10px 20px;
     box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.178);
     z-index: 1000;
-    font-family: 'Roboto', sans-serif;
 }
 
 .header img {
@@ -65,6 +65,8 @@ body {
 
 /*Navigation Bar--------------------------------------*/
 .navbar {
+    display: flex;
+    flex-direction: column;
     position: fixed;
     top: 70px;
     left: 0;
@@ -78,50 +80,45 @@ body {
     overflow: hidden;
     white-space: nowrap;
 }
-
 .navbar.collapsed {
-    width: 60px;
+    width: 60px; 
 }
 
-.navbar.collapsed~.content {
+.navbar.collapsed ~ .content {
     margin-left: 60px;
-    width: calc(100% - 60px);
+    width: calc(100% - 60px); 
 }
 
 .navbar.collapsed .buttons {
-    width: 40px;
+    width: 40px; 
 }
 
 .navbar.collapsed .nav-text {
-    display: none;
+    display: none; 
 }
-
 .buttons {
     display: flex;
     align-items: center;
-    transition: transform 200ms ease-in-out, margin-left 200ms ease-in-out;
+    transition: transform 300ms ease-in-out, margin-left 300ms ease-in-out;
 }
-
 .navbar.collapsed .buttons {
-    transform: translateX(-10px);
-    transition: 200ms ease-in-out;
+    transform: translateX(-10px); 
+    transition: 300ms ease-in-out;
 }
-
 .navbar:hover {
     width: 220px;
 }
-
 .navbar:hover .buttons {
     width: 100%;
     transform: translateX(0);
-    transition: width 200ms ease-in-out, transform 200ms ease-in-out;
+    transition: width 300ms ease-in-out, transform 300ms ease-in-out;
 }
 
 .navbar:hover .nav-text {
-    display: inline-block;
-    opacity: 1;
+    display: inline-block; 
+    opacity: 1; 
     transition: opacity 0ms ease-in-out;
-    white-space: nowrap;
+    white-space: nowrap; 
 }
 
 /* Header toogle-btn section ----------------------------------*/
@@ -134,7 +131,6 @@ body {
     align-items: center;
     justify-content: center;
 }
-
 #toggle-btn svg {
     transition: transform 0.3s ease-in-out;
 }
@@ -142,7 +138,6 @@ body {
 #toggle-btn.active svg {
     transform: rotate(180deg);
 }
-
 /* Nav-Bar toogle-btn section ----------------------------------*/
 .buttons {
     background: transparent;
@@ -156,10 +151,8 @@ body {
     display: flex;
     align-items: center;
     width: 100%;
-    font-family: 'Roboto', sans-serif;
     font-size: 12px;
     font-weight: bold;
-    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
     transition: width 0.3s ease-in-out;
 }
 
@@ -170,11 +163,6 @@ a {
 .buttons.active {
     background: white;
     color: #2E68CC;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.buttons:not(.active):hover {
-    background: rgba(255, 255, 255, 0.2);
 }
 
 .button-icon {
@@ -223,6 +211,103 @@ a {
     border-radius: 5px;
     border: 1px solid rgba(189, 189, 189, 0.534);
 }
+/*Profile Page Styles-------------------------------*/
+
+/*Profile Info Division*/
+#profile-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 27%;
+    height: 80%;
+    margin-top: 10px;
+    gap: 5px;
+}
+
+#profile-pic {
+    position: relative;
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #ccc;
+}
+
+#profilebtn {
+    font-size: 0.625rem;
+}
+
+#left-profile-sec {
+    display: flex;
+    flex-direction: column;
+    width: 73%;
+    height: 100%;
+}
+
+#status-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 96%;
+    max-width: 100;
+    height: 70%;
+    border-radius: 10px;
+    margin: 10px;
+    gap: 20px;
+    row-gap: 8px;
+    background-color: #F0F0F8;
+    font-family: Arial, sans-serif;
+    grid-template-columns: 1fr 1fr;
+    align-self: stretch;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/*Status Info Contents/Info*/
+.divtext {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    width: 100%;
+    height: 70%;
+    margin-left: 25px;
+    overflow: hidden;
+    word-wrap: break-word;
+    white-space: normal;
+}
+
+.info-label {
+    color: #777;
+    font-weight: 500;
+    flex: 1;
+    min-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.info-value {
+    font-weight: bold;
+    flex: 1;
+    min-width: 120px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    color: #525252;
+    flex-grow: 1;
+}
+
+.status-badge {
+    background-color: #1e8e3e;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    display: inline-block;
+    text-align: center;
+}
 
 #info-div {
     position: relative;
@@ -255,7 +340,6 @@ a {
     background-color: #FFFFFF;
     border-radius: 10px;
     overflow: hidden;
-    font-family: 'Poppins', 'Roboto', sans-serif;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
@@ -267,8 +351,7 @@ a {
     border-radius: 10px;
     border: none;
     background: white;
-    color: #2563eb;
-    font-family: 'Roboto', sans-serif;
+    color: #4366CF;
     font-size: clamp(14px, 1vw, 18px);
     font-weight: bold;
     cursor: pointer;
@@ -282,8 +365,7 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    font-family: 'Roboto', sans-serif;
+    padding: 20px;
     font-size: clamp(12px, 2vw, 16px);
     width: 100%;
     flex-wrap: nowrap;
@@ -345,7 +427,6 @@ a {
     cursor: pointer;
     transition: all 0.3s ease;
     border: 2px solid transparent;
-    font-family: 'Poppins', 'Inter', 'Roboto', 'Nunito', sans-serif;
     font-size: clamp(11px, 1vw, 16px);
 }
 
@@ -366,8 +447,7 @@ a {
     border-radius: 5px;
     border: none;
     background: white;
-    color: #0062ca;
-    font-family: 'Roboto', sans-serif;
+    color: #4366CF;
     font-size: clamp(14px, 1vw, 18px);
     font-weight: bold;
     cursor: pointer;
@@ -414,18 +494,19 @@ a {
     border-radius: 50%;
     margin-right: 10px;
 }
-
 .time-display {
-    background-color: #ffffff;
-    border-top: 1px solid gray;
-    color: #0056b3;
+    background-color: #418CE2;
+    color: #ffffff;
     padding: 15px;
+    margin: 10px; 
     margin-top: 0px;
-    width: 100%;
-    text-align: right;
+    width: fit-content; 
+    border-radius: 10px;
+    text-align: center;
     font-weight: bold;
     font-size: clamp(12px, 1vw, 16px);
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    align-self: flex-end; 
 }
 
 .date-selector {
@@ -471,7 +552,7 @@ a {
 
 .date-selector select:focus {
     outline: none;
-    border-color: #007bff;
+    border-color: #4366CF;
     box-shadow: 0 0 3px rgba(0, 123, 255, 0.5);
 }
 
@@ -498,23 +579,29 @@ a {
     position: relative;
     display: flex;
     width: 95%;
-    height: 65%;
+    max-width: 600px; /* Prevents excessive stretching */
+    height: auto;
+    aspect-ratio: 16 / 9; /* Keeps the image stable */
     margin: 10px auto;
     border-radius: 5px;
     overflow: hidden;
 }
 
+#picimg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Prevents distortion */
+    display: block;
+}
+
 #pic-div::after {
     content: "";
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: linear-gradient(to right, rgba(8, 79, 200, 0.9) 30%, rgba(67, 102, 207, 0.25) 100%);
     border-radius: 5px;
-    margin-bottom: 10px;
 }
+
 
 #text-overlay {
     position: absolute;
@@ -532,13 +619,12 @@ a {
     height: 75%;
     z-index: 10;
     height: auto;
-    font-family: 'Poppins', 'Inter', 'Roboto', 'Nunito', sans-serif;
-    font-size: clamp(10px, 1vw, 14px);
+    font-size: clamp(0.6rem, 1vw, 1.125rem);
 }
 
 #text-overlay h3 {
     margin-bottom: 8px;
-    font-size: 14px;
+    font-size: 0.875rem;
     font-weight: bold;
 }
 
@@ -548,121 +634,19 @@ a {
 }
 
 #call-div h2 {
-    font-family: 'Poppins', 'Inter', 'Roboto', 'Nunito', sans-serif;
-    font-size: 15px;
-    margin: 0 0 0 10px;
+    font-size: 0.9375rem;
     font-weight: bold;
+    margin: 0 0 0 10px;
 }
 
 .clinic-policies-label {
-    font-family: 'Poppins', 'Inter', 'Roboto', 'Nunito', sans-serif;
-    font-size: 12px;
     color: black;
     margin: 0 0 0 10px;
-    font-weight: medium;
+    font-size: 0.75rem;
+    font-weight: 500
 }
 
 /* right-content end ---------------------------------*/
-/*Profile Page Styles-------------------------------*/
-
-/*Profile Info Division*/
-#profile-div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 27%;
-    height: 80%;
-    margin-top: 10px;
-    gap: 5px;
-}
-
-#profile-pic {
-    position: relative;
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    object-fit: cover;
-    background-color: #ccc;
-}
-
-#profilebtn {
-    font-size: 10px;
-}
-
-#left-profile-sec {
-    display: flex;
-    flex-direction: column;
-    width: 73%;
-    height: 100%;
-}
-
-#status-info {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 96%;
-    max-width: 100;
-    height: 70%;
-    border-radius: 10px;
-    margin: 10px;
-    gap: 20spx;
-    row-gap: 8px;
-    background-color: #F0F0F8;
-    font-family: Arial, sans-serif;
-    grid-template-columns: 1fr 1fr;
-    align-self: stretch;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-}
-
-/*Status Info Contents/Info*/
-.divtext {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: left;
-    width: 100%;
-    height: 70%;
-    margin-left: 25px;
-    overflow: hidden;
-    word-wrap: break-word;
-    white-space: normal;
-}
-
-.info-label {
-    color: #777;
-    font-weight: 500;
-    flex: 1;
-    min-width: 120px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: clamp(12px, 1vw, 16px);
-}
-
-.info-value {
-    font-size: clamp(12px, 1vw, 16px);
-    font-weight: bold;
-    flex: 1;
-    min-width: 120px;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    color: #525252;
-    flex-grow: 1;
-}
-
-.status-badge {
-    background-color: #1e8e3e;
-    color: white;
-    padding: 5px 12px;
-    border-radius: 5px;
-    font-weight: bold;
-    display: inline-block;
-    text-align: center;
-}
-
 /*Status Info Contents/Info*/
 .page-buttons {
     display: flex;
@@ -675,7 +659,6 @@ a {
     cursor: pointer;
     width: 30%;
     height: 30px;
-    font-family: 'Poppins', 'Inter', 'Roboto', 'Nunito', sans-serif;
     font-size: 12px;
     font-weight: bold;
     transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
@@ -693,13 +676,12 @@ a {
 }
 
 .ptext {
-    font-family: 'Poppins', 'Inter', 'Roboto', 'Nunito', sans-serif;
     font-size: 12px;
 }
 
 #Name {
     font-weight: bold;
-    font-size: 15px;
+    font-size: 0.9375rem;
 }
 
 /*Profile Info Division*/
@@ -730,7 +712,7 @@ a {
     cursor: pointer;
     border-radius: 10px;
     transition: all 0.3s ease-in-out;
-    font-size: clamp(11px, 1vw, 16px);
+     font-size: clamp(0.6875rem, 1vw, 1rem);
 }
 
 .tab.active {
@@ -741,6 +723,9 @@ a {
 }
 
 /* Content Sections (Initially Hidden) */
+.info-label, .info-value, .person-info-label, .person-value-label {
+    font-size: clamp(0.75rem, 1vw, 1rem);
+}
 .tab-content {
     display: none;
     padding: 15px;
@@ -751,7 +736,6 @@ a {
     margin-top: 0px;
     max-height: 500px;
     overflow-y: auto;
-    font-family: 'Poppins', 'Inter', 'Roboto', 'Nunito', sans-serif;
     font-size: 0.75em;
 }
 
@@ -760,7 +744,6 @@ a {
     overflow: auto;
 }
 
-/* Info Grid - Auto Adjust */
 .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -773,13 +756,11 @@ a {
 
 /* Labels & Values */
 .person-info-label {
-    font-size: 1.25em;
     color: #777;
     font-weight: 500;
 }
 
 .person-value-label {
-    font-size: 1.50em;
     font-weight: bold;
     color: #2c2c2c;
     word-wrap: break-word;
@@ -809,215 +790,4 @@ a {
 .btn.edit {
     background-color: #007bff;
     color: white;
-}
-
-
-
-@media screen and (max-width: 768px) {
-    * {
-        padding: 0;
-        margin: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        background-color: #EAF0FC;
-    }
-
-    .header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 70px;
-        background-color: white;
-        display: flex;
-        align-items: center;
-        padding: 10px 20px;
-        box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.178);
-        z-index: 1000;
-        font-family: 'Roboto', sans-serif;
-    }
-
-    .header img {
-        height: 70px;
-        width: auto;
-        margin-left: -20px;
-    }
-
-    .content {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        justify-content: center;
-        align-items: start;
-        width: 100%;
-        margin-left: 0;
-        padding: 20px;
-    }
-
-    .content {
-        margin-left: 0;
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #left-content,
-    #right-content {
-        width: 100%;
-        align-items: center;
-    }
-
-    #profile,
-    #info-div,
-    #call-div {
-        width: 90%;
-        height: auto;
-    }
-
-    #profile {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 90%;
-        height: auto;
-    }
-
-
-    #calendar {
-        width: 100%;
-    }
-
-    #date-select {
-        width: 50%;
-    }
-
-    .tabs {
-        width: 95%;
-    }
-
-    .navbar {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        height: 60px;
-        padding: 10px 0;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        background-color: #333;
-        color: white;
-        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .navbar:hover,
-    .navbar.collapsed:hover {
-        width: 100% !important;
-        transition: none !important;
-    }
-
-    .navbar.collapsed {
-        width: 100%;
-    }
-
-    .navbar.collapsed~.content {
-        margin-left: 0;
-        width: 100%;
-    }
-
-    .navbar.collapsed .buttons,
-    .navbar.collapsed .nav-text,
-    .navbar:hover .nav-text,
-    .navbar:hover .buttons {
-        display: flex;
-        transform: none;
-        transition: none;
-        opacity: 1;
-    }
-
-    #toggle-btn {
-        display: none;
-    }
-
-    .navbar ul {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        justify-content: space-around;
-        padding: 0;
-        margin: 0;
-    }
-
-    .navbar ul li {
-        list-style: none;
-    }
-
-    .navbar ul li a {
-        text-decoration: none;
-        color: white;
-        font-size: 14px;
-    }
-
-    .div-info-buttons {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        align-items: center;
-        width: 100%;
-        margin-left: 10px;
-    }
-
-    .btn.save,
-    .btn.edit {
-       margin-left:25px;
-    }
-
-
-    main {
-        padding-bottom: 70px;
-    }
-}
-
-@media (max-width: 768px) {
-    .content {
-        flex-direction: column;
-        padding: 10px;
-    }
-
-    #left-content,
-    #right-content {
-        width: 100%;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    #profile,
-    #info-div,
-    #call-div {
-        width: 100%;
-        min-width: unset;
-    }
-
-    #calendar {
-        width: 100%;
-    }
-}
-
-@media (max-width: 480px) {
-    #date-select {
-        font-size: 12px;
-        padding: 5px;
-    }
-
-    .day {
-        width: 25px;
-        height: 25px;
-        font-size: 10px;
-    }
 }
