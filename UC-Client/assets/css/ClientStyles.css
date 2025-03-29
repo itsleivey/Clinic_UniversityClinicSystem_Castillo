@@ -165,7 +165,7 @@ a {
     color: #2E68CC;
 }
 
-.button-icon {
+.button-icon-nav {
     width: 20px;
     height: 25px;
     margin-right: 10px;
@@ -244,7 +244,12 @@ a {
     width: 73%;
     height: 100%;
 }
-
+#view-docs-btn {
+    position: relative;
+    align-self: flex-end;
+    margin: 10px auto;
+    margin-bottom: 7px;
+}
 #status-info {
     display: flex;
     flex-direction: row;
@@ -319,6 +324,161 @@ a {
     background-color: #FFFFFF;
     border-radius: 5px;
     border: 1px solid rgba(189, 189, 189, 0.534);
+}
+/*Status Info Contents/Info*/
+.page-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #4493EA;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 30%;
+    height: 30px;
+    font-size: 12px;
+    font-weight: bold;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.page-buttons:hover {
+    background-color: #0062ca;
+}
+
+.ptext {
+    font-size: 12px;
+}
+
+#Name {
+    font-weight: bold;
+    font-size: 0.9375rem;
+}
+
+/*Profile Info Division*/
+/*Div Info section*/
+/* Tabs Navigation */
+.tabs {
+    display: flex;
+    justify-content: space-between;
+    background-color: #f8f9fc;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+/* Individual Tab Buttons */
+.tabs {
+    background-color: #F0F0F8;
+    margin: 10px;
+    width: 80%;
+}
+
+.tab {
+    flex: 1;
+    padding: 12px 20px;
+    border: none;
+    background: none;
+    font-weight: bold;
+    color: #4d4d4d;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+     font-size: clamp(0.6875rem, 1vw, 1rem);
+}
+
+.tab.active {
+    background-color: white;
+    color: #0056b3;
+    font-weight: bold;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.info-label, .info-value, .person-info-label, .person-value-label {
+    font-size: clamp(0.75rem, 1vw, 1rem);
+}
+.tab-content {
+    display: none;
+    padding: 15px;
+    background-color: #F0F0F8;
+    border-radius: 10px;
+    height: 100%;
+    margin: 10px;
+    margin-top: 0px;
+    max-height: 500px;
+    overflow-y: auto;
+    font-size: 0.75em;
+}
+
+.tab-content.active {
+    display: block;
+    overflow: auto;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin: 5px;
+    margin-top: 0px;
+    left: 0px;
+    font-size: 0.75em;
+}
+
+.person-info-label {
+    color: #777;
+    font-weight: 500;
+}
+
+.person-value-label {
+    font-weight: bold;
+    color: #2c2c2c;
+    word-wrap: break-word;
+}
+
+.div-info-buttons {
+    display: flex;
+    flex-direction: flex-end;
+    width: 50%;
+    margin: 5px auto;
+    gap: 5px;
+}
+.div-info-buttons {
+    display: flex;
+    align-self: flex-end;
+    gap: 10px; 
+    margin: 10px 0;
+}
+
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.btn.save {
+    background-color: #4684f0;
+    color: white;
+    
+}
+
+.btn.edit {
+    background-color: #1e8e3e;
+    color: #ffffff;
+}
+
+.button-icon-div {
+    width: 45px;
+    height: 25px;
+    margin-right: 8px; 
+    vertical-align: middle;
 }
 
 /* left-content end --------------------------------- border: 1px solid red; */
@@ -579,18 +739,18 @@ a {
     position: relative;
     display: flex;
     width: 95%;
-    max-width: 600px; /* Prevents excessive stretching */
+    max-width: 600px; 
     height: auto;
-    aspect-ratio: 16 / 9; /* Keeps the image stable */
+    aspect-ratio: 16 / 9; 
     margin: 10px auto;
-    border-radius: 5px;
+    border-radius: 10px;
     overflow: hidden;
 }
 
 #picimg {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Prevents distortion */
+    object-fit: contain; 
     display: block;
 }
 
@@ -644,150 +804,4 @@ a {
     margin: 0 0 0 10px;
     font-size: 0.75rem;
     font-weight: 500
-}
-
-/* right-content end ---------------------------------*/
-/*Status Info Contents/Info*/
-.page-buttons {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #4493EA;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 30%;
-    height: 30px;
-    font-size: 12px;
-    font-weight: bold;
-    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
-}
-
-.page-buttons:hover {
-    background-color: #0062ca;
-}
-
-#medicalBtn {
-    position: relative;
-    align-self: flex-end;
-    margin-right: 13px;
-    margin-bottom: 7px;
-}
-
-.ptext {
-    font-size: 12px;
-}
-
-#Name {
-    font-weight: bold;
-    font-size: 0.9375rem;
-}
-
-/*Profile Info Division*/
-/*Div Info section*/
-/* Tabs Navigation */
-.tabs {
-    display: flex;
-    justify-content: space-between;
-    background-color: #f8f9fc;
-    border-radius: 10px;
-    padding: 5px;
-}
-
-/* Individual Tab Buttons */
-.tabs {
-    background-color: #F0F0F8;
-    margin: 10px;
-    width: 80%;
-}
-
-.tab {
-    flex: 1;
-    padding: 12px 20px;
-    border: none;
-    background: none;
-    font-weight: bold;
-    color: #4d4d4d;
-    cursor: pointer;
-    border-radius: 10px;
-    transition: all 0.3s ease-in-out;
-     font-size: clamp(0.6875rem, 1vw, 1rem);
-}
-
-.tab.active {
-    background-color: white;
-    color: #0056b3;
-    font-weight: bold;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-/* Content Sections (Initially Hidden) */
-.info-label, .info-value, .person-info-label, .person-value-label {
-    font-size: clamp(0.75rem, 1vw, 1rem);
-}
-.tab-content {
-    display: none;
-    padding: 15px;
-    background-color: #F0F0F8;
-    border-radius: 10px;
-    height: 100%;
-    margin: 10px;
-    margin-top: 0px;
-    max-height: 500px;
-    overflow-y: auto;
-    font-size: 0.75em;
-}
-
-.tab-content.active {
-    display: block;
-    overflow: auto;
-}
-
-.info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 10px;
-    margin: 5px;
-    margin-top: 0px;
-    left: 0px;
-    font-size: 0.75em;
-}
-
-/* Labels & Values */
-.person-info-label {
-    color: #777;
-    font-weight: 500;
-}
-
-.person-value-label {
-    font-weight: bold;
-    color: #2c2c2c;
-    word-wrap: break-word;
-}
-
-/* Buttons at the Bottom */
-.div-info-buttons {
-    align-self: flex-end;
-    flex-direction: row;
-    width: 60%;
-    margin-bottom: 10px;
-}
-
-.btn {
-    padding: 10px 15px;
-    margin-left: 5px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btn.save {
-    background-color: #26a845;
-    color: white;
-}
-
-.btn.edit {
-    background-color: #007bff;
-    color: white;
 }

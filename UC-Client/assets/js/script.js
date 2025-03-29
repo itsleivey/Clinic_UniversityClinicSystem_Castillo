@@ -1,8 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Cache DOM elements
     const elements = cacheDOMElements();
-    
-    // Initialize components
+
     initializeNavbar(elements);
     initializeTabs();
     initializeDateSelect(elements);
