@@ -1,25 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Layout Example</title>
     <link rel="stylesheet" href="UC-Client/assets/css/ClientStyles.css">
+    <link rel="stylesheet" href="UC-Client/assets/css/CleintMedForm.css">
     <link rel="stylesheet" href="UC-Client/assets/css/MediaQuery.css">
     <script type="text/javascript" src="UC-Client/assets/js/script.js" defer></script>
+    <script type="text/javascript" src="UC-Client/assets/js/Medform.js" defer></script>
 </head>
+
 <body>
 
     <div class="header">
         <img src="UC-Client/assets/images/Lspu logo.png" type="image/webp" alt="Logo">
         <div class="title">
             <span>University</span>
-            <span>Clinic</span>   
+            <span>Clinic</span>
         </div>
         <button id="toggle-btn">
             <img id="btnicon" src="UC-Client/assets/images/menu-icon.svg">
         </button>
-    </div> 
+    </div>
 
     <div class="main-container">
         <nav class="navbar">
@@ -32,7 +36,7 @@
             <a href="Medical_Form.html">
                 <button class="buttons" id="medicalBtn">
                     <img src="UC-Client/assets/images/Form-icon2.svg" class="button-icon-nav">
-                    <span class="nav-text">Medical Form</span> 
+                    <span class="nav-text">Medical Form</span>
                 </button>
             </a>
             <a href="index.html">
@@ -43,8 +47,494 @@
             </a>
         </nav>
         <main class="content">
+            <div class="step-nav">
+                <div class="step" id="step1">
+                    <span class="step-number">1</span>
+                    <span class="step-text">Personal Information</span>
+                    <span class="step-check">&#10003;</span>
+                </div>
+                <div class="step" id="step2">
+                    <span class="step-number">2</span>
+                    <span class="step-text">Past Medical & Dental History</span>
+                    <span class="step-check">&#10003;</span>
+                </div>
+                <div class="step" id="step3">
+                    <span class="step-number">3</span>
+                    <span class="step-text">Family Medical History</span>
+                    <span class="step-check">&#10003;</span>
+                </div>
+                <div class="step" id="step4">
+                    <span class="step-number">4</span>
+                    <span class="step-text">Personal & Social History</span>
+                    <span class="step-check">&#10003;</span>
+                </div>
+                <div class="step" id="step5">
+                    <span class="step-number">5</span>
+                    <span class="step-text">Physical Examination</span>
+                    <span class="step-check">&#10003;</span>
+                </div>
+                <div class="step" id="step6">
+                    <span class="step-number">6</span>
+                    <span class="step-text">Diagnostic Result</span>
+                    <span class="step-check">&#10003;</span>
+                </div>
+            </div>
+
+            <div class="content-forms-seprator">
+                <div class="form-container active" id="personalForm">
+                    <div class="form-header">
+                        <h2>Personal Information</h2>
+                    </div>
+                    <div id="personal-info-input" class="scroll-input-div">
+                        <form id="personalInfoForm">
+                            <div class="form-row">
+                                <input type="text" placeholder="Surname" required>
+                                <input type="text" placeholder="Given Name" required>
+                                <input type="text" placeholder="Middle Name">
+                            </div>
+                            <div class="form-row">
+                                <input type="number" placeholder="Age" min="1" max="120" required>
+                                <select required>
+                                    <option value="">Gender</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                                <input type="date" required>
+                                <select required>
+                                    <option value="">Status</option>
+                                    <option value="single">Single</option>
+                                    <option value="married">Married</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <input type="text" placeholder="Course">
+                                <input type="text" placeholder="School year entered (if applicable)">
+                            </div>
+                            <div class="form-row">
+                                <input type="text" placeholder="Current Address" required>
+                                <input type="tel" placeholder="Contact Number" required>
+                            </div>
+                            <div class="form-row">
+                                <input type="text" placeholder="Mother's Name">
+                                <input type="text" placeholder="Father's Name">
+                            </div>
+                            <div class="form-row">
+                                <input type="text" placeholder="Guardian's Name (if applicable)">
+                            </div>
+                            <div class="form-row">
+                                <input type="text" placeholder="Name of Emergency Contact" required>
+                                <input type="text" placeholder="Relationship" required>
+                            </div>
+                        </form>    
+                    </div>
+                    <!-- Medical & Dental History Inputs-->
+                    <div id="medical-dental-history-input" class="scroll-input-div">
+                        <form id="medicalDentalForm">
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="knownIllness" name="knownIllness">
+                                <label for="knownIllness">Previous/present KNOWN illness</label>
+                                <input type="text" class="details-input" placeholder="Details" name="knownIllnessDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="hospitalization" name="hospitalization">
+                                <label for="hospitalization">Past hospitalization/confinement</label>
+                                <input type="text" class="details-input" placeholder="Details" name="hospitalizationDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="allergies" name="allergies">
+                                <label for="allergies">Known allergies to food or medicine</label>
+                                <input type="text" class="details-input" placeholder="Details" name="allergiesDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="childImmunization" name="childImmunization">
+                                <label for="childImmunization">Childhood immunization</label>
+                                <input type="text" class="details-input" placeholder="Details" name="childImmunizationDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="presentImmunizations" name="presentImmunizations">
+                                <label for="presentImmunizations">Present immunizations (ex. Flu, Hepa B, etc.)</label>
+                                <input type="text" class="details-input" placeholder="Details" name="presentImmunizationsDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="currentMedicines" name="currentMedicines">
+                                <label for="currentMedicines">Currently taking medicines/vitamins</label>
+                                <input type="text" class="details-input" placeholder="Details" name="currentMedicinesDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="dentalProblems" name="dentalProblems">
+                                <label for="dentalProblems">Dental problems (ex. Gingivitis, etc.)</label>
+                                <input type="text" class="details-input" placeholder="Details" name="dentalProblemsDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="primaryPhysician" name="primaryPhysician">
+                                <label for="primaryPhysician">Primary care physician (name, specialty, clinic location and date of last check-up/follow-up)</label>
+                                <input type="text" class="details-input" placeholder="Details" name="primaryPhysicianDetails">
+                            </div>
+                        </form>
+                    </div>
+                     <!-- Family Medical History Inputs-->
+                    <div id="family-medical-history-input" class="scroll-input-div">
+                        <form id="family-med-historyForm">                       
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="allergy" name="familyIllness" value="Allergy">
+                                <label for="allergy">Allergy</label>
+                                <input type="text" class="details-input" placeholder="Specify" name="allergyDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="asthma" name="familyIllness" value="Asthma">
+                                <label for="asthma">Asthma/Thias</label>
+                                <input type="text" class="details-input" placeholder="Specify" name="asthmaDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="tuberculosis" name="familyIllness" value="Tuberculosis">
+                                <label for="tuberculosis">Tuberculosis/TB</label>
+                                <input type="text" class="details-input" placeholder="Specify" name="tuberculosisDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="hypertension" name="familyIllness" value="Hypertension">
+                                <label for="hypertension">Hypertension/"high blood"</label>
+                                <input type="text" class="details-input" placeholder="Specify" name="hypertensionDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="bloodDisease" name="familyIllness" value="Blood Disease">
+                                <label for="bloodDisease">Blood disease/"sakit sa puso"</label>
+                                <input type="text" class="details-input" placeholder="Specify" name="bloodDiseaseDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="stroke" name="familyIllness" value="Stroke">
+                                <label for="stroke">Stroke</label>
+                                <input type="text" class="details-input" placeholder="Specify" name="strokeDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="diabetes" name="familyIllness" value="Diabetes">
+                                <label for="diabetes">Diabetes</label>
+                                <input type="text" class="details-input" placeholder="Specify" name="diabetesDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="cancer" name="familyIllness" value="Cancer">
+                                <label for="cancer">Cancer</label>
+                                <input type="text" class="details-input" placeholder="Specify type" name="cancerDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="liverDisease" name="familyIllness" value="Liver Disease">
+                                <label for="liverDisease">Liver disease</label>
+                                <input type="text" class="details-input" placeholder="Specify" name="liverDiseaseDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="kidneyBladder" name="familyIllness" value="Kidney/Bladder">
+                                <label for="kidneyBladder">Kidney or bladder disease</label>
+                                <input type="text" class="details-input" placeholder="Specify" name="kidneyBladderDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="bloodDisorder" name="familyIllness" value="Blood Disorder">
+                                <label for="bloodDisorder">Blood disorder</label>
+                                <input type="text" class="details-input" placeholder="Specify" name="bloodDisorderDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="epilepsy" name="familyIllness" value="Epilepsy">
+                                <label for="epilepsy">Epilepsy</label>
+                                <input type="text" class="details-input" placeholder="Specify" name="epilepsyDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="mentalDisorder" name="familyIllness" value="Mental Disorder">
+                                <label for="mentalDisorder">Mental Disorder</label>
+                                <input type="text" class="details-input" placeholder="Specify" name="mentalDisorderDetails">
+                            </div>
+                            
+                            <div class="form-row checkbox-row">
+                                <input type="checkbox" id="otherIllness" name="familyIllness" value="Other">
+                                <label for="otherIllness">Others</label>
+                                <input type="text" class="details-input" placeholder="Specify" name="otherIllnessDetails">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Personal & Social History Inputs-->
+                    <div id="personal-social-history-input" class="scroll-input-div">
+                        <form id="personal-social-historyForm">
+                            <div class="form-row">
+                                <label for="alcoholIntake">Alcohol intake:</label>
+                                <select id="alcoholIntake" name="alcoholIntake">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="former">Former</option>
+                                </select>
+                                <input type="text" class="details-input" placeholder="Frequency/Amount (if applicable)" name="alcoholDetails">
+                            </div>  
+                            <div class="form-row">
+                                <label for="tobaccoUse">Tobacco use:</label>
+                                <select id="tobaccoUse" name="tobaccoUse">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="former">Former</option>
+                                </select>
+                                <input type="text" class="details-input" placeholder="Frequency/Amount (if applicable)" name="tobaccoDetails">
+                            </div>
+                            
+                            <div class="form-row">
+                                <label for="drugUse">Illicit drug use:</label>
+                                <select id="drugUse" name="drugUse">
+                                    <option value="no">No</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="former">Former</option>
+                                </select>
+                                <input type="text" class="details-input" placeholder="Type/Frequency (if applicable)" name="drugDetails">
+                            </div>
+                        </form>
+                    </div>
+                    <!-- For Females only Inputs-->
+                    <div id="for-females-input" class="scroll-input-div">
+                        <form id="for-female-form">
+                            <div class="fem-form-section">
+                                <h4>Menstrual Period</h4>
+                                
+                                <div class="fem-form-row">
+                                    <label for="lastPeriod" class="fem-label">Date of first day of LAST menstrual period:</label>
+                                    <input type="date" id="lastPeriod" name="lastPeriod" class="fem-details-input">
+                                </div>
+                                
+                                <div class="fem-form-row fem-radio-group">
+                                    <span class="fem-radio-label">Regularity:</span>
+                                    <div class="fem-radio-options">
+                                        <label>
+                                            <input type="radio" name="regularity" value="regular"> Regular
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="regularity" value="irregular"> Irregular
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="fem-form-row">
+                                    <label for="duration" class="fem-label">Duration:</label>
+                                    <input type="text" id="duration" name="duration" class="fem-details-input fem-short-input" placeholder="days/weeks">
+                                </div>
+                                
+                                <div class="fem-form-row">
+                                    <label for="padsPerDay" class="fem-label">No. of pads/day:</label>
+                                    <input type="number" id="padsPerDay" name="padsPerDay" class="fem-details-input fem-short-input" min="0">
+                                </div>
+                            </div>
+                            
+                            <div class="fem-form-section">
+                                <div class="fem-form-row fem-radio-group">
+                                    <span class="fem-radio-label">History of dysmenorrhea:</span>
+                                    <div class="fem-radio-options">
+                                        <label>
+                                            <input type="radio" name="dysmenorrhea" value="yes"> Yes
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="dysmenorrhea" value="no"> No
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="fem-form-row" id="fem-severityRow" style="display: none;">
+                                    <label for="severity" class="fem-label">If YES, how severe is your dysmenorrhea?</label>
+                                    <select id="severity" name="severity" class="fem-details-input">
+                                        <option value="">Select severity</option>
+                                        <option value="mild">Mild</option>
+                                        <option value="moderate">Moderate</option>
+                                        <option value="severe">Severe</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="fem-form-row">
+                                    <label for="lastOBVisit" class="fem-label">Date of last check-up with an OB-gynecologist:</label>
+                                    <input type="date" id="lastOBVisit" name="lastOBVisit" class="fem-details-input">
+                                </div>
+                                
+                                <div class="fem-form-row fem-radio-group">
+                                    <span class="fem-radio-label">History of excessive/abnormal bleeding?</span>
+                                    <div class="fem-radio-options">
+                                        <label>
+                                            <input type="radio" name="abnormalBleeding" value="yes"> Yes
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="abnormalBleeding" value="no"> No
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="fem-form-section">
+                                <div class="fem-form-row fem-radio-group">
+                                    <span class="fem-radio-label">Previous pregnancy?</span>
+                                    <div class="fem-radio-options">
+                                        <label>
+                                            <input type="radio" name="previousPregnancy" value="yes"> Yes
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="previousPregnancy" value="no"> No
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="fem-form-row" id="fem-pregnancyDetailsRow" style="display: none;">
+                                    <label for="pregnancyDetails" class="fem-label">Details (number, normal/C-section, home/hospital, etc.):</label>
+                                    <input type="text" id="pregnancyDetails" name="pregnancyDetails" class="fem-details-input">
+                                </div>
+                                
+                                <div class="fem-form-row fem-radio-group">
+                                    <span class="fem-radio-label">Children?</span>
+                                    <div class="fem-radio-options">
+                                        <label>
+                                            <input type="radio" name="hasChildren" value="yes"> Yes
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="hasChildren" value="no"> No
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="fem-form-row" id="fem-childrenDetailsRow" style="display: none;">
+                                    <label for="childrenCount" class="fem-label">How many?</label>
+                                    <input type="number" id="childrenCount" name="childrenCount" class="fem-details-input fem-short-input" min="0">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Physical Examination -->
+                    <div id="physical-examination-input" class="scroll-input-div">
+                        <div class="exam-notice">
+                            <p class="notice-text"><strong>Note:</strong> Students should stop filling up the form here. This section must be completed by medical personnel after consultation.</p>
+                        </div>
+                    
+                        <h4 class="form-section-title">PHYSICAL EXAMINATION</h4>
+                        
+                        <div class="exam-table-container">
+                            <table class="physical-exam-table">
+                                <thead>
+                                    <tr>
+                                        <th>Name/Info</th>
+                                        <th>Weekly Info</th>
+                                        <th>Birth (years)</th>
+                                        <th>Birth Monthly</th>
+                                        <th>Fall (from)</th>
+                                        <th>Fall (now)</th>
+                                        <th>Young RE</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>Normal</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>First:</strong> References and Birth</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Third:</strong> End Hours</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Chord and Short</strong></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Additional</strong></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                     <!-- Diagnostic Results -->
+                     <div id="Diagnostic-Results" class="scroll-input-div">
+                        <div class="diagnostic-notice">
+                            <div class="notice-icon">ℹ️</div>
+                            <div class="notice-content">
+                                <h4>Diagnostic Results Notice</h4>
+                                <p>This section will be completed by medical personnel after diagnostic tests are performed.</p>
+                            </div>
+                        </div>
+                    
+                        <h3 class="diagnostic-header">DIAGNOSTIC RESULTS</h3>
+                        <p class="diagnostic-subheader">(includes date of examination)</p>
+                        
+                        <div class="diagnostic-placeholder">
+                            <div class="placeholder-item">
+                                <span class="placeholder-checkbox">□</span>
+                                <span class="placeholder-text">Check 5-6-yr.</span>
+                            </div>
+                        </div>
+                    
+                        <div class="certification-reminder">
+                            <p>Note: Medical certificate issuance requires completion of both physical examination and diagnostic results.</p>
+                        </div>
+                    </div>
+                    <div class="toggle-btn-div">
+                        <button class="toggle-btn left-btn" disabled><img src="UC-Client/assets/images/left-arrow-icon.svg"></button>
+                        <button class="toggle-btn right-btn" onclick="showForm('medical')"><img src="UC-Client/assets/images/right-arrow-icon.svg"></button>
+                    </div>
+                </div>
+                
+                <div class="right-content-div">
+                    <div class="notice-div">
+            
+                    </div>
+    
+                    <div id="call-div">
+                        <div id="text-overlay">
+                            <h3>Emergency Contacts:</h3>
+                            <p>Clinic Hotline: (+63) 912-345-6789</p>
+                            <p>Campus Emergency: (+63) 911-123-4567</p>
+                            <p>Email: support@universityclinic.edu</p>
+                        </div>
+                        <div id="pic-div">                
+                            <img id="picimg" src="UC-Client/assets/images/office-pic.svg" type="image/webp" loading="lazy">
+                        </div>
+                        <h2>Need help?</h2>
+                        <a href="#"> <p><span class="clinic-policies-label">View Clinic Policies | FAQs:</span><span</a>
+                    </div>
+                </div>      
         </main>
     </div>
-
 </body>
+
 </html>

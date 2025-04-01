@@ -154,12 +154,14 @@ body {
     font-size: 12px;
     font-weight: bold;
     transition: width 0.3s ease-in-out;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
 }
-
 a {
     text-decoration: none;
 }
-
+.buttons:not(.active):hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
 .buttons.active {
     background: white;
     color: #2E68CC;
@@ -505,14 +507,14 @@ a {
 
 #date-select {
     display: flex;
-    width: 45%;
+    width: 50%;
     height: 100%;
     padding: 10px;
     border-radius: 10px;
     border: none;
     background: white;
     color: #4366CF;
-    font-size: clamp(14px, 1vw, 18px);
+    font-size: clamp(11px, 1vw, 12px);
     font-weight: bold;
     cursor: pointer;
     outline: none;
@@ -608,11 +610,11 @@ a {
     border: none;
     background: white;
     color: #4366CF;
-    font-size: clamp(14px, 1vw, 18px);
+    font-size: clamp(9px, 1vw, 12px);
     font-weight: bold;
     cursor: pointer;
     outline: none;
-    white-space: nowrap
+    white-space: nowrap;
 }
 
 #year-select,
@@ -694,12 +696,6 @@ a {
 
 .date-selector {
     position: relative;
-}
-
-.date-selector select {
-    background-color: white;
-    border: 1px solid #ccc;
-    padding-right: 25px;
 }
 
 .date-selector::after {
@@ -794,7 +790,7 @@ a {
 }
 
 #call-div h2 {
-    font-size: 0.9375rem;
+    font-size: clamp(0.75rem, 1vw, 1.125rem);
     font-weight: bold;
     margin: 0 0 0 10px;
 }
