@@ -154,3 +154,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+//========================================
+function updateProgress() {
+    let completedSteps = 0;
+    let totalSteps = 2;
+
+    // Check status
+    if (document.getElementById("status1").textContent.includes("Completed")) {
+        completedSteps++;
+    }
+    if (document.getElementById("status2").textContent.includes("Completed")) {
+        completedSteps++;
+    }
+
+    // Calculate percentage
+    let progressPercentage = (completedSteps / totalSteps) * 100;
+    document.getElementById("progressText").innerText = `${progressPercentage}%`;
+
+    // Change progress bar color based on progress
+    let circle = document.getElementById("progressCircle");
+    if (progressPercentage > 0) {
+        circle.style.borderColor = "#4caf50";
+    }
+
+    // Hide reminder if all tasks are completed
+    if (progressPercentage === 100) {
+        document.getElementById("reminder").style.display = "none";
+    }
+}
+
+// Simulate progress change (You can update these values dynamically based on user input)
+setTimeout(() => {
+    document.getElementById("status1").textContent = "Completed";
+    updateProgress();
+}, 2000);
+
+setTimeout(() => {
+    document.getElementById("status2").textContent = "Completed";
+    updateProgress();
+}, 4000);

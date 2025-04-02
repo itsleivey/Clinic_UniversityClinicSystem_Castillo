@@ -102,9 +102,9 @@
     flex: 1;
     display: flex;
     flex-direction: row;
-    max-height: 950px;
+    height: 100%;
+    justify-content: space-between;
     width: 100%;
-    gap: 15px;
     overflow: auto;
 }
 .form-header h2{
@@ -136,7 +136,12 @@
     width: 65%;
     max-height: 950px;
     height:100%;
-    border: #ccc 1px solid;
+    border: 1px solid #ccc;
+
+    min-width: 0;       
+    min-height: 0;      
+    flex-shrink: 0;     
+    overflow: auto;   
 }
 #personalInfoForm, #medicalInfoForm {
     display: flex;
@@ -645,14 +650,15 @@ form{
     width: 15px;
     height: 15px;
 }
-
+/*============================================================*/
 .right-content-div{
     display: flex;
     flex-direction: column;
     width: 100%;
+    max-height: 660px;
     height: 100%;
-    padding: 0px;
-    gap: 15px 0;
+    margin-left: 15px;
+    overflow: hidden;
 }
 
 .notice-div{
@@ -661,8 +667,9 @@ form{
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 65%;
+    height:70%;
     max-height: 350px;
+    font-size: clamp(10px, 1vw, 16px);
     background-color: #F6F6F6;
     background-color: white;
     border: 1px solid #ccc;
@@ -672,10 +679,123 @@ form{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    position: relative;
     width: 100%;
     height: 35%;
+    margin-top: 15px;
     background-color: #FFFFFF;
-    border-radius: 0px;
     border: 1px solid rgba(189, 189, 189, 0.534);
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+#pic-div {
+    width: 100%;
+    height: 60%; /* Takes majority of the div height */
+    position: relative;
+}
+
+#picimg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image covers the area */
+    border-radius: 4px;
+}
+
+#text-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0); /* Dark semi-transparent background */
+    color: white;
+    z-index: 2;
+}
+
+#text-overlay h3 {
+    margin: 0 0 8px 0;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+#text-overlay p {
+    margin: 0 0 5px 0;
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+#call-div h2 {
+    font-size: 0.9375rem;
+    font-weight: bold;
+    margin: 5px 0;
+    padding-left: 5px;
+}
+
+.clinic-policies-label {
+    color: #1976d2;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-decoration: none;
+    padding-left: 5px;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.clinic-policies-label:hover {
+    text-decoration: underline;
+}
+/*=========================================================*/
+.progress-circle {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 10px solid #e0e0e0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    position: relative;
+    margin: 0 auto 10px;
+    margin-top: 15px;
+}
+.progress-circle::after {
+    content: '';
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: white;
+    border-radius: 50%;
+}
+.table-container {
+    border: 1px solid #1976d2;
+    min-height: 45%; 
+    margin: 10px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f1f1f1;
+}
+.reminder {
+    background: #fce8e6;
+    color: #d93025;
+    padding: 10px; 
+    margin: 10px 5px 5px 5px; 
+    border: 1px solid #d93025;
+    border-radius: 5px;
+    font-size: clamp(11px, 1vw, 15px);
+    flex-shrink: 0;
 }
