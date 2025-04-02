@@ -14,7 +14,6 @@
     transition: margin-left 0.2s ease-in-out, width 0.2s ease-in-out;
     overflow: auto; /* Changed from hidden to auto */
 }
-
 .step-nav {
     display: flex;
     justify-content: space-between;
@@ -54,7 +53,6 @@
     flex-shrink: 0; 
 }
 
-/* Step text */
 .step-text {
     font-size: clamp(10px, 1vw, 16px);
     color: #5f5f5f;
@@ -67,36 +65,70 @@
     display: none;
     margin-left: 5px;
     color: green;
-    font-weight: bold;
-}
-
-.step.active {
-    border: 2px solid blue;
-    background-color: rgba(0, 0, 255, 0.1);
 }
 
 .step.active .step-number {
-    background-color: blue;
+    background-color: #1583EB;
+    color: white; 
 }
 
 .step.active .step-text {
-    color: blue;
-    font-weight: bold;
-}
-
-.step.completed {
-    border: 2px solid green;
-    background-color: rgba(0, 128, 0, 0.1);
-}
-
-.step.completed .step-check {
-    display: inline;
+    color: #1583EB;
 }
 
 .step.completed .step-number {
-    background-color: green;
+    background-color: rgb(10, 155, 10); 
+    color: white; 
 }
 
+.step.completed .step-check {
+    display: inline; 
+}
+
+.step.completed .step-text {
+    color: rgb(10, 155, 10);
+}
+
+.step.active {
+    border: 1px solid #1583EB;
+    background-color: transparent; 
+}
+
+.step.completed {
+    background-color: transparent;
+}
+
+.step.disabled {
+    background-color: #e9ecef !important;
+    color: #6c757d !important;
+    opacity: 0.5;
+    pointer-events: none;
+}
+.step::after,
+.step .check-icon,
+.step .step-check,
+.step .done-check {
+    display: none !important;
+}
+
+.step.completed,
+.step.checked,
+.step.done {
+    background-image: none !important;
+}
+
+#step5.disabled::after,
+#step5.disabled .check-icon {
+    display: none !important;
+}
+
+#step5.disabled{
+    background-color: #f0f0f0 !important;
+    color: #888 !important;
+    border: #888;
+    opacity: 0.7;
+    pointer-events: none;
+}
 /*==========================================================================*/
 .content-forms-seprator {
     flex: 1;
@@ -509,6 +541,10 @@ form{
     overflow-x: auto;
 }
 
+.exam-table-container {
+    margin-bottom: 30px;
+}
+
 .physical-exam-table {
     width: 100%;
     border-collapse: collapse;
@@ -531,6 +567,16 @@ form{
 .physical-exam-table tbody tr:nth-child(even) {
     background-color: #f8f9fa;
 }
+
+/* Specific styling for the first table (vital signs) */
+.physical-exam-table:first-child {
+    margin-bottom: 30px;
+}
+
+.physical-exam-table:last-child {
+    margin-top: 20px;
+}
+
 /*===================================================*/
 #Diagnostic-Results {
     padding: 20px;
@@ -684,7 +730,7 @@ form{
     margin-top: 15px;
     background-color: #FFFFFF;
     border: 1px solid rgba(189, 189, 189, 0.534);
-    border-radius: 4px;
+    border-radius: 0px;
     padding: 10px;
     box-sizing: border-box;
     position: relative;

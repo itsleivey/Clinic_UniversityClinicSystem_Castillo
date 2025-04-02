@@ -70,11 +70,16 @@
                 </div>
                 <div class="step" id="step5">
                     <span class="step-number">5</span>
-                    <span class="step-text">Physical Examination</span>
+                    <span class="step-text">For Females</span>
                     <span class="step-check">&#10003;</span>
                 </div>
                 <div class="step" id="step6">
                     <span class="step-number">6</span>
+                    <span class="step-text">Physical Examination</span>
+                    <span class="step-check">&#10003;</span>
+                </div>
+                <div class="step" id="step7">
+                    <span class="step-number">7</span>
                     <span class="step-text">Diagnostic Result</span>
                     <span class="step-check">&#10003;</span>
                 </div>
@@ -94,7 +99,7 @@
                             </div>
                             <div class="form-row">
                                 <input type="number" placeholder="Age" min="1" max="120" required>
-                                <select required>
+                                <select id="genderSelect" required onchange="checkGender()">
                                     <option value="">Gender</option>
                                     <option value="male">Male</option>
                                     <option value="female">Female</option>
@@ -453,13 +458,13 @@
                             <table class="physical-exam-table">
                                 <thead>
                                     <tr>
-                                        <th>Name/Info</th>
-                                        <th>Weekly Info</th>
-                                        <th>Birth (years)</th>
-                                        <th>Birth Monthly</th>
-                                        <th>Fall (from)</th>
-                                        <th>Fall (now)</th>
-                                        <th>Young RE</th>
+                                        <th>Height (m)</th>
+                                        <th>Weight (kg)</th>
+                                        <th>BMI (kg/m2)</th>
+                                        <th>BP (mmHg)</th>
+                                        <th>HR (bpm)</th>
+                                        <th>RR (cpm)</th>
+                                        <th>Temp (C)</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -467,44 +472,50 @@
                                         <td></td>
                                         <td></td>
                                         <td></td>
-                                        <td>Normal</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td><strong>First:</strong> References and Birth</td>
-                                        <td></td>
-                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
                                     </tr>
+                                </tbody>
+                            </table>
+                            
+                            <table class="physical-exam-table">
+                                <thead>
                                     <tr>
-                                        <td><strong>Third:</strong> End Hours</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <th>Examination Area</th>
+                                        <th>Normal</th>
+                                        <th>Findings</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Gen. Appearance and Skin</td>
                                         <td></td>
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Chord and Short</strong></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>Head and Neck</td>
                                         <td></td>
                                         <td></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Additional</strong></td>
+                                        <td>Chest and Back</td>
                                         <td></td>
                                         <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Abdomen</td>
                                         <td></td>
                                         <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Extremities</td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Others</td>
                                         <td></td>
                                         <td></td>
                                     </tr>
