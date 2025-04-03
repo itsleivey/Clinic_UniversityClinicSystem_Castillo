@@ -1,143 +1,183 @@
 const gender = document.getElementById('genderSelect');
+let currentForm = 'personal';
+const forms = {
+    personal: document.getElementById('personal-info-input'),
+    medical: document.getElementById('medical-dental-history-input'),
+    family: document.getElementById('family-medical-history-input'),
+    social: document.getElementById('personal-social-history-input'),
+    forfemales: document.getElementById('for-females-input'),
+    physicalexamination: document.getElementById('physical-examination-input'),
+    diagnostic: document.getElementById('Diagnostic-Results')
+};
+const stepMap = {
+    personal: 'step1',
+    medical: 'step2',
+    family: 'step3',
+    social: 'step4',
+    forfemales: 'step5',
+    physicalexamination: 'step6',
+    diagnostic: 'step7'
+};
 
 function showForm(formType) {
-    const personalForm = document.getElementById('personal-info-input');
-    const medicalForm = document.getElementById('medical-dental-history-input');
-    const familymedicalhistoryForm = document.getElementById('family-medical-history-input');
-    const personalsocialhistoryForm = document.getElementById('personal-social-history-input');
-    const forfemalesForm = document.getElementById('for-females-input');
-    const physicalexaminationForm = document.getElementById('physical-examination-input');
-    const diagnosticForm = document.getElementById('Diagnostic-Results');
-    const formHeader = document.querySelector('.form-header h2');
-    
-    // Hide all forms first
-    personalForm.style.display = 'none';
-    medicalForm.style.display = 'none';
-    familymedicalhistoryForm.style.display = 'none';
-    personalsocialhistoryForm.style.display = 'none';
-    forfemalesForm.style.display = 'none';
-    physicalexaminationForm.style.display = 'none';
-    diagnosticForm.style.display = 'none';
+    Object.values(forms).forEach(form => {
+        if (form) form.style.display = 'none';
+    });
 
-    // Show the requested form and update header
-    if (formType === 'personal') {
-        personalForm.style.display = 'block';
-        formHeader.textContent = 'Personal Information';
-        document.querySelector('.left-btn').disabled = true;
-        document.querySelector('.right-btn').disabled = false;
-    } else if (formType === 'medical') {
-        medicalForm.style.display = 'block';
-        formHeader.textContent = 'Medical & Dental History';
-        document.querySelector('.left-btn').disabled = false;
-        document.querySelector('.right-btn').disabled = false;
-    } else if (formType === 'family') {
-        familymedicalhistoryForm.style.display = 'block';
-        formHeader.textContent = 'Family Medical History';
-        document.querySelector('.left-btn').disabled = false;
-        document.querySelector('.right-btn').disabled = false;
-    } else if (formType === 'social') {
-        personalsocialhistoryForm.style.display = 'block';
-        formHeader.textContent = 'Personal & Social History';
-        document.querySelector('.left-btn').disabled = false;
-        document.querySelector('.right-btn').disabled = false;
-    } else if (formType === 'forfemales') {
-        forfemalesForm.style.display = 'block';
-        formHeader.textContent = 'For Females Only';
-        document.querySelector('.left-btn').disabled = false;
-        document.querySelector('.right-btn').disabled = false;
-    } else if (formType === 'physicalexamination') {
-        physicalexaminationForm.style.display = 'block';
-        formHeader.textContent = 'Physical Examination';
-        document.querySelector('.left-btn').disabled = false;
-        document.querySelector('.right-btn').disabled = false;
-    } else if (formType === 'diagnostic') {
-        diagnosticForm.style.display = 'block';
-        formHeader.textContent = 'Diagnostic Results';
-        document.querySelector('.left-btn').disabled = false;
-        document.querySelector('.right-btn').disabled = false;
+    const formToShow = forms[formType];
+    if (formToShow) {
+        formToShow.style.display = 'block';
     }
 
-    // Step Progress Update (Apply to All Forms)
+    const formHeader = document.querySelector('.form-header h2');
+    if (formHeader) {
+        formHeader.textContent = {
+            personal: 'Personal Information',
+            medical: 'Medical & Dental History',
+            family: 'Family Medical History',
+            social: 'Personal & Social History',
+            forfemales: 'For Females Only',
+            physicalexamination: 'Physical Examination',
+            diagnostic: 'Diagnostic Results'
+        }[formType];
+    }
+
+    document.querySelector('.left-btn').disabled = (formType === 'personal');
+    document.querySelector('.right-btn').disabled = (formType === 'diagnostic');
+
+    updateStepNavigation(formType);
+}
+
+function updateStepNavigation(currentFormType) {
+    const isFemale = gender && gender.value === 'female';
+    const step5 = document.getElementById('step5');
+
     document.querySelectorAll('.step').forEach(step => {
         step.classList.remove('active', 'completed');
     });
 
-    const stepMap = {
-        personal: 'step1',
-        medical: 'step2',
-        family: 'step3',
-        social: 'step4',
-        forfemales: 'step5',
-        physicalexamination: 'step6',
-        diagnostic: 'step7'
-    };
+    if (step5) {
+        step5.style.display = isFemale ? '' : 'none';
+    }
 
-    document.getElementById(stepMap[formType]).classList.add('active');
+    const activeStep = document.getElementById(stepMap[currentFormType]);
+    if (activeStep) activeStep.classList.add('active');
 
-    // Mark previous steps as completed
-    for (let i = 1; i < parseInt(stepMap[formType].replace('step', '')); i++) {
-        document.getElementById(`step${i}`).classList.add('completed');
+    const currentStepNumber = parseInt(stepMap[currentFormType].replace('step', ''));
+    for (let i = 1; i < currentStepNumber; i++) {
+        const step = document.getElementById(`step${i}`);
+        if (step) step.classList.add('completed');
     }
 }
 
+function handleNavigation(direction) {
+    const isFemale = gender && gender.value === 'female';
+    const navigationMap = {
+        left: {
+            personal: 'personal',
+            medical: 'personal',
+            family: 'medical',
+            social: 'family',
+            forfemales: 'social',
+            physicalexamination: isFemale ? 'forfemales' : 'social',
+            diagnostic: 'physicalexamination'
+        },
+        right: {
+            personal: 'medical',
+            medical: 'family',
+            family: 'social',
+            social: isFemale ? 'forfemales' : 'physicalexamination',
+            forfemales: 'physicalexamination',
+            physicalexamination: 'diagnostic',
+            diagnostic: 'diagnostic'
+        }
+    };
+
+    currentForm = navigationMap[direction][currentForm];
+    showForm(currentForm);
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-    let currentForm = 'personal';  // Track the current form
-    const gender = document.getElementById('genderSelect'); // Get gender element
+    Object.values(forms).forEach(form => {
+        if (form) form.style.display = 'none';
+    });
 
-    function updateButtons() {
-        document.querySelector('.left-btn').disabled = (currentForm === 'personal');
-        document.querySelector('.right-btn').disabled = (currentForm === 'diagnostic');
-    }
+    document.querySelector('.left-btn').addEventListener('click', () => handleNavigation('left'));
+    document.querySelector('.right-btn').addEventListener('click', () => handleNavigation('right'));
 
-    document.querySelector('.left-btn').addEventListener('click', function() {
-        if (currentForm === 'medical') {
-            currentForm = 'personal';
-        } else if (currentForm === 'family') {
-            currentForm = 'medical';
-        } else if (currentForm === 'social') {
-            currentForm = 'family';
-        } else if (currentForm === 'forfemales') {
-            currentForm = 'social';
-        } else if (currentForm === 'physicalexamination') {
-            currentForm = (gender && gender.value === 'female') ? 'forfemales' : 'social';
-        } else if (currentForm === 'diagnostic') {
+    gender?.addEventListener('change', () => {
+        if (currentForm === 'forfemales' && gender.value !== 'female') {
             currentForm = 'physicalexamination';
         }
         showForm(currentForm);
-        updateButtons();
     });
 
-    document.querySelector('.right-btn').addEventListener('click', function() {
-        if (currentForm === 'personal') {
-            currentForm = 'medical';
-        } else if (currentForm === 'medical') {
-            currentForm = 'family';
-        } else if (currentForm === 'family') {
-            currentForm = 'social';
-        } else if (currentForm === 'social') {
-            currentForm = (gender && gender.value === 'female') ? 'forfemales' : 'physicalexamination';
-            if (step5) {
-                if (gender && gender.value === 'female') {
-                    step5.classList.remove('disabled');
-                } else {
-                    step5.classList.add('disabled');
-                    step5.classList.remove('active', 'completed');
-                    const checkmarks = step5.querySelectorAll('.check-icon, .step-check');
-                    checkmarks.forEach(check => check.remove());
-                }
-            }
-        } else if (currentForm === 'forfemales') {
-            currentForm = 'physicalexamination';
-        } else if (currentForm === 'physicalexamination') {
-            currentForm = 'diagnostic';
-        }
-        showForm(currentForm);
-        updateButtons();
-    });
-
-    // Initialize
-    showForm('personal'); 
-    updateButtons();
+    showForm('personal');
 });
 
+function scrollToActiveStep() {
+    const activeStep = document.querySelector('.step.active');
+    if (activeStep) {
+        const stepNav = document.querySelector('.step-nav'); // Make sure you have this container
+        if (stepNav) {
+            // Calculate positions
+            const stepNavRect = stepNav.getBoundingClientRect();
+            const stepRect = activeStep.getBoundingClientRect();
+            
+            // Calculate scroll position
+            const scrollPosition = stepRect.left - stepNavRect.left + stepNav.scrollLeft - (stepNavRect.width / 2) + (stepRect.width / 2);
+            
+            // Smooth scroll to the active step
+            stepNav.scrollTo({
+                left: scrollPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+}
 
+function scrollToActiveStep() {
+    const activeStep = document.querySelector('.step.active');
+    if (activeStep) {
+        const stepNav = document.querySelector('.step-nav'); // Make sure you have this container
+        if (stepNav) {
+            // Calculate positions
+            const stepNavRect = stepNav.getBoundingClientRect();
+            const stepRect = activeStep.getBoundingClientRect();
+            
+            // Calculate scroll position
+            const scrollPosition = stepRect.left - stepNavRect.left + stepNav.scrollLeft - (stepNavRect.width / 2) + (stepRect.width / 2);
+            
+            // Smooth scroll to the active step
+            stepNav.scrollTo({
+                left: scrollPosition,
+                behavior: 'smooth'
+            });
+        }
+    }
+}
+
+function updateStepNavigation(currentFormType) {
+    const isFemale = gender && gender.value === 'female';
+    const step5 = document.getElementById('step5');
+
+    document.querySelectorAll('.step').forEach(step => {
+        step.classList.remove('active', 'completed');
+    });
+
+    if (step5) {
+        step5.style.display = isFemale ? '' : 'none';
+    }
+
+    const activeStep = document.getElementById(stepMap[currentFormType]);
+    if (activeStep) activeStep.classList.add('active');
+
+    const currentStepNumber = parseInt(stepMap[currentFormType].replace('step', ''));
+    for (let i = 1; i < currentStepNumber; i++) {
+        const step = document.getElementById(`step${i}`);
+        if (step) step.classList.add('completed');
+    }
+    
+    // Add this line to scroll to the active step
+    scrollToActiveStep();
+}

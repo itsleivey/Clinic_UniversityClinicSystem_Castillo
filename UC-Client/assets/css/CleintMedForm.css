@@ -157,7 +157,7 @@
     width: 100%;
     height: 15%;
     background-color: #ffffff;
-    border-bottom: 2px solid #1583EB;;
+    border-bottom: 2px solid #1583EB;
     margin-top: 0;
 }
 .form-container {
@@ -190,6 +190,10 @@ h2 {
     margin-bottom: 15px;
 }
 
+input:focus {
+    border-color: #13c8ff; 
+    outline: none; 
+}
 
 form{
     display: flex;
@@ -713,7 +717,7 @@ form{
     justify-content: center;
     align-items: center;
     width: 100%;
-    height:70%;
+    height:55%;
     max-height: 350px;
     font-size: clamp(10px, 1vw, 16px);
     background-color: #F6F6F6;
@@ -726,7 +730,7 @@ form{
     flex-direction: column;
     align-items: flex-start;
     width: 100%;
-    height: 35%;
+    height: 45%;
     margin-top: 15px;
     background-color: #FFFFFF;
     border: 1px solid rgba(189, 189, 189, 0.534);
@@ -793,32 +797,9 @@ form{
     text-decoration: underline;
 }
 /*=========================================================*/
-.progress-circle {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    border: 10px solid #e0e0e0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    font-weight: bold;
-    position: relative;
-    margin: 0 auto 10px;
-    margin-top: 15px;
-}
-.progress-circle::after {
-    content: '';
-    position: absolute;
-    width: 70px;
-    height: 70px;
-    background: white;
-    border-radius: 50%;
-}
 .table-container {
-    border: 1px solid #1976d2;
-    min-height: 45%; 
-    margin: 10px;
+    height: 100%; 
+    width: 100%;
     background: white;
     display: flex;
     flex-direction: column;
@@ -828,12 +809,15 @@ table {
     width: 100%;
     border-collapse: collapse;
 }
-th, td {
-    padding: 8px;
+td {
+    padding: 10px;
     text-align: left;
 }
 th {
-    background-color: #f1f1f1;
+    text-align: left;
+    padding: 20.5px;
+    background-color: #ffffff;
+    border-bottom: 2px solid #1583EB;
 }
 .reminder {
     background: #fce8e6;
