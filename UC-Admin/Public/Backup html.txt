@@ -1,0 +1,266 @@
+     <div id="medrec" class="medrec_container" style="display: none;"> <!-- changed from none for demo -->
+                    <div id="patient-rec">
+                        <form method="GET" action="manageclients.dbf/patients_rec_genpdf.php" id="medical-cert-form" onsubmit="return preparePdfData()" target="_blank">
+
+                            <input type="hidden" name="client_id" id="client-id" value="<?= htmlspecialchars($clientid['ClientID']) ?>">
+
+                            <div style="text-align: center; margin-bottom: 10px; width: 90%">
+                                <img src="assets/images/Lspu-Header-tin.png" alt="LSPU Logo" style="width:480px; height: 110px;">
+                            </div>
+
+                            <div style="text-align: center; font-weight: bold; margin: 20px 0; font-family: serif;">MEDICAL CLINIC</div>
+                            <div style="text-align: center; font-weight: bold; margin: 20px 0; font-family: serif;">PATIENT'S RECORD</div>
+
+                            <div style="margin-bottom: 10px;">
+                                Name: <span class="underline cert-field" contenteditable="true" id="name" style="display: inline-block; min-width: 400px; border-bottom: 1px solid black;"><?= htmlspecialchars($fullName) ?></span>
+                            </div>
+
+                            <div style="margin-bottom: 10px;">
+                                Age: <span class="underline cert-field" contenteditable="true" id="age" style="display: inline-block; min-width: 400px; border-bottom: 1px solid black;"><?= htmlspecialchars($personalinfo['Age']) ?></span>
+                            </div>
+
+                            <div style="margin-bottom: 10px;">
+                                Address: <span class="underline cert-field" contenteditable="true" id="address" style="display: inline-block; min-width: 400px; border-bottom: 1px solid black;"><?= htmlspecialchars($personalinfo['CurrentAddress']) ?></span>
+                            </div>
+
+                            <div style="margin-bottom: 10px;">
+                                Course: <span class="underline cert-field" contenteditable="true" id="course" style="display: inline-block; min-width: 400px; border-bottom: 1px solid black;"><?= htmlspecialchars($personalinfo['Course']) ?></span>
+                            </div>
+
+
+
+                            <div style="text-align: left; font-size: 12px; padding-top: 1100px; display: flex; flex-direction: row; justify-content: space-between">
+                                <p>LSPU-OSAS-SF-M08</p>
+                                <p> Rev. 0</p>
+                                <p>10 Aug. 2016</p>
+                            </div>
+                            <div class="cert-controls" style="margin-top: 20px;">
+                                <button class="buttonsdp" type="submit">Download as PDF</button>
+                            </div>
+
+                            <!-- Hidden inputs to send data -->
+                            <input type="hidden" name="patient_name" id="input_patient_name" />
+                            <input type="hidden" name="patient_age" id="input_patient_age" />
+                            <input type="hidden" name="patient_address" id="input_patient_address" />
+                            <input type="hidden" name="patient_course" id="input_patient_course" />
+
+
+
+                        </form>
+                    </div>
+                    <script>
+                        function preparePdfData() {
+                            document.getElementById('input_patient_name').value = document.getElementById('name').innerText.trim();
+                            document.getElementById('input_patient_age').value = document.getElementById('age').innerText.trim();
+                            document.getElementById('input_patient_address').value = document.getElementById('address').innerText.trim();
+                            document.getElementById('input_patient_course').value = document.getElementById('course').innerText.trim();
+
+                            if (!document.getElementById('input_patient_name').value) {
+                                alert('Please enter the name.');
+                                return false;
+                            }
+                            return true;
+                        }
+                    </script>
+
+                </div>
+
+                  <div id="rx" class="medrec_container" style="display: none;">
+                    <div id="rx-rec">
+                        <form method="GET" action="manageclients.dbf/generate_rx_pdf.php" id="medical-cert-form" onsubmit="return preparePdfData()" target="_blank">
+
+                            <input type="hidden" name="client_id" id="client-id" value="<?= htmlspecialchars($clientid['ClientID']) ?>">
+
+                            <div style="text-align: center; margin-bottom: 10px; width: 90%">
+                                <img src="assets/images/LSPU-HEADER.png" alt="LSPU Logo" style="width:480px; height: 110px;">
+                            </div>
+
+                            <div style="display: flex; flex-direction: row; width: 100%; height: 100px;">
+                                <div style="display: flex; flex-direction: column; height: 100%; width: 50%;">
+                                    <div style="display: flex; padding: 0px; flex-direction: row; width: 100%; height: 30%;">
+                                        Name: <span id="name" style="display: inline-block; font-weight: bold; padding: 0px; min-width: 100px;"><?= htmlspecialchars($fullName) ?></span>
+                                    </div>
+                                    <div style="display: flex; flex-direction: row; width: 100%; height: 30%;">
+                                        Impression: <span font-weight: bold; id="address" style="display: inline-block; font-weight: bold; padding: 0px; min-width: 400px;"><?= htmlspecialchars($personalinfo['Age']) ?></span>
+                                    </div>
+                                </div>
+                                <div style="display: flex; flex-direction: column; height: 100%; width: 50%;">
+                                    <div style="display: flex; padding: 0px; flex-direction: row; width: 100%; height: 30%;">
+                                        Age/Sex: <span id="name" style="display: inline-block; font-weight: bold; padding: 0px; min-width: 400px;"></span>
+                                    </div>
+                                    <div style="display: flex; flex-direction: row; width: 100%; height: 30%;">
+                                        Date: <span id="address" style="display: inline-block; font-weight: bold; padding: 0px; min-width: 400px;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="text-align: left; font-size: 12px; padding-top: 1100px; display: flex; flex-direction: row; justify-content: space-between">
+                                <p>LSPU-OSAS-SF-M08</p>
+                                <p> Rev. 0</p>
+                                <p>10 Aug. 2016</p>
+                            </div>
+
+                            <div class="cert-controls" style="margin-top: 20px;">
+                                <button class="buttonsdp" type="submit">Download as PDF</button>
+                            </div>
+
+                            <!-- Hidden inputs to send data -->
+                            <input type="hidden" name="patient_name" id="input_patient_name" />
+                            <input type="hidden" name="patient_age" id="input_patient_age" />
+                            <input type="hidden" name="patient_address" id="input_patient_address" />
+                            <input type="hidden" name="patient_course" id="input_patient_course" />
+
+
+
+                        </form>
+                    </div>
+                    <script>
+                        function preparePdfData() {
+                            document.getElementById('input_patient_name').value = document.getElementById('name').textContent;
+                            document.getElementById('input_patient_age').value = document.querySelectorAll('#rx [id="name"]')[1].textContent;
+                            document.getElementById('input_patient_address').value = document.getElementById('address').textContent;
+                            document.getElementById('input_patient_course').value = ''; // Set if applicable
+
+                            return true;
+                        }
+                    </script>
+
+                </div>
+
+
+
+
+
+
+
+
+
+                <?php
+ob_start();
+require_once '../../../public/vendor/autoload.php'; // TCPDF autoload path
+
+function clean($text) {
+    return htmlspecialchars(trim($text));
+}
+
+$name = clean($_POST['name']);
+$age = clean($_POST['age']);
+$address = clean($_POST['address']);
+$course = clean($_POST['course']);
+$date = clean($_POST['date']);
+
+$bp = clean($_POST['bp']);
+$hr = clean($_POST['hr_pr']);  // consistent with $hr
+$temp = clean($_POST['temp']);
+$o2sat = clean($_POST['o2sat']);
+
+$subjective = clean($_POST['subjective']);
+$objective = clean($_POST['objective']);
+$assessment = clean($_POST['assessment']);
+$plan = clean($_POST['plan']);
+
+try {
+    $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+    $pdf->SetCreator('LSPU Medical Clinic');
+    $pdf->SetAuthor('LSPU Medical Clinic');
+    $pdf->SetTitle("Patient's Record");
+
+    $pdf->setPrintHeader(false);
+    $pdf->setPrintFooter(false);
+    $pdf->SetMargins(12, 12, 12);
+    $pdf->SetAutoPageBreak(true, 12);
+    $pdf->AddPage();
+    $pdf->SetFont('helvetica', '', 11);
+
+    $imagePath = realpath(__DIR__ . '/../assets/images/Lspu-Header.jpg');
+    $imageHtml = '';
+    if (file_exists($imagePath)) {
+        $imageData = base64_encode(file_get_contents($imagePath));
+        $imageHtml = '<img src="data:image/jpeg;base64,' . $imageData . '" height="70">';
+    }
+
+    $html = <<<EOD
+<style>
+    /* styles here */
+</style>
+
+<table width="90%">
+    <tr>
+        <td align="center">$imageHtml</td>
+    </tr>
+</table>
+
+<div class="header">LAGUNA STATE POLYTECHNIC UNIVERSITY</div>
+<div class="subheader">Medical Clinic - Patient's Record</div>
+
+<div class="section">
+    <div><span class="field-label">Name:</span> $name</div>
+    <div><span class="field-label">Age:</span> $age</div>
+    <div><span class="field-label">Address:</span> $address</div>
+    <div><span class="field-label">Course:</span> $course</div>
+    <div><span class="field-label">Date:</span> $date</div>
+</div>
+
+<div class="section-title">Vital Signs</div>
+<div class="section">
+    <div><span class="field-label">BP:</span> <span class="underline">$bp</span></div>
+    <div><span class="field-label">HR/PR:</span> <span class="underline">$hr</span></div>
+    <div><span class="field-label">Temp:</span> <span class="underline">$temp</span></div>
+    <div><span class="field-label">O₂ Sat:</span> <span class="underline">$o2sat</span></div>
+</div>
+
+<div class="section-title">SOAP Notes</div>
+<div class="soap-section"><strong>Subjective:</strong><br>$subjective</div>
+<div class="soap-section"><strong>Objective:</strong><br>$objective</div>
+<div class="soap-section"><strong>Assessment:</strong><br>$assessment</div>
+<div class="soap-section"><strong>Plan:</strong><br>$plan</div>
+EOD;
+
+    $pdf->writeHTML($html, true, false, true, false, '');
+    $pdf->Output('Patient_Record.pdf', 'I');
+    ob_end_flush();
+
+} catch (Exception $e) {
+    echo 'Error generating PDF: ' . $e->getMessage();
+}
+?>
+
+
+.header {
+        text-align: center;
+        font-weight: bold;
+        font-size: 16pt;
+        font-family: serif;
+    }
+    .subheader {
+        text-align: center;
+        font-size: 13pt;
+        font-family: serif;
+        margin-bottom: 20px;
+    }
+    .section-title {
+        font-weight: bold;
+        font-size: 12pt;
+        font-family: serif;
+        margin-top: 15px;
+        margin-bottom: 8px;
+    }
+    .section {
+        font-size: 11pt;
+        font-family: serif;
+        margin-bottom: 10px;
+    }
+    .field-label {
+        font-weight: bold;
+        display: inline-block;
+        width: 90px;
+    }
+    .underline {
+        display: inline-block;
+        border-bottom: 1px solid black;
+        padding: 2px 5px;
+        min-width: 60px;
+    }
+    .soap-section {
+        margin-bottom: 12px;
+    }

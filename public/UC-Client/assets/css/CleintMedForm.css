@@ -1,0 +1,1133 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+
+.body{
+    overflow-y: hidden !important; 
+}
+.content {
+    margin-top: 70px;
+    margin-left: 220px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    gap: 15px;
+    height: calc(100vh - 70px); 
+    /*min-height: 650px;*/ 
+    width: calc(100% - 250px);
+    transition: margin-left 0.2s ease-in-out, width 0.2s ease-in-out;
+    overflow: auto; 
+}
+
+.step-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    width: 100%;
+    height: 13%;
+    border: #ccc 1px solid;
+}
+
+.step {
+    flex: 1; 
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+    padding: 10px 0; 
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+}
+
+/* Step number */
+.step-number {
+    width: 35px;
+    height: 35px;
+    background-color: #ccc;
+    color: white;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0; 
+}
+
+.step-text {
+    font-size: clamp(10px, 1vw, 16px);
+    color: #5f5f5f;
+    margin-top: 5px; 
+    white-space: nowrap; 
+    text-align: center;
+}
+
+.step-check {
+    display: none;
+    margin-left: 5px;
+    color: green;
+}
+
+.step.active .step-number {
+    background-color: #1583EB;
+    color: white; 
+}
+
+.step.active .step-text {
+    color: #1583EB;
+}
+
+.step.completed .step-number {
+    background-color: rgb(10, 155, 10); 
+    color: white; 
+}
+
+.step.completed .step-check {
+    display: inline; 
+}
+
+.step.completed .step-text {
+    color: rgb(10, 155, 10);
+}
+
+.step.active {
+    border: 1px solid #1583EB;
+    background-color: transparent; 
+}
+
+.step.completed {
+    background-color: transparent;
+}
+
+.step.disabled {
+    background-color: #e9ecef !important;
+    color: #6c757d !important;
+    opacity: 0.5;
+    pointer-events: none;
+}
+.step::after,
+.step .check-icon,
+.step .step-check,
+.step .done-check {
+    display: none !important;
+}
+
+.step.completed,
+.step.checked,
+.step.done {
+    background-image: none !important;
+}
+
+#step5.disabled::after,
+#step5.disabled .check-icon {
+    display: none !important;
+}
+
+#step5.disabled{
+    background-color: #f0f0f0 !important;
+    color: #888 !important;
+    border: #888;
+    opacity: 0.7;
+    pointer-events: none;
+}
+/*==========================================================================*/
+.content-forms-seprator {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    width: 100%;
+    gap: 10px;
+    padding: 10px;
+    overflow: auto;
+}
+.form-header h2{
+   margin: 0; 
+}
+.scroll-input-div {
+    border-radius: 5px;
+    background-color: #F0F0F8;
+    margin: 10px;
+    height: 1850px;
+    border: 1px solid #ccc;
+}
+.form-header{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 15%;
+    background-color: #ffffff;
+    border-bottom: 2px solid #1583EB;
+    margin-top: 0;
+}
+.form-container {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-height: 950px;
+    height:100%;
+    border: 1px solid #ccc;
+
+    min-width: 0;       
+    min-height: 0;      
+    flex-shrink: 0;     
+    overflow: auto;   
+}
+#personalInfoForm, #medicalInfoForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 30px;
+    width: 100%; 
+}
+
+h2 {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+input:focus {
+    border-color: #13c8ff; 
+    outline: none; 
+}
+
+.form-in-forms {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.form-row > div {
+    flex: 1 1 48%;
+    min-width: 200px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+}
+
+input[type="text"], input[type="number"], input[type="date"], select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: clamp(13px, 1vw, 16px);
+    box-sizing: border-box;
+}
+
+.form-navigation {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.form-navigation button {
+    background-color: blue;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.form-navigation button:hover {
+    background-color: darkblue;
+}
+.gender-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.gender-container label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.step-nav {
+    flex-shrink: 0;
+}
+.content-forms-seprator {
+    flex-grow: 1;
+}
+
+.toggle-btn-div {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 20%;
+    background-color: #F6F6F6;
+    align-items: center;
+    margin-top: 15px;
+}
+
+.form-buttons{
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    border: none;
+    background-color: #1583EB;
+    color: white;
+    text-align: center;
+    font-size: clamp(10px, 1vw, 16px);
+}
+/* Medical & Dental History Styles =============================================================================== */
+#medical-dental-history-input {
+    padding: 15px;
+}
+
+#medicalDentalForm .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    gap: 10px;
+    align-items: left;
+}
+
+#medicalDentalForm .checkbox-row {
+    display: flex;
+    align-items: left;
+    width: 100%;
+}
+
+#medicalDentalForm .checkbox-row input[type="checkbox"] {
+    margin-right: 10px;
+    width: auto;
+    height: 16px;
+    width: 16px;
+    accent-color: #4a90e2;
+}
+
+#medicalDentalForm .checkbox-row label {
+    white-space: nowrap;
+    margin-right: 10px;
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+}
+
+#medicalDentalForm .details-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+#medicalDentalForm .details-input:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+#medicalDentalForm .declaration {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    font-style: italic;
+    font-size: 14px;
+    color: #555;
+    border-left: 3px solid #4a90e2;
+}
+#medicalDentalForm .signature-row {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+#medicalDentalForm .signature-row input[type="text"] {
+    flex: 2;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#medicalDentalForm .signature-row input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#medicalDentalForm .signature-row input:focus {
+    border-color: #4a90e2;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+#medical-dental-history-input {
+    padding: 15px;
+}
+
+#medicalDentalForm .form-row.checkbox-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+#medicalDentalForm .checkbox-row .checkbox-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    width: 100%;
+}
+
+#medicalDentalForm .checkbox-row input[type="checkbox"] {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+}
+
+#medicalDentalForm .checkbox-row label {
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+    white-space: normal;
+    text-align: left;
+}
+
+#medicalDentalForm .details-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+/* Family Medical History*/
+#family-med-historyForm .form-row.checkbox-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+#family-med-historyForm .checkbox-row input[type="checkbox"] {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+    accent-color: #4a90e2;
+}
+
+#family-med-historyForm .checkbox-row label {
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+    white-space: normal;
+    text-align: left;
+}
+
+#family-med-historyForm .details-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 5px;
+    transition: border-color 0.3s;
+}
+/* Family Medical History*/
+/*For females only form*/
+#for-female-form .fem-form-section-title {
+    color: #6a1b9a;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #d195db;
+    padding-bottom: 8px;
+}
+
+#for-female-form .fem-form-section {
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #d195db;
+}
+
+#for-female-form .fem-form-section h4 {
+    color: #7b1fa2;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+#for-female-form .fem-form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    padding: 8px 0;
+}
+
+#for-female-form .fem-label {
+    flex: 0 0 250px;
+    font-weight: 500;
+    color: #333;
+    margin-right: 15px;
+}
+
+#for-female-form .fem-details-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    min-width: 200px;
+}
+
+#for-female-form .fem-short-input {
+    max-width: 100px;
+}
+
+#for-female-form .fem-radio-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+#for-female-form .fem-radio-label {
+    flex: 0 0 250px;
+    font-weight: 500;
+    color: #333;
+    margin-right: 15px;
+}
+
+#for-female-form .fem-radio-options {
+    display: flex;
+    gap: 20px;
+}
+
+#for-female-form .fem-radio-options label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: normal;
+}
+
+#for-female-form input[type="radio"] {
+    accent-color: #9c27b0;
+}
+/*===================================================*/
+/*Physical Examination Table*/
+.exam-notice {
+    background-color: #fff3cd;
+    padding: 12px;
+    border-left: 4px solid #ffc107;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.notice-text {
+    margin: 0;
+    color: #856404;
+    font-size: 14px;
+}
+
+.form-section-title {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e1e5ea;
+    padding-bottom: 8px;
+}
+
+.exam-table-container {
+    overflow-x: auto;
+}
+
+.exam-table-container {
+    margin-bottom: 30px;
+}
+
+.physical-exam-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    color: #4e4e4e;
+}
+
+.physical-exam-table th, 
+.physical-exam-table td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: left;
+}
+
+.physical-exam-table th {
+    background-color: #e9ecef;
+    font-weight: bold;
+}
+
+.physical-exam-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Specific styling for the first table (vital signs) */
+.physical-exam-table:first-child {
+    margin-bottom: 30px;
+}
+
+.physical-exam-table:last-child {
+    margin-top: 20px;
+}
+
+.h1-style{
+    font-size: clamp(18px, 2vw, 24px);
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+/*===================================================*/
+.form-container-diagnostic {
+    width: 100%;
+    padding: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-container-diagnostic h1 {
+    font-size: clamp(18px, 2vw, 24px);
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.form-container-diagnostic h2 {
+    font-size: clamp(13px, 1vw, 20px);
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+    color: #34495e;
+}
+
+.form-section {
+    margin-bottom: 25px;
+    background-color: #ffffff;
+    padding: 20px;
+    gap: 15px;
+    border-radius: 10px;
+    border: 1px solid #dcdcdc;
+}
+
+.form-section p {
+    margin-bottom: 10px;
+    font-size: clamp(13px, 1vw, 22px);
+    color: #555;
+}
+
+.form-section p strong {
+    color: #2c3e50;
+}
+
+/* Optional: Add a slight hover effect */
+.form-section:hover {
+    background-color: #f0f8ff;
+    transition: background-color 0.3s;
+}
+#Diagnostic-Results {
+    padding: 20px;
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    margin-top: 20px;
+}
+
+.diagnostic-notice {
+    background-color: #f0fdf4;
+    border-left: 4px solid #16a34a;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    display: flex;
+    gap: 15px;
+}
+
+.notice-icon {
+    font-size: 24px;
+    color: #166534;
+}
+
+.notice-content h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #166534;
+}
+
+.notice-content p {
+    margin: 5px 0;
+    color: #166534;
+    font-size: 14px;
+}
+
+.diagnostic-header {
+    color: #1e40af;
+    margin-bottom: 5px;
+}
+
+.diagnostic-subheader {
+    color: #64748b;
+    font-style: italic;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.diagnostic-placeholder {
+    padding: 15px;
+    background-color: white;
+    border-radius: 6px;
+    border: 1px dashed #cbd5e1;
+}
+
+.placeholder-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+.placeholder-checkbox {
+    font-size: 18px;
+    color: #475569;
+}
+
+.placeholder-text {
+    color: #475569;
+}
+
+.certification-reminder {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #92400e;
+}
+/*============================================================*/
+.toggle-btn-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 30px;
+    background-color: #F6F6F6;
+}
+.toggle-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-size: 20px;
+    color: #1976d2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.toggle-btn:disabled {
+    color: lightgray;
+    cursor: default;
+    box-shadow: none;
+}
+
+.toggle-btn:hover:not(:disabled) {
+    background-color: #f1f1f1;
+}
+
+.toggle-btn-div img{
+    width: 15px;
+    height: 15px;
+}
+/*============================================================*/
+.right-content-div{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-height: 660px;
+    height: 100%;
+    margin-left: 15px;
+    overflow: hidden;
+}
+
+.notice-div{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height:55%;
+    font-size: clamp(10px, 1vw, 16px);
+    background-color: #F6F6F6;
+    background-color: white;
+    border: 1px solid #ccc;
+}
+
+#call-div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    height: 45%;
+    margin-top: 15px;
+    background-color: #FFFFFF;
+    border: 1px solid rgba(189, 189, 189, 0.534);
+    border-radius: 0px;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+}
+
+#pic-div {
+    width: 100%;
+    height: 60%; /* Takes majority of the div height */
+    position: relative;
+}
+
+#picimg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures image covers the area */
+    border-radius: 4px;
+}
+
+#text-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0); /* Dark semi-transparent background */
+    color: white;
+    z-index: 2;
+}
+
+#text-overlay h3 {
+    margin: 0 0 8px 0;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+#text-overlay p {
+    margin: 0 0 5px 0;
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+#call-div h2 {
+    font-size: 0.9375rem;
+    font-weight: bold;
+    margin: 5px 0;
+    padding-left: 5px;
+}
+
+.clinic-policies-label {
+    color: #1976d2;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-decoration: none;
+    padding-left: 5px;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.clinic-policies-label:hover {
+    text-decoration: underline;
+}
+/*=========================================================*/
+.table-container {
+    height: 100%; 
+    width: 100%;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; 
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+td {
+    padding: 10px;
+    text-align: left;
+}
+th {
+    text-align: left;
+    padding: 20.5px;
+    background-color: #ffffff;
+    border-bottom: 2px solid #1583EB;
+}
+.reminder {
+    background: #fce8e6;
+    color: #d93025;
+    padding: 10px; 
+    margin: 10px 5px 5px 5px; 
+    border: 1px solid #d93025;
+    border-radius: 5px;
+    font-size: clamp(11px, 1vw, 15px);
+    flex-shrink: 0;
+}
+/*=========================================================*/
+.top-alert {
+    position: fixed;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 800px;
+    padding: 15px 40px 15px 15px;
+    z-index: 9999;
+    border-radius: 5px;
+    color: #fff;
+    font-family: sans-serif;
+    font-size: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.6s forwards;
+}
+
+.top-alert.success {
+    background-color: #4CAF50;
+}
+
+.top-alert.error {
+    background-color: #4CAF50;
+}
+
+.success {
+    color: white;
+    background-color: #4CAF50;
+}
+
+.error {
+    color: white;
+    background-color: #4CAF50;
+}
+
+
+.top-alert .close-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    cursor: pointer;
+}
+
+@keyframes slideDown {
+    from {
+        top: -100px;
+        opacity: 0;
+    }
+    to {
+        top: 20px;
+        opacity: 1;
+    }
+}
+/*===============================================Modals===============================================*/
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #f8f9fa; 
+    padding: 25px;
+    z-index: 1000;
+    display: none;
+    width: 90%;
+    max-width: 600px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-top: 4px solid #0056b3; 
+}
+
+.modal-header {
+    color: #0056b3; 
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+.modal-content {
+    text-align: left;
+    color: #333; 
+}
+
+.close {
+    color: #0056b3;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close:hover {
+    color: #52AFFD; 
+}
+/*---------------------------------------------------*/
+.med-form-nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    height: 20%;
+    padding: 15px;
+    top: 0px;
+    position: sticky;
+    z-index: 1000;
+    border-radius: 10px;
+    background-color: white;
+    border: solid 1px #ccc;
+    font-size: clamp(8px, 1vw, 16px);
+}
+
+.med-form-nav ul {
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    justify-content: center;
+    width: 100%;   
+}
+
+.med-form-nav ul li {
+    list-style: none;
+    display: inline-block;
+    margin: 0 20px;
+    position: relative;
+}
+
+/* Decor */
+
+.med-form-nav a {
+    text-decoration: none;
+    color: inherit;
+    font-size: 16px;
+}
+
+.med-form-nav ul li {
+    text-decoration: none;
+    color: #000000;
+    text-transform: uppercase;
+}
+
+/* Hover */
+
+.med-form-nav ul li::after {
+    content: '';
+    height: 3px;
+    width: 0;
+    background: var(--primary-color);
+    position: absolute;
+    right: 0;
+    bottom: -10px;
+    transition: 0.5s;
+}
+
+.med-form-nav ul li:hover::after {
+    width: 100%;
+}
+
+.master-save-container {
+    position: sticky;
+    bottom: 20px;
+    text-align: center;
+    margin-top: 30px;
+    padding: 20px 0;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+.master-save-button {
+    padding: 12px 30px;
+    font-size: 1.1em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.master-save-button:hover {
+    background-color: #45a049;
+}
+
+.master-save-button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#master-message {
+    margin-top: 10px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+#master-message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+#master-message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+
+#for-females-input {
+    display: none;
+}

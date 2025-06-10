@@ -1,0 +1,127 @@
+Array
+(
+    [client_id] => 13145
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Malinta
+    [address] => Timugan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Prof
+    [height] => 5'7
+    [weight] => 53
+    [blood-type] => O
+)
+Array
+(
+    [client_id] => 13145
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Malinta
+    [address] => Timugan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Prof
+    [height] => 5'7
+    [weight] => 53
+    [blood-type] => O
+)
+Array
+(
+    [client_id] => 13145
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => sadadadsada
+    [address] => asdsadadadsas
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => sadsadsadas
+    [height] => 5
+    [weight] => 53
+    [blood-type] => o
+)
+Array
+(
+    [client_id] => 13145
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => asdadada
+    [address] => dadadasdasd
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => wdadasdas
+    [height] => 5'7
+    [weight] => 54
+    [blood-type] => O
+)
+Array
+(
+    [client_id] => 13145
+    [blood_test] => 1
+    [urinalysis] => 1
+    [neuro_test] => 1
+    [name] => Regor Dimagiba
+    [agency] => BRGY TIMUGAN
+    [address] => Quiapo
+    [age] => 56
+    [sex] => Male
+    [civil-status] => Married
+    [position] => Police
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [license_no] => 12323211
+    [height] => 5.80
+    [weight] => 67.00
+    [blood-type] => O
+    [official_designation] => LSPU-LB CLINIC
+    [date_created] => 2025-06-03
+)
+Array
+(
+    [client_id] => 13147
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Michael Jay M. Castillo
+    [agency] => Malinta, Los Baños, Laguna
+    [address] => P5 Brgy. Timugan, Los Baños, Laguna
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Porfessor
+    [physician_signature] => 
+    [physician_agency] => 
+    [license_no] => 
+    [height] => 5'7
+    [weight] => 53
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-06-03
+)

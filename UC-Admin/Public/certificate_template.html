@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Certificate</title>
+    <style>
+        body {
+            font-family: Helvetica, sans-serif;
+            font-size: 11pt;
+            margin: 50px;
+        }
+
+        .logo-cell {
+            width: 70px;
+        }
+
+        .logo-cell img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .text-cell {
+            text-align: center;
+            font-size: 11pt;
+            line-height: 1.4;
+        }
+
+        .text-cell .university-name {
+            font-family: oldenglishtextmt;
+            font-size: 14pt;
+        }
+
+        .certificate-title {
+            text-align: center;
+            font-weight: bold;
+            margin: 25px 0 20px;
+            font-size: 13pt;
+        }
+
+        .underline {
+            display: inline-block;
+            border-bottom: 1px solid #000;
+            padding: 0 4px;
+            min-width: 100px;
+        }
+
+        .underline.short {
+            min-width: 30px;
+        }
+
+        .underline.medium {
+            min-width: 60px;
+        }
+
+        .underline.long {
+            min-width: 200px;
+        }
+
+        .full-underline {
+            display: block;
+            border-bottom: 1px solid #000;
+            width: 100%;
+            margin-top: 4px;
+            margin-bottom: 10px;
+        }
+
+        .section-label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .footer-table {
+            width: 100%;
+            font-size: 8pt;
+            margin-top: 40px;
+        }
+
+        .signature-block {
+            margin-top: 40px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: center;
+            /* Centers the logo + text as one unit */
+            margin-bottom: 20px;
+        }
+
+        .logo-container img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .text-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            /* Ensures text is centered (like in the image) */
+            font-size: 11pt;
+            line-height: 1.4;
+        }
+
+        .university-name {
+            font-family: oldenglishtextmt;
+            font-size: 14pt;
+            margin: 5px 0;
+            /* Adds spacing above and below */
+        }
+    </style>
+</head>
+
+<body>
+    <table width="100%" cellpadding="30" cellspacing="0">
+        <tr>
+            <td align="left" style="padding-left: 0px;">
+                <img src="$image_path" height="85">
+            </td>
+        </tr>
+    </table>
+
+
+    <div class="certificate-title">MEDICAL CERTIFICATE</div>
+
+    <p style="text-align: justify; line-height: 1.6;">
+        This is to certify that <span class="underline long">{{PATIENT_NAME}}</span>,
+        a <span class="underline short">{{PATIENT_AGE}}</span> year old
+        <span class="underline short">{{PATIENT_GENDER}}</span>, has been seen and examined on
+        <span class="underline medium">{{EXAM_DATE}}</span> at the Medical Clinic.
+    </p>
+
+    <div class="section-label">Pertinent findings:</div>
+    <div class="full-underline">{{FINDINGS}}</div>
+
+    <div class="section-label">Impression on examination:</div>
+    <div class="full-underline">{{IMPRESSION}}</div>
+
+    <div class="section-label">NOTE:</div>
+    <div class="full-underline">{{NOTE}}</div>
+
+    <div class="signature-block">
+        <strong>Visiting Physician/ University Nurse</strong><br>
+        License No: <span class="underline medium">{{LICENSE_NO}}</span><br>
+        Date Issued: <span class="underline medium">{{DATE_ISSUED}}</span>
+    </div>
+
+    <table class="footer-table">
+        <tr>
+            <td align="left">LSPU-OSAS-SF-M08</td>
+            <td align="center">Rev. 0</td>
+            <td align="right">10 Aug. 2016</td>
+        </tr>
+    </table>
+</body>
+
+</html>

@@ -1,0 +1,308 @@
+/*/* Default desktop layout - main sections side by side */
+
+/* Main Mobile Tabs */
+/*
+.main-mobile-tabs {
+    display: none;
+    justify-content: space-around;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.main-mobile-tab {
+    padding: 12px 0;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 16px;
+    flex: 1;
+    text-align: center;
+}
+
+.main-mobile-tab.active {
+    border-bottom-color: #007bff;
+    font-weight: bold;
+}
+
+.mobile-sub-tabs {
+    display: none;
+    justify-content: space-around;
+    margin: 10px 0;
+}
+
+.mobile-sub-tab {
+    padding: 8px 0;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-size: 14px;
+    flex: 1;
+    text-align: center;
+}
+
+.mobile-sub-tab.active {
+    border-bottom-color: #007bff;
+}
+
+.main-tab-content {
+    display: none;
+}
+
+.main-tab-content.active {
+    display: block;
+}
+
+@media (max-width: 768px) {
+    .main-mobile-tabs {
+        display: flex;
+    }
+
+    .content>div:not(.main-tab-content) {
+        display: none;
+    }
+
+    #info-tab.active .mobile-sub-tabs {
+        display: flex;
+    }
+
+    .main-tab-content {
+        padding: 0 15px;
+    }
+
+    .content-mobile-view {
+        display: block;
+        margin-left: 0;
+        margin-top: 70px;
+        width: 100%;
+    }
+
+    .content {
+        display: none;
+    }
+
+    #left-content,
+    #right-content {
+        width: 100% !important;
+    }
+
+    #profile {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    #info-div {
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    #profilebtn {
+        font-size: clamp(10px, 2vw, 14px);
+        width: 50%;
+        height: 30px;
+    }
+
+    #profile-div {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 5px;
+    }
+
+    #profile-pic {
+        width: 100px;
+        height: 100px;
+    }
+
+    #view-docs-btn {
+        margin: 10px auto;
+        display: block;
+        width: 95%;
+        height: 40px;
+    }
+
+    #left-profile-sec {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn {
+        height: 40px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .btn.save,
+    .btn.edit {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        height: 40px;
+        padding: 5px;
+    }
+
+    .button-icon-div {
+        width: 20px;
+        height: 25px;
+        margin-right: 5px;
+    }
+
+    #status-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        align-items: center;
+        width: 95%;
+        border-radius: 5px;
+        margin: 10px;
+        background-color: #F0F0F8;
+        padding: 10px;
+    }
+
+    .divtext {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .info-label,
+    .info-value {
+        font-size: clamp(14px, 2vw, 16px);
+        flex: 1 1 45%;
+        word-wrap: break-word;
+    }
+
+    #calendar {
+        margin-top: 15px;
+    }
+
+    #toggle-btn {
+        display: none;
+    }
+
+    .tabs {
+        display: flex;
+        justify-content: space-between;
+        background-color: #f8f9fc;
+        border-radius: 10px;
+        padding: 5px;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .tab {
+        white-space: nowrap;
+        padding: 8px 12px;
+    }
+
+    .tab-content {
+        background-color: #F0F0F8;
+        border-radius: 10px;
+        width: 100%;
+        height: auto;
+        max-height: 500px;
+        margin: 10px 0;
+        overflow-y: auto;
+        font-size: 0.9em;
+        padding: 10px;
+    }
+
+    .div-info-buttons {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin: 10px 0;
+        gap: 10px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 15px;
+        margin: 5px;
+    }
+
+    .person-info-label {
+        color: #777;
+        font-size: clamp(14px, 2vw, 16px);
+    }
+
+    .person-value-label {
+        font-weight: bold;
+        color: #2c2c2c;
+        font-size: clamp(14px, 2vw, 16px);
+    }
+
+    .info-grid p {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #3498db;
+        padding-bottom: 5px;
+        margin: 0;
+    }
+
+    /* Dropdown styles for medical history 
+    .dropdown-container {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .dropdown-header {
+        padding: 10px;
+        background-color: #e9ecef;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .dropdown-content {
+        padding: 10px;
+        background-color: white;
+        border-radius: 0 0 5px 5px;
+        display: none;
+    }
+
+    .history-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+    .history-label {
+        font-weight: bold;
+    }
+}
+
+/* Additional responsive fixes 
+@media (max-width: 480px) {
+    .main-mobile-tab {
+        font-size: 14px;
+        padding: 8px 0;
+    }
+
+    .tab {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+
+    #profile-pic {
+        width: 80px;
+        height: 80px;
+    }
+}
+*/

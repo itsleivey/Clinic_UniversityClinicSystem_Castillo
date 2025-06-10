@@ -1,0 +1,302 @@
+.backicon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: sticky;
+    top: 75px;
+    background-color: #1990ff;
+    color: white;
+    width: 50px;
+    border: none;
+    top: 0px;
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: 0 3px 10px 1px rgba(134, 134, 134, 0.63);
+}
+
+.backicon,
+img {
+    width: 15px;
+    height: 15px;
+}
+
+.history-container {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 10px;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+
+/*==========================*/
+/*Physical Examination Table*/
+.exam-notice {
+    background-color: #fff3cd;
+    padding: 12px;
+    border-left: 4px solid #ffc107;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.notice-text {
+    margin: 0;
+    color: #856404;
+    font-size: 14px;
+}
+
+.form-section-title {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #e1e5ea;
+    padding-bottom: 8px;
+}
+
+.exam-table-container {
+    overflow-x: auto;
+}
+
+.exam-table-container {
+    margin-bottom: 30px;
+}
+
+.physical-exam-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    color: #4e4e4e;
+}
+
+.physical-exam-table th,
+.physical-exam-table td {
+    border: 1px solid #dee2e6;
+    padding: 12px;
+    text-align: left;
+}
+
+.physical-exam-table th {
+    background-color: #3498db;
+    font-weight: bold;
+}
+
+.physical-exam-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.physical-exam-table:first-child {
+    margin-bottom: 30px;
+}
+
+.physical-exam-table:last-child {
+    margin-top: 20px;
+}
+
+.h1-style {
+    font-size: clamp(18px, 2vw, 24px);
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+/*==========================*/
+.form-container-diagnostic {
+    width: 100%;
+    padding: 5px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.form-container-diagnostic h1 {
+    font-size: clamp(18px, 2vw, 24px);
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}
+
+.form-container-diagnostic h2 {
+    font-size: clamp(13px, 1vw, 20px);
+    margin-top: 30px;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 5px;
+    color: #34495e;
+}
+
+.form-section {
+    margin-bottom: 25px;
+    background-color: #ffffff;
+    padding: 20px;
+    gap: 15px;
+    border-radius: 10px;
+    border: 1px solid #dcdcdc;
+}
+
+.form-section p {
+    margin-bottom: 10px;
+    font-size: clamp(13px, 1vw, 22px);
+    color: #555;
+}
+
+.form-section p strong {
+    color: #2c3e50;
+}
+
+/* Optional: Add a slight hover effect */
+.form-section:hover {
+    background-color: #f0f8ff;
+    transition: background-color 0.3s;
+}
+
+#Diagnostic-Results {
+    padding: 20px;
+    background-color: #f8fafc;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    margin-top: 20px;
+}
+
+.diagnostic-notice {
+    background-color: #f0fdf4;
+    border-left: 4px solid #16a34a;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+    display: flex;
+    gap: 15px;
+}
+
+.notice-icon {
+    font-size: 24px;
+    color: #166534;
+}
+
+.notice-content h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #166534;
+}
+
+.notice-content p {
+    margin: 5px 0;
+    color: #166534;
+    font-size: 14px;
+}
+
+.diagnostic-header {
+    color: #1e40af;
+    margin-bottom: 5px;
+}
+
+.diagnostic-subheader {
+    color: #64748b;
+    font-style: italic;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.diagnostic-placeholder {
+    padding: 15px;
+    background-color: white;
+    border-radius: 6px;
+    border: 1px dashed #cbd5e1;
+}
+
+.placeholder-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+}
+
+.placeholder-checkbox {
+    font-size: 18px;
+    color: #475569;
+}
+
+.placeholder-text {
+    color: #475569;
+}
+
+.certification-reminder {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #fffbeb;
+    border-left: 4px solid #f59e0b;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #92400e;
+}
+
+.history-table {
+    width: 100%;
+    height: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: clamp(12px, 1vw, 16px);
+    table-layout: fixed;
+    word-wrap: break-word;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.history-table th {
+    background-color: #2980b9;
+    color: white;
+    font-weight: 600;
+    padding: 14px 16px;
+    border: 1px solid #d0d0d0;
+}
+
+.history-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border: 1px solid #e0e0e0;
+    background-color: #fff;
+    vertical-align: top;
+}
+
+.history-table tbody tr:nth-child(even) {
+    background-color: #f5f7fa;
+}
+
+.history-table tbody tr:hover {
+    background-color: #ecf0f1;
+    transition: background-color 0.2s ease-in-out;
+}
+
+/*============================================================================*/
+#medrec {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border: solid 1px #ccc;
+    border-radius: 10px;
+    overflow: auto;
+}
+
+#patient-rec {
+    font-family: 'Roboto', sans-serif;
+    background: white;
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm 15mm;
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    overflow: auto;
+}
+
+.cert-controls {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.cert-controls button {
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+}

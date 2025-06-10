@@ -1,0 +1,352 @@
+Array
+(
+    [client_id] => 13145
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Regor Dimagiba
+    [agency] => Malinta
+    [address] => Quiapo
+    [age] => 55
+    [sex] => Male
+    [civil-status] => Married
+    [position] => Police
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [license_no] => 12345
+    [height] => 5'7
+    [weight] => 67
+    [blood-type] => O
+    [date_created] => 2025-06-03
+)
+Array
+(
+    [client_id] => 13145
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Regor Dimagiba
+    [agency] => BRGY TIMUGAN
+    [address] => Quiapo
+    [age] => 58
+    [sex] => Male
+    [civil-status] => Married
+    [position] => Police
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [license_no] => 54321
+    [height] => 6'0
+    [weight] => 59
+    [blood-type] => O
+    [date_created] => 2025-06-03
+)
+Array
+(
+    [client_id] => 13145
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Regor Dimagiba
+    [agency] => BRGY TIMUGAN
+    [address] => Quiapo
+    [age] => 56
+    [sex] => Male
+    [civil-status] => Married
+    [position] => Police
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [license_no] => 12323211
+    [height] => 5'7
+    [weight] => 50
+    [blood-type] => O
+    [date_created] => 2025-06-03
+)
+Array
+(
+    [client_id] => 13145
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Regor Dimagiba
+    [agency] => BRGY TIMUGAN
+    [address] => Quiapo
+    [age] => 56
+    [sex] => Male
+    [civil-status] => Married
+    [position] => Police
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [license_no] => 12323211
+    [height] => 5.8 
+    [weight] => 67
+    [blood-type] => O
+    [date_created] => 2025-06-03
+)
+Array
+(
+    [client_id] => 13145
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Regor Dimagiba
+    [agency] => BRGY TIMUGAN
+    [address] => Quiapo
+    [age] => 56
+    [sex] => Male
+    [civil-status] => Married
+    [position] => Police
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [license_no] => 12323211
+    [height] => 5.80
+    [weight] => 67.00
+    [blood-type] => O
+    [official_designation] => LSPU-LB CLINIC
+    [date_created] => 2025-06-03
+)
+Array
+(
+    [client_id] => 13145
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Regor Dimagiba
+    [agency] => BRGY TIMUGAN
+    [address] => Quiapo
+    [age] => 56
+    [sex] => Male
+    [civil-status] => Married
+    [position] => Police
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [license_no] => 12323211
+    [height] => 5.80
+    [weight] => 67.00
+    [blood-type] => O
+    [official_designation] => LSPU-LB CLINIC
+    [date_created] => 2025-06-03
+)
+Array
+(
+    [client_id] => 13147
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Michael Jay M. Castillo
+    [agency] => Malinta, Los Baños, Laguna
+    [address] => P5 Brgy. Timugan, Los Baños, Laguna
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Porfessor
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [license_no] => 123456
+    [height] => 5.00
+    [weight] => 53.00
+    [blood-type] => O
+    [official_designation] => LSPU-LB CLINIC
+    [date_created] => 2025-06-03
+)
+Array
+(
+    [client_id] => 13147
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Michael Jay M. Castillo
+    [agency] => Malinta, Los Baños, Laguna
+    [address] => P5 Brgy. Timugan, Los Baños, Laguna
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Porfessor
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [license_no] => 123456
+    [height] => 5.00
+    [weight] => 53.00
+    [blood-type] => O
+    [official_designation] => LSPU-LB CLINIC
+    [date_created] => 2025-06-04
+)
+Array
+(
+    [client_id] => 13147
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Michael Jay M. Castillo
+    [agency] => Malinta, Los Baños, Laguna
+    [address] => P5 Brgy. Timugan, Los Baños, Laguna
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Porfessor
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [license_no] => 123456
+    [height] => 5.00
+    [weight] => 53.00
+    [blood-type] => O
+    [official_designation] => LSPU-LB CLINIC
+    [date_created] => 2025-06-04
+)
+Array
+(
+    [client_id] => 13147
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Michael Jay M. Castillo
+    [agency] => Malinta, Los Baños, Laguna
+    [address] => P5 Brgy. Timugan, Los Baños, Laguna
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Porfessor
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [license_no] => 123456
+    [height] => 5.00
+    [weight] => 53.00
+    [blood-type] => O
+    [official_designation] => LSPU-LB CLINIC
+    [date_created] => 2025-06-04
+)
+Array
+(
+    [client_id] => 13147
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Michael Jay M. Castillo
+    [agency] => Malinta, Los Baños, Laguna
+    [address] => Quiapo
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Porfessor
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [license_no] => 123456
+    [height] => 5.00
+    [weight] => 53.00
+    [blood-type] => O
+    [official_designation] => LSPU-LB CLINIC
+    [date_created] => 2025-06-06
+)
+Array
+(
+    [client_id] => 13147
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Michael Jay M. Castillo
+    [agency] => Malinta, Los Baños, Laguna
+    [address] => Quiapo
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Porfessor
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [other_info] => Test Input
+    [license_no] => 123456
+    [height] => 5.00
+    [weight] => 53.00
+    [blood-type] => O
+    [official_designation] => LSPU-LB CLINIC
+    [date_created] => 2025-06-06
+)
+Array
+(
+    [client_id] => 13147
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Michael Jay M. Castillo
+    [agency] => Malinta, Los Baños, Laguna
+    [address] => Quiapo
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Porfessor
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [other_info] => Test Input Other Info
+    [license_no] => 123456
+    [height] => 5.00
+    [weight] => 53.00
+    [blood-type] => O
+    [official_designation] => LSPU-LB CLINIC
+    [date_created] => 2025-06-06
+)
+Array
+(
+    [client_id] => 13147
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Michael Jay M. Castillo
+    [agency] => Malinta, Los Baños, Laguna
+    [address] => Quiapo
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Porfessor
+    [physician_signature] => Michael
+    [physician_agency] => LSPU
+    [otherinfo] => Test Input of other info
+    [license_no] => 123456
+    [height] => 5.00
+    [weight] => 53.00
+    [blood-type] => O
+    [official_designation] => LSPU-LB CLINIC
+    [date_created] => 2025-06-06
+)

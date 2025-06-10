@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <link rel="stylesheet" href="assets/css/adminstyles.css">
+    <link rel="stylesheet" href="assets/css/calendarstyles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="header">
+        <img src="assets/images/Lspu logo.png" alt="Logo" type="image/webp" loading="lazy">
+        <div class="title">
+            <span>University</span>
+            <span>Clinic</span>
+        </div>
+        <button id="toggle-btn">
+            <img id="btnicon" src="assets/images/menu-icon.svg">
+        </button>
+        </button>
+        <div class="title">
+            <h3 id="h3calendar">Calendar</h3>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <nav class="navbar">
+            <a href="Dashboard.php">
+                <button class="buttons" id="dashboardBtn">
+                    <img src="assets/images/dashboard_icon.svg" class="button-icon-nav" loading="lazy">
+                    <span class="nav-text">Dashboard</span>
+                </button>
+            </a>
+            <a href="Manage_Clients.php">
+                <button class="buttons" id="manageclientsBtn">
+                    <img src="assets/images/manageclients_icon.svg" class="button-icon-nav" loading="lazy">
+                    <span class="nav-text">Manage Patients</span>
+                </button>
+            </a>
+            <a href="Calendar.html">
+                <button class="buttons" id="calendarBtn">
+                    <img src="assets/images/calendar_icon2.svg" class="button-icon-nav" loading="lazy">
+                    <span class="nav-text">Calendar</span>
+                </button>
+            </a>
+            <a href="index.php">
+                <button class="buttons" id="logoutbtn">
+                    <img src="assets/images/logout-icon.svg" class="button-icon-nav" loading="lazy">
+                    <span class="nav-text">Logout</span>
+                </button>
+            </a>
+        </nav>
+
+        <main class="content">
+            <div class="calendar-container">
+                <div id="calendar">
+                    <div class="Calendarheader">
+                        <p id="calendar-header-text">My Calendar</p>
+                        <select id="date-select"></select>
+                    </div>
+                    <div class="calendar">
+                        <div class="weekdays"></div>
+                        <div class="days"></div>
+                    </div>
+                    <div class="time-display" id="time"></div>
+                </div>
+            </div>
+
+            <div class="to-do-list-container">
+                <div class="to-do-list-form">
+                    <div class="to-do-list-header">
+                        <label id="to-do-list-label">To do list</label>
+                        <label id="dateLabel"></label>
+                    </div>
+
+                    <div class="to-do-list-today" id="todaySection">
+                        <div id="todoListContainer" class="to-do-list-container2"></div>
+                    </div>
+                    <button id="add-list-btn" onclick="openForm()">
+                        <img id="add-icon" src="assets/images/add-icon.svg">Add
+                    </button>
+
+                    <div class="modal" id="formModal">
+                        <div class="modal-content">
+                            <h3>Add New Event</h3>
+                            <input class="inputs" type="date" id="eventDate" required>
+                            <input class="inputs" type="time" id="eventTime" required>
+                            <input class="inputs" type="text" id="eventTitle" placeholder="Event Title" required>
+                            <input class="inputs" type="text" id="eventLocation" placeholder="Location">
+                            <textarea class="inputs" id="eventNote" rows="3" placeholder="Note"></textarea>
+                            <button class="form-btn" onclick="submitForm()">Submit</button>
+                            <button class="form-btn" onclick="closeForm()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="assets/js/calendar.js"></script>
+    <script src="assets/js/dashboard_func.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            loadToDoList();
+        });
+        const date = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = date.toLocaleDateString('en-US', options);
+        document.getElementById("dateLabel").textContent = formattedDate;
+
+        function openForm() {
+            const modal = document.getElementById("formModal");
+            modal.style.display = "block";
+
+            document.getElementById('eventDate').value = '';
+            document.getElementById('eventTime').value = '';
+            document.getElementById('eventTitle').value = '';
+            document.getElementById('eventLocation').value = '';
+            document.getElementById('eventNote').value = '';
+        }
+
+        function closeForm() {
+            document.getElementById("formModal").style.display = "none";
+        }
+
+        window.onclick = function (event) {
+            const modal = document.getElementById("formModal");
+            if (event.target == modal) {
+                closeForm();
+            }
+        }
+        function submitForm() {
+            const date = document.getElementById('eventDate').value;
+            const time = document.getElementById('eventTime').value;
+            const event = document.getElementById('eventTitle').value;
+            const location = document.getElementById('eventLocation').value;
+            const noted = document.getElementById('eventNote').value;
+
+            if (!date || !time || !event) {
+                alert('Please fill in Date, Time, and Event.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('date', date);
+            formData.append('time', time);
+            formData.append('event', event);
+            formData.append('location', location);
+            formData.append('noted', noted);
+
+            fetch('todo_functions.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert(data.message);
+                        closeForm();
+                        loadToDoList();
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while adding the task');
+                });
+        }
+
+        function loadToDoList() {
+            fetch('todo_functions.php')
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(`Server returned ${res.status} ${res.statusText}`);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log('Received data:', data); // Debugging line
+                    const container = document.getElementById('todoListContainer');
+                    container.innerHTML = '';
+
+                    if (Array.isArray(data) && data.length > 0) {
+                        data.forEach(item => {
+                            if (!item.todolistid) {
+                                console.warn('Missing todolistid in item:', item);
+                                return;
+                            }
+
+                            const task = document.createElement('div');
+                            task.className = 'to-do-form';
+                            task.dataset.id = item.todolistid;
+
+                            task.innerHTML = `
+            <label class="task-date">${item.date || 'No date'}</label>
+            <div class="to-do-info">
+              <label>Time: ${item.time ? formatTime(item.time) : 'No time'}</label>
+              <label>Event: ${item.event || 'No title'}</label>
+              <div class="locationdiv">
+                <img src="assets/images/location-icon.svg" alt="Location Icon">
+                <label>${item.location || 'No location'}</label>
+              </div>
+            </div>
+            <div class="to-do-info2">
+              <textarea readonly>${item.noted || ''}</textarea>
+              <button class="delete-btn" data-id="${item.todolistid}">
+                <img src="assets/images/delete-icon.svg" alt="Delete">
+              </button>
+            </div>
+          `;
+
+                            container.appendChild(task);
+                        });
+
+                        container.addEventListener('click', (e) => {
+                            if (e.target.closest('.delete-btn')) {
+                                const btn = e.target.closest('.delete-btn');
+                                const taskId = btn.dataset.id;
+                                const taskElement = btn.closest('.to-do-form');
+                                deleteTask(taskId, taskElement);
+                            }
+                        });
+
+                    } else {
+                        container.innerHTML = '<p class="no-tasks">No tasks found. Click "Add" to create one.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error loading to-do list:', error);
+                    document.getElementById('todoListContainer').innerHTML = `
+        <p class="error-msg">Error loading tasks. Please refresh or try again later.</p>
+      `;
+                });
+        }
+
+        function formatTime(timeString) {
+            if (!timeString) return '';
+
+            return timeString.replace(/(\d+:\d+):\d+/, '$1');
+        }
+
+        function deleteTask(taskId, taskElement) {
+            if (!taskId) {
+                alert('Invalid task ID');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('todolistid', taskId);
+            formData.append('action', 'delete');
+
+            fetch('todo_functions.php', {
+                method: 'POST',
+                body: formData
+            })
+                .then(res => {
+                    if (!res.ok) {
+                        throw new Error(`Server error: ${res.status}`);
+                    }
+                    return res.json();
+                })
+                .then(data => {
+                    console.log('Delete response:', data);
+                    if (data.status === 'success') {
+                        taskElement.remove();
+                        showNotification('Task deleted successfully');
+                    } else {
+                        throw new Error(data.message || 'Failed to delete task');
+                    }
+                })
+                .catch(error => {
+                    console.error('Delete error:', error);
+                    alert(`Delete failed: ${error.message}`);
+                });
+        }
+
+        function showNotification(message) {
+
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadToDoList();
+        });
+    </script>
+</body>
+
+</html>
