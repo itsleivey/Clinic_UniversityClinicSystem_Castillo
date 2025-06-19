@@ -1,20 +1,28 @@
 document.querySelectorAll('.tab').forEach(tab => {
   tab.addEventListener('click', function () {
-
     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-
-    document.querySelectorAll('#personal-info-div, #medical-history, #np_medical-history, #medical-cert, #visit-history, #medrec, #rx').forEach(content => {
+    document.querySelectorAll('#personal-info-div, #medical-history, #medical-cert, #visit-history, #medrec, #rx, #np_medical-history').forEach(content => {
       content.style.display = 'none';
     });
 
     this.classList.add('active');
-
     const contentId = this.getAttribute('data-target');
     const targetContent = document.getElementById(contentId);
     if (targetContent) {
       targetContent.style.display = 'block';
     }
   });
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  const activeTab = document.querySelector('.tab.active');
+  if (activeTab) {
+    const contentId = activeTab.getAttribute('data-target');
+    const targetContent = document.getElementById(contentId);
+    if (targetContent) {
+      targetContent.style.display = 'block';
+    }
+  }
 });
 
 

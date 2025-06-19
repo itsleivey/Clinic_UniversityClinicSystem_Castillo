@@ -640,7 +640,7 @@ $fullName = trim($givenName . $surname);
 
                     </div>
                 <?php endif; ?>
-                <div id="personal-info-div" style="<?= ($clienttype === 'Freshman' || $clienttype === 'NewPersonnel') ? 'display: flex;' : 'display: none; overflow: auto;' ?>">
+                <div id="personal-info-div" style="<?= ($clienttype === 'Freshman' || $clienttype === 'NewPersonnel') ? 'display: flex;' : 'display: block; overflow: auto;' ?>">
                     <div class="button-group">
                         <button id="editButton" type="button" class="personalform-buttons">Edit</button>
                         <button id="backButton" type="button" class="personalform-buttons" style="display: none;">Back</button>
@@ -1408,24 +1408,34 @@ $fullName = trim($givenName . $surname);
                                 <p>b. Attach this certificate to original appointment, transfer and reemployment.</p>
                                 <p>c. The results of the following pre-employment medical/physical must be attached to this form:</p>
 
-                                <div class="checkbox-group">
-                                    <input type="checkbox" id="blood-test" name="blood_test" value="1" <?= !empty($blood_test) ? 'checked' : '' ?>>
-                                    <label for="blood-test">Blood Test</label>
+                                <div class="check-box-parent-div">
+                                    <div class="checkbox-group">
+                                        <div class="checkboxes">
+                                            <input type="checkbox" id="blood-test" name="blood_test" value="1" <?= !empty($blood_test) ? 'checked' : '' ?>>
+                                            <label for="blood-test">Blood Test</label>
+                                        </div>
+                                        <div class="checkboxes">
+                                            <input type="checkbox" id="urinalysis" name="urinalysis" value="1" <?= !empty($urinalysis) ? 'checked' : '' ?>>
+                                            <label for="urinalysis">Urinalysis</label>
 
-                                    <input type="checkbox" id="urinalysis" name="urinalysis" value="1" <?= !empty($urinalysis) ? 'checked' : '' ?>>
-                                    <label for="urinalysis">Urinalysis</label>
-
-                                    <input type="checkbox" id="xray" name="chest_xray" value="1" <?= !empty($chest_xray) ? 'checked' : '' ?>>
-                                    <label for="xray">Chest X-Ray</label>
-
-                                    <input type="checkbox" id="drug-test" name="drug_test" value="1" <?= !empty($drug_test) ? 'checked' : '' ?>>
-                                    <label for="drug-test">Drug Test</label>
-
-                                    <input type="checkbox" id="psych-test" name="psych_test" value="1" <?= !empty($psych_test) ? 'checked' : '' ?>>
-                                    <label for="psych-test">Psychological Test</label>
-
-                                    <input type="checkbox" id="neuro-test" name="neuro_test" value="1" <?= !empty($neuro_test) ? 'checked' : '' ?>>
-                                    <label for="neuro-test">Neuro-Psychiatric Examination</label>
+                                        </div>
+                                        <div class="checkboxes">
+                                            <input type="checkbox" id="xray" name="chest_xray" value="1" <?= !empty($chest_xray) ? 'checked' : '' ?>>
+                                            <label for="xray">Chest X-Ray</label>
+                                        </div>
+                                        <div class="checkboxes">
+                                            <input type="checkbox" id="drug-test" name="drug_test" value="1" <?= !empty($drug_test) ? 'checked' : '' ?>>
+                                            <label for="drug-test">Drug Test</label>
+                                        </div>
+                                        <div class="checkboxes">
+                                            <input type="checkbox" id="psych-test" name="psych_test" value="1" <?= !empty($psych_test) ? 'checked' : '' ?>>
+                                            <label for="psych-test">Psychological Test</label>
+                                        </div>
+                                        <div class="checkboxes">
+                                            <input type="checkbox" id="neuro-test" name="neuro_test" value="1" <?= !empty($neuro_test) ? 'checked' : '' ?>>
+                                            <label for="neuro-test">Neuro-Psychiatric Examination</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 

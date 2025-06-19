@@ -2,9 +2,10 @@
 require_once 'config/database.php';
 header('Content-Type: text/html');
 
-function getFilteredClients($clientType, $idFilter = '')
+function getFilteredClients($clientType, $globalSearch = '', $page = 1, $perPage = 10)
 {
     $pdo = pdo_connect_mysql();
+    $offset = ($page - 1) * $perPage;
 
     $sql = "
         SELECT 
@@ -20,21 +21,68 @@ function getFilteredClients($clientType, $idFilter = '')
         WHERE c.ClientType = :clientType
     ";
 
-    if (!empty($idFilter)) {
-        $sql .= " AND c.ClientID = :idFilter";
+    $searchTerms = [];
+    if (!empty($globalSearch)) {
+        $keywords = explode(' ', $globalSearch);
+        foreach ($keywords as $index => $keyword) {
+            $param = ":keyword$index";
+            $searchParts[] = "(c.ClientID LIKE $param OR CONCAT(c.Firstname, ' ', c.Lastname) LIKE $param OR c.Email LIKE $param OR c.Department LIKE $param OR c.ClientType LIKE $param)";
+            $searchTerms[$param] = "%$keyword%";
+        }
+
+        if (!empty($searchParts)) {
+            $sql .= " AND (" . implode(" AND ", $searchParts) . ")";
+        }
     }
 
-    $sql .= " ORDER BY c.ClientID DESC";
+    $sql .= " ORDER BY c.ClientID DESC LIMIT :limit OFFSET :offset";
 
     $stmt = $pdo->prepare($sql);
     $stmt->bindValue(':clientType', $clientType, PDO::PARAM_STR);
-    if (!empty($idFilter)) {
-        $stmt->bindValue(':idFilter', $idFilter, PDO::PARAM_STR);
+    $stmt->bindValue(':limit', $perPage, PDO::PARAM_INT);
+    $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+
+    foreach ($searchTerms as $param => $value) {
+        $stmt->bindValue($param, $value, PDO::PARAM_STR);
     }
 
     $stmt->execute();
     return $stmt->fetchAll();
 }
+
+function countFilteredClients($clientType, $globalSearch = '')
+{
+    $pdo = pdo_connect_mysql();
+
+    $sql = "
+        SELECT COUNT(*) FROM clients c
+        LEFT JOIN personalinfo pi ON c.ClientID = pi.ClientID
+        WHERE c.ClientType = :clientType
+    ";
+
+    $searchTerms = [];
+    if (!empty($globalSearch)) {
+        $keywords = explode(' ', $globalSearch);
+        foreach ($keywords as $index => $keyword) {
+            $param = ":keyword$index";
+            $searchParts[] = "(c.ClientID LIKE $param OR CONCAT(c.Firstname, ' ', c.Lastname) LIKE $param OR c.Email LIKE $param OR c.Department LIKE $param OR c.ClientType LIKE $param)";
+            $searchTerms[$param] = "%$keyword%";
+        }
+
+        if (!empty($searchParts)) {
+            $sql .= " AND (" . implode(" AND ", $searchParts) . ")";
+        }
+    }
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindValue(':clientType', $clientType, PDO::PARAM_STR);
+    foreach ($searchTerms as $param => $value) {
+        $stmt->bindValue($param, $value, PDO::PARAM_STR);
+    }
+    $stmt->execute();
+    return $stmt->fetchColumn();
+}
+
 
 $clientType = $_GET['client_type'] ?? '';
 $idFilter = $_GET['id_filter'] ?? '';
@@ -73,11 +121,17 @@ if (!empty($clientType)) {
     exit;
 }
 
-$students = getFilteredClients('Student', $_GET['id_filter'] ?? '');
-$faculties = getFilteredClients('Faculty', $_GET['id_filter'] ?? '');
-$personnel = getFilteredClients('Personnel', $_GET['id_filter'] ?? '');
-$freshman = getFilteredClients('Freshman', $_GET['id_filter'] ?? '');
-$newpersonnel = getFilteredClients('NewPersonnel', $_GET['id_filter'] ?? '');
+$clientType = $_GET['client_type'] ?? 'Student';
+$idFilter = $_GET['id_filter'] ?? '';
+$page = max(1, (int)($_GET['page'] ?? 1));
+$perPage = 10;
+
+$totalClients = countFilteredClients($clientType, $idFilter);
+$totalPages = ceil($totalClients / $perPage);
+
+$clients = getFilteredClients($clientType, $idFilter, $page, $perPage);
+
+
 function fetchStudents($limit = 10, $offset = 0)
 {
     $pdo = pdo_connect_mysql();

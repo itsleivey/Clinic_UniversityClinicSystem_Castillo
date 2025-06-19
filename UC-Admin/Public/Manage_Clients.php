@@ -83,7 +83,7 @@ $newpersonnel = fetchNewPersonnel();
                                     <input type="text"
                                         id="searchInput"
                                         name="id_filter"
-                                        placeholder="Search by ID..."
+                                        placeholder="Search ID, Name, Email, Department, ClientType"
                                         value="<?= htmlspecialchars($_GET['id_filter'] ?? '') ?>"
                                         maxlength="200">
                                     <i class="fas fa-search"></i>
@@ -94,22 +94,6 @@ $newpersonnel = fetchNewPersonnel();
                                 </div>
                             </form>
                         </div>
-                        <!--
-                        <select id="department" onclick="filterTabledep()" name="department" class="dep-dropdown" required>
-                            <option value="">Select Department (Default)</option>
-                            <option value="College of Computer Studies" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Computer Studies') ? 'selected' : '' ?>>College of Computer Studies</option>
-                            <option value="College of Food Nutrition and Dietetics" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Food Nutrition and Dietetics') ? 'selected' : '' ?>>College of Food Nutrition and Dietetics</option>
-                            <option value="College of Industrial Technology" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Industrial Technology') ? 'selected' : '' ?>>College of Industrial Technology</option>
-                            <option value="College of Teacher Education" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Teacher Education') ? 'selected' : '' ?>>College of Teacher Education</option>
-                            <option value="College of Agriculture" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Agriculture') ? 'selected' : '' ?>>College of Agriculture</option>
-                            <option value="College of Arts and Sciences" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Arts and Sciences') ? 'selected' : '' ?>>College of Arts and Sciences</option>
-                            <option value="College of Business Administration and Accountancy" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Business Administration and Accountancy') ? 'selected' : '' ?>>College of Business Administration and Accountancy</option>
-                            <option value="College of Engineering" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Engineering') ? 'selected' : '' ?>>College of Engineering</option>
-                            <option value="College of Criminal Justice Education" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Criminal Justice Education') ? 'selected' : '' ?>>College of Criminal Justice Education</option>
-                            <option value="College of Fisheries" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Fisheries') ? 'selected' : '' ?>>College of Fisheries</option>
-                            <option value="College of Hospitality Management and Tourism" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Hospitality Management and Tourism') ? 'selected' : '' ?>>College of Hospitality Management and Tourism</option>
-                            <option value="College of Nursing and Allied Health" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Nursing and Allied Health') ? 'selected' : '' ?>>College of Nursing and Allied Health</option>
-                        </select>-->
                     </div>
 
                     <button type="button" class="btn-add-patient" onclick="openAddPatientModal()">
