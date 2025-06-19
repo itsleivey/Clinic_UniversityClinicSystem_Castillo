@@ -747,14 +747,14 @@ if ($clientID) {
                     <span class="nav-text">Manage Profile</span>
                 </button>
             </a>
-            <?php if (strtolower($clientType) === 'Newpersonel'): ?>
+    
                 <a href="Medical_Form.php">
                     <button class="buttons" id="medicalBtn">
                         <img src="UC-Client/assets/images/Form-icon.svg" class="button-icon-nav" loading="lazy">
                         <span class="nav-text">Medical Form</span>
                     </button>
                 </a>
-            <?php endif; ?>
+           
             <form action="logout.php" method="post">
                 <button type="submit" class="buttons" id="logoutbtn">
                     <img src="UC-Client/assets/images/logout-icon.svg" class="button-icon-nav" loading="lazy">
