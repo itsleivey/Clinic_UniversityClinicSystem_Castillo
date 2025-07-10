@@ -168,7 +168,8 @@ try {
                 <div><span class="field-label">BP:</span> <span class="underline">$bp</span></div>
                 <div><span class="field-label">HR/PR:</span> <span class="underline">$hr</span></div>
                 <div><span class="field-label">Temp:</span> <span class="underline">$temp</span></div>
-                <div><span class="field-label">O₂ Sat:</span> <span class="underline">$o2sat</span></div>
+                <div><span class="field-label">O<sub>2</sub> Sat:</span> <span class="underline">$o2sat</span></div>
+
             </div>
         </td>
         

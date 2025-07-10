@@ -27,7 +27,7 @@ function getUserDataFromDatabase(PDO $pdo, int $clientId): ?array {
             DateOfBirth, Status, Course, SchoolYearEntered,
             CurrentAddress, ContactNumber,
             MothersName, FathersName, GuardiansName,
-            EmergencyContactName, EmergencyContactRelationship
+            EmergencyContactName, EmergencyContactRelationship, EmergencyContactPerson
         FROM personalinfo
         WHERE ClientID = :ClientID
     ");
@@ -44,13 +44,13 @@ function insertUserData(PDO $pdo, int $clientId, array $d): bool {
                 DateOfBirth, Status, Course, SchoolYearEntered,
                 CurrentAddress, ContactNumber,
                 MothersName, FathersName, GuardiansName,
-                EmergencyContactName, EmergencyContactRelationship
+                EmergencyContactName, EmergencyContactRelationship, EmergencyContactPerson
             ) VALUES (
                 :ClientID, :Surname, :GivenName, :MiddleName, :Age, :Gender,
                 :DateOfBirth, :Status, :Course, :SchoolYearEntered,
                 :CurrentAddress, :ContactNumber,
                 :MothersName, :FathersName, :GuardiansName,
-                :EmergencyContactName, :EmergencyContactRelationship
+                :EmergencyContactName, :EmergencyContactRelationship, :EmergencyContactPerson
             )";
     $stmt = $pdo->prepare($sql);
     return $stmt->execute(array_merge($d, ['ClientID' => $clientId]));
@@ -76,13 +76,14 @@ function updateUserData(PDO $pdo, int $clientId, array $d): bool {
                 FathersName = :FathersName,
                 GuardiansName = :GuardiansName,
                 EmergencyContactName = :EmergencyContactName,
-                EmergencyContactRelationship = :EmergencyContactRelationship
+                EmergencyContactRelationship = :EmergencyContactRelationship,
+                EmergencyContactPerson = :EmergencyContactPerson
             WHERE ClientID = :ClientID";
     $stmt = $pdo->prepare($sql);
     return $stmt->execute(array_merge($d, ['ClientID' => $clientId]));
 }
 
-// Handle POST submission
+// Handle POST submission (insert or update)
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Surname'])) {
     $clientId = filter_input(INPUT_POST, 'ClientID', FILTER_VALIDATE_INT);
     if (!$clientId && isset($_SESSION['ClientID'])) {
@@ -116,6 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Surname'])) {
         'GuardiansName' => filter_input(INPUT_POST, 'GuardiansName', FILTER_SANITIZE_SPECIAL_CHARS),
         'EmergencyContactName' => filter_input(INPUT_POST, 'EmergencyContactName', FILTER_SANITIZE_SPECIAL_CHARS),
         'EmergencyContactRelationship' => filter_input(INPUT_POST, 'EmergencyContactRelationship', FILTER_SANITIZE_SPECIAL_CHARS),
+        'EmergencyContactPerson' => filter_input(INPUT_POST, 'EmergencyContactPerson', FILTER_SANITIZE_SPECIAL_CHARS),
     ];
 
     if (empty($d['Surname']) || empty($d['GivenName']) || $d['Age'] === false) {
@@ -148,4 +150,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['Surname'])) {
     exit;
 }
 
-// Optional: return existing data for AJAX pre-fill (not needed unless requested)
+// Optional: Return existing data for AJAX pre-fill (if requested via GET & ClientID in session)
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_SESSION['ClientID'])) {
+    $clientId = (int)$_SESSION['ClientID'];
+    $data = getUserDataFromDatabase($pdo, $clientId);
+    echo json_encode(['success' => true, 'data' => $data ?: []]);
+    exit;
+}

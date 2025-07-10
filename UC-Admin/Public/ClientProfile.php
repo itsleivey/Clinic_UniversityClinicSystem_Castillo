@@ -153,33 +153,33 @@ $date_created = date('Y-m-d'); // default today
 if ($clientID) {
     $stmt = $pdo->prepare("SELECT * FROM newpersonnel_form WHERE client_id = :client_id ORDER BY form_id Desc");
     $stmt->execute(['client_id' => $clientID]);
-    $data = $stmt->fetch(PDO::FETCH_ASSOC);
+    $npdata = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    if ($data) {
-        $name = $data['full_name'] ?? '';
-        $agency = $data['agency_address'] ?? '';
-        $npaddress = $data['address'] ?? '';
-        $npage = $data['age'] ?? '';
-        $sex = $data['sex'] ?? '';
-        $civil_status = $data['civil_status'] ?? '';
-        $position = $data['proposed_position'] ?? '';
+    if ($npdata) {
+        $name = $npdata['full_name'] ?? '';
+        $agency = $npdata['agency_address'] ?? '';
+        $npaddress = $npdata['address'] ?? '';
+        $npage = $npdata['age'] ?? '';
+        $sex = $npdata['sex'] ?? '';
+        $civil_status = $npdata['civil_status'] ?? '';
+        $position = $npdata['proposed_position'] ?? '';
 
-        $blood_test = !empty($data['blood_test']);
-        $urinalysis = !empty($data['urinalysis']);
-        $chest_xray = !empty($data['chest_xray']);
-        $drug_test = !empty($data['drug_test']);
-        $psych_test = !empty($data['psych_test']);
-        $neuro_test = !empty($data['neuro_test']);
+        $blood_test = !empty($npdata['blood_test']);
+        $urinalysis = !empty($npdata['urinalysis']);
+        $chest_xray = !empty($npdata['chest_xray']);
+        $drug_test = !empty($npdata['drug_test']);
+        $psych_test = !empty($npdata['psych_test']);
+        $neuro_test = !empty($npdata['neuro_test']);
 
-        $physician_signature = $data['physician_signature'] ?? '';
-        $physician_agency = $data['physician_agency'] ?? '';
-        $other_info = $data["OtherInfo"] ?? '';
-        $license_no = $data['physician_license'] ?? '';
-        $height = $data['height'] ?? '';
-        $weight = $data['weight'] ?? '';
-        $blood_type = $data['blood_type'] ?? '';
-        $date_created = $data['date_created'] ?? date('Y-m-d');
-        $official_designation = $data['physician_designation'] ?? '';
+        $physician_signature = $npdata['physician_signature'] ?? '';
+        $physician_agency = $npdata['physician_agency'] ?? '';
+        $other_info = $npdata["OtherInfo"] ?? '';
+        $license_no = $npdata['physician_license'] ?? '';
+        $height = $npdata['height'] ?? '';
+        $weight = $npdata['weight'] ?? '';
+        $blood_type = $npdata['blood_type'] ?? '';
+        $date_created = $npdata['date_created'] ?? date('Y-m-d');
+        $official_designation = $npdata['physician_designation'] ?? '';
     }
 }
 //===============================================================================================================
@@ -196,6 +196,10 @@ $address = $personalinfo['CurrentAddress'] ?? '';
 $course = $personalinfo['Course'] ?? '';
 
 $fullName = trim($givenName . $surname);
+//=====================================================
+$stmt = $pdo->prepare("SELECT * FROM femalehealthhistory WHERE ClientID = ?");
+$stmt->execute([$clientID]);
+$data = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 
@@ -324,114 +328,13 @@ $fullName = trim($givenName . $surname);
                     </div>
 
                 </div>
-
-                <div class="progress-action-div"
-                    style="<?= ($clienttype !== 'Freshman') ? 'display: none;' : '' ?>">
-
-                    <div class="progress-visual-1">
-                        <div class="right-div-header">
-                            <h3 class="info-value">
-                                <i class="fas fa-file-medical-alt"></i> Progress
-                            </h3>
-                        </div>
-                        <!--
-                        <p class="info-label">
-                            <i class="fas fa-calendar-day"></i> Date of Issuance:
-                            <span class="info-value"><?= htmlspecialchars($medicalCertData['DateIssued'] ?? '') ?></span>
-                        </p>
-    -->
-                        <script>
-                            const issuanceDate = new Date("<?= $medicalCertData['DateIssued'] ?? '' ?>");
-                        </script>
-
-                        <p class="info-label">
-                            <i class="fas fa-info-circle"></i> Status:
-                            <span id="statusDisplay" class="info-value <?= $statusClass ?>">
-                                <?= htmlspecialchars(ucfirst($currentStatus)) ?>
-                            </span>
-                        </p>
-
-                        <p class="info-label">
-                            <i class="fas fa-calendar-alt"></i> Date:
-                            <span id="DateDisplay" class="info-value"><?= htmlspecialchars(ucfirst($actionDate)) ?></span>
-                        </p>
-
-                        <p class="info-label">
-                            <i class="fas fa-clock"></i> Time:
-                            <span id="TimeDisplay" class="info-value"><?= htmlspecialchars(ucfirst($actionTime)) ?></span>
-                        </p>
-                    </div>
-
-                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-                    <div class="progress-visual">
-                        <div class="vertical-steps-container">
-                            <?php
-                            $gender = strtolower($personalInfo['Gender'] ?? '--.--.--');
-
-
-                            $steps = [
-                                'Medical & Dental History' => 'medicaldentalhistory',
-                                'Family Medical History' => 'familymedicalhistory',
-                                'Personal Social History' => 'personalsocialhistory',
-                                'Female Health History' => 'femalehealthhistory',
-                                'Physical Examination' => 'physicalexamination',
-                                'Diagnostic Results' => 'diagnosticresults',
-                                'Medical Certificate' => 'medicalcertificate'
-                            ];
-
-                            $completed = [];
-                            $stepIndex = 0;
-                            $currentStepIndex = -1;
-
-                            foreach ($steps as $label => $table) {
-                                if ($table === 'femalehealthhistory' && $gender !== 'female') {
-                                    continue;
-                                }
-
-                                $stmt = $pdo->prepare("SELECT COUNT(*) FROM `$table` WHERE ClientID = ? AND historyID = ?");
-                                $stmt->execute([$clientID, $historyID]);
-                                $count = $stmt->fetchColumn();
-
-                                $completed[$label] = ($count > 0);
-                                if (!$count && $currentStepIndex == -1) {
-                                    $currentStepIndex = $stepIndex;
-                                }
-                                $stepIndex++;
-                            }
-
-                            $stepNumber = 1;
-                            $stepIndex = 0;
-                            foreach ($completed as $label => $is_done) {
-                                $status_class = $is_done ? 'done' : ($stepIndex === $currentStepIndex ? 'current' : 'pending');
-                                echo "<div class='vertical-step $status_class'>";
-                                echo "<span class='step-icon'>";
-                                if ($status_class === 'done') {
-                                    echo "<i class='fas fa-circle-check'></i>";
-                                } elseif ($status_class === 'current') {
-                                    echo "<i class='fas fa-hourglass-half'></i>";
-                                } else {
-                                    echo "<i class='fas fa-clock'></i>";
-                                }
-
-                                echo "</span>";
-                                echo "<div class='step-text'><div class='step-number'>STEP $stepNumber</div><div class='step-label'>$label</div></div>";
-                                echo "</div>";
-                                $stepNumber++;
-                                $stepIndex++;
-                            }
-                            ?>
-                        </div>
-                    </div>
-
-                </div>
             </div>
 
             <div id="nav-div-1" class="nav-div" style="display: block;">
                 <div class="tabs">
                     <div class="tabs-child">
                         <?php if (!$showLimitedTabs): ?>
-                            <div class="tab active" data-target="visit-history">
+                            <div class="tab" data-target="visit-history">
                                 <img class="cp-btn-img"
                                     src="assets/images/time-past 2.svg"
                                     data-active="assets/images/time-past 2.svg"
@@ -440,7 +343,7 @@ $fullName = trim($givenName . $surname);
                             </div>
                         <?php endif; ?>
 
-                        <div class="tab <?php echo $showLimitedTabs ? 'active' : ''; ?>" data-target="personal-info-div">
+                        <div class="tab <?php echo $showLimitedTabs ? 'active' : 'active'; ?>" data-target="personal-info-div">
                             <img class="cp-btn-img"
                                 src="assets/images/personalinfo2.svg"
                                 data-active="assets/images/personalinfo1.svg"
@@ -448,7 +351,8 @@ $fullName = trim($givenName . $surname);
                             Personal Information
                         </div>
 
-                        <?php if ($clienttype === 'Freshman') : ?>
+                        <?php if ($clienttype === 'Freshman'): ?>
+
                             <div class="tab" data-target="medical-history">
                                 <img class="cp-btn-img"
                                     src="assets/images/medicalhistory2.svg"
@@ -521,7 +425,8 @@ $fullName = trim($givenName . $surname);
                 </style>
 
                 <?php if (!$showLimitedTabs): ?>
-                    <div id="visit-history" class="department-table-container" style="<?= ($clienttype === 'Freshman' || $clienttype === 'NewPersonnel') ? 'display: none;' : 'display: block;' ?>">
+                    <div id="visit-history" class="department-table-container" style="display: none;">
+
                         <div class="filter-container">
                             <div class="filter-group">
                                 <label class="person-value-label-history" for="idSearch">Search by ID:</label>
@@ -640,7 +545,8 @@ $fullName = trim($givenName . $surname);
 
                     </div>
                 <?php endif; ?>
-                <div id="personal-info-div" style="<?= ($clienttype === 'Freshman' || $clienttype === 'NewPersonnel') ? 'display: flex;' : 'display: block; overflow: auto;' ?>">
+                <div id="personal-info-div" style="display: flex">
+
                     <div class="button-group">
                         <button id="editButton" type="button" class="personalform-buttons">Edit</button>
                         <button id="backButton" type="button" class="personalform-buttons" style="display: none;">Back</button>
@@ -809,7 +715,13 @@ $fullName = trim($givenName . $surname);
                                 </div>
                             </div>
 
+                            <div class="form-row">
+                                <div>
+                                    <label for="EmergencyGuardiansName"><i class="fa-solid fa-user-shield"></i> Name of Contact Person in CASE OF EMERGENCY</label>
+                                    <input type="text" id="EmergencyContactPerson" name="EmergencyContactPerson" placeholder="(REQUIRED)" value="<?= htmlspecialchars($personalInfo['EmergencyContactPerson'] ?? '') ?>">
 
+                                </div>
+                            </div>
                             <button class="form-buttons" type="submit">Save</button>
                         </form>
 
@@ -854,6 +766,7 @@ $fullName = trim($givenName . $surname);
 
                 </div>
 
+
                 <div id="medical-history" style="display: none;">
                     <div class="medtabs">
                         <div class="medtab active" data-target="medicaldentalhistory">Medical & Dental History</div>
@@ -862,6 +775,12 @@ $fullName = trim($givenName . $surname);
                         <div class="medtab" data-target="menstrualHistory">Mentrual History</div>
                         <div class="medtab" data-target="physicalExamination">Physical Examination</div>
                         <div class="medtab" data-target="diagnosticResults">Diagnostic Results</div>
+                        <a href="manageclients.dbf/medrecords_generatepdf.php?ClientID=<?= $clientID ?>" target="_blank">
+                            <button style="background-color: #3498db; color: white; border: none;" class="medtab" type="button">
+                                Save as PDF
+                            </button>
+                        </a>
+
                     </div>
                     <div class="medinfotable-div" id="medicaldentalhistory" style="display: block;">
                         <table class="history-table">
@@ -1909,110 +1828,6 @@ $fullName = trim($givenName . $surname);
                     </div>
 
                 </div>
-
-
-                <!--
-
-                <div id="logbook" class="logbookcontainer" style="display: none;">
-                    <div class="log-book-head">
-                        <h3>Logbook Records</h3>
-                        <button id="openModalBtn" class="add-btn"><i class="fas fa-plus"></i> Add to Logbook</button>
-                    </div>
-
-                    <div id="logbookModal" class="modal">
-                        <div class="modal-content">
-                            <span class="closeBtn">&times;</span>
-                            <h2><i class="fas fa-notes-medical"></i> Add Logbook Entry</h2>
-                            <form id="logbookForm">
-                                <input type="hidden" name="ClientID" value="<?= htmlspecialchars($clientID) ?>">
-
-                                <label>Name:</label>
-                                <input type="text" name="name" required>
-
-                                <label>Course:</label>
-                                <input type="text" name="course" required>
-
-                                <label>Year:</label>
-                                <input type="number" name="year" required>
-
-                                <label>Section:</label>
-                                <input type="text" name="section" required>
-
-                                <label>Start Time:</label>
-                                <input type="time" name="time_started" required>
-
-                                <label>End Time:</label>
-                                <input type="time" name="time_finished" required>
-
-                                <label>Medication/Treatment:</label>
-                                <input type="text" name="medication_treatment" required>
-
-                                <label>Illness:</label>
-                                <input type="text" name="illness" required>
-
-                                <label>Remarks:</label>
-                                <textarea name="remarks"></textarea>
-
-                                <button type="submit" class="submit-btn">
-                                    <i class="fas fa-paper-plane"></i> Submit
-                                </button>
-                            </form>
-
-                            <div id="successAlert" style="display:none; color:green; font-weight:bold; margin-top: 10px;">
-                                ✅ Logbook entry added successfully!
-                            </div>
-                        </div>
-                    </div>
-
-                    <table id="logbookTable">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Name</th>
-                                <th>Course</th>
-                                <th>Year</th>
-                                <th>Section</th>
-                                <th>Time Started</th>
-                                <th>Time Finished</th>
-                                <th>Medication/Treatment</th>
-                                <th>Illness</th>
-                                <th>Remarks</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            // PHP helper function to convert 24-hour to 12-hour format
-                            function convertTo12Hour($time24)
-                            {
-                                $time = DateTime::createFromFormat('H:i', $time24);
-                                return $time ? $time->format('h:i A') : $time24;
-                            }
-                            ?>
-
-                            <?php if (!empty($logbookEntries)): ?>
-                                <?php foreach ($logbookEntries as $row): ?>
-                                    <tr style="background-color: #f9f9f9;">
-                                        <td><?= htmlspecialchars($row['log_date']) ?></td>
-                                        <td><?= htmlspecialchars($row['name']) ?></td>
-                                        <td><?= htmlspecialchars($row['course']) ?></td>
-                                        <td><?= htmlspecialchars($row['year']) ?></td>
-                                        <td><?= htmlspecialchars($row['section']) ?></td>
-                                        <td><?= htmlspecialchars(convertTo12Hour($row['time_started'])) ?></td>
-                                        <td><?= htmlspecialchars(convertTo12Hour($row['time_finished'])) ?></td>
-                                        <td><?= htmlspecialchars($row['medication_treatment']) ?></td>
-                                        <td><?= htmlspecialchars($row['illness']) ?></td>
-                                        <td><?= htmlspecialchars($row['remarks']) ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="10">No logbook records found for this client.</td>
-                                </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-                            -->
                 <script>
                     // Convert 24-hour time string to 12-hour AM/PM format
                     function convertTo12Hour(time24) {

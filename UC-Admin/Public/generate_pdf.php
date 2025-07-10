@@ -1,10 +1,11 @@
 <?php
 session_start();
 require_once 'vendor/autoload.php';
-
+require_once 'config/database.php'; 
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
+$pdo = pdo_connect_mysql();
 if (!isset($_GET['ClientID']) || !is_numeric($_GET['ClientID'])) {
     die('Invalid certificate ID provided.');
 }
@@ -12,19 +13,7 @@ if (!isset($_GET['ClientID']) || !is_numeric($_GET['ClientID'])) {
 $certificateId = (int)$_GET['ClientID'];
 
 // Database connection
-try {
-    $pdo = new PDO(
-        'mysql:host=localhost;dbname=University_Clinic_System;port=4307',
-        'root',
-        '181414',
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-        ]
-    );
-} catch (PDOException $e) {
-    die('Database connection failed: ' . $e->getMessage());
-}
+
 
 // Fetch medical certificate data
 try {

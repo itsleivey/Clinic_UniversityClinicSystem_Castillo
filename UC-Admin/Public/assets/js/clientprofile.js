@@ -14,6 +14,23 @@ document.querySelectorAll('.tab').forEach(tab => {
   });
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+  const activeTab = document.querySelector('.tab.active');
+  if (activeTab) {
+    const contentId = activeTab.getAttribute('data-target');
+    const targetContent = document.getElementById(contentId);
+    if (targetContent) {
+      targetContent.style.display = 'block'; // or 'flex' if you want
+    }
+
+    const img = activeTab.querySelector('img');
+    if (img) {
+      img.src = img.getAttribute('data-active');
+    }
+  }
+});
+
+
 window.addEventListener('DOMContentLoaded', () => {
   const activeTab = document.querySelector('.tab.active');
   if (activeTab) {
