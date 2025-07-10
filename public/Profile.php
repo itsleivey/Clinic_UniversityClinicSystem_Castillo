@@ -507,7 +507,7 @@ if ($clientID) {
                             <select id="clientType" name="clientType" class="form-control" required>
                                 <option value="">Select Type</option>
                                 <option value="Freshman" <?= isset($_POST['clientType']) && $_POST['clientType'] == 'Freshman' ? 'selected' : '' ?>>Freshman Student</option>
-                                <option value="Student" <?= isset($_POST['clientType']) && $_POST['clientType'] == 'Student' ? 'selected' : '' ?>>Student</option>
+                                <option value="Student" <?= isset($_POST['clientType']) && $_POST['clientType'] == 'Student' ? 'selected' : '' ?>>Student (Enrolled/Regular)</option>
                                 <option value="Faculty" <?= isset($_POST['clientType']) && $_POST['clientType'] == 'Faculty' ? 'selected' : '' ?>>Teaching Personnel</option>
                                 <option value="Personnel" <?= isset($_POST['clientType']) && $_POST['clientType'] == 'Personnel' ? 'selected' : '' ?>>Non-Teaching Personnel</option>
                                 <option value="NewPersonnel" <?= isset($_POST['clientType']) && $_POST['clientType'] == 'NewPersonnel' ? 'selected' : '' ?>>Newly Hired Personnel</option>

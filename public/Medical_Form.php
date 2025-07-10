@@ -313,6 +313,7 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
                                 <label for="GuardiansName"><i class="fa-solid fa-user-shield"></i> Guardian's Name</label>
                                 <input type="text" id="GuardiansName" name="GuardiansName" placeholder="Guardian's Name" value="<?= htmlspecialchars($formData['GuardiansName'] ?? '') ?>">
                             </div>
+
                             <div>
                                 <label for="EmergencyContactName"><i class="fa-solid fa-triangle-exclamation"></i> Emergency Contact Name</label>
                                 <input type="text" id="EmergencyContactName" name="EmergencyContactName" placeholder="Emergency Contact Name" value="<?= htmlspecialchars($formData['EmergencyContactName'] ?? '') ?>" required>
@@ -320,6 +321,12 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
                             <div>
                                 <label for="EmergencyContactRelationship"><i class="fa-solid fa-people-arrows"></i> Emergency Contact Relationship</label>
                                 <input type="text" id="EmergencyContactRelationship" name="EmergencyContactRelationship" placeholder="Relationship" value="<?= htmlspecialchars($formData['EmergencyContactRelationship'] ?? '') ?>" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div>
+                                <label for="EmergencyGuardiansName"><i class="fa-solid fa-user-shield"></i> Name of Contact Person in CASE OF EMERGENCY</label>
+                                <input type="text" id="GuardiansName" name="EmergencyGuardiansName" placeholder="(REQUIRED)" value="<?= htmlspecialchars($formData['EmergencyContactPerson'] ?? '') ?>">
                             </div>
                         </div>
 
@@ -499,7 +506,6 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
                             <select id="alcoholIntake" name="alcoholIntake" required>
                                 <option value="no" <?= ($socialHistoryData['AlcoholIntake'] ?? '') === 'no' ? 'selected' : '' ?>>No</option>
                                 <option value="yes" <?= ($socialHistoryData['AlcoholIntake'] ?? '') === 'yes' ? 'selected' : '' ?>>Yes</option>
-                                <option value="former" <?= ($socialHistoryData['AlcoholIntake'] ?? '') === 'former' ? 'selected' : '' ?>>Former</option>
                             </select>
                             <input type="text" class="details-input" placeholder="Frequency/Amount (if applicable)"
                                 name="alcoholDetails" value="<?= htmlspecialchars($socialHistoryData['AlcoholDetails'] ?? '') ?>">
@@ -510,7 +516,6 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
                             <select id="tobaccoUse" name="tobaccoUse" required>
                                 <option value="no" <?= ($socialHistoryData['TobaccoUse'] ?? '') === 'no' ? 'selected' : '' ?>>No</option>
                                 <option value="yes" <?= ($socialHistoryData['TobaccoUse'] ?? '') === 'yes' ? 'selected' : '' ?>>Yes</option>
-                                <option value="former" <?= ($socialHistoryData['TobaccoUse'] ?? '') === 'former' ? 'selected' : '' ?>>Former</option>
                             </select>
                             <input type="text" class="details-input" placeholder="Frequency/Amount (if applicable)"
                                 name="tobaccoDetails" value="<?= htmlspecialchars($socialHistoryData['TobaccoDetails'] ?? '') ?>">
@@ -521,7 +526,6 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
                             <select id="drugUse" name="drugUse" required>
                                 <option value="no" <?= ($socialHistoryData['DrugUse'] ?? '') === 'no' ? 'selected' : '' ?>>No</option>
                                 <option value="yes" <?= ($socialHistoryData['DrugUse'] ?? '') === 'yes' ? 'selected' : '' ?>>Yes</option>
-                                <option value="former" <?= ($socialHistoryData['DrugUse'] ?? '') === 'former' ? 'selected' : '' ?>>Former</option>
                             </select>
                             <input type="text" class="details-input" placeholder="Type/Frequency (if applicable)"
                                 name="drugDetails" value="<?= htmlspecialchars($socialHistoryData['DrugDetails'] ?? '') ?>">
