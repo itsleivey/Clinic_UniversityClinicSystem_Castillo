@@ -1037,7 +1037,7 @@ $html .= <<<EOD
 EOD;
     $pdf->SetFont('helvetica', '', 10);
     $pdf->writeHTML($html, true, false, true, false, '');
-    $pdf->Output('Patient_Record.pdf', 'D');
+    $pdf->Output('Patient_Record.pdf', 'I');
 } catch (Exception $e) {
     echo 'PDF generation failed: ' . $e->getMessage();
 }
