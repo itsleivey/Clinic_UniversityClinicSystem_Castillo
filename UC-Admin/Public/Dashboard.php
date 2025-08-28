@@ -107,6 +107,12 @@ for ($month = 1; $month <= 12; $month++) {
                     <span class="nav-text">Manage Patients</span>
                 </button>
             </a>
+            <a href="Data_Management.php">
+                <button class="buttons" id="datamanagementBtn">
+                    <img src="assets/images/data_manage_icon.svg" class="button-icon-nav" loading="lazy">
+                    <span class="nav-text">Data Management</span>
+                </button>
+            </a>
             <!--
             <a href="Calendar.html">
                 <button class="buttons" id="calendarBtn">
@@ -235,7 +241,7 @@ for ($month = 1; $month <= 12; $month++) {
                             <option value="personalsocialgraph">Personal Social Graph</option>
                             <option value="femalementrualgraph">Female Menstrual Graph</option>
                         </select>
-                        
+
                         <select id="yearSelector"></select>
                         <script>
                             const select = document.getElementById("yearSelector");

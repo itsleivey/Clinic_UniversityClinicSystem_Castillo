@@ -11,7 +11,6 @@ if (!isset($_GET['ClientID']) || !is_numeric($_GET['ClientID'])) {
 
 $clientID = (int)$_GET['ClientID'];
 
-
 if (!$clientID || !is_numeric($clientID)) {
     die("Invalid Client ID.");
 }
@@ -31,12 +30,9 @@ $allTablesHaveData = true;
 $missingTables = [];
 
 foreach ($tables as $table) {
-    // Add ORDER BY for diagnosticresults only
     $query = "SELECT * FROM $table WHERE ClientID = ? " . ($table == 'diagnosticresults' ? 'ORDER BY DiagnosticID DESC' : '');
-
     $stmt = $pdo->prepare($query);
     $stmt->execute([$clientID]);
-
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$result) {
@@ -45,91 +41,131 @@ foreach ($tables as $table) {
     }
 }
 
-// ✅ FINAL CHECK
-if (!$allTablesHaveData) {
-    echo "<script>
-        alert('Complete forms requirements to print. (e.g. Personal Information, Patient Medical History, Physical Examination and Diagnostic Results) Some of this is not completed yet.');
-        window.location.href = '../ClientProfile.php?id=$clientID';
-    </script>";
-    exit;
+// =================== FETCH DATA WITH NULL DEFAULT ===================
+
+// Helper to fetch safely
+function fetchOrNull($pdo, $query, $params = [])
+{
+    $stmt = $pdo->prepare($query);
+    $stmt->execute($params);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row ? $row : null;
 }
 
-// --- Fetch Data ---
-$stmt = $pdo->prepare("SELECT * FROM personalinfo WHERE ClientID = ?");
-$stmt->execute([$clientID]);
-$info = $stmt->fetch(PDO::FETCH_ASSOC);
+function safeVal($array, $key, $default = '')
+{
+    return isset($array[$key]) ? htmlspecialchars($array[$key]) : $default;
+}
 
-$stmt = $pdo->prepare("SELECT * FROM medicaldentalhistory WHERE ClientID = ?");
-$stmt->execute([$clientID]);
-$medDental = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$stmt = $pdo->prepare("SELECT * FROM familymedicalhistory WHERE ClientID = ?");
-$stmt->execute([$clientID]);
-$familyHistory = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$stmt = $pdo->prepare("SELECT * FROM personalsocialhistory WHERE ClientID = ?");
-$stmt->execute([$clientID]);
-$socialHistory = $stmt->fetch(PDO::FETCH_ASSOC);
+$info               = fetchOrNull($pdo, "SELECT * FROM personalinfo WHERE ClientID = ?", [$clientID]);
+$medDental          = fetchOrNull($pdo, "SELECT * FROM medicaldentalhistory WHERE ClientID = ?", [$clientID]);
+$familyHistory      = fetchOrNull($pdo, "SELECT * FROM familymedicalhistory WHERE ClientID = ?", [$clientID]);
+$socialHistory      = fetchOrNull($pdo, "SELECT * FROM personalsocialhistory WHERE ClientID = ?", [$clientID]);
+$femaleHealthHistory = fetchOrNull($pdo, "SELECT * FROM femalehealthhistory WHERE ClientID = ?", [$clientID]);
+$physicalExamination = fetchOrNull($pdo, "SELECT * FROM physicalexamination WHERE ClientID = ?", [$clientID]);
+$diagnosticResults  = fetchOrNull($pdo, "SELECT * FROM diagnosticresults WHERE ClientID = ? ORDER BY DiagnosticID DESC", [$clientID]);
 
-$stmt = $pdo->prepare("SELECT * FROM femalehealthhistory WHERE ClientID = ?");
-$stmt->execute([$clientID]);
-$femaleHealthHistory = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$stmt = $pdo->prepare("SELECT * FROM physicalexamination WHERE ClientID = ?");
-$stmt->execute([$clientID]);
-$physicalExamination = $stmt->fetch(PDO::FETCH_ASSOC);
+$info = $info ?? [];
 
-$stmt = $pdo->prepare("SELECT * FROM diagnosticresults WHERE ClientID = ? ORDER BY DiagnosticID DESC");
-$stmt->execute([$clientID]);
-$diagnosticResults = $stmt->fetch(PDO::FETCH_ASSOC);
-// Define all binary fields and their readable labels
-// Checkbox rendering logic for medDental
+// Safe values (default to empty string if missing)
+$surname       = $info['Surname'] ?? '';
+$givenName     = $info['GivenName'] ?? '';
+$middleName    = $info['MiddleName'] ?? '';
+$age           = $info['Age'] ?? '';
+$gender        = $info['Gender'] ?? '';
+$status        = $info['Status'] ?? '';
+$birthDate     = $formattedBirthDate ?? '';
+$course        = $info['Course'] ?? '';
+$schoolYear    = $info['SchoolYearEntered'] ?? '';
+$currentAddr   = $info['CurrentAddress'] ?? '';
+$contactNumber = $info['ContactNumber'] ?? '';
+$mothersName   = $info['MothersName'] ?? '';
+$fathersName   = $info['FathersName'] ?? '';
+$guardiansName = $info['GuardiansName'] ?? '';
+$emergencyPerson   = $info['EmergencyContactPerson'] ?? '';
+$emergencyRel      = $info['EmergencyContactRelationship'] ?? '';
+$emergencyContact  = $info['EmergencyContactName'] ?? '';
+
+$knownIllnessDetails       = $medDental['KnownIllnessDetails'] ?? '';
+$presentImmunizations      = $medDental['PresentImmunizationsDetails'] ?? '';
+$hospitalizationDetails    = $medDental['HospitalizationDetails'] ?? '';
+$currentMedicinesDetails   = $medDental['CurrentMedicinesDetails'] ?? '';
+$allergiesDetails          = $medDental['AllergiesDetails'] ?? '';
+$dentalProblemsDetails     = $medDental['DentalProblemsDetails'] ?? '';
+$childImmunizationDetails  = $medDental['ChildImmunizationDetails'] ?? '';
+$primaryPhysicianDetails   = $medDental['PrimaryPhysicianDetails'] ?? '';
+
+$allergyDetails         = $familyHistory['AllergyDetails'] ?? '';
+$cancerDetails          = $familyHistory['CancerDetails'] ?? '';
+$asthmaDetails          = $familyHistory['AsthmaDetails'] ?? '';
+$liverDiseaseDetails    = $familyHistory['LiverDiseaseDetails'] ?? '';
+$tuberculosisDetails    = $familyHistory['TuberculosisDetails'] ?? '';
+$kidneyBladderDetails   = $familyHistory['KidneyBladderDetails'] ?? '';
+$hypertensionDetails    = $familyHistory['HypertensionDetails'] ?? '';
+$bloodDiseaseDetails    = $familyHistory['BloodDiseaseDetails'] ?? '';
+$strokeDetails          = $familyHistory['StrokeDetails'] ?? '';
+$mentalDisorderDetails  = $familyHistory['MentalDisorderDetails'] ?? '';
+$diabetesDetails        = $familyHistory['DiabetesDetails'] ?? '';
+$otherIllnessDetails    = $familyHistory['OtherIllnessDetails'] ?? '';
+$bloodDisorderDetails   = $familyHistory['BloodDisorderDetails'] ?? '';
+$epilepsyDetails        = $familyHistory['EpilepsyDetails'] ?? '';
+
+// =================== CHECKMARK FUNCTIONS ===================
 function checkMark($value)
 {
     return ($value == 1) ? '<span style="font-family: dejavusans; font-weight: bolder;">✓</span>' : '';
 }
-
 function FamMedCheckMark($value)
 {
     return ($value == 1) ? '<span style="font-family: dejavusans; font-weight: bolder;">✓</span>' : '';
 }
-
-$check_KnownIllness        = checkMark($medDental['KnownIllness']);
-$check_Hospitalization     = checkMark($medDental['Hospitalization']);
-$check_Allergies           = checkMark($medDental['Allergies']);
-$check_ChildImmunization   = checkMark($medDental['ChildImmunization']);
-$check_PresentImmunizations = checkMark($medDental['PresentImmunizations']);
-$check_CurrentMedicines    = checkMark($medDental['CurrentMedicines']);
-$check_DentalProblems      = checkMark($medDental['DentalProblems']);
-$check_PrimaryPhysician    = checkMark($medDental['PrimaryPhysician']);
-
-
-$check_allergy          = FamMedCheckMark($familyHistory['Allergy']);
-$check_cancer           = FamMedCheckMark($familyHistory['Cancer']);
-$check_asthma          = FamMedCheckMark($familyHistory['Asthma']);
-$check_tuberculosis     = FamMedCheckMark($familyHistory['Tuberculosis']);
-$check_hypertension     = FamMedCheckMark($familyHistory['Hypertension']);
-$check_bloodDisease     = FamMedCheckMark($familyHistory['BloodDisease']);
-$check_stroke          = FamMedCheckMark($familyHistory['Stroke']);
-$check_diabetes        = FamMedCheckMark($familyHistory['Diabetes']);
-$check_liverDisease     = FamMedCheckMark($familyHistory['LiverDisease']);
-$check_kidneyBladder   = FamMedCheckMark($familyHistory['KidneyBladder']);
-$check_bloodDisorder   = FamMedCheckMark($familyHistory['BloodDisorder']);
-$check_epilepsy        = FamMedCheckMark($familyHistory['Epilepsy']);
-$check_mentalDisorder  = FamMedCheckMark($familyHistory['MentalDisorder']);
-$check_others          = FamMedCheckMark($familyHistory['OtherIllness']);
-
 function SocialCheckMark($value, $target)
 {
     return ($value === $target) ? '<span style="font-family: dejavusans; font-weight: bold;">✓</span>' : '';
 }
+function diagnosticCheckMark($value)
+{
+    return ($value == 1) ? '<span style="font-family: dejavusans; font-weight: bolder;">✓</span>' : '';
+}
+function diagnosticRecommendation($value, $target)
+{
+    return ($value === $target) ? '<span style="font-family: dejavusans; font-weight: bold;">✓</span>' : '';
+}
 
-// example: values from DB
-$alcohol = $socialHistory['AlcoholIntake'];      // 'yes', 'no', or 'former'
-$tobacco = $socialHistory['TobaccoUse'];
-$drug    = $socialHistory['DrugUse'];
+// =================== SAFE VARIABLE EXTRACTION ===================
+// Example: If $medDental is null, all become null safely
+$check_KnownIllness        = checkMark($medDental['KnownIllness']        ?? null);
+$check_Hospitalization     = checkMark($medDental['Hospitalization']     ?? null);
+$check_Allergies           = checkMark($medDental['Allergies']           ?? null);
+$check_ChildImmunization   = checkMark($medDental['ChildImmunization']   ?? null);
+$check_PresentImmunizations = checkMark($medDental['PresentImmunizations'] ?? null);
+$check_CurrentMedicines    = checkMark($medDental['CurrentMedicines']    ?? null);
+$check_DentalProblems      = checkMark($medDental['DentalProblems']      ?? null);
+$check_PrimaryPhysician    = checkMark($medDental['PrimaryPhysician']    ?? null);
 
-// Checkmarks for each option
+$check_allergy         = FamMedCheckMark($familyHistory['Allergy']        ?? null);
+$check_cancer          = FamMedCheckMark($familyHistory['Cancer']         ?? null);
+$check_asthma          = FamMedCheckMark($familyHistory['Asthma']         ?? null);
+$check_tuberculosis    = FamMedCheckMark($familyHistory['Tuberculosis']   ?? null);
+$check_hypertension    = FamMedCheckMark($familyHistory['Hypertension']   ?? null);
+$check_bloodDisease    = FamMedCheckMark($familyHistory['BloodDisease']   ?? null);
+$check_stroke          = FamMedCheckMark($familyHistory['Stroke']         ?? null);
+$check_diabetes        = FamMedCheckMark($familyHistory['Diabetes']       ?? null);
+$check_liverDisease    = FamMedCheckMark($familyHistory['LiverDisease']   ?? null);
+$check_kidneyBladder   = FamMedCheckMark($familyHistory['KidneyBladder']  ?? null);
+$check_bloodDisorder   = FamMedCheckMark($familyHistory['BloodDisorder']  ?? null);
+$check_epilepsy        = FamMedCheckMark($familyHistory['Epilepsy']       ?? null);
+$check_mentalDisorder  = FamMedCheckMark($familyHistory['MentalDisorder'] ?? null);
+$check_others          = FamMedCheckMark($familyHistory['OtherIllness']   ?? null);
+
+// Social history
+$alcohol = $socialHistory['AlcoholIntake'] ?? null;
+$tobacco = $socialHistory['TobaccoUse']    ?? null;
+$drug    = $socialHistory['DrugUse']       ?? null;
+
 $alcohol_yes    = SocialCheckMark($alcohol, 'yes');
 $alcohol_no     = SocialCheckMark($alcohol, 'no');
 $alcohol_former = SocialCheckMark($alcohol, 'former');
@@ -138,40 +174,68 @@ $tobacco_yes    = SocialCheckMark($tobacco, 'yes');
 $tobacco_no     = SocialCheckMark($tobacco, 'no');
 $tobacco_former = SocialCheckMark($tobacco, 'former');
 
-$drug_yes    = SocialCheckMark($drug, 'yes');
-$drug_no     = SocialCheckMark($drug, 'no');
-$drug_former = SocialCheckMark($drug, 'former');
-//===========================================================================
-function diagnosticCheckMark($value)
+$drug_yes       = SocialCheckMark($drug, 'yes');
+$drug_no        = SocialCheckMark($drug, 'no');
+$drug_former    = SocialCheckMark($drug, 'former');
+
+$alcoholDetails = $socialHistory['AlcoholDetails'] ?? '';
+$tobaccoDetails = $socialHistory['TobaccoDetails'] ?? '';
+$drugDetails    = $socialHistory['DrugDetails'] ?? '';
+
+
+// Checkboxes (tinyint(1) in schema)
+$xray_check             = diagnosticCheckMark($diagnosticResults['ChestXrayPerformed'] ?? null);
+$diagnostic_check       = diagnosticCheckMark($diagnosticResults['Discussions']        ?? null);
+$homeMed_Check          = diagnosticCheckMark($diagnosticResults['HomeMedication']     ?? null);
+$homeInstructions_Check = diagnosticCheckMark($diagnosticResults['HomeInstructions']   ?? null);
+$medCert_Isseud_check   = diagnosticCheckMark($diagnosticResults['MedicalCertIssued']  ?? null);
+
+// Recommendations (enum)
+$fit_enroll_work  = diagnosticRecommendation($diagnosticResults['Recommendation'] ?? null, 'fit');
+$fit_sports       = diagnosticRecommendation($diagnosticResults['Recommendation'] ?? null, 'fit_sports');
+$fit_enroll_eval  = diagnosticRecommendation($diagnosticResults['Recommendation'] ?? null, 'fit_enroll');
+$fit_work_eval    = diagnosticRecommendation($diagnosticResults['Recommendation'] ?? null, 'fit_work_eval');
+$fit_sports_eval  = diagnosticRecommendation($diagnosticResults['Recommendation'] ?? null, 'fit_sports_eval');
+
+// Extract all values for display from diagnostic results
+$chestXrayResult = $diagnosticResults['XrayFindings'] ?? '';
+$impression = $diagnosticResults['Impression'] ?? '';
+$discussionDetails = $diagnosticResults['DiscussionDetails'] ?? '';
+$homeMedication = $diagnosticResults['MedicationDetails'] ?? '';
+$homeInstructions = $diagnosticResults['InstructionDetails'] ?? '';
+$abbreviationsUsed = $diagnosticResults['AbbreviationsUsed'] ?? '';
+$followUpDate = $diagnosticResults['F1Date'] ?? '';
+$referred = $diagnosticResults['ReferredTo'] ?? '';
+$physicianName = $diagnosticResults['PhysicianName'] ?? '';
+$licenseNo = $diagnosticResults['LicenseNo'] ?? '';
+$signatureDate = $diagnosticResults['SignatureDate'] ?? '';
+$institution = $diagnosticResults['Institution'] ?? 'LAGUNA STATE POLYTECHNIC UNIVERSITY - UNIVERSITY CLINIC';
+$examDate = $diagnosticResults['ExamDate'] ?? '';
+
+// Format dates if needed
+function formatDateForDisplay($dateString)
 {
-    return ($value == 1) ? '<span style="font-family: dejavusans; font-weight: bolder;">✓</span>' : '';
+    if (!empty($dateString)) {
+        $dateObject = DateTime::createFromFormat('Y-m-d', $dateString);
+        return $dateObject ? $dateObject->format('m/d/Y') : $dateString;
+    }
+    return '';
 }
-$xray_check = diagnosticCheckMark($diagnosticResults['ChestXrayPerformed']);
-$diagnostic_check = diagnosticCheckMark($diagnosticResults['Discussions']);
-$homeMed_Check = diagnosticCheckMark($diagnosticResults['HomeMedication']);
-$homeInstructions_Check = diagnosticCheckMark($diagnosticResults['HomeInstructions']);
-$medCert_Isseud_check = diagnosticCheckMark($diagnosticResults['MedicalCertIssued']);
 
+$followUpDate = formatDateForDisplay($followUpDate);
+$signatureDate = formatDateForDisplay($signatureDate);
+$examDate = formatDateForDisplay($examDate);
 
-function diagnosticRecommendation($value, $target)
-{
-    return ($value === $target) ? '<span style="font-family: dejavusans; font-weight: bold;">✓</span>' : '';
+// Birth date formatting (safe null check)
+$BirthDate = $info['DateOfBirth'] ?? null;
+$formattedBirthDate = '';
+if ($BirthDate) {
+    $birthdateObject = DateTime::createFromFormat('Y-m-d', $BirthDate);
+    if ($birthdateObject) {
+        $formattedBirthDate = $birthdateObject->format('m/d/Y');
+    }
 }
-$fit_enroll_work = diagnosticRecommendation($diagnosticResults['Recommendation'], 'fit');
-$fit_sports = diagnosticRecommendation($diagnosticResults['Recommendation'], 'fit_sports');
-$fit_enroll_eval = diagnosticRecommendation($diagnosticResults['Recommendation'], 'fit_enroll');
-$fit_work_eval = diagnosticRecommendation($diagnosticResults['Recommendation'], 'fit_work_eval');
-$fit_sports_eval = diagnosticRecommendation($diagnosticResults['Recommendation'], 'fit_sports_eval');
 
-
-$BirthDate = $info['DateOfBirth']; // e.g., '2024-07-09'
-$birthdateObject = DateTime::createFromFormat('Y-m-d', $BirthDate);
-
-if ($birthdateObject) {
-    $formattedBirthDate = $birthdateObject->format('m/d/Y'); // '07/09/2024'
-} else {
-    $formattedBirthDate = ''; // fallback if something goes wrong
-}
 
 
 class MYPDF extends TCPDF
@@ -254,60 +318,99 @@ try {
     </tr>
 </table>
 
-<table width="100%" style="font-size: 10pt; margin-bottom: 10px; ">
+<table width="100%" style="font-size: 10pt; margin-bottom: 10px;">
     <tr>
-        <td style="width: 30%; border: 1px solid black; border-bottom: none;"><span style=" font-style: italic
-      font-width: normal;">Surname</span><br><span class="value">{$info['Surname']}</span></td>
-        <td style="width: 35%; border: 1px solid black;"><span style=" font-style: italic
-      font-width: normal;">Given Name</span><br><span class="value">{$info['GivenName']}</span></td>
-        <td style="width: 35%; border: 1px solid black;"><span style=" font-style: italic
-      font-width: normal;">Middle Name</span><br><span class="value">{$info['MiddleName']}</span></td>
+        <td style="width: 30%; border: 1px solid black; border-bottom: none;">
+            <span style="font-style: italic; font-weight: normal;">Surname</span><br>
+            <span class="value">{$surname}</span>
+        </td>
+        <td style="width: 35%; border: 1px solid black;">
+            <span style="font-style: italic; font-weight: normal;">Given Name</span><br>
+            <span class="value">{$givenName}</span>
+        </td>
+        <td style="width: 35%; border: 1px solid black;">
+            <span style="font-style: italic; font-weight: normal;">Middle Name</span><br>
+            <span class="value">{$middleName}</span>
+        </td>
     </tr>
 </table>
-<table width="100%" style="font-size: 10pt; margin-bottom: 10px; ">
+
+<table width="100%" style="font-size: 10pt; margin-bottom: 10px;">
     <tr>
-        <td style="width: 10%; border: 1px solid black; border-bottom: none;"><span style=" font-style: italic
-         font-width: normal;">Age</span><br><span class="value">{$info['Age']}</span></td>
-        <td style="width: 10%; border: 1px solid black;"><span style=" font-style: italic
-         font-width: normal;">Sex</span><br><span class="value">{$info['Gender']}</span></td>
-        <td style="width: 10%; border: 1px solid black;"><span style=" font-style: italic
-         font-width: normal;">Status</span><br><span class="value">{$info['Status']}</span></td>
-          <td style="width: 20%; border: 1px solid black;"><span style=" font-style: italic
-         font-width: normal;">Date of Birth</span><br><span class="value">{$formattedBirthDate}</span></td>
-          <td style="width: 15%; border: 1px solid black;"><span style=" font-style: italic
-         font-width: normal;">Course</span><br><span class="value">{$info['Course']}</span></td>
-          <td style="width: 35%; border: 1px solid black;"><span style=" font-style: italic
-         font-width: normal;">School year entered (if applicable)</span><br><span class="value">{$info['SchoolYearEntered']}</span></td>
+        <td style="width: 10%; border: 1px solid black; border-bottom: none;">
+            <span style="font-style: italic; font-weight: normal;">Age</span><br>
+            <span class="value">{$age}</span>
+        </td>
+        <td style="width: 10%; border: 1px solid black;">
+            <span style="font-style: italic; font-weight: normal;">Sex</span><br>
+            <span class="value">{$gender}</span>
+        </td>
+        <td style="width: 10%; border: 1px solid black;">
+            <span style="font-style: italic; font-weight: normal;">Status</span><br>
+            <span class="value">{$status}</span>
+        </td>
+        <td style="width: 20%; border: 1px solid black;">
+            <span style="font-style: italic; font-weight: normal;">Date of Birth</span><br>
+            <span class="value">{$birthDate}</span>
+        </td>
+        <td style="width: 15%; border: 1px solid black;">
+            <span style="font-style: italic; font-weight: normal;">Course</span><br>
+            <span class="value">{$course}</span>
+        </td>
+        <td style="width: 35%; border: 1px solid black;">
+            <span style="font-style: italic; font-weight: normal;">School year entered (if applicable)</span><br>
+            <span class="value">{$schoolYear}</span>
+        </td>
     </tr>
 </table>
-<table width="100%" style="font-size: 10pt; margin-bottom: 10px; ">
+
+<table width="100%" style="font-size: 10pt; margin-bottom: 10px;">
     <tr>
-        <td style="width: 75%; border: 1px solid black; border-bottom: none;"><span style=" font-style: italic;
-      font-width: normal;">Current Address</span><br><span class="value">{$info['CurrentAddress']}</span></td>
-        <td style="width: 25%; border: 1px solid black;"><span style=" font-style: italic
-      font-width: normal;">Tell/ Cell NO.</span><br><span class="value">{$info['ContactNumber']}</span></td>
+        <td style="width: 75%; border: 1px solid black; border-bottom: none;">
+            <span style="font-style: italic; font-weight: normal;">Current Address</span><br>
+            <span class="value">{$currentAddr}</span>
+        </td>
+        <td style="width: 25%; border: 1px solid black;">
+            <span style="font-style: italic; font-weight: normal;">Tell/ Cell NO.</span><br>
+            <span class="value">{$contactNumber}</span>
+        </td>
     </tr>
 </table>
-<table width="100%" style="font-size: 10pt; margin-bottom: 10px; ">
+
+<table width="100%" style="font-size: 10pt; margin-bottom: 10px;">
     <tr>
-        <td style="width: 30%; border: 1px solid black; border-bottom: none;"><span style=" font-style: italic
-      font-width: normal;">Mother's Name</span><br><span class="value">{$info['MothersName']}</span></td>
-        <td style="width: 20%; border: 1px solid black;"><span style=" font-style: italic
-      font-width: normal;">Father's Name</span><br><span class="value">{$info['FathersName']}</span></td>
-       <td style="width: 50%; border: 1px solid black;"><span style=" font-style: italic
-      font-width: normal;">Guardian's Name (if Applicable)</span><br><span class="value">{$info['GuardiansName']}</span></td>
+        <td style="width: 30%; border: 1px solid black; border-bottom: none;">
+            <span style="font-style: italic; font-weight: normal;">Mother's Name</span><br>
+            <span class="value">{$mothersName}</span>
+        </td>
+        <td style="width: 20%; border: 1px solid black;">
+            <span style="font-style: italic; font-weight: normal;">Father's Name</span><br>
+            <span class="value">{$fathersName}</span>
+        </td>
+        <td style="width: 50%; border: 1px solid black;">
+            <span style="font-style: italic; font-weight: normal;">Guardian's Name (if Applicable)</span><br>
+            <span class="value">{$guardiansName}</span>
+        </td>
     </tr>
 </table>
-<table width="100%" style="font-size: 10pt; margin-bottom: 10px; ">
+
+<table width="100%" style="font-size: 10pt; margin-bottom: 10px;">
     <tr>
-        <td style="width: 50%; border: 1px solid black; border-bottom: none;"><span style=" font-style: italic
-      font-width: normal;">Name of Contact Person in CASE OF EMERGENCY  (REQUIRED)</span><br><span class="value">{$info['EmergencyContactPerson']}</span></td>
-        <td style="width: 35%; border: 1px solid black;"><span style=" font-style: italic
-      font-width: normal;">Relationship</span><br><span class="value">{$info['EmergencyContactRelationship']}</span></td>
-       <td style="width: 15%; border: 1px solid black;"><span style=" font-style: italic
-      font-width: normal;">Contact No. (REQUIRED)</span><br><span class="value">{$info['EmergencyContactName']}</span></td>
+        <td style="width: 50%; border: 1px solid black; border-bottom: none;">
+            <span style="font-style: italic; font-weight: normal;">Name of Contact Person in CASE OF EMERGENCY  (REQUIRED)</span><br>
+            <span class="value">{$emergencyPerson}</span>
+        </td>
+        <td style="width: 35%; border: 1px solid black;">
+            <span style="font-style: italic; font-weight: normal;">Relationship</span><br>
+            <span class="value">{$emergencyRel}</span>
+        </td>
+        <td style="width: 15%; border: 1px solid black;">
+            <span style="font-style: italic; font-weight: normal;">Contact No. (REQUIRED)</span><br>
+            <span class="value">{$emergencyContact}</span>
+        </td>
     </tr>
 </table>
+
 <table width="100%" style="font-size: 10pt; margin-bottom: 10px;">
    <tr>
        <td></td>
@@ -362,9 +465,9 @@ try {
         <td style="width: 40%;">Present immunizations (ex. Flu, Hepa B. etc)</td>
     </tr>
     <tr>
-        <td style="width: 42.5%; border-bottom: 1px solid black;"><span class="value" style="text-align: center">{$medDental['KnownIllnessDetails']}</span></td>
+        <td style="width: 42.5%; border-bottom: 1px solid black;"><span class="value" style="text-align: center">{$knownIllnessDetails}</span></td>
         <td style="width: 15%;"></td>
-        <td style="width: 42.5%; border-bottom: 1px solid black;"><span  class="value" style="text-align: center">{$medDental['PresentImmunizationsDetails']}</span></td>
+        <td style="width: 42.5%; border-bottom: 1px solid black;"><span  class="value" style="text-align: center">{$presentImmunizations}</span></td>
     </tr>
     <tr>
          <td style="font-size: 2.5px;"></td>
@@ -377,9 +480,9 @@ try {
         <td style="width: 40%;">currently taking medicine/ vitamins</td>
     </tr>
     <tr>
-        <td style="width: 42.5%; border-bottom: 1px solid black;"><span  class="value" style="text-align: center">{$medDental['HospitalizationDetails']}</span></td>
+        <td style="width: 42.5%; border-bottom: 1px solid black;"><span  class="value" style="text-align: center">{$hospitalizationDetails}</span></td>
         <td style="width: 15%;"></td>
-        <td style="width: 42.5%; border-bottom: 1px solid black;"><span  class="value" style="text-align: center">{$medDental['CurrentMedicinesDetails']}</span></td>
+        <td style="width: 42.5%; border-bottom: 1px solid black;"><span  class="value" style="text-align: center">{$currentMedicinesDetails}</span></td>
     </tr>
      <tr>
          <td style="font-size: 2.5px;"></td>
@@ -392,9 +495,9 @@ try {
         <td style="width: 40%;">Dental problems (ex. Gingivits, etc )</td>
     </tr>
     <tr>
-        <td style="width: 42.5%; border-bottom: 1px solid black;"><span class="value"  style="text-align: center">{$medDental['AllergiesDetails']}</span></td>
+        <td style="width: 42.5%; border-bottom: 1px solid black;"><span class="value"  style="text-align: center">{$allergiesDetails}</span></td>
         <td style="width: 15%;"></td>
-        <td style="width: 42.5%; border-bottom: 1px solid black;"><span class="value"  style="text-align: center">{$medDental['DentalProblemsDetails']}</span></td>
+        <td style="width: 42.5%; border-bottom: 1px solid black;"><span class="value"  style="text-align: center">{$dentalProblemsDetails}</span></td>
     </tr>
       <tr>
          <td style="font-size: 2.5px;"></td>
@@ -407,9 +510,9 @@ try {
         <td style="width: 40%;">Primary care Physician</td>
     </tr>
     <tr>
-        <td style="width: 42.5%; border-bottom: 1px solid black;"><span class="value"  style="text-align: center">{$medDental['ChildImmunizationDetails']}</span></td>
+        <td style="width: 42.5%; border-bottom: 1px solid black;"><span class="value"  style="text-align: center">{$childImmunizationDetails}</span></td>
         <td style="width: 15%;"></td>
-        <td style="width: 42.5%; border-bottom: 1px solid black;"><span  class="value" style="text-align: center">{$medDental['PrimaryPhysicianDetails']}</span></td>
+        <td style="width: 42.5%; border-bottom: 1px solid black;"><span  class="value" style="text-align: center">{$primaryPhysicianDetails}</span></td>
     </tr>
 </table>
 
@@ -424,74 +527,74 @@ try {
 
 <table width="100%" style="font-size: 8.5px; margin-bottom: 10px; border-collapse: collapse;">
     <tr>
-     <br>
-        <td style="width: 2.6%; border: 1px solid black;">$check_allergy</td>
+        <br>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_allergy ?></td>
         <td style="width: 7%;">Allergy</td>
-        <td style="width: 34%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['AllergyDetails']}</span></td>
+        <td style="width: 34%; border-bottom: 1px solid black;"><span class="value"><?= $allergyDetails ?></span></td>
         <td style="width: 14%;"></td>
-        <td style="width: 2.6%; border: 1px solid black;">$check_cancer</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_cancer ?></td>
         <td style="width: 7%;">Cancer</td>
-        <td style="width: 33%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['CancerDetails']}</span></td>
+        <td style="width: 33%; border-bottom: 1px solid black;"><span class="value"><?= $cancerDetails ?></span></td>
     </tr>
     <tr><td colspan="7" style="font-size: 2.5px;"></td></tr>
     <tr>
-        <td style="width: 2.6%; border: 1px solid black;">$check_asthma</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_asthma ?></td>
         <td style="width: 12%;">Asthma/"hika"</td>
-        <td style="width: 29%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['AsthmaDetails']}</span></td>
+        <td style="width: 29%; border-bottom: 1px solid black;"><span class="value"><?= $asthmaDetails ?></span></td>
         <td style="width: 14%;"></td>
-        <td style="width: 2.6%; border: 1px solid black;">$check_liverDisease</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_liverDisease ?></td>
         <td style="width: 11%;">Liver disease</td>
-        <td style="width: 29%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['LiverDiseaseDetails']}</span></td>
+        <td style="width: 29%; border-bottom: 1px solid black;"><span class="value"><?= $liverDiseaseDetails ?></span></td>
     </tr>
     <tr><td colspan="7" style="font-size: 2.5px;"></td></tr>
     <tr>
-        <td style="width: 2.6%; border: 1px solid black;">$check_tuberculosis</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_tuberculosis ?></td>
         <td style="width: 14%;">Tuberculosis/ TB</td>
-        <td style="width: 27%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['TuberculosisDetails']}</span></td>
+        <td style="width: 27%; border-bottom: 1px solid black;"><span class="value"><?= $tuberculosisDetails ?></span></td>
         <td style="width: 14%;"></td>
-        <td style="width: 2.6%; border: 1px solid black;">$check_kidneyBladder</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_kidneyBladder ?></td>
         <td style="width: 21%;">Kidney or bladder disease</td>
-        <td style="width: 19%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['KidneyBladderDetails']}</span></td>
+        <td style="width: 19%; border-bottom: 1px solid black;"><span class="value"><?= $kidneyBladderDetails ?></span></td>
     </tr>
     <tr><td colspan="7" style="font-size: 2.5px;"></td></tr>
     <tr>
-        <td style="width: 2.6%; border: 1px solid black;">$check_hypertension</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_hypertension ?></td>
         <td style="width: 21%;">Hypertension/ "high blood"</td>
-        <td style="width: 20%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['HypertensionDetails']}</span></td>
+        <td style="width: 20%; border-bottom: 1px solid black;"><span class="value"><?= $hypertensionDetails ?></span></td>
         <td style="width: 14%;"></td>
-        <td style="width: 2.6%; border: 1px solid black;">$check_bloodDisease</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_bloodDisease ?></td>
         <td style="width: 12%;">Blood disease</td>
-        <td style="width: 28%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['BloodDiseaseDetails']}</span></td>
+        <td style="width: 28%; border-bottom: 1px solid black;"><span class="value"><?= $bloodDiseaseDetails ?></span></td>
     </tr>
     <tr><td colspan="7" style="font-size: 2.5px;"></td></tr>
     <tr>
-        <td style="width: 2.6%; border: 1px solid black;">$check_stroke</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_stroke ?></td>
         <td style="width: 6%;">Stroke</td>
-        <td style="width: 35%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['StrokeDetails']}</span></td>
+        <td style="width: 35%; border-bottom: 1px solid black;"><span class="value"><?= $strokeDetails ?></span></td>
         <td style="width: 14%;"></td>
-        <td style="width: 2.6%; border: 1px solid black;">$check_mentalDisorder</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_mentalDisorder ?></td>
         <td style="width: 13%;">Mental Disorder</td>
-        <td style="width: 27%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['MentalDisorderDetails']}</span></td>
+        <td style="width: 27%; border-bottom: 1px solid black;"><span class="value"><?= $mentalDisorderDetails ?></span></td>
     </tr>
     <tr><td colspan="7" style="font-size: 2.5px;"></td></tr>
     <tr>
-        <td style="width: 2.6%; border: 1px solid black;">$check_diabetes</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_diabetes ?></td>
         <td style="width: 8%;">Diabetes</td>
-        <td style="width: 33%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['DiabetesDetails']}</span></td>
+        <td style="width: 33%; border-bottom: 1px solid black;"><span class="value"><?= $diabetesDetails ?></span></td>
         <td style="width: 14%;"></td>
-        <td style="width: 2.6%; border: 1px solid black;">$check_others</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_others ?></td>
         <td style="width: 6%;">Others</td>
-        <td style="width: 34%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['OtherIllnessDetails']}</span></td>
+        <td style="width: 34%; border-bottom: 1px solid black;"><span class="value"><?= $otherIllnessDetails ?></span></td>
     </tr>
     <tr><td colspan="7" style="font-size: 2.5px;"></td></tr>
     <tr>
-        <td style="width: 2.6%; border: 1px solid black;">$check_bloodDisorder</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_bloodDisorder ?></td>
         <td style="width: 14%;">Blood disorder</td>
-        <td style="width: 27%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['BloodDisorderDetails']}</span></td>
+        <td style="width: 27%; border-bottom: 1px solid black;"><span class="value"><?= $bloodDisorderDetails ?></span></td>
         <td style="width: 14%;"></td>
-        <td style="width: 2.6%; border: 1px solid black;">$check_epilepsy</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $check_epilepsy ?></td>
         <td style="width: 11%;">Epilepsy</td>
-        <td style="width: 29%; border-bottom: 1px solid black;"><span class="value">{$familyHistory['EpilepsyDetails']}</span></td>
+        <td style="width: 29%; border-bottom: 1px solid black;"><span class="value"><?= $epilepsyDetails ?></span></td>
     </tr>
 </table>
 
@@ -507,94 +610,104 @@ try {
 <table width="100%" style="font-size: 9pt; margin-bottom: 10px; border-collapse: collapse;">
 
     <tr>
-    <br>
+        <br>
         <td style="width: 15%;">1. Alcohol Intake:</td>
-        <td style="width: 2.6%; border: 1px solid black;">$alcohol_yes</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $alcohol_yes ?></td>
         <td style="width: 5%;">Yes</td>
-        <td style="width: 35%; border-bottom: 1px solid black;"><span class="value">{$socialHistory['AlcoholDetails']}</span></td>
+        <td style="width: 35%; border-bottom: 1px solid black;"><span class="value"><?= $alcoholDetails ?></span></td>
         <td style="width: 1%;"></td>
-        <td style="width: 2.6%; border: 1px solid black;">$alcohol_no</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $alcohol_no ?></td>
         <td style="width: 10%;">No</td>
     </tr>
-   <tr>
-    <br>
-    <td style="width: 15%;">2. Tobacco Use:</td>
-    <td style="width: 2.6%; border: 1px solid black;">$tobacco_yes</td>
-    <td style="width: 5%;">Yes</td>
-    <td style="width: 35%; border-bottom: 1px solid black;"><span class="value">{$socialHistory['TobaccoDetails']}</span></td>
-    <td style="width: 1%;"></td>
-    <td style="width: 2.6%; border: 1px solid black;">$tobacco_no</td>
-    <td style="width: 10%;">No</td>
-</tr>
 
-<tr>
-    <br>
-    <td style="width: 15%;">3. Drug Use:</td>
-    <td style="width: 2.6%; border: 1px solid black;">$drug_yes</td>
-    <td style="width: 5%;">Yes</td>
-    <td style="width: 35%; border-bottom: 1px solid black;"><span class="value">{$socialHistory['DrugDetails']}</span></td>
-    <td style="width: 1%;"></td>
-    <td style="width: 2.6%; border: 1px solid black;">$drug_no</td>
-    <td style="width: 10%;">No</td>
-</tr>
+    <tr>
+        <br>
+        <td style="width: 15%;">2. Tobacco Use:</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $tobacco_yes ?></td>
+        <td style="width: 5%;">Yes</td>
+        <td style="width: 35%; border-bottom: 1px solid black;"><span class="value"><?= $tobaccoDetails ?></span></td>
+        <td style="width: 1%;"></td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $tobacco_no ?></td>
+        <td style="width: 10%;">No</td>
+    </tr>
+
+    <tr>
+        <br>
+        <td style="width: 15%;">3. Drug Use:</td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $drug_yes ?></td>
+        <td style="width: 5%;">Yes</td>
+        <td style="width: 35%; border-bottom: 1px solid black;"><span class="value"><?= $drugDetails ?></span></td>
+        <td style="width: 1%;"></td>
+        <td style="width: 2.6%; border: 1px solid black;"><?= $drug_no ?></td>
+        <td style="width: 10%;">No</td>
+    </tr>
+
 </table>
 
 <br><br><br><br>
 EOD;
-//===================================================================
+    //===================================================================
+    $gender = strtolower(trim($info['Gender'] ?? ''));
 
 
-// Use $formattedDate in your PDF content, but don't echo anything before $pdf->Output()
-if (isset($info['Gender']) && strtolower($info['Gender']) === 'female') {
+    if ($gender === 'female' || $gender === '') {
+        $pregnancyDetails = $femaleHealthHistory['PregnancyDetails'] ?? null;
 
-    $Regularity = $femaleHealthHistory['Regularity'];
+        if (is_array($pregnancyDetails)) {
+            $pregnancyDetails = implode(", ", $pregnancyDetails); // join into string
+        }
+        // ✅ Use null coalescing operator for safety
+        // ✅ Always set to null if missing
+        $Regularity              = $femaleHealthHistory['Regularity'] ?? null;
+        $Historydysmenorrhea     = $femaleHealthHistory['Dysmenorrhea'] ?? null;
+        $severity                = $femaleHealthHistory['DysmenorrheaSeverity'] ?? null;
+        $historyExcessiveBleeding = $femaleHealthHistory['AbnormalBleeding'] ?? null;
+        $PreviousPregnancy       = $femaleHealthHistory['PreviousPregnancy'] ?? null;
+        $hadchildren             = $femaleHealthHistory['HasChildren'] ?? null;
 
-$regular = SocialCheckMark($Regularity, 'regular');
-$irregular = SocialCheckMark($Regularity, 'irregular');
+        // ✅ Wrap in SocialCheckMark safely
+        $regular       = SocialCheckMark($Regularity, 'regular');
+        $irregular     = SocialCheckMark($Regularity, 'irregular');
+        $has_history   = SocialCheckMark($Historydysmenorrhea, 'yes');
+        $no_history    = SocialCheckMark($Historydysmenorrhea, 'no');
+        $mild          = SocialCheckMark($severity, 'mild');
+        $moderate      = SocialCheckMark($severity, 'moderate');
+        $severe        = SocialCheckMark($severity, 'severe');
+        $abnormal_yes  = SocialCheckMark($historyExcessiveBleeding, 'yes');
+        $abnormal_no   = SocialCheckMark($historyExcessiveBleeding, 'no');
+        $has_pregnancy = SocialCheckMark($PreviousPregnancy, 'yes');
+        $no_pregnancy  = SocialCheckMark($PreviousPregnancy, 'no');
+        $has_children  = SocialCheckMark($hadchildren, 'yes');
+        $no_children   = SocialCheckMark($hadchildren, 'no');
 
-$Historydysmenorrhea = $femaleHealthHistory['Dysmenorrhea'];
+        // ✅ Handle dates safely (null if missing or invalid)
+        $rawDate = $femaleHealthHistory['LastPeriod'] ?? null;
+        $formattedDate = null;
+        if ($rawDate) {
+            $dateObject = DateTime::createFromFormat('Y-m-d', $rawDate);
+            $formattedDate = $dateObject ? $dateObject->format('m/d/Y') : null;
+        }
 
-$has_history = SocialCheckMark($Historydysmenorrhea, 'yes');
-$no_history = SocialCheckMark($Historydysmenorrhea, 'no');
+        $LOBVrawDate = $femaleHealthHistory['LastOBVisit'] ?? null;
+        $LOBVformattedDate = null;
+        if ($LOBVrawDate) {
+            $LOBVdateObject = DateTime::createFromFormat('Y-m-d', $LOBVrawDate);
+            $LOBVformattedDate = $LOBVdateObject ? $LOBVdateObject->format('m/d/Y') : null;
+        }
 
-$severity = $femaleHealthHistory['DysmenorrheaSeverity'];
-$mild = SocialCheckMark($severity, 'mild');
-$moderate = SocialCheckMark($severity, 'moderate');
-$severe = SocialCheckMark($severity, 'severe');
+        // ✅ Use null fallback for optional text fields
+        $duration         = $femaleHealthHistory['Duration'] ?? null;
+        $padsPerDay       = $femaleHealthHistory['PadsPerDay'] ?? null;
+        $pregnancyDetails = $femaleHealthHistory['PregnancyDetails'] ?? null;
+        $childrenCount    = $femaleHealthHistory['ChildrenCount'] ?? null;
 
-$historyExcessiveBleeding = $femaleHealthHistory['AbnormalBleeding'];
-$abnormal_yes = SocialCheckMark($historyExcessiveBleeding, 'yes');
-$abnormal_no = SocialCheckMark($historyExcessiveBleeding, 'no');
-
-$PreviousPregnancy = $femaleHealthHistory['PreviousPregnancy'];
-$has_pregnancy = SocialCheckMark($PreviousPregnancy, 'yes');
-$no_pregnancy = SocialCheckMark($PreviousPregnancy, 'no');
-
-$hadchildren = $femaleHealthHistory['HasChildren'];
-$has_children = SocialCheckMark($hadchildren, 'yes');
-$no_children = SocialCheckMark($hadchildren, 'no');
-//==================================================================
-
-$rawDate = $femaleHealthHistory['LastPeriod']; // e.g., '2024-07-09'
-$dateObject = DateTime::createFromFormat('Y-m-d', $rawDate);
-
-if ($dateObject) {
-    $formattedDate = $dateObject->format('m/d/Y'); // '07/09/2024'
-} else {
-    $formattedDate = ''; // fallback if something goes wrong
-}
-
-$LOBVrawDate = $femaleHealthHistory['LastOBVisit']; // e.g., '2024-07-09'
-$LOBVdateObject = DateTime::createFromFormat('Y-m-d', $LOBVrawDate);
-
-if ($LOBVdateObject) {
-    $LOBVformattedDate = $LOBVdateObject->format('m/d/Y'); // '07/09/2024'
-} else {
-    $LOBVformattedDate = ''; // fallback if something goes wrong
-}
+        $duration         = $femaleHealthHistory['Duration'] ?? null;
+        $padsPerDay       = $femaleHealthHistory['PadsPerDay'] ?? null;
+        $pregnancyDetails = $femaleHealthHistory['PregnancyDetails'] ?? null;
+        $childrenCount    = $femaleHealthHistory['ChildrenCount'] ?? null;
 
 
-    $html .= <<<EOD
+        $html .= <<<EOD
 <table width="100%" style="font-size: 9pt; margin-bottom: 10px; border-collapse: collapse;" border="0">
     <tr>
         <td colspan="2" style="text-align:left; font-weight: bold; font-size: 10pt;">
@@ -626,13 +739,13 @@ if ($LOBVdateObject) {
      <tr>
         <td style="width: 15.5%;"></td>
         <td style="width: 9%;">Duration:</td>
-        <td style="width: 14%; font-weight: bold; border-bottom: 1px solid black;">{$femaleHealthHistory['Duration']}</td>
+        <td style="width: 14%; font-weight: bold; border-bottom: 1px solid black;"><?= $duration ?? '' ?></td>
         <td style="width: 12%;">days/ weeks</td>
     </tr>
     <tr>
         <td style="width: 15.5%;"></td>
         <td style="width: 15%;">No. of pads/day:</td>
-        <td style="width: 19%; font-weight: bold; border-bottom: 1px solid black;">{$femaleHealthHistory['PadsPerDay']}</td>
+        <td style="width: 19%; font-weight: bold; border-bottom: 1px solid black;"><?= $padsPerDay ?? '' ?></td>
     </tr>
    
 </table>
@@ -726,7 +839,7 @@ if ($LOBVdateObject) {
         </td>
          <td style="width: 2.7%; border: 1px solid black;">$has_pregnancy</td>
         <td style="width: 41%;">Yes (number, normal/ C-section, home/hospital, etc)</td>
-        <td style="width: 27%; border-bottom: 1px solid black">{$femaleHealthHistory['PregnancyDetails']}</td>
+        <td style="width: 27%; border-bottom: 1px solid black"><?= $pregnancyDetails ?? '' ?></td>
     </tr>
 </table>
 <table width="100%" style="font-size: 9pt; margin-bottom: 10px; border-collapse: collapse;" border="0">
@@ -755,7 +868,7 @@ if ($LOBVdateObject) {
         </td>
          <td style="width: 2.6%; border: 1px solid black;">$has_children</td>
         <td style="width: 15%;">Yes (how many?)</td>
-        <td style="width: 27%; border-bottom: 1px solid black">{$femaleHealthHistory['ChildrenCount']}</td>
+        <td style="width: 27%; border-bottom: 1px solid black"><?= $childrenCount ?? '' ?></td>
     </tr>
 </table>
 <table width="100%" style="font-size: 9pt; margin-bottom: 10px; border-collapse: collapse;" border="0">
@@ -783,16 +896,42 @@ if ($LOBVdateObject) {
 </table>
 <br>
 EOD;
-}
+    }
+    // Make sure arrays aren't null
+    $physicalExamination = $physicalExamination ?? [];
 
-$genAppearanceText = ($physicalExamination['GenAppearanceAndSkinNormal'] == 1) ? 'Yes' : 'No';
-$headNeckText = ($physicalExamination['HeadAndNeckNormal'] == 1) ? 'Yes' : 'No';
-$checkBackText = ($physicalExamination['ChestAndBackNormal'] == 1) ? 'Yes' : 'No';
-$abdomenText = ($physicalExamination['AbdomenNormal'] == 1) ? 'Yes' : 'No';
-$extremitiesText = ($physicalExamination['ExtremitiesNormal'] == 1) ? 'Yes' : 'No';
-$othersText = ($physicalExamination['OthersNormal'] == 1) ? 'Yes' : 'No';
+    // vitals (safe)
+    $height = $physicalExamination['Height'] ?? '';
+    $weight = $physicalExamination['Weight'] ?? '';
+    $bmi    = $physicalExamination['BMI'] ?? '';
+    $bp     = $physicalExamination['BP'] ?? '';
+    $hr     = $physicalExamination['HR'] ?? '';
+    $rr     = $physicalExamination['RR'] ?? '';
+    $temp   = $physicalExamination['Temp'] ?? '';
 
-$html .= <<<EOD
+    // Normal? (Yes/No/blank if missing)
+    $genAppearanceText = array_key_exists('GenAppearanceAndSkinNormal', $physicalExamination)
+        ? (($physicalExamination['GenAppearanceAndSkinNormal'] == 1) ? 'Yes' : 'No') : '';
+    $headNeckText = array_key_exists('HeadAndNeckNormal', $physicalExamination)
+        ? (($physicalExamination['HeadAndNeckNormal'] == 1) ? 'Yes' : 'No') : '';
+    $checkBackText = array_key_exists('ChestAndBackNormal', $physicalExamination)
+        ? (($physicalExamination['ChestAndBackNormal'] == 1) ? 'Yes' : 'No') : '';
+    $abdomenText = array_key_exists('AbdomenNormal', $physicalExamination)
+        ? (($physicalExamination['AbdomenNormal'] == 1) ? 'Yes' : 'No') : '';
+    $extremitiesText = array_key_exists('ExtremitiesNormal', $physicalExamination)
+        ? (($physicalExamination['ExtremitiesNormal'] == 1) ? 'Yes' : 'No') : '';
+    $othersText = array_key_exists('OthersNormal', $physicalExamination)
+        ? (($physicalExamination['OthersNormal'] == 1) ? 'Yes' : 'No') : '';
+
+    // Findings (safe)
+    $genAppearanceFindings = $physicalExamination['GenAppearanceAndSkinFindings'] ?? '';
+    $headNeckFindings      = $physicalExamination['HeadAndNeckFindings'] ?? '';
+    $chestBackFindings     = $physicalExamination['ChestAndBackFindings'] ?? '';
+    $abdomenFindings       = $physicalExamination['AbdomenFindings'] ?? '';
+    $extremitiesFindings   = $physicalExamination['ExtremitiesFindings'] ?? '';
+    $othersFindings        = $physicalExamination['OthersFindings'] ?? '';
+
+    $html .= <<<EOD
 <table width="100%" style="font-size: 9pt; margin-bottom: 10px; border-collapse: collapse;">
     <tr>
        <br>
@@ -808,13 +947,13 @@ $html .= <<<EOD
 </table>
 <table width="100%" style="font-size: 10pt; margin-bottom: 10px; border-collapse: collapse;" border="1">
     <tr>
-       <td style="font-style: italic">Height (m)<br><span class="value">{$physicalExamination['Height']}</span></td>
-       <td style="font-style: italic">Weight (kg)<br><span class="value">{$physicalExamination['Weight']}</span></td>
-       <td style="font-style: italic">BMI (kg/m2)<br><span class="value">{$physicalExamination['BMI']}</span></td>
-       <td style="font-style: italic">BP (mmHg)<br><span class="value">{$physicalExamination['BP']}</span></td>
-       <td style="font-style: italic">HR (bpm)<br><span class="value">{$physicalExamination['HR']}</span></td>
-       <td style="font-style: italic">RR (cpm)<br><span class="value">{$physicalExamination['RR']}</span></td>
-       <td style="font-style: italic">Temp (C)<br><span class="value">{$physicalExamination['Temp']}</span></td>
+       <td style="font-style: italic">Height (m)<br><span class="value">{$height}</span></td>
+       <td style="font-style: italic">Weight (kg)<br><span class="value">{$weight}</span></td>
+       <td style="font-style: italic">BMI (kg/m2)<br><span class="value">{$bmi}</span></td>
+       <td style="font-style: italic">BP (mmHg)<br><span class="value">{$bp}</span></td>
+       <td style="font-style: italic">HR (bpm)<br><span class="value">{$hr}</span></td>
+       <td style="font-style: italic">RR (cpm)<br><span class="value">{$rr}</span></td>
+       <td style="font-style: italic">Temp (C)<br><span class="value">{$temp}</span></td>
     </tr>
 </table>
 <table width="100%" style="font-size: 9pt; margin-bottom: 10px; border-collapse: collapse;" border="0">
@@ -829,36 +968,37 @@ $html .= <<<EOD
        <td style="width: 50%"></td>
     </tr>
     <tr>
-       <td style="width: 30%">Gen. Apperance and Skin</td>
+       <td style="width: 30%">Gen. Appearance and Skin</td>
        <td style="width: 20%; text-align: center"><span class="value">{$genAppearanceText}</span></td>
-       <td style="width: 50%"><span class="value">{$physicalExamination['GenAppearanceAndSkinFindings']}</span></td>
+       <td style="width: 50%"><span class="value">{$genAppearanceFindings}</span></td>
     </tr>
      <tr>
        <td style="width: 30%">Head and Neck</td>
        <td style="width: 20%; text-align: center"><span class="value">{$headNeckText}</span></td>
-       <td style="width: 50%"><span class="value">{$physicalExamination['HeadAndNeckFindings']}</span></td>
+       <td style="width: 50%"><span class="value">{$headNeckFindings}</span></td>
     </tr>
      <tr>
        <td style="width: 30%">Chest and Back</td>
        <td style="width: 20%; text-align: center"><span class="value">{$checkBackText}</span></td>
-       <td style="width: 50%"><span class="value">{$physicalExamination['ChestAndBackFindings']}</span></td>
+       <td style="width: 50%"><span class="value">{$chestBackFindings}</span></td>
     </tr>
      <tr>
        <td style="width: 30%">Abdomen</td>
        <td style="width: 20%; text-align: center"><span class="value">{$abdomenText}</span></td>
-       <td style="width: 50%"><span class="value">{$physicalExamination['AbdomenFindings']}</span></td>
+       <td style="width: 50%"><span class="value">{$abdomenFindings}</span></td>
     </tr>
      <tr>
        <td style="width: 30%">Extremities</td>
        <td style="width: 20%; text-align: center"><span class="value">{$extremitiesText}</span></td>
-       <td style="width: 50%"><span class="value">{$physicalExamination['ExtremitiesFindings']}</span></td>
+       <td style="width: 50%"><span class="value">{$extremitiesFindings}</span></td>
     </tr>
     <tr>
        <td style="width: 30%">Others</td>
        <td style="width: 20%; text-align: center"><span class="value">{$othersText}</span></td>
-       <td style="width: 50%"><span class="value">{$physicalExamination['OthersFindings']}</span></td>
+       <td style="width: 50%"><span class="value">{$othersFindings}</span></td>
     </tr>
 </table>
+
 <table width="100%" style="font-size: 9pt; margin-bottom: 10px; border-collapse: collapse;" border="0">
     <tr>
         <td style="font-size: 10pt;"></td>
@@ -872,13 +1012,24 @@ $html .= <<<EOD
         </td>
     </tr>
 </table>
+<!-- Chest X-ray -->
+<table width="100%" style="font-size: 9pt; margin-bottom: 10px; border-collapse: collapse;">
+    <tr>
+       <br>
+        <td colspan="2" style="text-align:left; font-weight: bold; font-size: 10pt;">
+            V. DIAGNOSTIC RESULTS: (Pls. include date of examination)
+        </td>
+    </tr>
+</table>
 <table width="100%" style="font-size: 10pt; margin-bottom: 10px; border-collapse: collapse;">
     <tr>
        <td style="width: 4%"></td>
-       <td style="width: 2.7%; border: 1px solid black;">$xray_check</td>
+       <td style="width: 2.7%; border: 1px solid black;">{$xray_check}</td>
        <td style="width: 1%"></td>
        <td style="width: 12%">Chest X-ray:</td>
-       <td style="width: 45%; border-bottom: 1px solid black"><span class="value">{$diagnosticResults['XrayFindings']}</span></td>
+       <td style="width: 45%; border-bottom: 1px solid black">
+           <span class="value">{$chestXrayResult}</span>
+       </td>
     </tr>
 </table>
 <table width="100%" style="font-size: 9pt; margin-bottom: 10px; border-collapse: collapse;" border="0">
@@ -886,13 +1037,14 @@ $html .= <<<EOD
         <td style="font-size: 10pt;"></td>
     </tr>
 </table>
+
+<!-- Impression -->
 <table width="100%" style="font-size: 9pt; margin-bottom: 10px; border-collapse: collapse;">
     <tr>
-       <br>
-        <td colspan="2" style="width: 18%; text-align:left; font-weight: bold; font-size: 10pt;">
-            VI. IMPRESSION:
+        <td colspan="2" style="width: 18%; text-align:left; font-weight: bold; font-size: 10pt;">VI. IMPRESSION:</td>
+        <td style="width: 82%; border-bottom: 1px solid black">
+            <span class="value">{$impression}</span>
         </td>
-        <td style="width: 82%; border-bottom: 1px solid black"><span class="value">{$diagnosticResults['Impression']}</span></td>
     </tr>
 </table>
 <table width="100%" style="font-size: 9pt; margin-bottom: 10px; border-collapse: collapse;" border="0">
@@ -900,71 +1052,83 @@ $html .= <<<EOD
         <td style="font-size: 10pt;"></td>
     </tr>
 </table>
+
+<!-- Plan -->
 <table width="100%" style="font-size: 9pt; margin-bottom: 10px; border-collapse: collapse;">
     <tr>
-       <br>
-        <td colspan="2" style="width: 12%; text-align:left; font-weight: bold; font-size: 10pt;">
-            VII. PLAN:
-        </td>
+        <td colspan="2" style="width: 12%; text-align:left; font-weight: bold; font-size: 10pt;">VII. PLAN:</td>
     </tr>
 </table>
+
 <table width="100%" style="font-size: 10pt; margin-bottom: 10px; border-collapse: collapse;">
     <tr>
        <td style="width: 4%"></td>
-       <td style="width: 2.7%; border: 1px solid black;">$diagnostic_check</td>
+       <td style="width: 2.7%; border: 1px solid black;">{$diagnostic_check}</td>
        <td style="width: 1%"></td>
        <td style="width: 11%">Diagnostic:</td>
-       <td style="width: 35%; border-bottom: 1px solid black"><span class="value">{$diagnosticResults['DiscussionDetails']}</span></td>
+       <td style="width: 35%; border-bottom: 1px solid black">
+           <span class="value">{$discussionDetails}</span>
+       </td>
 
        <td style="width: 10%"></td>
        <td style="width: 2.7%; border: 1px solid black;"></td>
        <td style="width: 1%"></td>
-       <td style="width: 8%">Advise:</td>
-       <td style="width: 25%; border-bottom: 1px solid black"></td>
+       <td style="width: 8%">Advice:</td>
+       <td style="width: 25%; border-bottom: 1px solid black">
+           <span class="value">{$abbreviationsUsed}</span>
+       </td>
     </tr>
+
+    <tr><td style="font-size: 2.5px;"></td></tr>
+
     <tr>
-       <td style="font-size: 2.5px;"></td>
-    </tr>
-     <tr>
        <td style="width: 4%"></td>
-       <td style="width: 2.7%; border: 1px solid black;">$homeMed_Check</td>
+       <td style="width: 2.7%; border: 1px solid black;">{$homeMed_Check}</td>
        <td style="width: 1%"></td>
        <td style="width: 17%">Home Medication:</td>
-       <td style="width: 29%; border-bottom: 1px solid black"><span class="value">{$diagnosticResults['MedicationDetails']}</span></td>
+       <td style="width: 29%; border-bottom: 1px solid black">
+           <span class="value">{$homeMedication}</span>
+       </td>
 
        <td style="width: 10%"></td>
        <td style="width: 2.7%; border: 1px solid black;"></td>
        <td style="width: 1%"></td>
        <td style="width: 10%">F-f (Date):</td>
-       <td style="width: 23%; border-bottom: 1px solid black"><span class="value">{$diagnosticResults['F1Date']}</span></td>
+       <td style="width: 23%; border-bottom: 1px solid black">
+           <span class="value">{$followUpDate}</span>
+       </td>
     </tr>
-        <tr>
-       <td style="font-size: 2.5px;"></td>
-    </tr>
-     <tr>
+
+    <tr><td style="font-size: 2.5px;"></td></tr>
+
+    <tr>
        <td style="width: 4%"></td>
        <td style="width: 49.6%; border-bottom: 1px solid black"></td>
 
        <td style="width: 10%"></td>
-       <td style="width: 2.7%; border: 1px solid black;">$medCert_Isseud_check</td>
+       <td style="width: 2.7%; border: 1px solid black;">{$medCert_Isseud_check}</td>
        <td style="width: 1%"></td>
        <td style="width: 30%">Medical Certificate issued:</td>
     </tr>
+
+    <tr><td style="font-size: 2.5px;"></td></tr>
+
     <tr>
-       <td style="font-size: 2.5px;"></td>
-    </tr>
-     <tr>
        <td style="width: 4%"></td>
-       <td style="width: 2.7%; border: 1px solid black;">$homeInstructions_Check</td>
+       <td style="width: 2.7%; border: 1px solid black;">{$homeInstructions_Check}</td>
        <td style="width: 1%"></td>
        <td style="width: 17%">Home Instructions:</td>
-       <td style="width: 29%; border-bottom: 1px solid black"><span class="value">{$diagnosticResults['InstructionDetails']}</span></td>
+       <td style="width: 29%; border-bottom: 1px solid black">
+           <span class="value">{$homeInstructions}</span>
+       </td>
 
        <td style="width: 10%"></td>
        <td style="width: 2.7%; border: 1px solid black;"></td>
        <td style="width: 1%"></td>
        <td style="width: 9%">Referred:</td>
-       <td style="width: 24%; border-bottom: 1px solid black"><span class="value">{$diagnosticResults['ReferredTo']}</span></td>
+       <td style="width: 24%; border-bottom: 1px solid black">
+           <span class="value">{$referred}</span>
+       </td>
     </tr>
 </table>
 <table width="100%" style="font-size: 9pt; margin-bottom: 10px; border-collapse: collapse;" border="0">
@@ -972,67 +1136,67 @@ $html .= <<<EOD
         <td style="font-size: 10pt;"></td>
     </tr>
 </table>
+
+<!-- Recommendation -->
 <table width="100%" style="font-size: 10pt; margin-bottom: 10px; border-collapse: collapse;">
     <tr>
        <td style="width: 20%">Recommendation:</td>
-
-       <td style="width: 2.7%; border: 1px solid black;">$fit_enroll_work</td>
+       <td style="width: 2.7%; border: 1px solid black;">{$fit_enroll_work}</td>
        <td style="width: 25%">Fit to Enroll/Work</td>
+       <td style="width: 2.7%; border: 1px solid black;">{$fit_enroll_eval}</td>
+       <td style="width: 50%">Fit to Enroll but requires further evaluation</td>
+    </tr>
 
-       <td style="width: 2.7%; border: 1px solid black;">$fit_enroll_eval</td>
-       <td style="width: 50%">Fit to Enroll but requires further evalutation</td>
-    </tr>
-     <tr>
-       <td style="font-size: 2.5px;"></td>
-    </tr>
+    <tr><td style="font-size: 2.5px;"></td></tr>
+
     <tr>
        <td style="width: 20%"></td>
-
        <td style="width: 2.7%;"></td>
        <td style="width: 25%"></td>
-
-       <td style="width: 2.7%; border: 1px solid black;">$fit_work_eval</td>
+       <td style="width: 2.7%; border: 1px solid black;">{$fit_work_eval}</td>
        <td style="width: 50%">Fit to Work but requires further evaluation</td>
     </tr>
-    <tr>
-       <td style="font-size: 2.5px;"></td>
-    </tr>
+
+    <tr><td style="font-size: 2.5px;"></td></tr>
+
     <tr>
        <td style="width: 20%"></td>
-
-       <td style="width: 2.7%; border: 1px solid black;">$fit_sports</td>
+       <td style="width: 2.7%; border: 1px solid black;">{$fit_sports}</td>
        <td style="width: 25%">Fit to Participate in Sports</td>
-
-       <td style="width: 2.7%; border: 1px solid black;">$fit_sports_eval</td>
+       <td style="width: 2.7%; border: 1px solid black;">{$fit_sports_eval}</td>
        <td style="width: 50%">Fit to Participate in Sports but requires further evaluation</td>
     </tr>
 </table>
-<br>
-<br>
-<br>
+
+<br><br><br>
+
+<!-- Physician -->
 <table width="100%" style="font-size: 10pt; margin-bottom: 10px; border-collapse: collapse;">
     <tr>
-       <td style="width: 33%; border-bottom: 1px solid black; text-align: center;"><span class="value">{$diagnosticResults['PhysicianName']}</span></td>
+       <td style="width: 33%; border-bottom: 1px solid black; text-align: center;">
+           <span class="value">{$physicianName}</span>
+       </td>
     </tr>
-    <tr>
-       <td style="font-size: 2.5px;"></td>
-    </tr>
+    <tr><td style="font-size: 2.5px;"></td></tr>
     <tr>
        <td style="width: 35%; font-size: 10.5px; font-weight: bold">Physician's Name and Signature</td>
     </tr>
     <tr>
         <td style="width: 7%">Lic No:</td>
-       <td style="width: 25%; border-bottom: 1px solid black"><span class="value">{$diagnosticResults['LicenseNo']}</span></td>
+        <td style="width: 25%; border-bottom: 1px solid black">
+            <span class="value">{$licenseNo}</span>
+        </td>
     </tr>
     <tr>
         <td style="width: 6%">Date:</td>
-       <td style="width: 26%; border-bottom: 1px solid black"><span class="value">{$diagnosticResults['SignatureDate']}</span></td>
+        <td style="width: 26%; border-bottom: 1px solid black">
+            <span class="value">{$signatureDate}</span>
+        </td>
     </tr>
     <br>
-     <tr>
-        <td style="width: 100%; font-size: 9.5px;">LAGUNA STATE POLYTECHNIC UNIVERSITY - UNIVERSITY CLINIC</td>
+    <tr>
+        <td style="width: 100%; font-size: 9.5px;">{$institution}</td>
     </tr>
-
 </table>
 EOD;
     $pdf->SetFont('helvetica', '', 10);

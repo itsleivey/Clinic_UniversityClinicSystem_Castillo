@@ -311,7 +311,13 @@ $fullName = trim($givenName . $surname);
                     <span class="nav-text">Manage Patients</span>
                 </button>
             </a>
-           <!--
+            <a href="Data_Management.php">
+                <button class="buttons" id="datamanagementBtn">
+                    <img src="assets/images/data_manage_icon.svg" class="button-icon-nav" loading="lazy">
+                    <span class="nav-text">Data Management</span>
+                </button>
+            </a>
+            <!--
             <a href="Calendar.html">
                 <button class="buttons" id="calendarBtn">
                     <img src="assets/images/calendar_icon.svg" class="button-icon-nav" loading="lazy">

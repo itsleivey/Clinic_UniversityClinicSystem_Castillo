@@ -533,6 +533,7 @@ if ($clientID) {
                                 <option value="College of Nursing and Allied Health" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Nursing and Allied Health') ? 'selected' : '' ?>>College of Nursing and Allied Health</option>
                             </select>
                         </div>
+
                         <div class="form-group" id="courseGroup">
                             <label for="course">Course*</label>
                             <select id="course" name="course" class="form-control" required>
@@ -540,8 +541,37 @@ if ($clientID) {
                             </select>
                         </div>
 
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function() {
+                                const clientType = document.getElementById("clientType");
+                                const departmentGroup = document.getElementById("departmentGroup");
+                                const courseGroup = document.getElementById("courseGroup");
+
+                                function toggleFields() {
+                                    const type = clientType.value;
+
+                                    if (type === "Freshman" || type === "Student") {
+                                        departmentGroup.style.display = "block";
+                                        courseGroup.style.display = "block";
+                                    } else if (type === "Faculty") {
+                                        departmentGroup.style.display = "block";
+                                        courseGroup.style.display = "none";
+                                    } else {
+                                        departmentGroup.style.display = "none";
+                                        courseGroup.style.display = "none";
+                                    }
+                                }
+
+                                clientType.addEventListener("change", toggleFields);
+
+                                // Run on page load (for edit mode / postback)
+                                toggleFields();
+                            });
+                        </script>
                         <div class="alert-buttons">
-                            <button type="submit" class="btn btn-primary">Save & Continue</button>
+                            <a href="Medical_Form.php">
+                                <button type="submit" class="btn btn-primary">Save & Continue</button>
+                            </a>
                         </div>
 
                         <?php if (isset($success_message)) : ?>
@@ -747,14 +777,14 @@ if ($clientID) {
                     <span class="nav-text">Manage Profile</span>
                 </button>
             </a>
-    
-                <a href="Medical_Form.php">
-                    <button class="buttons" id="medicalBtn">
-                        <img src="UC-Client/assets/images/Form-icon.svg" class="button-icon-nav" loading="lazy">
-                        <span class="nav-text">Medical Form</span>
-                    </button>
-                </a>
-           
+
+            <a href="Medical_Form.php">
+                <button class="buttons" id="medicalBtn">
+                    <img src="UC-Client/assets/images/Form-icon.svg" class="button-icon-nav" loading="lazy">
+                    <span class="nav-text">Medical Form</span>
+                </button>
+            </a>
+
             <form action="logout.php" method="post">
                 <button type="submit" class="buttons" id="logoutbtn">
                     <img src="UC-Client/assets/images/logout-icon.svg" class="button-icon-nav" loading="lazy">
@@ -772,7 +802,7 @@ if ($clientID) {
                     <!-- Modal -->
                     <!--This modal will only shown if the clienttype is freshman -->
                     <?php if (strtolower($clientType) === 'freshman'): ?>
-                        <div id="exam-modal" class="modal">
+                        <div id="exam-modal" class="modal" style="display: none;">
                             <div class="modal-content">
                                 <span class="close-btn" onclick="closeExamModal()">&times;</span>
                                 <h2 class="modal-title">Physical Examination Instructions</h2>
