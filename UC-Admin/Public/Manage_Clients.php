@@ -31,15 +31,16 @@ $newpersonnel = fetchNewPersonnel();
     <div class="header">
         <img src="assets/images/Lspu logo.png" alt="Logo" type="image/webp" loading="lazy">
         <div class="title">
-            <span>University</span>
-            <span>Clinic</span>
+            <span class="university_title">University Clinic </span>
+            <p>Patient's Profile </p>
+            <p>Management System</p>
         </div>
         <button id="toggle-btn">
             <img id="btnicon" src="assets/images/menu-icon.svg">
         </button>
         </button>
-        <div class="title">
-            <h3>Manage Patients</h3>
+        <div class="page-title">
+            <h4>Manage Patients</h4>
         </div>
     </div>
 

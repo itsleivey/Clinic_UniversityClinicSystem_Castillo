@@ -82,14 +82,15 @@ for ($month = 1; $month <= 12; $month++) {
     <div class="header">
         <img src="assets/images/Lspu logo.png" alt="Logo" type="image/webp" loading="lazy">
         <div class="title">
-            <span>University</span>
-            <span>Clinic</span>
+            <span class="university_title">University Clinic </span>
+            <p>Patient's Profile </p>
+            <p>Management System</p>
         </div>
         <button id="toggle-btn">
             <img id="btnicon" src="assets/images/menu-icon.svg">
         </button>
-        <div class="title">
-            <h3>Dashboard</h3>
+        <div class="page-title">
+            <h4>Dashboard</h4>
         </div>
     </div>
 
@@ -179,12 +180,12 @@ for ($month = 1; $month <= 12; $month++) {
                             <div class="legend-item">
                                 <i class="fas fa-mars icon" style="color: #6BD9E7;"></i>
                                 <span class="label">Male</span>
-                                <span class="value"><?= $genderCounts['male'] ?></span>
+                                <span class="value"><?= $genderCounts['male'] ?? "0" ?></span>
                             </div>
                             <div class="legend-item">
                                 <i class="fas fa-venus icon" style="color: #FF8FC9;"></i>
                                 <span class="label">Female</span>
-                                <span class="value"><?= $genderCounts['female'] ?></span>
+                                <span class="value"><?= $genderCounts['female'] ?? "0" ?></span>
                             </div>
                         </div>
 
@@ -295,6 +296,9 @@ for ($month = 1; $month <= 12; $month++) {
                         </div>
 
                         <div id="students-content" class="tab-content" style="display: block;">
+                            <div>
+                                <h3>Registered Students</h3>
+                            </div>
                             <div class="department-table-container">
                                 <?php
                                 require_once 'dashboard.dbf/students_department_stats.php';
@@ -307,7 +311,7 @@ for ($month = 1; $month <= 12; $month++) {
                                     <table class="department-table">
                                         <thead>
                                             <tr>
-                                                <th>Rank</th>
+                                                <th>No.</th>
                                                 <th>Department</th>
                                                 <th>Number of Students</th>
                                                 <!-- <th>Percentage</th>
@@ -355,7 +359,9 @@ for ($month = 1; $month <= 12; $month++) {
                             </div>
                         </td>-->
                         <div id="employees-content" class="tab-content" style="display: none;">
-
+                            <div>
+                                <h3>Registered Teaching Personnels</h3>
+                            </div>
                             <div class="department-table-container">
                                 <?php
                                 require_once 'dashboard.dbf/faculty_department_stats.php';
@@ -368,9 +374,9 @@ for ($month = 1; $month <= 12; $month++) {
                                     <table class="department-table">
                                         <thead>
                                             <tr>
-                                                <th>Rank</th>
+                                                <th>No.</th>
                                                 <th>Department</th>
-                                                <th>Number of Faculties</th>
+                                                <th>Number of Teaching Personnels</th>
 
                                             </tr>
                                         </thead>

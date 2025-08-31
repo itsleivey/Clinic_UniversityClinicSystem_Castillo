@@ -1,0 +1,93 @@
+.backup-history {
+  margin-top: 20px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: solid #ccc 1px;
+  width: 100%;
+}
+
+.backup-history h2 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: 600;
+  width: 100%;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.history-table th,
+.history-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+.history-table th {
+  background: #f7f7f7;
+  font-weight: 600;
+  color: #444;
+}
+
+.history-table tr:hover {
+  background: #fafafa;
+  transition: 0.2s;
+}
+
+/* Status badges */
+.status {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.status.success {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.status.failed {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Download button */
+.btn-download {
+  display: inline-block;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #2563eb;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.btn-download:hover {
+  background: #1e40af;
+}
+
+/* Muted text for no action */
+.muted {
+  color: #aaa;
+  font-size: 12px;
+}
+
+/* No records message */
+.no-records {
+  margin-top: 15px;
+  color: #666;
+  font-style: italic;
+}

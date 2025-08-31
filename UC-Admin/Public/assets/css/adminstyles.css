@@ -1,177 +1,187 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html,
 body {
-    height: 100%;
-    margin: 0;
+  height: 100%;
+  margin: 0;
 }
 
 body {
-    display: flex;
-    flex-direction: column;
-    height: 130vh;
-    background-color: #EAF0FC;
-    grid-template-columns: auto 1fr;
-    font-family:'Roboto', sans-serif;
-    overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  height: 130vh;
+  background-color: #eaf0fc;
+  grid-template-columns: auto 1fr;
+  font-family: "Roboto", sans-serif;
+  overflow-y: auto;
 }
 
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 70px;
-    background-color: white;
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.178);
-    z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.178);
+  z-index: 1000;
 }
 
 .header img {
-    height: 70px;
-    width: auto;
-    margin-left: -20px;
+  height: 70px;
+  width: auto;
+  margin-left: -20px;
 }
 
 #btnicon {
-    margin-left: 15px;
-    width: 40%;
-    height: 40%;
+  margin-left: 15px;
+  width: 40%;
+  height: 40%;
 }
 
 .title {
-    display: flex;
-    flex-direction: column;
-    font-size: 18px;
-    font-weight: bold;
-    color: #0056b3;
-    text-align: center;
-    line-height: 1.2;
-    margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+  font-size: clamp(10px, 2vw, 13px);
+  font-weight: normal;
+  color: #206bbb;
+  text-align: center;
+  line-height: 1.2;
+  margin-left: 10px;
+}
+
+.university_title {
+  font-size: clamp(11px, 3vw, 15px);
+  color: #0056b3;
+  font-weight: bold;
+}
+
+.page-title {
+  color: #0056b3;
 }
 
 .main-container {
-    display: flex;
-    flex: 1;
+  display: flex;
+  flex: 1;
 }
 
 /*Navigation Bar--------------------------------------*/
 .navbar {
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 70px;
-    left: 0;
-    width: 220px;
-    height: 100%;
-    background: linear-gradient(to top, #2E68CC, #52AFFD);
-    padding: 20px;
-    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
-    z-index: 999;
-    transition: 200ms ease-in-out;
-    overflow: hidden;
-    white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 70px;
+  left: 0;
+  width: 220px;
+  height: 100%;
+  background: linear-gradient(to top, #2e68cc, #52affd);
+  padding: 20px;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  transition: 200ms ease-in-out;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .navbar.collapsed {
-    width: 60px; 
+  width: 60px;
 }
 
 .navbar.collapsed ~ .content {
-    margin-left: 60px;
-    width: calc(100% - 60px); 
+  margin-left: 60px;
+  width: calc(100% - 60px);
 }
 
 .navbar.collapsed .buttons {
-    width: 40px; 
+  width: 40px;
 }
 
 .navbar.collapsed .nav-text {
-    display: none; 
+  display: none;
 }
 .buttons {
-    display: flex;
-    align-items: center;
-    transition: transform 300ms ease-in-out, margin-left 300ms ease-in-out;
+  display: flex;
+  align-items: center;
+  transition: transform 300ms ease-in-out, margin-left 300ms ease-in-out;
 }
 .navbar.collapsed .buttons {
-    transform: translateX(-10px); 
-    transition: 300ms ease-in-out;
+  transform: translateX(-10px);
+  transition: 300ms ease-in-out;
 }
 .navbar:hover {
-    width: 220px;
+  width: 220px;
 }
 .navbar:hover .buttons {
-    width: 100%;
-    transform: translateX(0);
-    transition: width 300ms ease-in-out, transform 300ms ease-in-out;
+  width: 100%;
+  transform: translateX(0);
+  transition: width 300ms ease-in-out, transform 300ms ease-in-out;
 }
 
 .navbar:hover .nav-text {
-    display: inline-block; 
-    opacity: 1; 
-    transition: opacity 0ms ease-in-out;
-    white-space: nowrap; 
+  display: inline-block;
+  opacity: 1;
+  transition: opacity 0ms ease-in-out;
+  white-space: nowrap;
 }
 
 /* Header toogle-btn section ----------------------------------*/
 #toggle-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #toggle-btn svg {
-    transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
 }
 
 .buttons {
-    background: transparent;
-    color: white;
-    border: none;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    text-align: left;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    font-size: 12px;
-    font-weight: bold;
-    transition: width 0.3s ease-in-out;
-    font-weight: normal;
-    font-size: clamp(9px, 1vw, 16px);
-    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+  background: transparent;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-size: 12px;
+  font-weight: bold;
+  transition: width 0.3s ease-in-out;
+  font-weight: normal;
+  font-size: clamp(9px, 1vw, 16px);
+  transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
 /* Nav-Bar toogle-btn section ----------------------------------*/
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 .buttons:not(.active):hover {
-    background: rgba(255, 255, 255, 0.2);
-  }
+  background: rgba(255, 255, 255, 0.2);
+}
 
 .buttons.active {
-    background-color: white;
-    color: #2E68CC;
+  background-color: white;
+  color: #2e68cc;
 }
 
 .button-icon-nav {
-    width: 20px;
-    height: 25px;
-    margin-right: 10px;
-    vertical-align: middle;
+  width: 20px;
+  height: 25px;
+  margin-right: 10px;
+  vertical-align: middle;
 }
 
 /*Navigation Bar--------------------------------------*/

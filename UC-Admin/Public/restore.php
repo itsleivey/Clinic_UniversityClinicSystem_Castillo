@@ -17,8 +17,7 @@ if (!isset($_FILES['backup_file']) || $_FILES['backup_file']['error'] !== UPLOAD
 
 $backupFile = $_FILES['backup_file']['tmp_name'];
 
-// Use mysql client to restore
-$mysqlPath = "mysql"; // adjust path if needed, e.g. C:\\xampp\\mysql\\bin\\mysql.exe
+$mysqlPath = "mysql";
 
 $command = "\"$mysqlPath\" --user=\"$user\" --password=\"$pass\" --host=\"$host\" --port=$port $db < \"$backupFile\"";
 

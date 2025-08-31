@@ -1,3 +1,18 @@
+<?php
+require_once 'config/database.php';
+$pdo = pdo_connect_mysql();
+
+try {
+    $stmt = $pdo->prepare("SELECT * FROM backup_logs ORDER BY id ASC");
+    $stmt->execute(); // ✅ You need to execute the query
+    $historyData = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error fetching history data: " . $e->getMessage());
+}
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +22,7 @@
     <title>Layout Example</title>
     <link rel="stylesheet" href="assets/css/dashboardpagestyles.css">
     <link rel="stylesheet" href="assets/css/adminstyles.css">
+    <link rel="stylesheet" href="assets/css/data_management.css">
     <link rel="stylesheet" href="webicons/fontawesome-free-6.7.2-web/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -20,14 +36,15 @@
     <div class="header">
         <img src="assets/images/Lspu logo.png" alt="Logo" type="image/webp" loading="lazy">
         <div class="title">
-            <span>University</span>
-            <span>Clinic</span>
+            <span class="university_title">University Clinic </span>
+            <p>Patient's Profile </p>
+            <p>Management System</p>
         </div>
         <button id="toggle-btn">
             <img id="btnicon" src="assets/images/menu-icon.svg">
         </button>
-        <div class="title">
-            <h3>Data Management</h3>
+        <div class="page-title">
+            <h4>Data Management</h4>
         </div>
     </div>
 
@@ -89,7 +106,57 @@
 
 
                 </div>
+
             </div>
+            <?php if (!empty($historyData)): ?>
+                <div class="backup-history">
+                    <h2 style="margin-bottom: 10px; color:#005b99;"><i class="fas fa-file-export"></i> Backup History</h2>
+
+                    <div class="table-wrapper">
+                        <table class="history-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>File Name</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($historyData as $index => $row): ?>
+                                    <tr>
+                                        <td><?= $index + 1 ?></td>
+                                        <td><?= htmlspecialchars($row['file_name']) ?></td>
+                                        <td><?= htmlspecialchars($row['backup_date']) ?></td>
+                                        <td><?= htmlspecialchars($row['backup_time']) ?></td>
+                                        <td>
+                                            <?php if ($row['status'] === 'success'): ?>
+                                                <span class="status success">Success</span>
+                                            <?php else: ?>
+                                                <span class="status failed">Failed</span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td>
+                                            <?php if ($row['status'] === 'success'): ?>
+                                                <a href="backups/<?= htmlspecialchars($row['file_name']) ?>" class="btn-download">Download</a>
+                                            <?php else: ?>
+                                                <span class="muted">—</span>
+                                            <?php endif; ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            <?php else: ?>
+                <p class="no-records">No backup records found.</p>
+            <?php endif; ?>
+
+
+
         </main>
 
         <!-- Status Modal -->

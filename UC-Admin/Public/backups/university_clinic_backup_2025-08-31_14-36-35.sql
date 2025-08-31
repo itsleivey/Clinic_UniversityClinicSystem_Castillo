@@ -42,6 +42,34 @@ INSERT INTO `admin` VALUES (1,'admin123','$2y$10$H486Rhx7nCvrUq/yB4qFI.fvSD7Jb8.
 UNLOCK TABLES;
 
 --
+-- Table structure for table `backup_logs`
+--
+
+DROP TABLE IF EXISTS `backup_logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `backup_logs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `file_name` varchar(255) NOT NULL,
+  `backup_date` date NOT NULL,
+  `backup_time` time NOT NULL,
+  `status` enum('success','failed') NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `backup_logs`
+--
+
+LOCK TABLES `backup_logs` WRITE;
+/*!40000 ALTER TABLE `backup_logs` DISABLE KEYS */;
+INSERT INTO `backup_logs` VALUES (1,'clinic_backup_2025-08-31_14-07-27.sql','2025-08-31','14:07:29','success','2025-08-31 12:07:29'),(2,'clinic_backup_2025-08-31_14-26-34.sql','2025-08-31','02:26:35','success','2025-08-31 12:26:35');
+/*!40000 ALTER TABLE `backup_logs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `client_certificates`
 --
 
@@ -748,7 +776,7 @@ CREATE TABLE `todolist` (
   `location` text DEFAULT NULL,
   `noted` text DEFAULT NULL,
   PRIMARY KEY (`todolistid`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -757,7 +785,7 @@ CREATE TABLE `todolist` (
 
 LOCK TABLES `todolist` WRITE;
 /*!40000 ALTER TABLE `todolist` DISABLE KEYS */;
-INSERT INTO `todolist` VALUES (26,'2025-04-30','09:00:00','Final Presentation','AVR','Good Luck!!!'),(27,'2025-05-16','01:00:00','Presentation','Lab 1/Lab 2','Good Luck'),(28,'2025-05-19','20:00:00','Meeting','Lab 1/Lab 2','');
+INSERT INTO `todolist` VALUES (29,'2025-08-30','06:53:00','Meeting','Campus, University Clinic','Late will not be accepted!!!');
 /*!40000 ALTER TABLE `todolist` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -770,4 +798,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-28 22:48:42
+-- Dump completed on 2025-08-31 20:36:35
