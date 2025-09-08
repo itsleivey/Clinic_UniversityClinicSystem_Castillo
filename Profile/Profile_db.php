@@ -5,7 +5,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-require_once('C:/Xampp.f/htdocs/UC-System/config/database.php');
+require_once '../config/database.php';
 
 $pdo = pdo_connect_mysql();
 
@@ -36,7 +36,7 @@ function getUserDataFromDatabase(PDO $pdo): ?array
             FROM PersonalInfo 
             WHERE ClientID = ? 
             LIMIT 1");
-        
+
         $stmt->execute([$_SESSION['ClientID']]);
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     } catch (PDOException $e) {
@@ -60,7 +60,7 @@ function getClientHistoryData(PDO $pdo): array
             FROM history
             WHERE ClientID = ?
             ORDER BY actionDate DESC, actionTime DESC");
-        
+
         $stmt->execute([$_SESSION['ClientID']]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -68,4 +68,3 @@ function getClientHistoryData(PDO $pdo): array
         return [];
     }
 }
-?>

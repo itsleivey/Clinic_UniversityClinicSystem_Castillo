@@ -27,6 +27,8 @@ function checkProfileCompletion($pdo, $clientId)
             return true;
         }
 
+
+
         return false;
     } catch (PDOException $e) {
         error_log("Database error: " . $e->getMessage());
@@ -42,10 +44,10 @@ if (isset($_SESSION['profile_completed'])) {
 } else {
     $requireProfileUpdate = checkProfileCompletion($pdo, $_SESSION['ClientID']);
 }
+//=========================================================================
 
 $clientType = '--.--.--';
 $department = '--.--.--';
-
 if ($clientId) {
     $conn = pdo_connect_mysql();
     $query = $conn->prepare("SELECT ClientType, Department, Course FROM clients WHERE ClientID = ?");
@@ -533,13 +535,14 @@ if ($clientID) {
                                 <option value="College of Nursing and Allied Health" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Nursing and Allied Health') ? 'selected' : '' ?>>College of Nursing and Allied Health</option>
                             </select>
                         </div>
-
-                        <div class="form-group" id="courseGroup">
-                            <label for="course">Course*</label>
-                            <select id="course" name="course" class="form-control" required>
-                                <option value="">Select a Course</option>
-                            </select>
-                        </div>
+                        <?php if (strtolower($clientType) === 'freshman' || strtolower($clientType) === 'students'): ?>
+                            <div class="form-group" id="courseGroup">
+                                <label for="course">Course*</label>
+                                <select id="course" name="course" class="form-control" required>
+                                    <option value="">Select a Course</option>
+                                </select>
+                            </div>
+                        <?php endif; ?>
 
                         <script>
                             document.addEventListener("DOMContentLoaded", function() {
@@ -778,13 +781,16 @@ if ($clientID) {
                 </button>
             </a>
 
-            <a href="Medical_Form.php">
-                <button class="buttons" id="medicalBtn">
-                    <img src="UC-Client/assets/images/Form-icon.svg" class="button-icon-nav" loading="lazy">
-                    <span class="nav-text">Medical Form</span>
-                </button>
-            </a>
-
+            <?php if (
+                strtolower($clientType) === 'freshman' || strtolower($clientType) === 'students'
+            ) : ?>
+                <a href="Medical_Form.php">
+                    <button class="buttons" id="medicalBtn">
+                        <img src="UC-Client/assets/images/Form-icon.svg" class="button-icon-nav" loading="lazy">
+                        <span class="nav-text">Medical Form</span>
+                    </button>
+                </a>
+            <?php endif; ?>
             <form action="logout.php" method="post">
                 <button type="submit" class="buttons" id="logoutbtn">
                     <img src="UC-Client/assets/images/logout-icon.svg" class="button-icon-nav" loading="lazy">
@@ -1207,15 +1213,15 @@ if ($clientID) {
 
                                     <div class="form-group">
                                         <label for="height">HEIGHT (M)</label>
-                                        <input type="text" id="height" name="height" value="<?= htmlspecialchars($height ?? '') ?>" required>
+                                        <input type="text" id="height" name="height" value="<?= htmlspecialchars($height ?? '') ?>">
                                     </div>
                                     <div class="form-group">
                                         <label for="weight">WEIGHT (KG)</label>
-                                        <input type="text" id="weight" name="weight" value="<?= htmlspecialchars($weight ?? '') ?>" required>
+                                        <input type="text" id="weight" name="weight" value="<?= htmlspecialchars($weight ?? '') ?>">
                                     </div>
                                     <div class="form-group">
                                         <label for="blood-type">BLOOD TYPE</label>
-                                        <input type="text" id="blood-type" name="blood-type" value="<?= htmlspecialchars($blood_type ?? '') ?>" required>
+                                        <input type="text" id="blood-type" name="blood-type" value="<?= htmlspecialchars($blood_type ?? '') ?>">
                                     </div>
                                     <div class="form-group">
                                         <label for="official_designation">OFFICIAL DESIGNATION</label>
@@ -1231,8 +1237,9 @@ if ($clientID) {
                                 </div>
                             </div>
 
-                            <div class="form-footer">
-                                <button class="buttons" type="submit" id="submitBtn">Submit</button>
+                            <div class="form-footer" style="margin-top: 20px; display: flex; justify-content: left; align-items: left; width: 100%;">
+                                <button class="buttons" type="submit" id="submitBtn"
+                                    style="max-width: 110px;padding: 20px 30px; background-color: #1583EB; border:none; border-radius: 10px;">Submit</button>
                             </div>
                         </form>
                         <script>
@@ -1473,6 +1480,7 @@ if ($clientID) {
                             ========================================================================================-->
 
 
+
             <!--=======================================================================================================-->
             <div class="Content1-Div" style="display: none;" loading="lazy">
                 <div id="left-content" loading="lazy">
@@ -1514,7 +1522,11 @@ if ($clientID) {
                                 <div id="left-text" class="divtext">
                                     <p class="info-label">Client ID: <span class="info-value"><?php echo htmlspecialchars($clientId); ?></span></p>
                                     <p class="info-label">Department: <span class="info-value"><?= htmlspecialchars($department) ?></span></p>
-                                    <p class="info-label">Course: <span class="info-value"><?= htmlspecialchars($course) ?></span></p>
+                                    <?php if (strtolower($clientType) === 'freshman' || strtolower($clientType) === 'students') : ?>
+                                        <p class="info-label">Course: <span class="info-value"><?= htmlspecialchars($course) ?></span></p>
+
+                                    <?php endif; ?>
+
                                     <p class="info-label">Client Type: <span class="info-value"><?= htmlspecialchars($clientType) ?></span></p>
                                 </div>
 
@@ -1523,258 +1535,593 @@ if ($clientID) {
                         </div>
                     </div>
 
+                    <style>
+                        .upload-container {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            padding: 30px;
+                            width: 100%;
+                        }
+
+                        .upload-box {
+                            display: flex;
+                            flex-direction: column;
+                            align-items: center;
+                            justify-content: center;
+                            border: 2px dashed #4FA8F2;
+                            border-radius: 12px;
+                            background: #f9fbff;
+                            padding: 40px 20px;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            width: 100%;
+                            max-width: 400px;
+                            text-align: center;
+                        }
+
+                        .upload-box:hover {
+                            border-color: #3372D3;
+                            background: #f0f6ff;
+                            box-shadow: 0 5px 12px rgba(51, 114, 211, 0.2);
+                        }
+
+                        .upload-icon {
+                            font-size: 48px;
+                            color: #4FA8F2;
+                            margin-bottom: 15px;
+                            transition: color 0.3s ease;
+                        }
+
+                        .upload-box:hover .upload-icon {
+                            color: #3372D3;
+                        }
+
+                        .upload-text {
+                            font-size: 16px;
+                            font-weight: 600;
+                            color: #333;
+                            margin: 0;
+                        }
+
+                        .upload-hint {
+                            font-size: 13px;
+                            color: #666;
+                            margin-top: 8px;
+                        }
+
+                        .upload-input {
+                            display: none;
+                        }
+
+                        .drop-file-div {
+                            display: flex;
+                            flex-direction: row;
+                            justify-content: center;
+                            width: 100%;
+                            height: 15px;
+                            padding: 30px;
+                            font-family: 'Roboto', sans-serif;
+                            font-size: clamp(13px, 1vw, 16px);
+                            color: #3372D3;
+                        }
+
+                        .alert {
+                            margin-top: 15px;
+                            padding: 12px 16px;
+                            border-radius: 8px;
+                            font-size: 14px;
+                            font-weight: 500;
+                            display: flex;
+                            align-items: center;
+                            gap: 8px;
+                            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                        }
+
+                        .alert.success {
+                            background: #e6f7f1;
+                            color: #1e7e34;
+                            border: 1px solid #1e7e34;
+                        }
+
+                        .alert.error {
+                            background: #fdecea;
+                            color: #b02a37;
+                            border: 1px solid #b02a37;
+                        }
+                    </style>
+
+                    <?php if (!empty($message)): ?>
+                        <script>
+                            alert("<?= htmlspecialchars($message) ?>");
+                        </script>
+                    <?php endif; ?>
                     <div id="info-div">
-                        <div class="tabs">
-                            <button class="tab active" onclick="switchTab(event, 'personal-info')"><img id="person-info-icon" class="cp-btn-img" src="UC-Client/assets/images/id-card.png">Personal
-                                Information</button>
-                            <button class="tab" onclick="switchTab(event, 'medical-history')"><img id="person-info-icon" class="cp-btn-img" src="UC-Client/assets/images/diagnosis.png">Medical History</button>
-                            <button class="tab" onclick="switchTab(event, 'medical-certificate')"><img id="person-info-icon" class="cp-btn-img" src="UC-Client/assets/images/medcert.png">Medical
-                                Certificate</button>
-                        </div>
-                        <style>
-                            .tab {
-                                display: flex;
-                                flex-direction: row;
-                                justify-content: center;
-                                align-items: center;
-                                gap: 10px;
-                                font-size: clamp(9px, 1vw, 14px);
-                            }
+                        <?php if (strtolower($clientType) === "faculty" || strtolower($clientType) === "personnel"): ?>
+                            <div class="drop-file-div">
+                                <h4>Upload your document for the annual examination</h4>
+                            </div>
 
-                            .cp-btn-img {
-                                height: 25px;
-                                width: 25px;
-                            }
+                            <div class="upload-container">
+                                <form id="uploadForm" enctype="multipart/form-data">
+                                    <label for="doc-upload" class="upload-box">
+                                        <i class="fas fa-file-upload upload-icon"></i>
+                                        <p class="upload-text">Click to upload or drag & drop your document here</p>
+                                        <span class="upload-hint">Accepted formats: .doc, .docx, .pdf</span>
+                                    </label>
+                                    <input type="file" id="doc-upload" name="document" class="upload-input" accept=".doc,.docx,.pdf" required>
 
-                            #person-info-icon {
-                                height: 25px;
-                                width: 25px;
-                            }
+                                    <div style="display: flex; width: 100%; justify-content: center; align-items: center; margin-top: 20px;">
+                                        <button type="submit" class="submit-btn">
+                                            <i class="fas fa-paper-plane"></i> Submit
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
 
-                            @media (max-width: 768px) {
+                            <!-- Preview Section -->
+
+
+                            <script>
+                                document.getElementById("uploadForm").addEventListener("submit", function(e) {
+                                    e.preventDefault();
+
+                                    let formData = new FormData(this);
+
+                                    fetch("upload_document.php", {
+                                            method: "POST",
+                                            body: formData
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.success) {
+                                                // Show uploaded file in the list
+                                                let fileList = document.getElementById("fileList");
+                                                fileList.innerHTML = ""; // clear old if only 1 allowed
+
+                                                let li = document.createElement("li");
+                                                li.style.margin = "10px 0";
+                                                li.innerHTML = `
+                <i class="fas fa-file-alt"></i> 
+                <a href="uploads/${data.filename}" target="_blank">${data.originalName}</a>
+                <button onclick="removeFile('${data.filename}', this)" style="margin-left:10px; color:red;">Remove</button>
+            `;
+                                                fileList.appendChild(li);
+
+                                                document.getElementById("uploadForm").reset();
+                                            } else {
+                                                alert("❌ Upload failed: " + data.message);
+                                            }
+                                        })
+                                        .catch(error => {
+                                            alert("⚠️ Error uploading file.");
+                                            console.error(error);
+                                        });
+                                });
+
+                                // Remove file function
+                                function removeFile(filename, btn) {
+                                    fetch("remove_document.php", {
+                                            method: "POST",
+                                            headers: {
+                                                "Content-Type": "application/x-www-form-urlencoded"
+                                            },
+                                            body: "filename=" + encodeURIComponent(filename)
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.success) {
+                                                btn.parentElement.remove();
+                                            } else {
+                                                alert("❌ Failed to remove: " + data.message);
+                                            }
+                                        })
+                                        .catch(error => {
+                                            alert("⚠️ Error removing file.");
+                                            console.error(error);
+                                        });
+                                }
+                            </script>
+
+
+                        <?php endif; ?>
+
+
+                        <?php if (strtolower($clientType) === "students" || strtolower($clientType) === "freshman"): ?>
+
+                            <div class="tabs">
+                                <button class="tab active" onclick="switchTab(event, 'personal-info')"><img id="person-info-icon" class="cp-btn-img" src="UC-Client/assets/images/id-card.png">Personal
+                                    Information</button>
+                                <button class="tab" onclick="switchTab(event, 'medical-history')"><img id="person-info-icon" class="cp-btn-img" src="UC-Client/assets/images/diagnosis.png">Medical History</button>
+                                <button class="tab" onclick="switchTab(event, 'medical-certificate')"><img id="person-info-icon" class="cp-btn-img" src="UC-Client/assets/images/medcert.png">Medical
+                                    Certificate</button>
+                            </div>
+                            <style>
                                 .tab {
                                     display: flex;
-                                    flex-direction: column;
+                                    flex-direction: row;
+                                    justify-content: center;
+                                    align-items: center;
+                                    gap: 10px;
+                                    font-size: clamp(9px, 1vw, 14px);
                                 }
-                            }
-                        </style>
-                        <div id="personal-info" class="tab-content active">
-                            <div class="info-grid">
-                                <p><span class="person-info-label">Surname:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['surname'] ?? '--.--.--') ?></span>
-                                </p>
 
-                                <p><span class="person-info-label">Given Name:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['given_name'] ?? '--.--.--') ?></span>
-                                </p>
+                                .cp-btn-img {
+                                    height: 25px;
+                                    width: 25px;
+                                }
 
-                                <p><span class="person-info-label">Middle Name:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['middle_name'] ?? '--.--.--') ?></span>
-                                </p>
+                                #person-info-icon {
+                                    height: 25px;
+                                    width: 25px;
+                                }
 
-                                <p><span class="person-info-label">Age:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['age'] ?? '--.--.--') ?></span>
-                                </p>
+                                @media (max-width: 768px) {
+                                    .tab {
+                                        display: flex;
+                                        flex-direction: column;
+                                    }
+                                }
+                            </style>
 
-                                <p><span class="person-info-label">Sex:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['gender'] ?? '--.--.--') ?></span>
-                                </p>
+                            <div id="personal-info" class="tab-content active">
+                                <div class="info-grid">
+                                    <p><span class="person-info-label">Surname:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['surname'] ?? '--.--.--') ?></span>
+                                    </p>
 
-                                <p><span class="person-info-label">Birthday:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['dob'] ?? '--.--.--') ?></span>
-                                </p>
+                                    <p><span class="person-info-label">Given Name:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['given_name'] ?? '--.--.--') ?></span>
+                                    </p>
 
-                                <p><span class="person-info-label">Status:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['status'] ?? '--.--.--') ?></span>
-                                </p>
+                                    <p><span class="person-info-label">Middle Name:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['middle_name'] ?? '--.--.--') ?></span>
+                                    </p>
 
-                                <p><span class="person-info-label">Course:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($course) ?></span>
-                                </p>
+                                    <p><span class="person-info-label">Age:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['age'] ?? '--.--.--') ?></span>
+                                    </p>
 
-                                <p><span class="person-info-label">School Year Entered:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['school_year_entered'] ?? '--.--.--') ?></span>
-                                </p>
+                                    <p><span class="person-info-label">Sex:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['gender'] ?? '--.--.--') ?></span>
+                                    </p>
 
-                                <p><span class="person-info-label">Phone Number:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['contact_number'] ?? '--.--.--') ?></span>
-                                </p>
+                                    <p><span class="person-info-label">Birthday:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['dob'] ?? '--.--.--') ?></span>
+                                    </p>
 
-                                <p><span class="person-info-label">Current Address:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['current_address'] ?? '--.--.--') ?></span>
-                                </p>
+                                    <p><span class="person-info-label">Status:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['status'] ?? '--.--.--') ?></span>
+                                    </p>
 
-                                <p><span class="person-info-label">Mother's Name:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['mothers_name'] ?? '--.--.--') ?></span>
-                                </p>
+                                    <p><span class="person-info-label">Course:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($course) ?></span>
+                                    </p>
 
-                                <p><span class="person-info-label">Father's Name:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['fathers_name'] ?? '--.--.--') ?></span>
-                                </p>
+                                    <p><span class="person-info-label">School Year Entered:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['school_year_entered'] ?? '--.--.--') ?></span>
+                                    </p>
 
-                                <p><span class="person-info-label">Guardian's Name:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['guardians_name'] ?? '--.--.--') ?></span>
-                                </p>
+                                    <p><span class="person-info-label">Phone Number:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['contact_number'] ?? '--.--.--') ?></span>
+                                    </p>
 
-                                <p><span class="person-info-label">Name of Emergency Contact:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['emergency_contact_name'] ?? '--.--.--') ?></span>
-                                </p>
+                                    <p><span class="person-info-label">Current Address:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['current_address'] ?? '--.--.--') ?></span>
+                                    </p>
 
-                                <p><span class="person-info-label">Relationship:</span><br>
-                                    <span class="person-value-label"><?= htmlspecialchars($user_data['emergency_contact_relationship'] ?? '--.--.--') ?></span>
-                                </p>
+                                    <p><span class="person-info-label">Mother's Name:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['mothers_name'] ?? '--.--.--') ?></span>
+                                    </p>
+
+                                    <p><span class="person-info-label">Father's Name:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['fathers_name'] ?? '--.--.--') ?></span>
+                                    </p>
+
+                                    <p><span class="person-info-label">Guardian's Name:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['guardians_name'] ?? '--.--.--') ?></span>
+                                    </p>
+
+                                    <p><span class="person-info-label">Name of Emergency Contact:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['emergency_contact_name'] ?? '--.--.--') ?></span>
+                                    </p>
+
+                                    <p><span class="person-info-label">Relationship:</span><br>
+                                        <span class="person-value-label"><?= htmlspecialchars($user_data['emergency_contact_relationship'] ?? '--.--.--') ?></span>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
 
-                        <div id="medical-history" class="tab-content">
+                            <div id="medical-history" class="tab-content">
 
-                            <div id="visit-history" class="department-table-container " style="display: block;">
-                                <table class="department-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="id-col">ID</th>
-                                            <th>Client ID</th>
-                                            <th class="action-datetime">Action Date</th>
-                                            <th class="action-datetime">Action Time</th>
-                                            <th>Progress</th>
-                                            <th class="visual-col">Visual</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($historyData as $index => $row): ?>
+                                <div id="visit-history" class="department-table-container " style="display: block;">
+                                    <table class="department-table">
+                                        <thead>
                                             <tr>
-                                                <td class="id-col"><?= htmlspecialchars($row['historyID']) ?></td>
-                                                <td><?= htmlspecialchars($row['ClientID']) ?></td>
-                                                <td class="action-datetime"><?= htmlspecialchars($row['actionDate']) ?></td>
-                                                <td class="action-datetime"><?= htmlspecialchars($row['actionTime']) ?></td>
-                                                <td class="progress-<?= htmlspecialchars($row['progress']) ?>">
-                                                    <?= ucfirst(htmlspecialchars($row['progress'])) ?>
-                                                </td>
-                                                <td>
-                                                    <?php if ($row['progress'] === 'completed'): ?>
-                                                        <div class="percentage-bar">
-                                                            <div class="percentage-fill" style="width: 100%"></div>
-                                                        </div>
-                                                    <?php elseif ($row['progress'] === 'inprogress'): ?>
-                                                        <div class="percentage-bar">
-                                                            <div class="percentage-fill" style="width: 50%"></div>
-                                                        </div>
-                                                    <?php else: ?>
-                                                        <div class="percentage-bar">
-                                                            <div class="percentage-fill" style="width: 10%"></div>
-                                                        </div>
-                                                    <?php endif; ?>
-                                                </td>
+                                                <th class="id-col">ID</th>
+                                                <th>Client ID</th>
+                                                <th class="action-datetime">Action Date</th>
+                                                <th class="action-datetime">Action Time</th>
+                                                <th>Progress</th>
+                                                <th class="visual-col">Visual</th>
                                             </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($historyData as $index => $row): ?>
+                                                <tr>
+                                                    <td class="id-col"><?= htmlspecialchars($row['historyID']) ?></td>
+                                                    <td><?= htmlspecialchars($row['ClientID']) ?></td>
+                                                    <td class="action-datetime"><?= htmlspecialchars($row['actionDate']) ?></td>
+                                                    <td class="action-datetime"><?= htmlspecialchars($row['actionTime']) ?></td>
+                                                    <td class="progress-<?= htmlspecialchars($row['progress']) ?>">
+                                                        <?= ucfirst(htmlspecialchars($row['progress'])) ?>
+                                                    </td>
+                                                    <td>
+                                                        <?php if ($row['progress'] === 'completed'): ?>
+                                                            <div class="percentage-bar">
+                                                                <div class="percentage-fill" style="width: 100%"></div>
+                                                            </div>
+                                                        <?php elseif ($row['progress'] === 'inprogress'): ?>
+                                                            <div class="percentage-bar">
+                                                                <div class="percentage-fill" style="width: 50%"></div>
+                                                            </div>
+                                                        <?php else: ?>
+                                                            <div class="percentage-bar">
+                                                                <div class="percentage-fill" style="width: 10%"></div>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
-                        </div>
 
-                        <div id="medical-certificate" class="tab-content">
-                            <div class="medcert-conparent">
-                                <div id="medical-certificate-form">
-                                    <div class="medcertheader">
-                                        <img src="UC-Client/assets/images/Lspu logo.png" alt="LSPU Logo">
-                                        <div class="headertextdiv">
-                                            <div>Republic of the Philippines</div>
-                                            <div>Laguna State Polytechnic University</div>
-                                            <div>Province of Laguna</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="medcertitle">MEDICAL CERTIFICATE</div>
-
-                                    <div class="medcertcontent">
-                                        <div class="form-field">
-                                            This is to certify that
-                                            <span class="underline">
-                                                <?= htmlspecialchars($medicalCertData['PatientName'] ?? '') ?>
-                                            </span>,
-                                            a
-                                            <span class="underline">
-                                                <?= htmlspecialchars($medicalCertData['PatientAge'] ?? '') ?>
-                                            </span>
-                                            year old F/M,
-                                            has been seen and examined on
-                                            <span class="underline">
-                                                <?= htmlspecialchars($medicalCertData['ExamDate'] ?? '') ?>
-                                            </span>
-                                            at the Medical Clinic.
+                            <div id="medical-certificate" class="tab-content">
+                                <div class="medcert-conparent">
+                                    <div id="medical-certificate-form">
+                                        <div class="medcertheader">
+                                            <img src="UC-Client/assets/images/Lspu logo.png" alt="LSPU Logo">
+                                            <div class="headertextdiv">
+                                                <div>Republic of the Philippines</div>
+                                                <div>Laguna State Polytechnic University</div>
+                                                <div>Province of Laguna</div>
+                                            </div>
                                         </div>
 
-                                        <div class="form-field">
-                                            Pertinent findings:
-                                            <span class="underline">
-                                                <?= htmlspecialchars($medicalCertData['Findings'] ?? '') ?>
-                                            </span>
-                                        </div>
+                                        <div class="medcertitle">MEDICAL CERTIFICATE</div>
 
-                                        <div class="form-field">
-                                            Impression on examination:
-                                            <span class="underline">
-                                                <?= htmlspecialchars($medicalCertData['Impression'] ?? '') ?>
-                                            </span>
-                                        </div>
+                                        <div class="medcertcontent">
+                                            <div class="form-field">
+                                                This is to certify that
+                                                <span class="underline">
+                                                    <?= htmlspecialchars($medicalCertData['PatientName'] ?? '') ?>
+                                                </span>,
+                                                a
+                                                <span class="underline">
+                                                    <?= htmlspecialchars($medicalCertData['PatientAge'] ?? '') ?>
+                                                </span>
+                                                year old F/M,
+                                                has been seen and examined on
+                                                <span class="underline">
+                                                    <?= htmlspecialchars($medicalCertData['ExamDate'] ?? '') ?>
+                                                </span>
+                                                at the Medical Clinic.
+                                            </div>
 
-                                        <div class="form-field">
-                                            NOTE:
-                                            <span class="underline">
-                                                <?= htmlspecialchars($medicalCertData['NoteContent'] ?? '') ?>
-                                            </span>
-                                        </div>
+                                            <div class="form-field">
+                                                Pertinent findings:
+                                                <span class="underline">
+                                                    <?= htmlspecialchars($medicalCertData['Findings'] ?? '') ?>
+                                                </span>
+                                            </div>
 
-                                        <div class="signature-section">
-                                            Visiting Physician/University Nurse<br>
-                                            License No.
-                                            <span class="underline">
-                                                <?= htmlspecialchars($medicalCertData['LicenseNo'] ?? '') ?>
-                                            </span><br>
-                                            Date Issued:
-                                            <span class="underline">
-                                                <?= htmlspecialchars($medicalCertData['DateIssued'] ?? '') ?>
-                                            </span>
-                                        </div>
+                                            <div class="form-field">
+                                                Impression on examination:
+                                                <span class="underline">
+                                                    <?= htmlspecialchars($medicalCertData['Impression'] ?? '') ?>
+                                                </span>
+                                            </div>
 
-                                        <div class="form-number">
-                                            LSPU-OSAS-SF-M08 | Rev. 0 | 10 Aug. 2016
-                                        </div>
+                                            <div class="form-field">
+                                                NOTE:
+                                                <span class="underline">
+                                                    <?= htmlspecialchars($medicalCertData['NoteContent'] ?? '') ?>
+                                                </span>
+                                            </div>
 
-                                        <div class="cert-controls">
-                                            <?php if (!$isDownloaded): ?>
-                                                <a href="generate_pdf_client.php?historyID=<?= urlencode($historyID) ?>" class="btn btn-success btn-sm" onclick="return confirmDownload();">
-                                                    <i class="fa-solid fa-download"></i> Download PDF
-                                                </a>
-                                            <?php endif; ?>
+                                            <div class="signature-section">
+                                                Visiting Physician/University Nurse<br>
+                                                License No.
+                                                <span class="underline">
+                                                    <?= htmlspecialchars($medicalCertData['LicenseNo'] ?? '') ?>
+                                                </span><br>
+                                                Date Issued:
+                                                <span class="underline">
+                                                    <?= htmlspecialchars($medicalCertData['DateIssued'] ?? '') ?>
+                                                </span>
+                                            </div>
 
-                                            <script>
-                                                function confirmDownload() {
-                                                    return confirm("This certificate can only be downloaded once. Do you want to proceed?");
-                                                }
-                                            </script>
+                                            <div class="form-number">
+                                                LSPU-OSAS-SF-M08 | Rev. 0 | 10 Aug. 2016
+                                            </div>
 
+                                            <div class="cert-controls">
+                                                <?php if (!$isDownloaded): ?>
+                                                    <a href="generate_pdf_client.php?historyID=<?= urlencode($historyID) ?>" class="btn btn-success btn-sm" onclick="return confirmDownload();">
+                                                        <i class="fa-solid fa-download"></i> Download PDF
+                                                    </a>
+                                                <?php endif; ?>
+
+                                                <script>
+                                                    function confirmDownload() {
+                                                        return confirm("This certificate can only be downloaded once. Do you want to proceed?");
+                                                    }
+                                                </script>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
 
-                        <div class="div-info-buttons">
-                            <!-- <button class="btn save">
+                            <div class="div-info-buttons">
+                                <!-- <button class="btn save">
                             <img src="UC-Client/assets/images/File-icon.svg" class="button-icon-div" loading="lazy">
                             Save Documents
                         </button>-->
-                            <a href="Medical_Form.php">
-                                <button class="btn edit">
-                                    <img src="UC-Client/assets/images/Edit-icon.svg" class="button-icon-div" loading="lazy">
-                                    Edit Information
-                                </button>
-                            </a>
-                        </div>
+                                <a href="Medical_Form.php">
+                                    <button class="btn edit">
+                                        <img src="UC-Client/assets/images/Edit-icon.svg" class="button-icon-div" loading="lazy">
+                                        Edit Information
+                                    </button>
+                                </a>
+                            </div>
+                        <?php endif; ?>
                     </div>
+
                 </div>
+
+                <script>
+                    const currentDate = new Date();
+                    let selectedDate = {
+                        month: currentDate.getMonth(),
+                        year: currentDate.getFullYear(),
+                    };
+
+                    // 🔑 Make issuanceDate global so it works everywhere
+                    let issuanceDate = null;
+
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const elements = cacheDOMElements();
+
+                        // ✅ Load issuanceDate from PHP
+                        const issuanceDateString =
+                            "<?= htmlspecialchars($medicalCertData['DateIssued'] ?? '') ?>";
+                        issuanceDate = issuanceDateString ? new Date(issuanceDateString) : null;
+
+                        initializeDateSelect(elements);
+                        generateCalendar(elements, selectedDate.month, selectedDate.year, issuanceDate);
+                        startClock(elements);
+                    });
+
+                    function cacheDOMElements() {
+                        return {
+                            selectedDate: document.getElementById("selected-date"),
+                            dateSelect: document.getElementById("date-select"),
+                            weekdaysContainer: document.querySelector(".weekdays"),
+                            daysContainer: document.querySelector(".days"),
+                            timeDisplay: document.getElementById("time"),
+                        };
+                    }
+
+                    function generateCalendar(elements, month, year, issuanceDate) {
+                        const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+                        const weekdayFragment = document.createDocumentFragment();
+                        const daysFragment = document.createDocumentFragment();
+
+                        elements.weekdaysContainer.innerHTML = "";
+                        elements.daysContainer.innerHTML = "";
+
+                        weekdays.forEach((day) => {
+                            const div = document.createElement("div");
+                            div.className = "weekday";
+                            div.textContent = day;
+                            weekdayFragment.appendChild(div);
+                        });
+                        elements.weekdaysContainer.appendChild(weekdayFragment);
+
+                        const firstDay = new Date(year, month, 1).getDay();
+                        for (let i = 0; i < firstDay; i++) {
+                            const emptyDay = document.createElement("div");
+                            emptyDay.className = "day empty";
+                            daysFragment.appendChild(emptyDay);
+                        }
+
+                        const daysInMonth = new Date(year, month + 1, 0).getDate();
+                        for (let day = 1; day <= daysInMonth; day++) {
+                            const dayElement = document.createElement("div");
+                            dayElement.className = "day";
+
+                            const isToday =
+                                day === currentDate.getDate() &&
+                                month === currentDate.getMonth() &&
+                                year === currentDate.getFullYear();
+
+                            const isIssuanceDate =
+                                issuanceDate &&
+                                day === issuanceDate.getDate() &&
+                                month === issuanceDate.getMonth() &&
+                                year === issuanceDate.getFullYear();
+
+                            if (isToday) {
+                                dayElement.classList.add("current-day");
+                            }
+                            if (isIssuanceDate) {
+                                dayElement.classList.add("issuance-day");
+                            }
+
+                            dayElement.textContent = day;
+                            dayElement.addEventListener("click", (event) =>
+                                selectDate(event, elements, day, month, year)
+                            );
+                            daysFragment.appendChild(dayElement);
+                        }
+
+                        elements.daysContainer.appendChild(daysFragment);
+                    }
+
+                    function selectDate(event, elements, day, month, year) {
+                        document
+                            .querySelectorAll(".day")
+                            .forEach((el) => el.classList.remove("selected"));
+                        event.target.classList.add("selected");
+                        elements.selectedDate.textContent = `${String(day).padStart(2, "0")}.${String(
+    month + 1
+  ).padStart(2, "0")}.${year}`;
+                    }
+
+                    function initializeDateSelect(elements) {
+                        let html = "";
+                        for (let y = currentDate.getFullYear(); y <= currentDate.getFullYear() + 3; y++) {
+                            html += `<optgroup label="${y}">`;
+                            for (let m = 0; m < 12; m++) {
+                                const isSelected = y === selectedDate.year && m === selectedDate.month;
+                                html += `<option value="${m}-${y}" ${isSelected ? "selected" : ""}>
+        ${new Date(0, m).toLocaleString("en", { month: "long" })} ${y}
+      </option>`;
+                            }
+                            html += "</optgroup>";
+                        }
+                        elements.dateSelect.innerHTML = html;
+
+                        elements.dateSelect.addEventListener("change", () => {
+                            const [month, year] = elements.dateSelect.value.split("-").map(Number);
+                            selectedDate = {
+                                month,
+                                year
+                            };
+                            generateCalendar(elements, month, year, issuanceDate); // ✅ issuanceDate is global now
+                        });
+                    }
+
+                    function startClock(elements) {
+                        function updateClock() {
+                            const now = new Date();
+                            const hours = now.getHours() % 12 || 12;
+                            elements.timeDisplay.textContent = `${hours}:${now
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}:${now.getSeconds().toString().padStart(2, "0")} ${
+      now.getHours() >= 12 ? "PM" : "AM"
+    }`;
+                        }
+                        updateClock();
+                        setInterval(updateClock, 1000);
+                    }
+                </script>
                 <div id="right-content">
                     <div id="calendar">
                         <div class="Calendarheader">
@@ -1786,11 +2133,13 @@ if ($clientID) {
                             <div class="weekdays"></div>
                             <div class="days"></div>
                         </div>
-                        <div class="time-display" id="time"></div>
+
+                        <!--  <div class="time-display" id="time"></div>
                         <div class="status">
                             <div class="status-icon"></div>
                             <p class="status-text"><span id="selected-date"><?= htmlspecialchars($medicalCertData['DateIssued'] ?? '   ') ?></span>Medical Certificate Issuance</p>
                         </div>
+                -->
                     </div>
                     <div id="call-div">
                         <div id="text-overlay">

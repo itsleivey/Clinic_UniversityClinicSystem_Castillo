@@ -29,8 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $mail->isSMTP();
                 $mail->Host = 'smtp.gmail.com';
                 $mail->SMTPAuth = true;
-                $mail->Username = ''; // gmail
-                $mail->Password = '';// password
+                $mail->Username = 'jaymichaelcastillo18@gmail.com';
+                $mail->Password = 'dmjh epxq wsiw cwnm';
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
 
@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
         <div class="right-section">
-            <h2  id="login">Request Password Reset</h2>
+            <h2 id="login">Request Password Reset</h2>
 
             <?php if (!empty($message)) echo "<p>$message</p>"; ?>
 

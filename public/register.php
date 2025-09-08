@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require('C:/Xampp.f/htdocs/UC-System/config/database.php');
+require '../config/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!isset($_POST['consent']) || $_POST['consent'] !== 'agree') {

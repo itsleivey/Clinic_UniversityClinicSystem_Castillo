@@ -1,5 +1,5 @@
 <?php
-require('C:/Xampp.f/htdocs/UC-System/config/database.php');
+require 'config/database.php';
 
 function verify_password($password, $stored_hash)
 {
@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($admin && verify_password($password, $admin['password'])) {
-            $_SESSION['AdminID'] = $admin['id']; 
+            $_SESSION['AdminID'] = $admin['id'];
             header("Location: Dashboard.php");
             exit();
         } else {
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" class="inputs" name="username" placeholder="Username" required>
                 <input type="password" class="inputs" name="password" placeholder="Password" required>
                 <button type="submit" class="buttons">Login</button>
-                <p><a href="register.php" class="register-link">Don't have an account? Sign up here</a></p> 
+                <p><a href="register.php" class="register-link">Don't have an account? Sign up here</a></p>
             </form>
         </div>
     </div>

@@ -350,3 +350,30 @@ Array
     [official_designation] => LSPU-LB CLINIC
     [date_created] => 2025-06-06
 )
+Array
+(
+    [client_id] => 13172
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Malinta
+    [address] => Timugan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => IT
+    [physician_signature] => Jay Michael M. Castillo
+    [physician_agency] => Test
+    [otherinfo] => Test
+    [license_no] => 123
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => LSPU
+    [date_created] => 2025-09-07
+)
