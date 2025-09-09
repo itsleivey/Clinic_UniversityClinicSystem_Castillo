@@ -69,8 +69,52 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <title>University Clinic Login Page</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="assets/js/script.js" defer></script>
 </head>
+<style>
+    .input-group {
+        position: relative;
+        margin-bottom: 15px;
+    }
+
+    /* Left-side icons (email, lock) */
+    .input-group i.left-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+        font-size: 16px;
+    }
+
+    /* Right-side eye toggle */
+    .input-group i.toggle-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #888;
+        font-size: 16px;
+    }
+
+    .input-group i.toggle-password:hover {
+        color: #333;
+    }
+
+    /* Add padding for both icons */
+    .input-group input {
+        width: 100%;
+        padding: 10px 40px;
+        /* space for left + right icons */
+        padding-left: 35px;
+        /* extra left padding for left icon */
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+</style>
 
 <body onload="autoScrollToLogin()">
     <div class="container">
@@ -88,7 +132,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <?php if (!empty($message)) echo "<p>$message</p>"; ?>
 
             <form action="request_reset.php" method="POST">
-                <input class="inputs" type="email" name="email" placeholder="Enter Your Email" required>
+                <div class="input-group">
+                    <i class="fas fa-envelope left-icon"></i>
+                    <input type="email" class="inputs" name="email" placeholder="Email" required>
+                </div>
                 <button type="submit">Send Reset Code</button>
                 <p>Remember your password? <a href="index.php">Sign in</a></p>
             </form>

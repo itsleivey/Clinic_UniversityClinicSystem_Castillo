@@ -1538,6 +1538,7 @@ if ($clientID) {
                     <style>
                         .upload-container {
                             display: flex;
+                            flex-direction: column;
                             justify-content: center;
                             align-items: center;
                             padding: 30px;
@@ -1629,6 +1630,56 @@ if ($clientID) {
                             color: #b02a37;
                             border: 1px solid #b02a37;
                         }
+
+                        .file-list {
+                            list-style: none;
+                            padding: 0;
+                            margin: 15px 0;
+                            width: 100%;
+                            max-width: 500px;
+                        }
+
+                        .file-list li {
+                            display: flex;
+                            align-items: center;
+                            background: #f8f9fa;
+                            padding: 10px 15px;
+                            margin-bottom: 8px;
+                            border-radius: 10px;
+                            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+                            transition: background 0.2s;
+                        }
+
+                        .file-list li:hover {
+                            background: #eef2f7;
+                        }
+
+                        .file-list i {
+                            font-size: 20px;
+                            margin-right: 12px;
+                        }
+
+                        .file-list a {
+                            flex: 1;
+                            text-decoration: none;
+                            color: #333;
+                            font-weight: 500;
+                            overflow-wrap: anywhere;
+                        }
+
+                        .file-list button {
+                            background: none;
+                            border: none;
+                            cursor: pointer;
+                            font-size: 16px;
+                            margin-left: 10px;
+                            color: #dc3545;
+                            transition: color 0.2s;
+                        }
+
+                        .file-list button:hover {
+                            color: #a71d2a;
+                        }
                     </style>
 
                     <?php if (!empty($message)): ?>
@@ -1643,15 +1694,20 @@ if ($clientID) {
                             </div>
 
                             <div class="upload-container">
+                                <ul id="fileList" class="file-list"></ul>
                                 <form id="uploadForm" enctype="multipart/form-data">
+                                    <!-- Hidden user_id from PHP session -->
+                                    <input type="hidden" name="user_id" value="<?= $clientID ?>">
+
                                     <label for="doc-upload" class="upload-box">
                                         <i class="fas fa-file-upload upload-icon"></i>
                                         <p class="upload-text">Click to upload or drag & drop your document here</p>
                                         <span class="upload-hint">Accepted formats: .doc, .docx, .pdf</span>
                                     </label>
+
                                     <input type="file" id="doc-upload" name="document" class="upload-input" accept=".doc,.docx,.pdf" required>
 
-                                    <div style="display: flex; width: 100%; justify-content: center; align-items: center; margin-top: 20px;">
+                                    <div style="display:flex;justify-content:center;align-items:center;margin-top:20px;">
                                         <button type="submit" class="submit-btn">
                                             <i class="fas fa-paper-plane"></i> Submit
                                         </button>
@@ -1659,10 +1715,26 @@ if ($clientID) {
                                 </form>
                             </div>
 
-                            <!-- Preview Section -->
+                            <!-- Uploaded file list -->
+
 
 
                             <script>
+                                // Function to get icon based on extension
+                                function getFileIcon(filename) {
+                                    let ext = filename.split('.').pop().toLowerCase();
+                                    switch (ext) {
+                                        case "pdf":
+                                            return '<i class="fas fa-file-pdf" style="color:#e74c3c;"></i>';
+                                        case "doc":
+                                        case "docx":
+                                            return '<i class="fas fa-file-word" style="color:#2a74d8;"></i>';
+                                        default:
+                                            return '<i class="fas fa-file-alt" style="color:#6c757d;"></i>';
+                                    }
+                                }
+
+                                // Handle form submission (upload)
                                 document.getElementById("uploadForm").addEventListener("submit", function(e) {
                                     e.preventDefault();
 
@@ -1674,17 +1746,19 @@ if ($clientID) {
                                         })
                                         .then(response => response.json())
                                         .then(data => {
+                                            console.log("Server response:", data); // Debug
+
                                             if (data.success) {
-                                                // Show uploaded file in the list
                                                 let fileList = document.getElementById("fileList");
-                                                fileList.innerHTML = ""; // clear old if only 1 allowed
+                                                fileList.innerHTML = ""; // clear old if only one allowed
 
                                                 let li = document.createElement("li");
-                                                li.style.margin = "10px 0";
                                                 li.innerHTML = `
-                <i class="fas fa-file-alt"></i> 
+                ${getFileIcon(data.originalName)} 
                 <a href="uploads/${data.filename}" target="_blank">${data.originalName}</a>
-                <button onclick="removeFile('${data.filename}', this)" style="margin-left:10px; color:red;">Remove</button>
+                <button onclick="removeFile('${data.filename}', this)">
+                    <i class="fas fa-trash"></i>
+                </button>
             `;
                                                 fileList.appendChild(li);
 
@@ -1694,7 +1768,7 @@ if ($clientID) {
                                             }
                                         })
                                         .catch(error => {
-                                            alert("⚠️ Error uploading file.");
+                                            alert("⚠️ Error uploading file (network or PHP crash).");
                                             console.error(error);
                                         });
                                 });
@@ -1727,7 +1801,31 @@ if ($clientID) {
                         <?php endif; ?>
 
 
-                        <?php if (strtolower($clientType) === "students" || strtolower($clientType) === "freshman"): ?>
+                        <?php if (strtolower($clientType) === "student" || strtolower($clientType) === "freshman"): ?>
+                            <script>
+                                function switchTab(evt, tabId) {
+                                    // Hide all tab contents
+                                    const tabContents = document.querySelectorAll(".tab-content");
+                                    tabContents.forEach(content => {
+                                        content.style.display = "none";
+                                    });
+
+                                    // Remove "active" class from all tab buttons
+                                    const tabButtons = document.querySelectorAll(".tabs .tab");
+                                    tabButtons.forEach(btn => {
+                                        btn.classList.remove("active");
+                                    });
+
+                                    // Show the selected tab content
+                                    const selectedTab = document.getElementById(tabId);
+                                    if (selectedTab) {
+                                        selectedTab.style.display = "block";
+                                    }
+
+                                    // Add "active" class to the clicked button
+                                    evt.currentTarget.classList.add("active");
+                                }
+                            </script>
 
                             <div class="tabs">
                                 <button class="tab active" onclick="switchTab(event, 'personal-info')"><img id="person-info-icon" class="cp-btn-img" src="UC-Client/assets/images/id-card.png">Personal

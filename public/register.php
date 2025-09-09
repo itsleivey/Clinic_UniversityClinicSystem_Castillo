@@ -44,12 +44,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html lang="en">
 
+<style>
+    .input-group {
+        position: relative;
+        margin-bottom: 15px;
+    }
+
+    /* Left-side icons (email, lock) */
+    .input-group i.left-icon {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #888;
+        font-size: 16px;
+    }
+
+    /* Right-side eye toggle */
+    .input-group i.toggle-password {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #888;
+        font-size: 16px;
+    }
+
+    .input-group i.toggle-password:hover {
+        color: #333;
+    }
+
+    /* Add padding for both icons */
+    .input-group input {
+        width: 100%;
+        padding: 10px 40px;
+        /* space for left + right icons */
+        padding-left: 35px;
+        /* extra left padding for left icon */
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+</style>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>University Clinic Sign Up</title>
     <link rel="stylesheet" href="styles.css">
     <script src="assets/js/script.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         /* Modal styles */
         .modal {
@@ -201,15 +246,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <input class="inputs" type="text" name="lastname" placeholder="Last Name" required>
                 </div>
 
-                <input class="inputs" type="email" name="email" placeholder="Email" required>
-                <input class="inputs" type="password" name="password" placeholder="Password" required>
+                <div class="input-group">
+                    <i class="fas fa-envelope left-icon"></i>
+                    <input type="email" class="inputs" name="email" placeholder="Email" required>
+                </div>
+
+                <!-- Password -->
+                <div class="input-group">
+                    <i class="fas fa-lock left-icon"></i>
+                    <input type="password" class="inputs" id="password" name="password" placeholder="Password" required>
+                    <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                </div>
 
                 <button type="submit">Create Account</button>
                 <p>Already have an account? <a href="index.php">Sign in</a></p>
             </form>
         </div>
     </div>
+    <script>
+        const passwordInput = document.getElementById("password");
+        const togglePassword = document.getElementById("togglePassword");
 
+        togglePassword.addEventListener("click", function() {
+            const type = passwordInput.type === "password" ? "text" : "password";
+            passwordInput.type = type;
+
+            // Toggle between eye and eye-slash
+            this.classList.toggle("fa-eye");
+            this.classList.toggle("fa-eye-slash");
+        });
+    </script>
     <script>
         function showConsentModal() {
             document.getElementById('consentModal').style.display = 'block';
