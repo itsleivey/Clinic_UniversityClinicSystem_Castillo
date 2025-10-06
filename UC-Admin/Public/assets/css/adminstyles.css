@@ -16,7 +16,7 @@ body {
   height: 130vh;
   background-color: #eaf0fc;
   grid-template-columns: auto 1fr;
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
   overflow-y: auto;
 }
 
@@ -32,6 +32,7 @@ body {
   padding: 10px 20px;
   box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.178);
   z-index: 1000;
+  font-family: "Poppins", sans-serif;
 }
 
 .header img {
@@ -88,6 +89,7 @@ body {
   transition: 200ms ease-in-out;
   overflow: hidden;
   white-space: nowrap;
+  font-family: "Poppins", sans-serif;
 }
 .navbar.collapsed {
   width: 60px;
@@ -109,6 +111,7 @@ body {
   display: flex;
   align-items: center;
   transition: transform 300ms ease-in-out, margin-left 300ms ease-in-out;
+  font-family: "Poppins", sans-serif;
 }
 .navbar.collapsed .buttons {
   transform: translateX(-10px);

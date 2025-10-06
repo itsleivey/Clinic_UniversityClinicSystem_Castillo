@@ -21,7 +21,7 @@
 
 h3 {
   font-size: clamp(20, 1vw, 50px);
-  color: #0562BA;
+  color: #0562ba;
 }
 
 .report-card-text {
@@ -59,10 +59,11 @@ h3 {
   display: flex;
   flex-direction: column;
   background-color: white;
-  border: 1px solid #4FA8F2;
+  border: 1px solid #4fa8f2;
   width: 50%;
   height: 100%;
   border-radius: 5px;
+  font-family: "Poppins", sans-serif;
 }
 
 .cards-icon-div {
@@ -80,10 +81,11 @@ h3 {
   gap: 15px;
   height: 50%;
 }
-.card-icon-div, i {
+.card-icon-div,
+i {
   color: #1270c8;
 }
-#clienttype-card{
+#clienttype-card {
   width: 40%;
 }
 .icon {
@@ -106,22 +108,22 @@ h3 {
   height: 100px;
   gap: 30px;
   padding: 15px;
-  font-family: Arial, sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: clamp(9px, 1vw, 14px);
   justify-content: center;
   overflow: auto;
 }
-#freshman-item{
+#freshman-item {
   margin-top: 150px;
 }
-#total-count{
+#total-count {
   height: 30px;
   padding-top: 20px;
   border-top: solid #ccc 3px;
 }
 /*=============*/
 .card-data::-webkit-scrollbar {
-  width: 6px; 
+  width: 6px;
 }
 
 .card-data::-webkit-scrollbar-track {
@@ -134,7 +136,7 @@ h3 {
 }
 
 .card-data::-webkit-scrollbar-thumb:hover {
-  background-color: #626262; 
+  background-color: #626262;
 }
 /*=============*/
 .legend-item {
@@ -189,7 +191,6 @@ h3 {
   margin-right: 8px;
 }
 
-
 .label {
   font-size: clamp(8px, 1vw, 15px);
   flex-grow: 1;
@@ -198,8 +199,8 @@ h3 {
 .value {
   font-size: clamp(10px, 1vw, 15px);
   font-weight: bold;
-  color:rgb(71, 71, 71);
-  font-family: 'Roboto';
+  color: rgb(71, 71, 71);
+  font-family: "Poppins", sans-serif;
 }
 
 .cards-buttons {
@@ -233,16 +234,14 @@ h3 {
   height: 100vh;
 }
 
-
-
 /*=====================Dashboard=====Calendar========================*/
 .calendar-container {
   width: 100%;
   height: 100%;
   border-radius: 5px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  color: #0562BA;
-  font-family: 'Roboto', sans-serif;
+  color: #0562ba;
+  font-family: "Poppins", sans-serif;
   gap: 10px;
 }
 
@@ -253,22 +252,25 @@ h3 {
   align-items: center;
   margin-bottom: 15px;
   color: #ffffff;
-  background: linear-gradient(to right, #4FA8F2, #3372D3);
+  background: linear-gradient(to right, #4fa8f2, #3372d3);
   gap: 30%;
   padding: 20px;
   width: 100%;
   height: 30%;
+  font-family: "Poppins", sans-serif;
 }
 
 .calendar-header h2 {
   margin: 0;
   font-size: clamp(12px, 1vw, 16px);
   color: white;
+  font-family: "Poppins", sans-serif;
 }
 
 .month-year {
   font-size: clamp(14px, 1vw, 18px);
   margin-bottom: 10px;
+  font-family: "Poppins", sans-serif;
 }
 
 .weekdays {
@@ -282,6 +284,7 @@ h3 {
   font-size: clamp(12px, 1vw, 16px);
   margin-left: 10px;
   margin-right: 10px;
+  font-family: "Poppins", sans-serif;
 }
 
 .days {
@@ -293,6 +296,7 @@ h3 {
   color: #474747;
   margin-left: 10px;
   margin-right: 10px;
+  font-family: "Poppins", sans-serif;
 }
 
 .day {
@@ -303,17 +307,18 @@ h3 {
   cursor: pointer;
   transition: background 0.2s;
   font-size: clamp(9px, 1vw, 16px);
+  font-family: "Poppins", sans-serif;
 }
 
 .day:hover {
   border: 3px solid transparent;
-  border-image: linear-gradient(to top, #0C8D4D, #56E99F);
+  border-image: linear-gradient(to top, #0c8d4d, #56e99f);
   border-image-slice: 1;
   border-radius: 10px;
 }
 
 .current-day {
-  background: #1583EB;
+  background: #1583eb;
   color: #fff;
   font-weight: bold;
 }
@@ -327,24 +332,26 @@ h3 {
   padding: 13px;
   margin-top: 10px;
   justify-content: space-between;
+  font-family: "Poppins", sans-serif;
 }
 
 .time-display {
   margin-top: 15px;
   padding: 8px;
   text-align: center;
-  background: #1583EB;
+  background: #1583eb;
   border-radius: 8px;
   color: white;
   font-size: clamp(11px, 1vw, 18px);
   align-items: flex-end;
+  font-family: "Poppins", sans-serif;
 }
 
 .see-details {
   margin-top: 15px;
   padding: 8px;
   text-align: center;
-  background: #1583EB;
+  background: #1583eb;
   border-radius: 8px;
   color: white;
   font-size: clamp(11px, 1vw, 18px);
@@ -352,6 +359,7 @@ h3 {
   margin-top: 10px;
   cursor: pointer;
   border: none;
+  font-family: "Poppins", sans-serif;
 }
 
 /*=====================Bar Graph Styles============================================*/
@@ -361,7 +369,7 @@ h3 {
   background-color: white;
   border: 1px solid #ccc;
   padding: 20px;
-
+  font-family: "Poppins", sans-serif;
 }
 
 .chart-container {
@@ -377,7 +385,8 @@ h3 {
 
 .bar-graph-container h2 {
   font-size: clamp(18px, 1vw, 26px);
-  color:#0562BA;
+  color: #0562ba;
+  font-family: "Poppins", sans-serif;
 }
 
 .graph-container {
@@ -389,6 +398,7 @@ h3 {
   background-color: #f9f9f9;
   height: 82%;
   min-height: 200px;
+  font-family: "Poppins", sans-serif;
 }
 
 .graph-container.active {
@@ -401,6 +411,7 @@ h3 {
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 20px;
+  font-family: "Poppins", sans-serif;
 }
 
 select {
@@ -409,6 +420,7 @@ select {
   border-radius: 4px;
   border: 1px solid #ccc;
   width: 300px;
+  font-family: "Poppins", sans-serif;
 }
 
 /*============================*/
@@ -430,6 +442,7 @@ select {
   background-color: white;
   border-radius: 10px;
   padding: 10px;
+  font-family: "Poppins", sans-serif;
 }
 
 .header-item-div {
@@ -439,6 +452,7 @@ select {
   height: 80%;
   justify-content: space-between;
   align-items: center;
+  font-family: "Poppins", sans-serif;
 }
 
 .chart-div {
@@ -513,10 +527,9 @@ select {
 }
 
 .tab-content::-webkit-scrollbar-thumb {
-  background: #0562BA;
+  background: #0562ba;
   border-radius: 10px;
 }
-
 
 .legend-header {
   display: flex;
@@ -528,16 +541,17 @@ select {
 .department-table-container {
   margin: 0;
   overflow-x: auto;
-  padding: 5px; 
+  padding: 5px;
 }
 
 .department-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 8px; 
+  border-spacing: 0 8px;
   margin: 15px 0;
   font-size: 0.9em;
   min-width: 600px;
+  font-family: "Poppins", sans-serif;
 }
 
 .department-table thead th {
@@ -547,6 +561,7 @@ select {
   padding: 12px 15px;
   position: sticky;
   top: -5px;
+  font-family: "Poppins", sans-serif;
 }
 
 .department-table thead th:first-child {
@@ -560,7 +575,7 @@ select {
 .department-table tbody td {
   padding: 12px 15px;
   background-color: white;
-  border: none; 
+  border: none;
 }
 
 .department-table tbody td:first-child {
@@ -716,8 +731,11 @@ select {
   }
 
   .tab.active {
-    background: #2E68CC;
+    background: #2e68cc;
     color: white;
   }
+}
 
+p {
+  font-family: "Poppins", sans-serif;
 }

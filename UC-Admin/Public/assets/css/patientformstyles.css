@@ -1,432 +1,433 @@
 /*==========================================================================*/
 .content-forms-seprator {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    height: auto;
-    width: 100%;
-    gap: 10px;
-    padding: 10px;
-    overflow: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  width: 100%;
+  gap: 10px;
+  padding: 10px;
+  overflow: auto;
 }
 
 .form-header h2 {
-    margin: 0;
+  margin: 0;
 }
 
 .scroll-input-div {
-    border-radius: 5px;
-    background-color: #ffffff;
-    margin: 10px;
-    height: 100%;
-    max-height: 600px;
-    border: 1px solid #ccc;
-    overflow: auto;
+  border-radius: 5px;
+  background-color: #ffffff;
+  margin: 10px;
+  height: 100%;
+  max-height: 600px;
+  border: 1px solid #ccc;
+  overflow: auto;
 }
 
 .form-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 15%;
-    background-color: #ffffff;
-    border-bottom: 2px solid #1583EB;
-    margin-top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 15%;
+  background-color: #ffffff;
+  border-bottom: 2px solid #1583eb;
+  margin-top: 0;
 }
 
 .form-container {
-    display: flex;
-    flex-direction: column;
-    background: #ffffff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-height: 950px;
-    height: 100%;
-    border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-height: 950px;
+  height: 100%;
+  border: 1px solid #ccc;
 
-    min-width: 0;
-    min-height: 0;
-    flex-shrink: 0;
-    overflow: auto;
+  min-width: 0;
+  min-height: 0;
+  flex-shrink: 0;
+  overflow: auto;
 }
 
 #personalInfoForm,
 #medicalInfoForm {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    padding: 30px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 30px;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
 }
 
 h2 {
-    text-align: center;
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 15px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 15px;
 }
 
 input:focus {
-    border-color: #13c8ff;
-    outline: none;
+  border-color: #13c8ff;
+  outline: none;
 }
 
 .form-in-forms {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-    overflow: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  overflow: auto;
 }
 
 .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    margin-bottom: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-bottom: 15px;
 }
 
-.form-row>div {
-    flex: 1 1 48%;
-    min-width: 200px;
+.form-row > div {
+  flex: 1 1 48%;
+  min-width: 200px;
 }
 
 label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    font-size: 14px;
-    color: #333;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
 }
 
 input[type="text"],
 input[type="number"],
 input[type="date"],
 select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: clamp(13px, 1vw, 16px);
-    box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: clamp(13px, 1vw, 16px);
+  box-sizing: border-box;
 }
 
 .form-navigation {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }
 
 .form-navigation button {
-    background-color: blue;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 14px;
-    font-weight: bold;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: 0.3s;
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .form-navigation button:hover {
-    background-color: darkblue;
+  background-color: darkblue;
 }
 
 .gender-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .gender-container label {
-    font-size: 14px;
-    font-weight: bold;
+  font-size: 14px;
+  font-weight: bold;
 }
 
 .step-nav {
-    flex-shrink: 0;
+  flex-shrink: 0;
 }
 
 .content-forms-seprator {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 
 .toggle-btn-div {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 20%;
-    background-color: #F6F6F6;
-    align-items: center;
-    margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 20%;
+  background-color: #f6f6f6;
+  align-items: center;
+  margin-top: 15px;
 }
 
 .form-buttons {
-    width: 100%;
-    height: 40px;
-    border-radius: 5px;
-    border: none;
-    background-color: #1583EB;
-    color: white;
-    text-align: center;
-    font-size: clamp(10px, 1vw, 16px);
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  border: none;
+  background-color: #1583eb;
+  color: white;
+  text-align: center;
+  font-size: clamp(10px, 1vw, 16px);
 }
 
 .personalform-buttons {
-    width: 10%;
-    height: 40px;
-    border-radius: 5px;
-    border: none;
-    background-color: #1583EB;
-    color: white;
-    text-align: center;
-    font-size: clamp(10px, 1vw, 16px);
+  width: 10%;
+  height: 40px;
+  border-radius: 5px;
+  border: none;
+  background-color: #1583eb;
+  color: white;
+  text-align: center;
+  font-size: clamp(10px, 1vw, 16px);
 }
 
 /* Medical & Dental History Styles =============================================================================== */
 #medical-dental-history-input {
-    padding: 15px;
+  padding: 15px;
 }
 
 #medicalDentalForm .form-row {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
-    gap: 10px;
-    align-items: left;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  gap: 10px;
+  align-items: left;
 }
 
 #medicalDentalForm .checkbox-row {
-    display: flex;
-    align-items: left;
-    width: 100%;
+  display: flex;
+  align-items: left;
+  width: 100%;
 }
 
 #medicalDentalForm .checkbox-row input[type="checkbox"] {
-    margin-right: 10px;
-    width: auto;
-    height: 16px;
-    width: 16px;
-    accent-color: #4a90e2;
+  margin-right: 10px;
+  width: auto;
+  height: 16px;
+  width: 16px;
+  accent-color: #4a90e2;
 }
 
 #medicalDentalForm .checkbox-row label {
-    white-space: nowrap;
-    margin-right: 10px;
-    font-weight: 500;
-    color: #333;
-    font-size: 14px;
+  white-space: nowrap;
+  margin-right: 10px;
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
 }
 
 #medicalDentalForm .details-input {
-    flex: 1;
-    min-width: 200px;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    transition: border-color 0.3s;
+  flex: 1;
+  min-width: 200px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border-color 0.3s;
 }
 
 #medicalDentalForm .details-input:focus {
-    border-color: #4a90e2;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
 #medicalDentalForm .declaration {
-    margin: 20px 0;
-    padding: 15px;
-    background-color: #f8f9fa;
-    border-radius: 5px;
-    font-style: italic;
-    font-size: 14px;
-    color: #555;
-    border-left: 3px solid #4a90e2;
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  font-style: italic;
+  font-size: 14px;
+  color: #555;
+  border-left: 3px solid #4a90e2;
 }
 
 #medicalDentalForm .signature-row {
-    display: flex;
-    gap: 15px;
-    margin-top: 20px;
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
 }
 
 #medicalDentalForm .signature-row input[type="text"] {
-    flex: 2;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
+  flex: 2;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 #medicalDentalForm .signature-row input {
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 #medicalDentalForm .signature-row input:focus {
-    border-color: #4a90e2;
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
 #medical-dental-history-input {
-    padding: 15px;
+  padding: 15px;
 }
 
 #medicalDentalForm .form-row.checkbox-row {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 15px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  width: 100%;
 }
 
 #medicalDentalForm .checkbox-row .checkbox-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  width: 100%;
 }
 
 #medicalDentalForm .checkbox-row input[type="checkbox"] {
-    margin-right: 10px;
-    width: 16px;
-    height: 16px;
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
 }
 
 #medicalDentalForm .checkbox-row label {
-    font-weight: 500;
-    color: #333;
-    font-size: 14px;
-    white-space: normal;
-    text-align: left;
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+  white-space: normal;
+  text-align: left;
 }
 
 #medicalDentalForm .details-input {
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    margin-top: 5px;
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 /* Family Medical History*/
 #family-med-historyForm .form-row.checkbox-row {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-bottom: 15px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  width: 100%;
 }
 
 #family-med-historyForm .checkbox-row input[type="checkbox"] {
-    margin-right: 10px;
-    width: 16px;
-    height: 16px;
-    accent-color: #4a90e2;
+  margin-right: 10px;
+  width: 16px;
+  height: 16px;
+  accent-color: #4a90e2;
 }
 
 #family-med-historyForm .checkbox-row label {
-    font-weight: 500;
-    color: #333;
-    font-size: 14px;
-    white-space: normal;
-    text-align: left;
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+  white-space: normal;
+  text-align: left;
 }
 
 #family-med-historyForm .details-input {
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    margin-top: 5px;
-    transition: border-color 0.3s;
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-top: 5px;
+  transition: border-color 0.3s;
 }
 
 /* Family Medical History*/
 /*For females only form*/
 #for-female-form .fem-form-section-title {
-    color: #6a1b9a;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #d195db;
-    padding-bottom: 8px;
+  color: #6a1b9a;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #d195db;
+  padding-bottom: 8px;
 }
 
 #for-female-form .fem-form-section {
-    margin-bottom: 25px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #d195db;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #d195db;
 }
 
 #for-female-form .fem-form-section h4 {
-    color: #7b1fa2;
-    margin-bottom: 15px;
-    font-size: 16px;
+  color: #7b1fa2;
+  margin-bottom: 15px;
+  font-size: 16px;
 }
 
 #for-female-form .fem-form-row {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-    flex-wrap: wrap;
-    padding: 8px 0;
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  padding: 8px 0;
 }
 
 #for-female-form .fem-label {
-    flex: 0 0 250px;
-    font-weight: 500;
-    color: #333;
-    margin-right: 15px;
+  flex: 0 0 250px;
+  font-weight: 500;
+  color: #333;
+  margin-right: 15px;
 }
 
 #for-female-form .fem-details-input {
-    flex: 1;
-    padding: 8px 12px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 14px;
-    min-width: 200px;
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  min-width: 200px;
 }
 
 #for-female-form .fem-short-input {
-    max-width: 100px;
+  max-width: 100px;
 }
 
 #for-female-form .fem-radio-group {
-    display: flex;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 #for-female-form .fem-radio-label {
-    flex: 0 0 250px;
-    font-weight: 500;
-    color: #333;
-    margin-right: 15px;
+  flex: 0 0 250px;
+  font-weight: 500;
+  color: #333;
+  margin-right: 15px;
 }
 
 #for-female-form .fem-radio-options {
-    display: flex;
-    gap: 20px;
+  display: flex;
+  gap: 20px;
 }
 
 #for-female-form .fem-radio-options label {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-weight: normal;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: normal;
 }
 
 #for-female-form input[type="radio"] {
-    accent-color: #9c27b0;
+  accent-color: #9c27b0;
 }

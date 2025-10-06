@@ -23,6 +23,9 @@ $newpersonnel = fetchNewPersonnel();
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="assets/js/dashboard_func.js" defer></script>
     <script src="assets/js/manageclients.js" defer></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet" />
     <title>Manage Profile</title>
 </head>
 </head>
@@ -82,7 +85,7 @@ $newpersonnel = fetchNewPersonnel();
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <main class="content" id="mainContent">
             <div id="normalViewContainer">
-                <div class="search-filter-container" style="background-color:rgb(255, 255, 255); border: 1px solid #ccc; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 25px;">
+                <div class="search-filter-container" style="background-color:rgb(255, 255, 255); border: 1px solid #ccc; padding: 10px; padding-bottom: 5px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 25px;">
                     <div class="search-bar">
                         <div class="search-input-container">
                             <form id="idSearchForm" method="get" class="search-form">

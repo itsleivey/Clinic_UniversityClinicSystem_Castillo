@@ -27,6 +27,9 @@ try {
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="assets/js/dashboard_func.js" defer></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet" />
     <script src="assets/js/dashcalendar.js" defer></script>
     <script src="assets/js/dashgraph.js" defer></script>
     <title>Manage Profile</title>

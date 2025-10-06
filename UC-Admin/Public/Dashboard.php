@@ -75,6 +75,9 @@ for ($month = 1; $month <= 12; $month++) {
     <script src="assets/js/dashboard_func.js" defer></script>
     <script src="assets/js/dashcalendar.js" defer></script>
     <script src="assets/js/dashgraph.js" defer></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet" />
     <title>Manage Profile</title>
 </head>
 
@@ -83,8 +86,7 @@ for ($month = 1; $month <= 12; $month++) {
         <img src="assets/images/Lspu logo.png" alt="Logo" type="image/webp" loading="lazy">
         <div class="title">
             <span class="university_title">University Clinic </span>
-            <p>Patient's Profile </p>
-            <p>Management System</p>
+
         </div>
         <button id="toggle-btn">
             <img id="btnicon" src="assets/images/menu-icon.svg">
@@ -222,9 +224,9 @@ for ($month = 1; $month <= 12; $month++) {
                         <div class="days" id="days"></div>
 
                         <div class="calendar-footer">
-                            <a href="Calendar.html">
+                            <!--   <a href="Calendar.html">
                                 <button class="see-details" href="Calendar.html">See Details</button>
-                            </a>
+                            </a>!-->
                             <div class="time-display" id="time"></div>
                         </div>
                     </div>

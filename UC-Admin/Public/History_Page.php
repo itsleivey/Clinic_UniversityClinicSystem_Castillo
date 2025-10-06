@@ -253,6 +253,9 @@ $fullName = trim($givenName . $surname);
     <script src="assets/js/dashboard_func.js" defer></script>
     <script src="assets/js/clientprofile.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <title>Manage Profile</title>
 </head>

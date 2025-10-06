@@ -5,6 +5,7 @@
   border-radius: 5px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border: solid #ccc 1px;
+  font-family: "Poppins", sans-serif;
   width: 100%;
 }
 
@@ -14,6 +15,7 @@
   color: #333;
   font-weight: 600;
   width: 100%;
+  font-family: "Poppins", sans-serif;
 }
 
 .table-wrapper {

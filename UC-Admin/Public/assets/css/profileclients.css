@@ -276,7 +276,7 @@ img {
   height: 100%;
   color: rgb(77, 77, 77);
   font-size: clamp(12px, 1vw, 18px);
-  font-family: "Roboto";
+  font-family: "Poppins", sans-serif;
 }
 
 #profile-pic-div {
@@ -539,7 +539,7 @@ img {
   border-collapse: separate;
   border-spacing: 0;
   margin-bottom: 20px;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: clamp(12px, 1vw, 16px);
   table-layout: fixed;
   word-wrap: break-word;
@@ -976,7 +976,7 @@ textarea {
 }
 
 #med-cert-form {
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
   background: white;
   width: 210mm;
   min-height: 297mm;
@@ -987,7 +987,7 @@ textarea {
 }
 
 #patient-rec {
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
   background: white;
   width: 210mm;
   min-height: 297mm;
@@ -998,7 +998,7 @@ textarea {
 }
 
 #rx-rec {
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
   background: white;
   width: 210mm;
   min-height: 297mm;
@@ -1009,7 +1009,7 @@ textarea {
 }
 
 .cert-field {
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .medcertheader {
@@ -1041,7 +1041,7 @@ textarea {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: "Roboto", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 16px;
   line-height: 1.2;
   text-align: center;
@@ -1127,7 +1127,7 @@ textarea {
 }
 
 #med-cert-form {
-  font-family: "Roboto", Arial, sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .cert-field[contenteditable="true"] {
@@ -1254,7 +1254,7 @@ textarea {
 }
 
 .SOAP-div {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .history-row[data-tooltip]:hover::after {
@@ -1267,7 +1267,7 @@ textarea {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 100, 0.1);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 /* Heading style */
