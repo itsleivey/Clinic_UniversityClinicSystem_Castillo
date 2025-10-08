@@ -1,9 +1,9 @@
 <?php
 $host = "localhost";
 $user = "root";
-$pass = "181414";
+$pass = "";
 $db   = "University_Clinic_System";
-$port = 4307;
+$port = "3306";
 
 $backupDir = __DIR__ . "/backups/";
 if (!is_dir($backupDir)) {

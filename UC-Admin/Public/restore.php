@@ -3,9 +3,9 @@ header('Content-Type: application/json');
 
 $host = "localhost";
 $user = "root";
-$pass = "181414";
+$pass = "";
 $db   = "University_Clinic_System";
-$port = 4307;
+$port = "3306";
 
 if (!isset($_FILES['backup_file']) || $_FILES['backup_file']['error'] !== UPLOAD_ERR_OK) {
     echo json_encode([
