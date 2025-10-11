@@ -1,3 +1,20 @@
+.content {
+  margin-top: 70px;
+  margin-left: 220px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  height: 1800%;
+  gap: 25px;
+  padding: 25px;
+  max-height: 2700px;
+  width: calc(100% - 250px);
+  transition: margin-left 0.2s ease-in-out, width 0.2s ease-in-out;
+  overflow: hidden;
+}
+
 .backup-history {
   margin-top: 20px;
   background: #fff;

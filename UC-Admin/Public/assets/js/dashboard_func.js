@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
+  document.body.classList.add("js-loaded");
   const elements = cacheDOMElements();
-
   initializeNavbar(elements);
   initializeTabs();
 });
@@ -21,18 +21,24 @@ function cacheDOMElements() {
 }
 
 function initializeNavbar(elements) {
+  // Load saved sidebar state
+  const isCollapsed = localStorage.getItem("navbar-collapsed") === "true";
+
+  if (isCollapsed) {
+    elements.navbar?.classList.add("collapsed");
+    elements.navbar?.classList.remove("expanded");
+  } else {
+    elements.navbar?.classList.add("expanded");
+    elements.navbar?.classList.remove("collapsed");
+  }
+
+  // Toggle sidebar and save new state
   elements.toggleButton?.addEventListener("click", () => {
     elements.navbar?.classList.toggle("collapsed");
     elements.navbar?.classList.toggle("expanded");
-  });
 
-  document.addEventListener("click", (event) => {
-    if (
-      event.target.classList.contains("buttons") &&
-      elements.navbar?.classList.contains("collapsed")
-    ) {
-      elements.navbar.classList.replace("collapsed", "expanded");
-    }
+    const collapsed = elements.navbar?.classList.contains("collapsed");
+    localStorage.setItem("navbar-collapsed", collapsed);
   });
 }
 

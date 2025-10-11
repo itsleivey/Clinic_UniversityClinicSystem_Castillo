@@ -7,33 +7,14 @@
 }
 
 .content {
-  margin-top: 70px;
-  margin-left: 220px;
-  flex: 1;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  height: 1800%;
-  gap: 25px;
-  padding: 35px;
-  max-height: 2700px;
-  width: calc(100% - 250px);
-  transition: margin-left 0.2s ease-in-out, width 0.2s ease-in-out;
-
-  overflow: hidden;
-}
-
-.dashboard-content {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(2, 22% 78%);
   margin-top: 70px;
   margin-left: 220px;
   flex: 1;
   height: 100%;
-  gap: 25px;
-  padding: 35px;
+  gap: 35px;
+  padding: 25px;
   max-height: 2700px;
   width: calc(100% - 250px);
   transition: margin-left 0.2s ease-in-out, width 0.2s ease-in-out;
@@ -42,10 +23,11 @@
 
 .report-cards-container {
   display: grid;
-  grid-template-columns: repeat(2, 70% 30%);
+  grid-template-columns: repeat(2, 75% 25%);
   width: 100%;
-  height: 100%;
-
+  height: 25%;
+  max-height: 390px;
+  max-width: 2000px;
   box-sizing: border-box;
 }
 
@@ -54,6 +36,7 @@
   grid-template-rows: repeat(2, 20% 80%);
   height: 100%;
   width: 100%;
+  max-height: 390px;
 }
 
 h3 {
@@ -67,7 +50,7 @@ h3 {
   align-items: center;
   padding-left: 30px;
   width: 98%;
-  height: 90%;
+  height: 83%;
   border-radius: 5px;
   border: none;
   color: white;
@@ -76,20 +59,162 @@ h3 {
 }
 .patients-statisticis {
   display: grid;
-  grid-template-columns: repeat(2, 70% 30%);
+  grid-template-columns: repeat(3, 50% 25% 25%);
   height: 100%;
   width: 98%;
   background-color: white;
   border-radius: 5px;
-  border: solid #ccc 1px;
+}
+.patients-type-counts-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: left;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 5px;
+  font-family: "Montserrat", sans-serif;
+
+  h4 {
+    color: #0562ba;
+    font-size: clamp(18px, 1vw, 26px);
+    color: #0562ba;
+    margin-bottom: 8px;
+  }
 }
 
+.counts-div {
+  display: grid;
+  grid-template-rows: repeat(4, 25%);
+  width: 100%;
+  height: 90%;
+  border-radius: 5px;
+  padding: 3px;
+  background-color: rgb(255, 255, 255);
+  border: solid #d8d8d8 1px;
+}
+
+.patients-cards-count {
+  display: grid;
+  grid-template-columns: 30% 70%;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  padding: 4px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+
+  /* 🔹 Set the starting transform and transition */
+  transform: scale(1);
+  border-left: transparent solid 10px;
+  transition: transform 0.25s ease-in-out, background-color 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out, border-left-color 0.25s ease-in-out;
+}
+
+.patients-cards-count:hover {
+  background-color: #f0f8ff;
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2);
+  border-left-color: #007bff;
+  transform: scale(1.03); /* 🔹 Smooth zoom effect */
+}
+
+.cards-labels {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding-left: 10px;
+  h {
+    font-family: "Montserrat", sans-serif;
+    font-size: clamp(0.75rem, 1vw, 1.2rem);
+    font-weight: medium;
+  }
+  p {
+    font-family: "Poppins", sans-serif;
+    font-size: clamp(0.75rem, 1vw, 1rem);
+  }
+}
+
+.icon-cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 93%;
+  width: 60px;
+
+  border-radius: 5px;
+  background-color: #1e90ff;
+  font-size: clamp(1.2rem, 1vw, 1.5rem);
+  color: white;
+}
+/*====================*/
+.consultation-count-div {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+/*====================*/
+.patients-sex-distribution-count-div {
+  display: grid;
+  grid-template-rows: 3 33%;
+  width: 100%;
+  height: 95%;
+  padding: 15px;
+  background-color: white;
+  border-radius: 5px;
+  font-family: "Poppins", sans-serif;
+
+  h3 {
+    color: #343535;
+    color: #0562ba;
+    font-size: clamp(18px, 1vw, 26px);
+    color: #0562ba;
+  }
+}
+#male-card {
+  background-color: white;
+  color: #71dae8;
+}
+#female-card {
+  background-color: white;
+  color: #ff8fc9;
+}
+
+#male-card-count:hover {
+  background-color: #f0f8ff;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2);
+
+  border: solid #71dae8 1px;
+  border-left: #71dae8 solid 10px;
+  border-radius: 0px 5px 5px 0px;
+}
+#female-card-count:hover {
+  background-color: #ff8fc907;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2);
+  border: solid #ff8fc9 1px;
+  border-left: #ff8fc9 solid 10px;
+  border-radius: 0px 5px 5px 0px;
+}
+
+#teaching-icon-card {
+  background-color: #2f4f4f4d;
+}
+#non-teaching-icon-card {
+  background-color: #e68f167a;
+}
 /*=============================Bar-graph-and-chart-styles==========================================*/
 .tables-bargraphs {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100%;
+  height: 90%;
+  max-height: 500px;
   gap: 25px;
 }
 
@@ -106,25 +231,44 @@ h3 {
     font-weight: 900;
   }
 }
+
+.second-section-graph-table {
+  display: grid;
+  grid-template-columns: repeat(2, 75% 25%);
+  height: 100%;
+  width: 100%;
+  max-width: 2000px;
+  max-height: 500px;
+}
 /*=====================Dashboard=====Calendar========================*/
 
 /*=====================Bar Graph Styles============================================*/
 .bar-graph-container {
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 98%;
   max-width: 2000px;
   height: 100%;
   max-height: 500px;
   background-color: white;
-  border: 1px solid #ccc;
+
   padding: 20px;
+  border-radius: 5px;
 }
 
+.patients-overview {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  border-radius: 5px;
+}
 .chart-container {
   width: 100%;
   max-width: 2000px;
   height: 60%;
   background-color: white;
-  border: 1px solid #ccc;
 }
 
 .bar-graph-container h2 {
@@ -141,6 +285,8 @@ h3 {
   background-color: #f9f9f9;
   height: 82%;
   min-height: 200px;
+  width: 100%;
+  overflow: auto;
 }
 
 .graph-container.active {
@@ -165,7 +311,8 @@ select {
 
 /*============================*/
 #familyDentalChart {
-  width: 70%;
+  width: 30%;
+  overflow-x: auto;
 }
 
 .chart-container h2 {
@@ -381,7 +528,8 @@ select {
 
 /*================================================*/
 :root {
-  --primary-blue: #3b82f6; /* Matching the image's vibrant blue */
+  --primary-blue: #3b82f6;
+  --new-primary-blue: rgb(0, 97, 189); /* Matching the image's vibrant blue */
   --light-blue: #dbeafe; /* Light background for hover/selection */
   --text-color: #1f2937;
   --secondary-text-color: #6b7280;
@@ -393,11 +541,14 @@ select {
 
 #calendar-app {
   background-color: white;
-  padding: 15px;
+  padding: 20px;
+
   border-radius: 5px;
-  box-shadow: var(--box-shadow);
   width: 100%;
-  max-width: 400px; /* Constrain width for calendar look */
+  height: 90%;
+  min-height: 390px;
+
+  max-width: 330px; /* Constrain width for calendar look */
   position: relative;
 }
 
@@ -412,7 +563,7 @@ select {
 .app-title {
   font-size: clamp(1rem, 1vw, 1.5rem);
   font-weight: 700;
-  color: var(--primary-blue);
+  color: var(--new-primary-blue);
   margin: 0;
 }
 
@@ -492,13 +643,13 @@ select {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   max-width: 100%;
 }
 
 #current-month {
   font-weight: 700;
-  font-size: clamp(1rem, 1vw, 1.5rem);
+  font-size: clamp(0.75rem, 1vw, 1rem);
   color: var(--text-color);
   margin: 0;
   text-align: center;
@@ -509,8 +660,8 @@ select {
   border: 1px solid #d1d5db;
   color: var(--text-color);
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -532,22 +683,22 @@ select {
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-
+  font-family: "Montserrat", sans-serif;
   text-align: center;
   font-size: clamp(0.5rem, 1vw, 0.75rem);
   width: 100%;
+  max-height: 385px;
 }
 
 #day-names span {
   font-weight: 600;
   color: var(--secondary-text-color);
-  padding: 10px 0;
+  padding: 0px 0;
   font-size: clamp(0.9rem, 1vw, 0.1);
 }
 
 /* Date Cells */
 .date-cell {
-  padding: 10px 0;
   cursor: pointer;
   font-weight: 600;
   max-width: 100%;
@@ -628,13 +779,14 @@ select {
     max-height: 1190px;
   }
 
+  /*
+  
   .bar-graph-container {
     width: 100%;
     height: 100%;
     background-color: white;
     padding: 20px;
   }
-  /*
   .chart-container {
     display: flex;
     flex-direction: row;
@@ -709,3 +861,4 @@ select {
 p {
   font-family: "Poppins", sans-serif;
 }
+/* Default style */

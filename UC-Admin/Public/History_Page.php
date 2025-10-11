@@ -252,6 +252,7 @@ $fullName = trim($givenName . $surname);
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="assets/js/dashboard_func.js" defer></script>
     <script src="assets/js/clientprofile.js" defer></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
