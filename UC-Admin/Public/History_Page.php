@@ -289,9 +289,8 @@ $fullName = trim($givenName . $surname);
     <div class="header">
         <img src="assets/images/Lspu logo.png" alt="Logo" type="image/webp" loading="lazy">
         <div class="title">
-            <span class="university_title">University Clinic </span>
-            <p>Patient's Profile </p>
-            <p>Management System</p>
+            <span class="university_title">LSPU-LBC</span>
+            <span class="university_title"> University Clinic </span>
         </div>
         <button id="toggle-btn">
             <img id="btnicon" src="assets/images/menu-icon.svg">

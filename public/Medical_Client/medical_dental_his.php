@@ -5,7 +5,7 @@ if (!isset($_SESSION['ClientID'])) {
     return null;
 }
 
-require_once('C:/Xampp.f/htdocs/UC-System/config/database.php');
+require_once '../../config/database.php';
 
 $pdo = pdo_connect_mysql();
 
@@ -16,7 +16,7 @@ function getMedicalDentalHistory(PDO $pdo, int $clientId): array
         $stmt = $pdo->prepare("SELECT * FROM medicaldentalhistory WHERE ClientID = ? LIMIT 1");
         $stmt->execute([$clientId]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-   
+
         if (!$result) {
             return [
                 'KnownIllness' => 0,
@@ -64,16 +64,24 @@ function saveMedicalDentalHistory(PDO $pdo, array $data): bool
                 DentalProblems = ?, DentalProblemsDetails = ?,
                 PrimaryPhysician = ?, PrimaryPhysicianDetails = ?
                 WHERE ClientID = ?");
-                
+
             return $stmt->execute([
-                $data['KnownIllness'], $data['KnownIllnessDetails'],
-                $data['Hospitalization'], $data['HospitalizationDetails'],
-                $data['Allergies'], $data['AllergiesDetails'],
-                $data['ChildImmunization'], $data['ChildImmunizationDetails'],
-                $data['PresentImmunizations'], $data['PresentImmunizationsDetails'],
-                $data['CurrentMedicines'], $data['CurrentMedicinesDetails'],
-                $data['DentalProblems'], $data['DentalProblemsDetails'],
-                $data['PrimaryPhysician'], $data['PrimaryPhysicianDetails'],
+                $data['KnownIllness'],
+                $data['KnownIllnessDetails'],
+                $data['Hospitalization'],
+                $data['HospitalizationDetails'],
+                $data['Allergies'],
+                $data['AllergiesDetails'],
+                $data['ChildImmunization'],
+                $data['ChildImmunizationDetails'],
+                $data['PresentImmunizations'],
+                $data['PresentImmunizationsDetails'],
+                $data['CurrentMedicines'],
+                $data['CurrentMedicinesDetails'],
+                $data['DentalProblems'],
+                $data['DentalProblemsDetails'],
+                $data['PrimaryPhysician'],
+                $data['PrimaryPhysicianDetails'],
                 $data['ClientID']
             ]);
         } else {
@@ -88,17 +96,25 @@ function saveMedicalDentalHistory(PDO $pdo, array $data): bool
                 DentalProblems, DentalProblemsDetails,
                 PrimaryPhysician, PrimaryPhysicianDetails
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-            
+
             return $stmt->execute([
                 $data['ClientID'],
-                $data['KnownIllness'], $data['KnownIllnessDetails'],
-                $data['Hospitalization'], $data['HospitalizationDetails'],
-                $data['Allergies'], $data['AllergiesDetails'],
-                $data['ChildImmunization'], $data['ChildImmunizationDetails'],
-                $data['PresentImmunizations'], $data['PresentImmunizationsDetails'],
-                $data['CurrentMedicines'], $data['CurrentMedicinesDetails'],
-                $data['DentalProblems'], $data['DentalProblemsDetails'],
-                $data['PrimaryPhysician'], $data['PrimaryPhysicianDetails']
+                $data['KnownIllness'],
+                $data['KnownIllnessDetails'],
+                $data['Hospitalization'],
+                $data['HospitalizationDetails'],
+                $data['Allergies'],
+                $data['AllergiesDetails'],
+                $data['ChildImmunization'],
+                $data['ChildImmunizationDetails'],
+                $data['PresentImmunizations'],
+                $data['PresentImmunizationsDetails'],
+                $data['CurrentMedicines'],
+                $data['CurrentMedicinesDetails'],
+                $data['DentalProblems'],
+                $data['DentalProblemsDetails'],
+                $data['PrimaryPhysician'],
+                $data['PrimaryPhysicianDetails']
             ]);
         }
     } catch (PDOException $e) {
@@ -106,4 +122,3 @@ function saveMedicalDentalHistory(PDO $pdo, array $data): bool
         return false;
     }
 }
-?>

@@ -264,3 +264,329 @@ EOD;
     .soap-section {
         margin-bottom: 12px;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    .calendar-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  color: #0562ba;
+  font-family: "Poppins", sans-serif;
+  gap: 10px;
+}
+
+.calendar-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  color: #ffffff;
+  background: linear-gradient(to right, #4fa8f2, #3372d3);
+  gap: 30%;
+  padding: 20px;
+  width: 100%;
+  height: 30%;
+  font-family: "Poppins", sans-serif;
+}
+
+.calendar-header h2 {
+  margin: 0;
+  font-size: clamp(12px, 1vw, 16px);
+  color: white;
+}
+
+.month-year {
+  font-size: clamp(14px, 1vw, 18px);
+  margin-bottom: 10px;
+}
+
+.weekdays {
+  display: grid;
+  color: #555;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  margin-bottom: 5px;
+  text-align: center;
+  font-weight: bold;
+  font-size: clamp(12px, 1vw, 16px);
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0px;
+  font-size: clamp(8px, 1vw, 14px);
+  font-weight: bold;
+  color: #474747;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.day {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  padding: 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: clamp(9px, 1vw, 16px);
+}
+
+.day:hover {
+  border: 3px solid transparent;
+  border-image: linear-gradient(to top, #0c8d4d, #56e99f);
+  border-image-slice: 1;
+  border-radius: 10px;
+}
+
+.current-day {
+  background: #1583eb;
+  color: #fff;
+  font-weight: bold;
+}
+
+.calendar-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 15%;
+  padding: 13px;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+
+.time-display {
+  margin-top: 15px;
+  padding: 8px;
+  text-align: center;
+  background: #1583eb;
+  border-radius: 8px;
+  color: white;
+  font-size: clamp(11px, 1vw, 18px);
+  align-items: flex-end;
+}
+
+.see-details {
+  margin-top: 15px;
+  padding: 8px;
+  text-align: center;
+  background: #1583eb;
+  border-radius: 8px;
+  color: white;
+  font-size: clamp(11px, 1vw, 18px);
+  align-items: flex-end;
+  margin-top: 10px;
+  cursor: pointer;
+  border: none;
+}
+
+
+
+
+
+
+
+
+
+
+.report-card-text {
+  margin: 10px;
+  font-size: clamp(13px, 1vw, 16px);
+  color: rgb(54, 54, 54);
+  font-weight: medium;
+}
+
+.report-cards {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  width: 30%;
+  height: 100%;
+}
+
+.calendar-card {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border: 1px solid #4fa8f2;
+  width: 50%;
+  height: 100%;
+  border-radius: 5px;
+  font-family: "Poppins", sans-serif;
+}
+
+.cards-icon-div {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  padding: 5px;
+}
+
+.cards-icon-div-condata {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 38px;
+  gap: 15px;
+  height: 50%;
+}
+.card-icon-div,
+i {
+  color: #1270c8;
+}
+#clienttype-card {
+  width: 40%;
+}
+.icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+}
+
+.cards-icons-img {
+  max-width: 50%;
+  max-height: 50%;
+  margin: 20;
+  object-fit: contain;
+}
+
+.card-data {
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  gap: 30px;
+  padding: 15px;
+  font-family: "Inter", "Segoe UI", "Helvetica Neue", sans-serif;
+  font-size: clamp(9px, 1vw, 14px);
+  justify-content: center;
+  overflow: auto;
+}
+#freshman-item {
+  margin-top: 150px;
+}
+#total-count {
+  height: 30px;
+  padding-top: 20px;
+  border-top: solid #ccc 3px;
+}
+/*=============*/
+.card-data::-webkit-scrollbar {
+  width: 6px;
+}
+
+.card-data::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.card-data::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 10px;
+}
+
+.card-data::-webkit-scrollbar-thumb:hover {
+  background-color: #626262;
+}
+/*=============*/
+.legend-item {
+  display: flex;
+  align-items: center;
+  height: 10px;
+  gap: 10px;
+}
+
+.color-box {
+  width: 15px;
+  height: 15px;
+  border-radius: 3px;
+}
+/*
+.students {
+  background-color: #1e90ff;
+}
+
+.faculty {
+  background-color: #90ee90;
+}
+
+.personnel {
+  background-color: #ff6a00;
+}
+  .male,
+.female {
+  display: flex;
+  height: 30px;
+  width: 30px;
+  color: white;
+  font-size: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.male {
+  background-color: #6BD9E7;
+}
+
+.female {
+  background-color: #FF8FC9;
+}
+
+
+*/
+
+.icon {
+  font-size: 24px;
+  margin-right: 8px;
+}
+
+.label {
+  font-size: clamp(8px, 1vw, 15px);
+  flex-grow: 1;
+}
+
+.value {
+  font-size: clamp(10px, 1vw, 15px);
+  font-weight: bold;
+  color: rgb(71, 71, 71);
+  font-family: "Poppins", sans-serif;
+}
+
+.cards-buttons {
+  background-color: #1584ebdc;
+  color: white;
+  height: 15%;
+  border-radius: 5px;
+  border: none;
+  width: 45%;
+  margin: 10px;
+  margin-bottom: 0px;
+  font-size: clamp(11px, 1vw, 18px);
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+.cards-buttons:hover {
+  background-color: #0062cad8;
+}

@@ -69,12 +69,28 @@ for ($month = 1; $month <= 12; $month++) {
     <title>Layout Example</title>
     <link rel="stylesheet" href="assets/css/dashboardpagestyles.css">
     <link rel="stylesheet" href="assets/css/adminstyles.css">
+    <style>
+        @font-face {
+            font-family: "Montserrat";
+            src: url("assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format("woff2");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: "Poppins";
+            src: url("assets/fonts/Poppins/Poppins-Medium.ttf") format("woff2");
+            font-weight: 400;
+            font-style: normal;
+        }
+    </style>
     <link rel="stylesheet" href="webicons/fontawesome-free-6.7.2-web/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="assets/js/dashboard_func.js" defer></script>
     <script src="assets/js/dashcalendar.js" defer></script>
     <script src="assets/js/dashgraph.js" defer></script>
+    <script src="assets/css/calendarstyles.css" defer></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
         rel="stylesheet" />
@@ -85,8 +101,8 @@ for ($month = 1; $month <= 12; $month++) {
     <div class="header">
         <img src="assets/images/Lspu logo.png" alt="Logo" type="image/webp" loading="lazy">
         <div class="title">
-            <span class="university_title">University Clinic </span>
-
+            <span class="university_title">LSPU-LBC</span>
+            <span class="university_title"> University Clinic </span>
         </div>
         <button id="toggle-btn">
             <img id="btnicon" src="assets/images/menu-icon.svg">
@@ -132,108 +148,79 @@ for ($month = 1; $month <= 12; $month++) {
             </a>
         </nav>
 
-        <main class="content">
-            <h3>Welcome Admin!</h3>
+        <main id="dashboard-main-content" class="dashboard-content">
             <div class="report-cards-container">
-                <div id="clienttype-card" class="report-cards">
-                    <h3 class="report-card-text">Registered Patients</h3>
-                    <div class="cards-icon-div">
-                        <div class="card-data">
-                            <div id="freshman-item" class="legend-item">
-                                <i class="fas fa-user-graduate icon freshman"></i>
-                                <span class="label">Freshman Students</span>
-                                <span class="value"><?= $counts['Freshman'] ?></span>
-                            </div>
-                            <div class="legend-item">
-                                <i class="fas fa-users icon student"></i>
-                                <span class="label">Regular Students</span>
-                                <span class="value"><?= $counts['Student'] ?></span>
-                            </div>
-                            <div class="legend-item">
-                                <i class="fas fa-chalkboard-teacher icon faculty"></i>
-                                <span class="label">Teaching Personnel</span>
-                                <span class="value"><?= $counts['Faculty'] ?></span>
-                            </div>
-                            <div class="legend-item">
-                                <i class="fas fa-user-tie icon personnel"></i>
-                                <span class="label">Non-Teaching Personnel</span>
-                                <span class="value"><?= $counts['Personnel'] ?></span>
-                            </div>
-                            <div id="newly-hired-item" class="legend-item">
-                                <i class="fas fa-user-plus icon new-personnel"></i>
-                                <span class="label">Newly-Hired Personnel</span>
-                                <span class="value"><?= $counts['NewPersonnel'] ?></span>
-                            </div>
-                            <div id="total-count" class="legend-item">
-                                <i class="fas fa-calculator"></i>
-                                <span class="label">Total</span>
-                                <span class="value"><?= $counts['Total'] ?></span>
-                            </div>
-                        </div>
-
+                <div class="quantity-statistics-container">
+                    <div class="admin-tex-div">
+                        <h3>Welcome Admin!</h3>
                     </div>
-                    <!-- <button class="cards-buttons">More details</button>-->
-                </div>
-                <div class="report-cards">
-                    <h3 class="report-card-text">Patients Sex Distribution</h3>
-                    <div class="cards-icon-div">
+                    <div class="patients-statisticis">
 
-                        <div class="card-data">
-                            <div class="legend-item">
-                                <i class="fas fa-mars icon" style="color: #6BD9E7;"></i>
-                                <span class="label">Male</span>
-                                <span class="value"><?= $genderCounts['male'] ?? "0" ?></span>
-                            </div>
-                            <div class="legend-item">
-                                <i class="fas fa-venus icon" style="color: #FF8FC9;"></i>
-                                <span class="label">Female</span>
-                                <span class="value"><?= $genderCounts['female'] ?? "0" ?></span>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <!-- <button class="cards-buttons">More details</button>-->
-                </div>
-                <div class="report-cards">
-                    <h3 class="report-card-text">Number of Consultations</h3>
-                    <div class="cards-icon-div-condata">
-                        <div class="legend-item">
-                            <span class="label">Per Year</span>
-                            <span class="value"><?php echo $perYear; ?></span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="label">Per Semester</span>
-                            <span class="value"><?php echo $perSemester; ?></span>
-                        </div>
-                        <div class="legend-item">
-                            <span class="label">Per Month</span>
-                            <span class="value"><?php echo $perMonth; ?></span>
-                        </div>
                     </div>
                 </div>
-
-                <div class="calendar-card">
-                    <div class="calendar-container">
-                        <div class="calendar-header">
-                            <h2>My Calendar</h2>
-                            <div class="month-year" id="month-year"></div>
+                <div class="calendar-div">
+                    <div id="calendar-app">
+                        <!-- Header: Title and Year Selector -->
+                        <div id="calendar-header">
+                            <h1 class="app-title">Calendar</h1>
+                            <!-- Replaced <select> with custom div structure for styling control -->
+                            <div class="year-selector" id="custom-year-selector">
+                                <span id="selected-year" class="year-select-display"></span>
+                                <div class="calendar-icon-bg">
+                                    <!-- Calendar Icon -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="calendar-icon">
+                                        <path d="M19 4h-1V3c0-.55-.45-1-1-1s-1 .45-1 1v1H8V3c0-.55-.45-1-1-1s-1 .45-1 1v1H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM5 7V6h14v1H5z" />
+                                    </svg>
+                                </div>
+                                <!-- Custom Dropdown List -->
+                                <div id="year-options-list" class="hidden">
+                                    <!-- Years injected by JS -->
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="weekdays" id="weekdays"></div>
-                        <div class="days" id="days"></div>
+                        <!-- Month Navigation and Display -->
+                        <div id="month-navigation">
+                            <button id="prev-month" class="nav-arrow left-arrow" aria-label="Previous Month">
+                                <!-- Left Arrow SVG -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+                                </svg>
+                            </button>
+                            <h2 id="current-month"></h2>
+                            <button id="next-month" class="nav-arrow right-arrow" aria-label="Next Month">
+                                <!-- Right Arrow SVG -->
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
+                                </svg>
+                            </button>
+                        </div>
 
-                        <div class="calendar-footer">
-                            <!--   <a href="Calendar.html">
-                                <button class="see-details" href="Calendar.html">See Details</button>
-                            </a>!-->
-                            <div class="time-display" id="time"></div>
+                        <!-- Day Names -->
+                        <div id="day-names" class="calendar-grid">
+                            <span>Sun</span>
+                            <span>Mon</span>
+                            <span>Tue</span>
+                            <span>Wed</span>
+                            <span>Thu</span>
+                            <span>Fri</span>
+                            <span>Sat</span>
+                        </div>
+
+                        <!-- Dates Grid (filled by JS) -->
+                        <div id="dates-grid" class="calendar-grid">
+                            <!-- Dates will be injected here -->
+                        </div>
+
+                        <!-- Floating Time Display -->
+                        <div id="time-display-container">
+                            <div id="current-time">00:00:00 AM</div>
                         </div>
                     </div>
-
                 </div>
             </div>
-            <div class="graph_charts_container">
+
+            <div class="tables-bargraphs">
                 <div class="bar-graph-container">
                     <h2>Health Data Overview</h2>
                     <div class="dropdown-container">
@@ -262,7 +249,6 @@ for ($month = 1; $month <= 12; $month++) {
                                 select.appendChild(option);
                             }
                         </script>
-
                     </div>
 
                     <div class="graph-container" id="familydentalgraph">
@@ -284,8 +270,8 @@ for ($month = 1; $month <= 12; $month++) {
                     <div class="graph-container" width="600" height="300" id="consultationgraph" loading="lazy">
                         <canvas id="consultationChart"></canvas>
                     </div>
-
                 </div>
+
 
                 <div class="chart-container">
                     <div class="legend-data">
@@ -298,7 +284,7 @@ for ($month = 1; $month <= 12; $month++) {
                         </div>
 
                         <div id="students-content" class="tab-content" style="display: block;">
-                            <div>
+                            <div class="table-name">
                                 <h3>Registered Students</h3>
                             </div>
                             <div class="department-table-container">
@@ -361,7 +347,7 @@ for ($month = 1; $month <= 12; $month++) {
                             </div>
                         </td>-->
                         <div id="employees-content" class="tab-content" style="display: none;">
-                            <div>
+                            <div class="table-name">
                                 <h3>Registered Teaching Personnels</h3>
                             </div>
                             <div class="department-table-container">
@@ -417,8 +403,6 @@ for ($month = 1; $month <= 12; $month++) {
                         </div>
                     </div>
                 </div>
-
-
             </div>
 
         </main>

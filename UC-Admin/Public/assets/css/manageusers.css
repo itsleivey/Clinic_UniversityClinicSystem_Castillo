@@ -340,12 +340,14 @@ body {
 .tab {
   padding: 8px 16px;
   background: #ffffff;
-  border-radius: 4px;
+  border-radius: 0px;
   cursor: pointer;
+  font-size: clamp(10px, 1vw, 15px);
 }
 
 .tab.active {
   border-bottom: solid #3498db 5px;
+  background-color: #1584eb25;
   color: #044b90;
 }
 

@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .body {
   overflow: hidden;
 }
@@ -10,383 +14,122 @@
   flex-direction: column;
   flex-wrap: wrap;
   align-items: flex-start;
+  height: 1800%;
+  gap: 25px;
+  padding: 35px;
+  max-height: 2700px;
+  width: calc(100% - 250px);
+  transition: margin-left 0.2s ease-in-out, width 0.2s ease-in-out;
+
+  overflow: hidden;
+}
+
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, 22% 78%);
+  margin-top: 70px;
+  margin-left: 220px;
+  flex: 1;
   height: 100%;
   gap: 25px;
   padding: 35px;
-  max-height: 1700px;
+  max-height: 2700px;
   width: calc(100% - 250px);
   transition: margin-left 0.2s ease-in-out, width 0.2s ease-in-out;
   overflow: hidden;
 }
 
+.report-cards-container {
+  display: grid;
+  grid-template-columns: repeat(2, 70% 30%);
+  width: 100%;
+  height: 100%;
+
+  box-sizing: border-box;
+}
+
+.quantity-statistics-container {
+  display: grid;
+  grid-template-rows: repeat(2, 20% 80%);
+  height: 100%;
+  width: 100%;
+}
+
 h3 {
   font-size: clamp(20, 1vw, 50px);
-  color: #0562ba;
+  color: #ffffff;
 }
 
-.report-card-text {
-  margin: 10px;
-  font-size: clamp(13px, 1vw, 16px);
-  color: rgb(54, 54, 54);
-  font-weight: medium;
-}
-
-.report-cards-container {
+.admin-tex-div {
   display: flex;
-  flex-direction: row;
-  gap: 15px;
-  width: 100%;
-
-  height: auto;
-  max-height: 190px;
-  min-height: 150px;
-
-  height: 25vh;
-}
-
-.report-cards {
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  width: 30%;
-  height: 100%;
-}
-
-.calendar-card {
-  display: flex;
-  flex-direction: column;
-  background-color: white;
-  border: 1px solid #4fa8f2;
-  width: 50%;
-  height: 100%;
-  border-radius: 5px;
-  font-family: "Poppins", sans-serif;
-}
-
-.cards-icon-div {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  padding: 5px;
-}
-
-.cards-icon-div-condata {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 38px;
-  gap: 15px;
-  height: 50%;
-}
-.card-icon-div,
-i {
-  color: #1270c8;
-}
-#clienttype-card {
-  width: 40%;
-}
-.icon {
-  display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  width: 40%;
-}
-
-.cards-icons-img {
-  max-width: 50%;
-  max-height: 50%;
-  margin: 20;
-  object-fit: contain;
-}
-
-.card-data {
-  display: flex;
-  flex-direction: column;
-  height: 100px;
-  gap: 30px;
-  padding: 15px;
-  font-family: "Poppins", sans-serif;
-  font-size: clamp(9px, 1vw, 14px);
-  justify-content: center;
-  overflow: auto;
-}
-#freshman-item {
-  margin-top: 150px;
-}
-#total-count {
-  height: 30px;
-  padding-top: 20px;
-  border-top: solid #ccc 3px;
-}
-/*=============*/
-.card-data::-webkit-scrollbar {
-  width: 6px;
-}
-
-.card-data::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.card-data::-webkit-scrollbar-thumb {
-  background-color: #ccc;
-  border-radius: 10px;
-}
-
-.card-data::-webkit-scrollbar-thumb:hover {
-  background-color: #626262;
-}
-/*=============*/
-.legend-item {
-  display: flex;
-  align-items: center;
-  height: 10px;
-  gap: 10px;
-}
-
-.color-box {
-  width: 15px;
-  height: 15px;
-  border-radius: 3px;
-}
-/*
-.students {
-  background-color: #1e90ff;
-}
-
-.faculty {
-  background-color: #90ee90;
-}
-
-.personnel {
-  background-color: #ff6a00;
-}
-  .male,
-.female {
-  display: flex;
-  height: 30px;
-  width: 30px;
-  color: white;
-  font-size: 20px;
-  padding: 10px;
-  border-radius: 5px;
-  display: inline-block;
-}
-
-.male {
-  background-color: #6BD9E7;
-}
-
-.female {
-  background-color: #FF8FC9;
-}
-
-
-*/
-
-.icon {
-  font-size: 24px;
-  margin-right: 8px;
-}
-
-.label {
-  font-size: clamp(8px, 1vw, 15px);
-  flex-grow: 1;
-}
-
-.value {
-  font-size: clamp(10px, 1vw, 15px);
-  font-weight: bold;
-  color: rgb(71, 71, 71);
-  font-family: "Poppins", sans-serif;
-}
-
-.cards-buttons {
-  background-color: #1584ebdc;
-  color: white;
-  height: 15%;
+  padding-left: 30px;
+  width: 98%;
+  height: 90%;
   border-radius: 5px;
   border: none;
-  width: 45%;
-  margin: 10px;
-  margin-bottom: 0px;
-  font-size: clamp(11px, 1vw, 18px);
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  color: white;
+  background-color: #007bff;
+  background: linear-gradient(#51adfa, #3473d4);
 }
-
-.cards-buttons:hover {
-  background-color: #0062cad8;
+.patients-statisticis {
+  display: grid;
+  grid-template-columns: repeat(2, 70% 30%);
+  height: 100%;
+  width: 98%;
+  background-color: white;
+  border-radius: 5px;
+  border: solid #ccc 1px;
 }
 
 /*=============================Bar-graph-and-chart-styles==========================================*/
-.graph_charts_container {
+.tables-bargraphs {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  width: 100%;
-
-  height: auto;
-  max-height: 1190px;
-  min-height: 180px;
-
-  height: 100vh;
-}
-
-/*=====================Dashboard=====Calendar========================*/
-.calendar-container {
   width: 100%;
   height: 100%;
-  border-radius: 5px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  color: #0562ba;
-  font-family: "Poppins", sans-serif;
-  gap: 10px;
+  gap: 25px;
 }
 
-.calendar-header {
+.table-name {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  color: #ffffff;
-  background: linear-gradient(to right, #4fa8f2, #3372d3);
-  gap: 30%;
-  padding: 20px;
-  width: 100%;
-  height: 30%;
-  font-family: "Poppins", sans-serif;
-}
-
-.calendar-header h2 {
-  margin: 0;
-  font-size: clamp(12px, 1vw, 16px);
-  color: white;
-  font-family: "Poppins", sans-serif;
-}
-
-.month-year {
-  font-size: clamp(14px, 1vw, 18px);
-  margin-bottom: 10px;
-  font-family: "Poppins", sans-serif;
-}
-
-.weekdays {
-  display: grid;
-  color: #555;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 5px;
-  margin-bottom: 5px;
-  text-align: center;
-  font-weight: bold;
-  font-size: clamp(12px, 1vw, 16px);
-  margin-left: 10px;
-  margin-right: 10px;
-  font-family: "Poppins", sans-serif;
-}
-
-.days {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 0px;
-  font-size: clamp(8px, 1vw, 14px);
-  font-weight: bold;
-  color: #474747;
-  margin-left: 10px;
-  margin-right: 10px;
-  font-family: "Poppins", sans-serif;
-}
-
-.day {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 3px;
-  padding: 4px;
-  text-align: center;
-  cursor: pointer;
-  transition: background 0.2s;
-  font-size: clamp(9px, 1vw, 16px);
-  font-family: "Poppins", sans-serif;
-}
-
-.day:hover {
-  border: 3px solid transparent;
-  border-image: linear-gradient(to top, #0c8d4d, #56e99f);
-  border-image-slice: 1;
-  border-radius: 10px;
-}
-
-.current-day {
-  background: #1583eb;
-  color: #fff;
-  font-weight: bold;
-}
-
-.calendar-footer {
-  display: flex;
-  flex-direction: row;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
-  height: 15%;
-  padding: 13px;
-  margin-top: 10px;
-  justify-content: space-between;
-  font-family: "Poppins", sans-serif;
+  height: 30px;
+  h3 {
+    color: #0562ba;
+    font-family: "Montserrat", sans-serif;
+    font-weight: 900;
+  }
 }
-
-.time-display {
-  margin-top: 15px;
-  padding: 8px;
-  text-align: center;
-  background: #1583eb;
-  border-radius: 8px;
-  color: white;
-  font-size: clamp(11px, 1vw, 18px);
-  align-items: flex-end;
-  font-family: "Poppins", sans-serif;
-}
-
-.see-details {
-  margin-top: 15px;
-  padding: 8px;
-  text-align: center;
-  background: #1583eb;
-  border-radius: 8px;
-  color: white;
-  font-size: clamp(11px, 1vw, 18px);
-  align-items: flex-end;
-  margin-top: 10px;
-  cursor: pointer;
-  border: none;
-  font-family: "Poppins", sans-serif;
-}
+/*=====================Dashboard=====Calendar========================*/
 
 /*=====================Bar Graph Styles============================================*/
 .bar-graph-container {
   width: 100%;
+  max-width: 2000px;
   height: 100%;
+  max-height: 500px;
   background-color: white;
   border: 1px solid #ccc;
   padding: 20px;
-  font-family: "Poppins", sans-serif;
 }
 
 .chart-container {
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  height: 50%;
+  max-width: 2000px;
+  height: 60%;
   background-color: white;
   border: 1px solid #ccc;
-  padding: 15px;
-  gap: 15px;
 }
 
 .bar-graph-container h2 {
   font-size: clamp(18px, 1vw, 26px);
   color: #0562ba;
-  font-family: "Poppins", sans-serif;
 }
 
 .graph-container {
@@ -398,7 +141,6 @@ i {
   background-color: #f9f9f9;
   height: 82%;
   min-height: 200px;
-  font-family: "Poppins", sans-serif;
 }
 
 .graph-container.active {
@@ -411,7 +153,6 @@ i {
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: 20px;
-  font-family: "Poppins", sans-serif;
 }
 
 select {
@@ -420,7 +161,6 @@ select {
   border-radius: 4px;
   border: 1px solid #ccc;
   width: 300px;
-  font-family: "Poppins", sans-serif;
 }
 
 /*============================*/
@@ -442,7 +182,6 @@ select {
   background-color: white;
   border-radius: 10px;
   padding: 10px;
-  font-family: "Poppins", sans-serif;
 }
 
 .header-item-div {
@@ -452,7 +191,6 @@ select {
   height: 80%;
   justify-content: space-between;
   align-items: center;
-  font-family: "Poppins", sans-serif;
 }
 
 .chart-div {
@@ -491,7 +229,7 @@ select {
 
 .departmentList {
   width: 100%;
-  height: 90%;
+  height: 100%;
 }
 
 .tabs {
@@ -551,7 +289,6 @@ select {
   margin: 15px 0;
   font-size: 0.9em;
   min-width: 600px;
-  font-family: "Poppins", sans-serif;
 }
 
 .department-table thead th {
@@ -561,7 +298,6 @@ select {
   padding: 12px 15px;
   position: sticky;
   top: -5px;
-  font-family: "Poppins", sans-serif;
 }
 
 .department-table thead th:first-child {
@@ -643,6 +379,240 @@ select {
   margin: 10px 0;
 }
 
+/*================================================*/
+:root {
+  --primary-blue: #3b82f6; /* Matching the image's vibrant blue */
+  --light-blue: #dbeafe; /* Light background for hover/selection */
+  --text-color: #1f2937;
+  --secondary-text-color: #6b7280;
+  --border-radius-lg: 1rem;
+  --border-radius-sm: 0.5rem;
+  --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+#calendar-app {
+  background-color: white;
+  padding: 15px;
+  border-radius: 5px;
+  box-shadow: var(--box-shadow);
+  width: 100%;
+  max-width: 400px; /* Constrain width for calendar look */
+  position: relative;
+}
+
+/* Header (Title and Year Selector) */
+#calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.app-title {
+  font-size: clamp(1rem, 1vw, 1.5rem);
+  font-weight: 700;
+  color: var(--primary-blue);
+  margin: 0;
+}
+
+/* --- Custom Year Selector Styling --- */
+.year-selector {
+  position: relative; /* Crucial for absolute positioning of the list */
+  display: flex;
+  align-items: center;
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: var(--border-radius-sm);
+  padding: 5px 10px;
+  gap: 5px;
+  cursor: pointer; /* Indicate it's clickable */
+  user-select: none;
+}
+
+.year-select-display {
+  /* Styles for the visible year text */
+  font-size: clamp(0.75rem, 1vw, 1rem);
+  font-weight: 600;
+  color: var(--text-color);
+  padding-right: 5px;
+}
+
+/* The custom dropdown list container */
+#year-options-list {
+  position: absolute;
+  top: 100%; /* Position below the selector button */
+  right: 0;
+  z-index: 10;
+  background-color: white;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--box-shadow);
+  margin-top: 5px;
+  max-height: 200px; /* Limit height and make scrollable */
+  overflow-y: auto;
+  width: 100px; /* Define width */
+  text-align: center;
+  padding: 5px 0;
+  border: 1px solid #e5e7eb;
+  /* Scrollbar for better UX */
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-blue) #f3f4f6;
+}
+
+/* Style for individual year options */
+.year-option {
+  padding: 8px 15px;
+  font-size: clamp(0.75rem, 1vw, 1rem);
+  font-weight: 400;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color 0.1s;
+}
+
+.year-option:hover,
+.year-option.selected {
+  background-color: var(--light-blue);
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.hidden {
+  display: none !important;
+}
+/* --- End Custom Year Selector Styling --- */
+
+.calendar-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--text-color);
+}
+
+/* Month Navigation */
+#month-navigation {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  max-width: 100%;
+}
+
+#current-month {
+  font-weight: 700;
+  font-size: clamp(1rem, 1vw, 1.5rem);
+  color: var(--text-color);
+  margin: 0;
+  text-align: center;
+}
+
+.nav-arrow {
+  background: #f9fafb;
+  border: 1px solid #d1d5db;
+  color: var(--text-color);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s, box-shadow 0.15s;
+}
+
+.nav-arrow:hover {
+  background-color: var(--light-blue);
+}
+
+.nav-arrow svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+/* Calendar Grid */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+
+  text-align: center;
+  font-size: clamp(0.5rem, 1vw, 0.75rem);
+  width: 100%;
+}
+
+#day-names span {
+  font-weight: 600;
+  color: var(--secondary-text-color);
+  padding: 10px 0;
+  font-size: clamp(0.9rem, 1vw, 0.1);
+}
+
+/* Date Cells */
+.date-cell {
+  padding: 10px 0;
+  cursor: pointer;
+  font-weight: 600;
+  max-width: 100%;
+  font-size: clamp(0.5rem, 1vw, 0.75rem);
+  color: var(--text-color);
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+/* Hover effect as requested */
+.date-cell:hover:not(.today):not(.inactive) {
+  background-color: var(--light-blue);
+}
+
+.date-cell.today {
+  background-color: var(--primary-blue);
+  color: white;
+}
+
+.date-cell.inactive {
+  color: #d1d5db; /* Lighter color for placeholder cells */
+  pointer-events: none;
+  cursor: default;
+}
+
+/* Floating Time Display (Exact look from the image) */
+#time-display-container {
+  position: relative; /* Container for correct positioning */
+  height: 40px; /* Ensures the calendar maintains height */
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#current-time {
+  background-color: var(--primary-blue);
+  color: white;
+  font-weight: 700;
+  font-size: clamp(0.75rem, 1vw, 1rem);
+  padding: 12px 18px;
+  border-radius: var(--border-radius-sm);
+  box-shadow: var(--box-shadow);
+  white-space: nowrap;
+  cursor: default;
+  align-self: flex-end; /* Puts it at the bottom-right visually */
+}
+
+/* Mobile/Small screen adjustments */
+@media (max-width: 480px) {
+  #calendar-app {
+    padding: 20px;
+  }
+  #current-month {
+    font-size: 1.5rem;
+  }
+  .date-cell {
+    font-size: 0.9rem;
+  }
+}
+/*================================================*/
+
 @media screen and (max-width: 1724px) {
   .content {
     gap: 15px;
@@ -664,7 +634,7 @@ select {
     background-color: white;
     padding: 20px;
   }
-
+  /*
   .chart-container {
     display: flex;
     flex-direction: row;
@@ -675,7 +645,7 @@ select {
     padding: 0px;
     max-height: 500px;
   }
-
+*/
   .header-container {
     display: flex;
     flex-direction: column;

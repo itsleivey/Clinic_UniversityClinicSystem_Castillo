@@ -1,0 +1,92 @@
+<div id="clienttype-card" class="report-cards">
+  <h3 class="report-card-text">Registered Patients</h3>
+  <div class="cards-icon-div">
+    <div class="card-data">
+      <div id="freshman-item" class="legend-item">
+        <i class="fas fa-user-graduate icon freshman"></i>
+        <span class="label">Freshman Students</span>
+        <span class="value"><?= $counts['Freshman'] ?></span>
+      </div>
+      <div class="legend-item">
+        <i class="fas fa-users icon student"></i>
+        <span class="label">Regular Students</span>
+        <span class="value"><?= $counts['Student'] ?></span>
+      </div>
+      <div class="legend-item">
+        <i class="fas fa-chalkboard-teacher icon faculty"></i>
+        <span class="label">Teaching Personnel</span>
+        <span class="value"><?= $counts['Faculty'] ?></span>
+      </div>
+      <div class="legend-item">
+        <i class="fas fa-user-tie icon personnel"></i>
+        <span class="label">Non-Teaching Personnel</span>
+        <span class="value"><?= $counts['Personnel'] ?></span>
+      </div>
+      <div id="newly-hired-item" class="legend-item">
+        <i class="fas fa-user-plus icon new-personnel"></i>
+        <span class="label">Newly-Hired Personnel</span>
+        <span class="value"><?= $counts['NewPersonnel'] ?></span>
+      </div>
+      <div id="total-count" class="legend-item">
+        <i class="fas fa-calculator"></i>
+        <span class="label">Total</span>
+        <span class="value"><?= $counts['Total'] ?></span>
+      </div>
+    </div>
+  </div>
+  <!-- <button class="cards-buttons">More details</button>-->
+</div>
+<div class="report-cards">
+  <h3 class="report-card-text">Patients Sex Distribution</h3>
+  <div class="cards-icon-div">
+    <div class="card-data">
+      <div class="legend-item">
+        <i class="fas fa-mars icon" style="color: #6bd9e7"></i>
+        <span class="label">Male</span>
+        <span class="value"><?= $genderCounts['male'] ?? "0" ?></span>
+      </div>
+      <div class="legend-item">
+        <i class="fas fa-venus icon" style="color: #ff8fc9"></i>
+        <span class="label">Female</span>
+        <span class="value"><?= $genderCounts['female'] ?? "0" ?></span>
+      </div>
+    </div>
+  </div>
+  <!-- <button class="cards-buttons">More details</button>-->
+</div>
+<div class="report-cards">
+  <h3 class="report-card-text">Number of Consultations</h3>
+  <div class="cards-icon-div-condata">
+    <div class="legend-item">
+      <span class="label">Per Year</span>
+      <span class="value"><?php echo $perYear; ?></span>
+    </div>
+    <div class="legend-item">
+      <span class="label">Per Semester</span>
+      <span class="value"><?php echo $perSemester; ?></span>
+    </div>
+    <div class="legend-item">
+      <span class="label">Per Month</span>
+      <span class="value"><?php echo $perMonth; ?></span>
+    </div>
+  </div>
+</div>
+
+<div class="calendar-card">
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <h2>My Calendar</h2>
+      <div class="month-year" id="month-year"></div>
+    </div>
+
+    <div class="weekdays" id="weekdays"></div>
+    <div class="days" id="days"></div>
+
+    <div class="calendar-footer">
+      <!--   <a href="Calendar.html">
+                                <button class="see-details" href="Calendar.html">See Details</button>
+                            </a>!-->
+      <div class="time-display" id="time"></div>
+    </div>
+  </div>
+</div>

@@ -215,11 +215,14 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="assets/css/profileclients.css">
     <link rel="stylesheet" href="assets/css/adminstyles.css">
     <link rel="stylesheet" href="webicons/fontawesome-free-6.7.2-web/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
     <script src="assets/js/dashboard_func.js" defer></script>
     <script src="assets/js/clientprofile.js" defer></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+        rel="stylesheet" />
     <title>Manage Profile</title>
 </head>
 
@@ -252,9 +255,8 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
     <div class="header">
         <img src="assets/images/Lspu logo.png" alt="Logo" type="image/webp" loading="lazy">
         <div class="title">
-            <span class="university_title">University Clinic </span>
-            <p>Patient's Profile </p>
-            <p>Management System</p>
+            <span class="university_title">LSPU-LBC</span>
+            <span class="university_title"> University Clinic </span>
         </div>
         <button id="toggle-btn">
             <img id="btnicon" src="assets/images/menu-icon.svg">
@@ -2055,14 +2057,14 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
                                 <div class="SOAP-div" style="align-items: left;">
                                     <h3 style="padding: 15px;">Subjective</h3>
-                                    <textarea style="font-family:Roboto, sans-serif;" id="subjective" name="subjective" rows="1" cols="50" placeholder="..." oninput="autoGrow(this)"></textarea>
+                                    <textarea style=" font-family:Poppins, sans-serif;" id="subjective" name="subjective" rows="1" cols="50" placeholder="..." oninput="autoGrow(this)"></textarea>
                                     <h3 style="padding: 15px;">Objective</h3>
-                                    <textarea style="font-family: Roboto, sans-serif;" id="objective" name="objective" rows="1" cols="50" placeholder="..." oninput="autoGrow(this)"></textarea>
+                                    <textarea style="font-family:Poppins, sans-serif;" id="objective" name="objective" rows="1" cols="50" placeholder="..." oninput="autoGrow(this)"></textarea>
 
                                     <h3 style="padding: 15px;">Assessment</h3>
-                                    <textarea style="font-family: Roboto, sans-serif;" id="assessment" name="assessment" rows="1" cols="50" placeholder="..." oninput="autoGrow(this)"></textarea>
+                                    <textarea style="font-family:Poppins, sans-serif;" id="assessment" name="assessment" rows="1" cols="50" placeholder="..." oninput="autoGrow(this)"></textarea>
                                     <h3 style="padding: 15px;">Plan</h3>
-                                    <textarea style="font-family: Roboto, sans-serif;" id="plan" name="plan" rows="1" cols="50" placeholder="..." oninput="autoGrow(this)"></textarea>
+                                    <textarea style="font-family:Poppins, sans-serif;" id="plan" name="plan" rows="1" cols="50" placeholder="..." oninput="autoGrow(this)"></textarea>
 
                                 </div>
                             </div>
@@ -2263,8 +2265,8 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
                                 <p id="save-message" style="color: green; display: none; font-weight: normal;"></p>
 
                                 <div class="SOAP-div" style="align-items: left;">
-                                    <h3 style="font-family: 'DejaVu Sans'; font-size: 28pt;">℞</h3>
-                                    <textarea style="font-family: Roboto, sans-serif" ; id="notes" name="notes" rows="20" cols="50" placeholder="..."></textarea>
+                                    <h3 style="font-family:Poppins, sans-serif; font-size: 28pt;">℞</h3>
+                                    <textarea style="font-family:Poppins, sans-serif;" ; id="notes" name="notes" rows="20" cols="50" placeholder="..."></textarea>
                                 </div>
                             </div>
 

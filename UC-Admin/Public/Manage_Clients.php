@@ -20,7 +20,7 @@ $newpersonnel = fetchNewPersonnel();
     <link rel="stylesheet" href="assets/css/adminstyles.css">
     <link rel="stylesheet" href="assets/css/manageusers.css">
     <link rel="stylesheet" href="webicons/fontawesome-free-6.7.2-web/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
     <script src="assets/js/dashboard_func.js" defer></script>
     <script src="assets/js/manageclients.js" defer></script>
     <link
@@ -34,9 +34,8 @@ $newpersonnel = fetchNewPersonnel();
     <div class="header">
         <img src="assets/images/Lspu logo.png" alt="Logo" type="image/webp" loading="lazy">
         <div class="title">
-            <span class="university_title">University Clinic </span>
-            <p>Patient's Profile </p>
-            <p>Management System</p>
+            <span class="university_title">LSPU-LBC</span>
+            <span class="university_title"> University Clinic </span>
         </div>
         <button id="toggle-btn">
             <img id="btnicon" src="assets/images/menu-icon.svg">
