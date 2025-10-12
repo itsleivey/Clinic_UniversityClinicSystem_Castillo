@@ -32,6 +32,7 @@ try {
         rel="stylesheet" />
     <script src="assets/js/dashcalendar.js" defer></script>
     <script src="assets/js/dashgraph.js" defer></script>
+
     <title>Manage Profile</title>
 </head>
 

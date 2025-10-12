@@ -1,63 +1,5 @@
 <?php
-session_start();
-
-require 'config/database.php';
-
-if (!isset($_SESSION['AdminID'])) {
-    header('Location: index.php');
-    exit;
-}
-
-$pdo = pdo_connect_mysql();
-$counts = ['Student' => 0, 'Freshman' => 0, 'Faculty' => 0, 'Personnel' => 0, 'NewPersonnel' => 0];
-
-// Fetch counts by ClientType
-$stmt = $pdo->query("SELECT ClientType, COUNT(*) AS total FROM clients GROUP BY ClientType");
-$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-foreach ($results as $row) {
-    $type = $row['ClientType'];
-    $counts[$type] = $row['total'];
-}
-
-// Calculate total count
-$counts['Total'] = array_sum($counts);
-
-$stmt = $pdo->query("SELECT Gender, COUNT(*) AS total FROM personalinfo GROUP BY Gender");
-$results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-foreach ($results as $row) {
-    $gender = $row['Gender'];
-    $genderCounts[$gender] = $row['total'];
-}
-//===============================================================================================
-$yearStmt = $pdo->query("SELECT COUNT(*) FROM consultations WHERE YEAR(consultation_date) = YEAR(CURDATE())");
-$perYear = $yearStmt->fetchColumn();
-
-$month = date('n');
-$semesterStart = ($month >= 1 && $month <= 6) ? 1 : 7;
-$semesterEnd = ($month >= 1 && $month <= 6) ? 6 : 12;
-$semesterStmt = $pdo->prepare("
-    SELECT COUNT(*) FROM consultations 
-    WHERE YEAR(consultation_date) = YEAR(CURDATE()) 
-    AND MONTH(consultation_date) BETWEEN ? AND ?
-");
-$semesterStmt->execute([$semesterStart, $semesterEnd]);
-$perSemester = $semesterStmt->fetchColumn();
-
-$monthStmt = $pdo->query("SELECT COUNT(*) FROM consultations WHERE MONTH(consultation_date) = MONTH(CURDATE()) AND YEAR(consultation_date) = YEAR(CURDATE())");
-$perMonth = $monthStmt->fetchColumn();
-//============================================================================
-$monthlyCounts = [];
-
-for ($month = 1; $month <= 12; $month++) {
-    $stmt = $pdo->prepare("
-        SELECT COUNT(*) FROM consultations
-        WHERE MONTH(consultation_date) = ? AND YEAR(consultation_date) = YEAR(CURDATE())
-    ");
-    $stmt->execute([$month]);
-    $monthlyCounts[] = (int)$stmt->fetchColumn();
-}
+include 'dashboard.dbf/fetch_dashboard_data.php';
 ?>
 
 <!DOCTYPE html>
@@ -91,6 +33,7 @@ for ($month = 1; $month <= 12; $month++) {
     <script src="assets/js/dashcalendar.js" defer></script>
     <script src="assets/js/dashgraph.js" defer></script>
     <script src="assets/css/calendarstyles.css" defer></script>
+
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
         rel="stylesheet" />
@@ -98,6 +41,18 @@ for ($month = 1; $month <= 12; $month++) {
 </head>
 
 <body>
+    <!-- Dont remove this divs below -->
+    <div class="client-stats">
+        <div id="student-count" class="stat-box"></div>
+        <div id="freshman-count" class="stat-box"></div>
+        <div id="faculty-count" class="stat-box"></div>
+        <div id="personnel-count" class="stat-box"></div>
+        <div id="newpersonnel-count" class="stat-box"></div>
+        <div id="total-count" class="stat-box"></div>
+    </div>
+
+    <!-- Dont remove this divs above -->
+
     <div class="header">
         <img src="assets/images/Lspu logo.png" alt="Logo" type="image/webp" loading="lazy">
         <div class="title">
@@ -148,14 +103,80 @@ for ($month = 1; $month <= 12; $month++) {
             </a>
         </nav>
 
-        <main id="dashboard-main-content" class="dashboard-content">
+        <main id="dashboard-main-content" class="content">
             <div class="report-cards-container">
                 <div class="quantity-statistics-container">
                     <div class="admin-tex-div">
                         <h3>Welcome Admin!</h3>
                     </div>
                     <div class="patients-statisticis">
+                        <div class="patients-type-counts-div">
+                            <h4>Registered Patients</h4>
+                            <div class="counts-div">
+                                <div class="patients-cards-count">
+                                    <div id="students-icon-card" class="icon-cards">
+                                        <i class="fas fa-user-graduate icon freshman"></i>
+                                    </div>
+                                    <div class="cards-labels">
+                                        <h4><?= $counts['Student'] ?></h4>
+                                        <p>Students</p>
+                                    </div>
+                                </div>
+                                <div class="patients-cards-count">
+                                    <div id="teaching-icon-card" class="icon-cards">
+                                        <i class="fas fa-chalkboard-teacher icon faculty"></i>
+                                    </div>
+                                    <div class="cards-labels">
+                                        <h4><?= $counts['Faculty'] ?></h4>
+                                        <p>Teaching Personnels</p>
+                                    </div>
+                                </div>
+                                <div class="patients-cards-count">
+                                    <div id="non-teaching-icon-card" class="icon-cards">
+                                        <i class="fas fa-user-tie icon personnel"></i>
+                                    </div>
+                                    <div class="cards-labels">
+                                        <h4><?= $counts['Personnel'] ?></h4>
+                                        <p>Non-Teaching Personnels</p>
+                                    </div>
+                                </div>
+                                <div class="patients-cards-count">
+                                    <div class="icon-cards">
+                                        <i class="fas fa-chart-bar"></i>
+                                    </div>
+                                    <div class="cards-labels">
+                                        <h4><?= $counts['Total'] ?></h4>
+                                        <p>Total Counts</p>
+                                    </div>
+                                </div>
+                            </div>
 
+                        </div>
+                        <div class="consultation-count-div">
+
+                        </div>
+
+                        <div class="patients-sex-distribution-count-div">
+                            <h3>Patients Sex Distribution</h3>
+                            <div id="male-card-count" class="patients-cards-count">
+                                <div id="male-card" class="icon-cards">
+                                    <i class="fas fa-mars"></i>
+                                </div>
+                                <div class="cards-labels">
+                                    <h4><?= $genderCounts['Male'] ?? 0 ?></h4>
+                                    <p>Males</p>
+                                </div>
+                            </div>
+                            <div id="female-card-count" class="patients-cards-count">
+                                <div id="female-card" class="icon-cards">
+                                    <i class="fas fa-venus"></i>
+                                </div>
+                                <div class="cards-labels">
+                                    <h4><?= $genderCounts['Female'] ?? 0 ?></h4>
+                                    <p>Females</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="calendar-div">
@@ -212,200 +233,204 @@ for ($month = 1; $month <= 12; $month++) {
                             <!-- Dates will be injected here -->
                         </div>
 
-                        <!-- Floating Time Display -->
-                        <div id="time-display-container">
+                        <!--  <div id="time-display-container">
                             <div id="current-time">00:00:00 AM</div>
-                        </div>
+                        </div> -->
+
                     </div>
                 </div>
             </div>
 
             <div class="tables-bargraphs">
-                <div class="bar-graph-container">
-                    <h2>Health Data Overview</h2>
-                    <div class="dropdown-container">
-                        <select id="graph-selector">
-                            <option value="consultationgraph" selected>Consultation Graph</option>
-                            <option value="familydentalgraph">Family Dental Graph</option>
-                            <option value="familymedhisgraph">Family Medical History Graph</option>
-                            <option value="personalsocialgraph">Personal Social Graph</option>
-                            <option value="femalementrualgraph">Female Menstrual Graph</option>
-                        </select>
+                <div class="second-section-graph-table">
+                    <div class="bar-graph-container">
+                        <h2>Health Data Overview</h2>
+                        <div class="dropdown-container">
+                            <select id="graph-selector">
+                                <option value="consultationgraph" selected>Consultation Graph</option>
+                                <option value="familydentalgraph">Family Dental Graph</option>
+                                <option value="familymedhisgraph">Family Medical History Graph</option>
+                                <option value="personalsocialgraph">Personal Social Graph</option>
+                                <option value="femalementrualgraph">Female Menstrual Graph</option>
+                            </select>
 
-                        <select id="yearSelector"></select>
-                        <script>
-                            const select = document.getElementById("yearSelector");
-                            const currentYear = new Date().getFullYear();
+                            <select id="yearSelector"></select>
+                            <script>
+                                const select = document.getElementById("yearSelector");
+                                const currentYear = new Date().getFullYear();
 
-                            // Define how many years to show, it will show consultation record 2 years ago to present year.
-                            for (let i = 0; i < 3; i++) {
-                                const year = currentYear - i;
-                                const option = document.createElement("option");
-                                option.value = year;
-                                option.text = year;
-                                if (year === currentYear) {
-                                    option.selected = true;
+                                // Define how many years to show, it will show consultation record 2 years ago to present year.
+                                for (let i = 0; i < 3; i++) {
+                                    const year = currentYear - i;
+                                    const option = document.createElement("option");
+                                    option.value = year;
+                                    option.text = year;
+                                    if (year === currentYear) {
+                                        option.selected = true;
+                                    }
+                                    select.appendChild(option);
                                 }
-                                select.appendChild(option);
-                            }
-                        </script>
-                    </div>
-
-                    <div class="graph-container" id="familydentalgraph">
-                        <canvas id="familyDentalChart" width="600" height="300" loading="lazy"></canvas>
-                    </div>
-
-                    <div class="graph-container" width="600" height="300" id="familymedhisgraph" loading="lazy">
-                        <canvas id="familyMedicalChart"></canvas>
-                    </div>
-
-                    <div class="graph-container" width="600" height="300" id="personalsocialgraph" loading="lazy">
-                        <canvas id="personalSocialChart"></canvas>
-                    </div>
-
-                    <div class="graph-container" width="600" height="300" id="femalementrualgraph" loading="lazy">
-                        <canvas id="femaleHealthChart"></canvas>
-                    </div>
-
-                    <div class="graph-container" width="600" height="300" id="consultationgraph" loading="lazy">
-                        <canvas id="consultationChart"></canvas>
-                    </div>
-                </div>
-
-
-                <div class="chart-container">
-                    <div class="legend-data">
-                        <div class="legend-header">
-                            <h2>Department List</h2>
-                            <div class="tabs">
-                                <div class="tab active" data-target="students-content">Students</div>
-                                <div class="tab" data-target="employees-content">Teaching Personnels</div>
-                            </div>
+                            </script>
                         </div>
 
-                        <div id="students-content" class="tab-content" style="display: block;">
-                            <div class="table-name">
-                                <h3>Registered Students</h3>
-                            </div>
-                            <div class="department-table-container">
-                                <?php
-                                require_once 'dashboard.dbf/students_department_stats.php';
-                                $stats = getStudentDepartmentStats();
+                        <div class="graph-container" id="familydentalgraph">
+                            <canvas id="familyDentalChart" width="600" height="300" loading="lazy"></canvas>
+                        </div>
 
-                                if (isset($stats['error'])) {
-                                    echo '<div class="error">' . htmlspecialchars($stats['error']) . '</div>';
-                                } else {
-                                ?>
-                                    <table class="department-table">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Department</th>
-                                                <th>Number of Students</th>
-                                                <!-- <th>Percentage</th>
+                        <div class="graph-container" width="600" height="300" id="familymedhisgraph" loading="lazy">
+                            <canvas id="familyMedicalChart"></canvas>
+                        </div>
+
+                        <div class="graph-container" width="600" height="300" id="personalsocialgraph" loading="lazy">
+                            <canvas id="personalSocialChart"></canvas>
+                        </div>
+
+                        <div class="graph-container" width="600" height="300" id="femalementrualgraph" loading="lazy">
+                            <canvas id="femaleHealthChart"></canvas>
+                        </div>
+
+                        <div class="graph-container" width="600" height="300" id="consultationgraph" loading="lazy">
+                            <canvas id="consultationChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="patients-overview"></div>
+                </div>
+
+            </div>
+
+            <div class="chart-container">
+                <div class="legend-data">
+                    <div class="legend-header">
+                        <h2>Department List</h2>
+                        <div class="tabs">
+                            <div class="tab active" data-target="students-content">Students</div>
+                            <div class="tab" data-target="employees-content">Teaching Personnels</div>
+                        </div>
+                    </div>
+
+                    <div id="students-content" class="tab-content" style="display: block;">
+                        <div class="table-name">
+                            <h3>Registered Students</h3>
+                        </div>
+                        <div class="department-table-container">
+                            <?php
+                            require_once 'dashboard.dbf/students_department_stats.php';
+                            $stats = getStudentDepartmentStats();
+
+                            if (isset($stats['error'])) {
+                                echo '<div class="error">' . htmlspecialchars($stats['error']) . '</div>';
+                            } else {
+                            ?>
+                                <table class="department-table">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Department</th>
+                                            <th>Number of Students</th>
+                                            <!-- <th>Percentage</th>
                                                 <th>Visual</th> -->
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $rank = 1;
-                                            foreach ($stats['departments'] as $dept) {
-                                                $percentage = ($stats['total'] > 0) ? round(($dept['count'] / $stats['total']) * 100, 1) : 0;
-                                                $percentageWidth = min(100, $percentage * 2);
-                                                echo '
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $rank = 1;
+                                        foreach ($stats['departments'] as $dept) {
+                                            $percentage = ($stats['total'] > 0) ? round(($dept['count'] / $stats['total']) * 100, 1) : 0;
+                                            $percentageWidth = min(100, $percentage * 2);
+                                            echo '
                     <tr>
                         <td>' . $rank++ . '</td>
                         <td class="dep-tr">' . htmlspecialchars($dept['Department']) . '</td>
                         <td>' . $dept['count'] . '</td>
                     
                     </tr>';
-                                            }
-                                            ?>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="2">Total Students</td>
-                                                <td><?= $stats['total'] ?></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                <?php
-                                    if ($stats['total'] === 0) {
-                                        echo '<p class="no-data">No student records found in the database.</p>';
-                                    }
+                                        }
+                                        ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2">Total Students</td>
+                                            <td><?= $stats['total'] ?></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            <?php
+                                if ($stats['total'] === 0) {
+                                    echo '<p class="no-data">No student records found in the database.</p>';
                                 }
-                                ?>
-                            </div>
+                            }
+                            ?>
                         </div>
-                        <!--   <td>
+                    </div>
+                    <!--   <td>
                                 <td>' . $percentage . '%</td>
                             div class="percentage-bar-container">
                                 <div class="percentage-bar" style="width: ' . $percentageWidth . '%;"></div>
                                 <span class="percentage-text">' . $percentage . '%</span>
                             </div>
                         </td>-->
-                        <div id="employees-content" class="tab-content" style="display: none;">
-                            <div class="table-name">
-                                <h3>Registered Teaching Personnels</h3>
-                            </div>
-                            <div class="department-table-container">
-                                <?php
-                                require_once 'dashboard.dbf/faculty_department_stats.php';
-                                $stats = getFacultyDepartmentStats();
+                    <div id="employees-content" class="tab-content" style="display: none;">
+                        <div class="table-name">
+                            <h3>Registered Teaching Personnels</h3>
+                        </div>
+                        <div class="department-table-container">
+                            <?php
+                            require_once 'dashboard.dbf/faculty_department_stats.php';
+                            $stats = getFacultyDepartmentStats();
 
-                                if (isset($stats['error'])) {
-                                    echo '<div class="error">' . htmlspecialchars($stats['error']) . '</div>';
-                                } else {
-                                ?>
-                                    <table class="department-table">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Department</th>
-                                                <th>Number of Teaching Personnels</th>
+                            if (isset($stats['error'])) {
+                                echo '<div class="error">' . htmlspecialchars($stats['error']) . '</div>';
+                            } else {
+                            ?>
+                                <table class="department-table">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Department</th>
+                                            <th>Number of Teaching Personnels</th>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                            $rank = 1;
-                                            foreach ($stats['departments'] as $dept) {
-                                                $percentage = ($stats['total'] > 0) ? round(($dept['count'] / $stats['total']) * 100, 1) : 0;
-                                                $percentageWidth = min(100, $percentage * 2); // Scale for better visualization
-                                                echo '
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $rank = 1;
+                                        foreach ($stats['departments'] as $dept) {
+                                            $percentage = ($stats['total'] > 0) ? round(($dept['count'] / $stats['total']) * 100, 1) : 0;
+                                            $percentageWidth = min(100, $percentage * 2); // Scale for better visualization
+                                            echo '
                     <tr>
                         <td>' . $rank++ . '</td>
                         <td>' . htmlspecialchars($dept['Department']) . '</td>
                         <td>' . $dept['count'] . '</td>
                         
                     </tr>';
-                                            }
-                                            ?>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="2">Total Faculties</td>
-                                                <td><?= $stats['total'] ?></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                <?php
-                                    if ($stats['total'] === 0) {
-                                        echo '<p class="no-data">No student records found in the database.</p>';
-                                    }
+                                        }
+                                        ?>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2">Total Faculties</td>
+                                            <td><?= $stats['total'] ?></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            <?php
+                                if ($stats['total'] === 0) {
+                                    echo '<p class="no-data">No student records found in the database.</p>';
                                 }
-                                ?>
-                            </div>
+                            }
+                            ?>
                         </div>
                     </div>
                 </div>
             </div>
+    </div>
 
-        </main>
+    </main>
     </div>
 
 </body>
