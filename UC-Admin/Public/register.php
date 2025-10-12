@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <style>
     .input-group {
         position: relative;
-        margin-bottom: 5px; /* Reduced margin to make space for error messages */
+        margin-bottom: 5px;
     }
 
     /* Left-side icons (code, lock) */
@@ -80,11 +80,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     /* Error message styling */
     .error-message {
         color: #d93025;
-        font-size: 13px;
-        margin-top: 5px;
-        margin-bottom: 10px;
+        font-size: 15px;
+        margin-top: 10px;
         text-align: left;
-        padding-left: 5px;
     }
 
     .password-error {
@@ -141,7 +139,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <i class="fas fa-eye toggle-password" id="togglePassword" data-target="password"></i>
                 </div>
                 
-                <!-- Password error message displayed here -->
                 <?php if (!empty($password_error)): ?>
                     <div class="password-error"><?php echo htmlspecialchars($password_error); ?></div>
                 <?php endif; ?>
@@ -152,7 +149,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
     <script>
-        // Toggle password visibility for multiple fields
+
         document.querySelectorAll(".toggle-password").forEach(toggle => {
             toggle.addEventListener("click", function() {
                 const input = document.getElementById(this.dataset.target);
@@ -179,6 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
                 this.classList.add('input-error');
             } else {
+
                 if (errorElement && errorElement.classList.contains('password-error')) {
                     errorElement.remove();
                 }

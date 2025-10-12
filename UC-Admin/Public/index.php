@@ -32,8 +32,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-
-
 <style>
     .input-group {
         position: relative;
@@ -114,7 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <button type="submit" class="buttons">Login</button>
-                <p><a href="register.php" class="register-link">Don't have an account? Sign up here</a></p>
+                <p>Don't have an account? <a href="register.php" class="register-link"> Sign up here</a></p>
             </form>
         </div>
     </div>
