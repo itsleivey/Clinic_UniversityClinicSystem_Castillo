@@ -4,7 +4,7 @@
 if (!function_exists('pdo_connect_mysql')) {
     function pdo_connect_mysql()
     {
-        require __DIR__ . '../db_cridentials.php';
+        require __DIR__ . '/../db_cridentials.php';
 
         try {
             $conn = new PDO(

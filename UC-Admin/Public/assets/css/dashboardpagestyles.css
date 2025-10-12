@@ -23,7 +23,7 @@
 
 .report-cards-container {
   display: grid;
-  grid-template-columns: repeat(2, 75% 25%);
+  grid-template-columns: repeat(2, 73% 27%);
   width: 100%;
   height: 25%;
   max-height: 390px;
@@ -45,6 +45,7 @@ h3 {
 }
 
 .admin-tex-div {
+  position: relative;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -53,10 +54,9 @@ h3 {
   height: 83%;
   border-radius: 5px;
   border: none;
-  color: white;
   background-color: #397dda;
-  /* background: linear-gradient(to right, #51adfa, #2386d6);*/
 }
+
 .patients-statisticis {
   display: grid;
   grid-template-columns: repeat(2, 55% 45%);
@@ -299,8 +299,7 @@ h3 {
 /*==============Gender-Chart-Start===========================*/
 .gender-chart-container {
   display: grid;
-  grid-template-columns: repeat(2, 50%);
-  justify-content: center;
+  grid-template-columns: repeat(2, 60% 40%);
   width: 100%;
   height: 80%;
   padding: 3px;
@@ -330,11 +329,11 @@ h3 {
   padding: 5px;
   width: 100%;
   height: 100%;
+  border: solid #f0f0f0 1px;
 }
 .gender-count-sub-sec {
   display: grid;
   grid-template-columns: repeat(2, 30% 70%);
-
   width: 100%;
   height: 40%;
 }
@@ -345,8 +344,9 @@ h3 {
   height: 100%;
   justify-content: center;
   align-items: center;
+
   i {
-    font-size: clamp(18px, 2vw, 26px);
+    font-size: clamp(20px, 2vw, 25px);
   }
 }
 .gender-cards-labels {
@@ -357,27 +357,28 @@ h3 {
   align-items: center;
   width: 80%;
   height: 100%;
+  padding-left: 15px;
 }
 /*==============Gender-Chart-End===========================*/
 #male-card {
   color: #000000;
 }
 #male-card-icon {
-  color: #3b82f6;
+  color: #1abc9c;
 }
 #female-card {
   color: #080808;
 }
 #female-card-icon {
-  color: #f472b6;
+  color: #ff6b6b;
 }
 #male-card-count:hover {
   background-color: #f0f8ff;
   transform: translateY(-4px);
   box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2);
 
-  border: solid #71dae8 1px;
-  border-left: #71dae8 solid 10px;
+  border: solid #1abc9c 1px;
+  border-left: #1abc9c solid 10px;
   border-radius: 0px 5px 5px 0px;
 }
 
@@ -385,8 +386,8 @@ h3 {
   background-color: #ff8fc907;
   transform: translateY(-4px);
   box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2);
-  border: solid #ff8fc9 1px;
-  border-left: #ff8fc9 solid 10px;
+  border: solid #ff6b6b 1px;
+  border-left: #ff6b6b solid 10px;
   border-radius: 0px 5px 5px 0px;
 }
 #male-card-count {
@@ -430,7 +431,7 @@ h3 {
 
 .second-section-graph-table {
   display: grid;
-  grid-template-columns: repeat(2, 75% 25%);
+  grid-template-columns: repeat(2, 73% 27%);
   height: 100%;
   width: 100%;
   max-width: 2000px;
@@ -451,7 +452,7 @@ h3 {
   padding: 20px;
   border-radius: 5px;
 }
-
+/*==============Consultations-Overview=====================*/
 .patients-overview {
   display: flex;
   flex-direction: column;
@@ -459,7 +460,185 @@ h3 {
   width: 100%;
   background-color: white;
   border-radius: 5px;
+  padding: 6px;
+  max-height: 500px;
+  h3 {
+    color: #0056a7;
+    font-size: clamp(1rem, 1vw, 1.5rem);
+  }
 }
+.overview-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+}
+.overview-action {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+}
+.overview-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: clamp(00.5rem, 1vw, 00.75rem);
+}
+/*======Table-Section=====*/
+/* --- Container Setup --- */
+.consult-table-container {
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+}
+
+/* --- Scrollable Table --- */
+.scrollable-table {
+  height: 100%;
+  max-height: 440px;
+  overflow-y: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Smooth scrollbar appearance */
+.scrollable-table:hover {
+  overflow-y: auto;
+}
+
+/* --- Custom Scrollbar Styling --- */
+.scrollable-table::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-table::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 106, 177, 0.212);
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+
+.scrollable-table:hover::-webkit-scrollbar-thumb {
+  background-color: rgb(0, 115, 209);
+}
+
+/* --- Table Styles --- */
+.recent-patients-table {
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 5px;
+  border: solid #e6e6e6 1px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  background-color: white;
+}
+
+.recent-patients-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.recent-patients-table th,
+.recent-patients-table td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.recent-patients-table tbody tr {
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.recent-patients-table tbody tr:hover {
+  background-color: #f0f7ff;
+  color: #000;
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(0, 86, 167, 0.15);
+  border-bottom: 3px solid #0056a7;
+}
+
+.recent-patients-table th {
+  background-color: #eaf2ff;
+  font-weight: 600;
+  color: #333;
+}
+
+/* --- Patient Info Section --- */
+.patient-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-pic {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #2196f3;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-weight: bold;
+  color: #222;
+}
+
+.client-type {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.datetime {
+  font-size: 0.8rem;
+  color: #555;
+}
+
+/* --- Action Button --- */
+.action-btn {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.action-btn:hover {
+  background-color: #1976d2;
+}
+
+/* --- Responsive --- */
+@media (max-width: 500px) {
+  .recent-patients-table {
+    max-width: 100%;
+  }
+
+  .patient-info {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-pic {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/*==============Consultations-Overview=====================*/
 .chart-container {
   width: 100%;
   max-width: 2000px;
@@ -503,6 +682,18 @@ select {
   border-radius: 4px;
   border: 1px solid #ccc;
   width: 300px;
+}
+.dropdown-container select {
+  outline: none;
+  border: 1px solid #ccc; /* optional: customize border */
+  border-radius: 5px; /* optional: rounded corners */
+  padding: 6px 10px; /* optional: spacing */
+}
+
+.dropdown-container select:focus {
+  outline: none;
+  box-shadow: none;
+  border-color: #ccc; /* keep same color on focus */
 }
 
 /*============================*/

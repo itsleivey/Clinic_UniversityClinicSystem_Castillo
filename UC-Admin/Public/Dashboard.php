@@ -1,6 +1,6 @@
 <?php
 include 'dashboard.dbf/fetch_dashboard_data.php';
-
+require 'dashboard.dbf/recent_consultations.php';
 ?>
 
 <!DOCTYPE html>
@@ -123,7 +123,7 @@ include 'dashboard.dbf/fetch_dashboard_data.php';
                                 <div id="myModal" class="modal">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h2>List of Registered Patient Type</h2>
+                                            <h2>List of Registered Patients</h2>
                                             <span class="close">&times;</span>
                                         </div>
                                         <div class="patients-table">
@@ -236,7 +236,6 @@ include 'dashboard.dbf/fetch_dashboard_data.php';
                                             <i class="fas fa-mars"></i>
                                         </div>
                                         <div id="male-card" class="gender-cards-labels">
-                                            <p>Male</p>
                                             <h4><?= $Male ?? 0 ?></h4>
                                         </div>
                                     </div>
@@ -244,9 +243,7 @@ include 'dashboard.dbf/fetch_dashboard_data.php';
                                         <div id="female-card-icon" class="gender-icon-cards">
                                             <i class="fas fa-venus"></i>
                                         </div>
-
                                         <div id="female-card" class="gender-cards-labels">
-                                            <p>Female</p>
                                             <h4><?= $Female ?? 0 ?></h4>
                                         </div>
                                     </div>
@@ -367,9 +364,61 @@ include 'dashboard.dbf/fetch_dashboard_data.php';
                             <canvas id="consultationChart"></canvas>
                         </div>
                     </div>
-                    <div class="patients-overview"></div>
-                </div>
+                    <div class="patients-overview">
+                        <div class="overview-header">
+                            <h3>Recent Consultations</h3>
+                        </div>
 
+                        <div class="overview-body">
+                            <div class="consult-table-container">
+                                <div class="scrollable-table">
+                                    <div class="recent-patients-table">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Patient Info</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php if ($recentRecords): ?>
+                                                    <?php foreach ($recentRecords as $rec): ?>
+                                                        <tr>
+                                                            <td class="patient-info-cell">
+                                                                <div class="patient-info">
+                                                                    <img src="<?= htmlspecialchars(!empty($rec['profilePicturePath']) ? '../../uploads/' . $rec['profilePicturePath'] : '../../uploads/profilepic2.png') ?>" class="profile-pic" alt="Profile">
+
+                                                                    <div class="details">
+                                                                        <span class="name"><?= htmlspecialchars($rec['Firstname'] . ' ' . $rec['Lastname']) ?></span>
+                                                                        <span class="client-type"><?= htmlspecialchars($rec['ClientType']) ?></span>
+                                                                        <span class="datetime"><?= date('M d, Y', strtotime($rec['last_record_datetime'])) ?> | <?= date('h:i A', strtotime($rec['last_record_datetime'])) ?></span>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <button class="action-btn" onclick="viewPatient(<?= $rec['ClientID'] ?>)">View</button>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                <?php else: ?>
+                                                    <tr>
+                                                        <td colspan="2">No recent patient records found.</td>
+                                                    </tr>
+                                                <?php endif; ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <script>
+                                        function viewPatient(clientId) {
+                                            window.location.href = 'ClientProfile.php?id=' + clientId;
+                                        }
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="chart-container">
@@ -542,7 +591,7 @@ include 'dashboard.dbf/fetch_dashboard_data.php';
                     labels: ['Male', 'Female'],
                     datasets: [{
                         data: [data.male, data.female],
-                        backgroundColor: ['#3b82f6', '#f472b6'],
+                        backgroundColor: ['#1ABC9C', '#FF6B6B'],
                         borderColor: '#fff',
                         borderWidth: 2
                     }]
