@@ -96,19 +96,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
             <?php endif; ?>
 
-            <form id="registerForm" action="register.php" method="POST">
+            <form id="registerForm" action="register.php" method="POST" onsubmit="return validatePassword()">
+                <input type="hidden" name="consent" id="consentField" value="agree">
 
                 <div class="input-group">
-                    <i class="fas fa-user left-icon"></i>
-                    <input type="text" class="inputs" name="username" placeholder="Username" required>
+                    <input type="text" class="inputs" name="firstname" placeholder="First Name" required>
+                    <input type="text" class="inputs" name="lastname" placeholder="Last Name" required>
                 </div>
+
+                <div class="input-group">
+                    <i class="fas fa-envelope left-icon"></i>
+                    <input type="email" class="inputs" name="email" placeholder="Email" required>
+                </div>
+
                 <div class="input-group">
                     <i class="fas fa-lock left-icon"></i>
                     <input type="password" class="inputs" id="password" name="password" placeholder="Password" required>
                     <i class="fas fa-eye toggle-password" id="togglePassword" data-target="password"></i>
+                    <div id="errorMsg" class="error">Remove mo tong text nato pre pag i-place mo sa form</div>
                 </div>
 
-                <button type="submit">Create Account</button>
+                <button type="submit" id="submitBtn" disabled>Create Account</button>
                 <p>Already have an account? <a href="index.php">Sign in</a></p>
             </form>
         </div>
@@ -125,6 +133,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 this.classList.toggle("fa-eye-slash");
             });
         });
+
+        const passwordInput = document.getElementById('password');
+        const errorMsg = document.getElementById('errorMsg');
+        const submitBtn = document.getElementById('submitBtn');
+
+        function checkPasswordStrength(password) {
+        const minLength = /.{8,}/;
+        const uppercase = /[A-Z]/;
+        const lowercase = /[a-z]/;
+        const digit = /[0-9]/;
+
+        if (!minLength.test(password)) {
+            return 'Password must be at least 8 characters long.';
+        }
+        if (!uppercase.test(password)) {
+            return 'Password must include at least one uppercase letter.';
+        }
+        if (!lowercase.test(password)) {
+            return 'Password must include at least one lowercase letter.';
+        }
+        if (!digit.test(password)) {
+            return 'Password must include at least one digit.';
+        }
+        return '';
+        }
+
+        passwordInput.addEventListener('input', () => {
+        const password = passwordInput.value;
+        const error = checkPasswordStrength(password);
+        if (error) {
+            errorMsg.textContent = error;
+            submitBtn.disabled = true;
+        } else {
+            errorMsg.textContent = '';
+            submitBtn.disabled = false;
+        }
+        });
+
+        function validatePassword() {
+        const password = passwordInput.value;
+        const error = checkPasswordStrength(password);
+        if (error) {
+            errorMsg.textContent = error;
+            return false;
+        }
+        alert('Password accepted. Login successful.');
+        return true;
+        }
+
     </script>
 </body>
 
