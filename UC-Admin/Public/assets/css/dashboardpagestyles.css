@@ -55,11 +55,11 @@ h3 {
   border: none;
   color: white;
   background-color: #007bff;
-  background: linear-gradient(#51adfa, #3473d4);
+  background: linear-gradient(to right, #51adfa, #2386d6);
 }
 .patients-statisticis {
   display: grid;
-  grid-template-columns: repeat(3, 50% 25% 25%);
+  grid-template-columns: repeat(2, 60% 40%);
   height: 100%;
   width: 98%;
   background-color: white;
@@ -91,15 +91,48 @@ h3 {
   grid-template-rows: repeat(4, 25%);
   width: 100%;
   height: 90%;
-  border-radius: 5px;
   padding: 3px;
+  border-radius: 0px 0px 5px 5px;
   background-color: rgb(255, 255, 255);
-  border: solid #d8d8d8 1px;
+  border: solid #f0f0f0 1px;
+}
+
+#header-count-div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: rgb(241, 247, 255);
+  border-radius: 0px 0px 0px 0px;
+}
+.header-modal-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 5px;
+  padding: 20px;
+  height: 10px;
+  color: white;
+  font-weight: 600;
+  font-size: clamp(0.5rem, 1vw, 0.75rem);
+  gap: 8px;
+  background-color: #2386d6;
+  transition: transform 0.25s ease-in-out, background-color 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out, border-left-color 0.25s ease-in-out;
+}
+
+.header-modal-button:hover {
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2);
+  color: white;
+  transform: scale(1.03);
+  font-weight: bold;
 }
 
 .patients-cards-count {
   display: grid;
-  grid-template-columns: 30% 70%;
+  grid-template-columns: 15% 85%;
   width: 100%;
   height: 100%;
   background-color: white;
@@ -107,34 +140,91 @@ h3 {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   cursor: pointer;
 
-  /* 🔹 Set the starting transform and transition */
+  background-color: #f0f8ff;
+  border-left-color: #007bff;
+
   transform: scale(1);
   border-left: transparent solid 10px;
   transition: transform 0.25s ease-in-out, background-color 0.25s ease-in-out,
     box-shadow 0.25s ease-in-out, border-left-color 0.25s ease-in-out;
 }
-
 .patients-cards-count:hover {
   background-color: #f0f8ff;
   box-shadow: 0 6px 12px rgba(0, 123, 255, 0.2);
   border-left-color: #007bff;
-  transform: scale(1.03); /* 🔹 Smooth zoom effect */
+  transform: scale(1.03);
+  font-weight: bold;
+
+  p {
+    font-weight: bold;
+  }
+}
+#teaching-card {
+  background-color: #a7b8b84d;
+}
+#teaching-card:hover {
+  background-color: #c3d4d44d;
+  border-left-color: #2f4f4ffd;
+  transform: scale(1.03);
+  font-weight: bold;
+
+  #teaching-icon-card {
+    background-color: #2f4f4fd7;
+  }
 }
 
+#non-teaching-card {
+  background-color: #fde7c87a;
+}
+#non-teaching-card:hover {
+  background-color: #fdebd27a;
+  border-left-color: #e68f16c5;
+  transform: scale(1.03);
+  font-weight: bold;
+
+  #non-teaching-icon-card {
+    background-color: #e68f16e8;
+  }
+}
+
+#totals-card {
+  background-color: #e2faee;
+}
+#totals-card:hover {
+  background-color: #e2faee;
+  box-shadow: 0 6px 12px #2ebf7744;
+  border-left-color: #2ebf77;
+  transform: scale(1.03);
+  font-weight: bold;
+}
+
+#teaching-icon-card {
+  background-color: #2f4f4f4d;
+}
+#non-teaching-icon-card {
+  background-color: #e68f167a;
+}
+#total-icon-card {
+  background-color: #2ebf77;
+}
+/*========================*/
 .cards-labels {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 70% 30%;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   padding-left: 10px;
-  h {
+  gap: 30px;
+  h4 {
     font-family: "Montserrat", sans-serif;
-    font-size: clamp(0.75rem, 1vw, 1.2rem);
+    font-size: clamp(0.75rem, 1vw, 1.5rem);
     font-weight: medium;
   }
   p {
     font-family: "Poppins", sans-serif;
-    font-size: clamp(0.75rem, 1vw, 1rem);
+    font-size: clamp(0.5rem, 1vw, 1rem);
   }
 }
 
@@ -142,12 +232,12 @@ h3 {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 93%;
-  width: 60px;
+  height: 40px;
+  width: 40px;
 
   border-radius: 5px;
   background-color: #1e90ff;
-  font-size: clamp(1.2rem, 1vw, 1.5rem);
+  font-size: clamp(0.85rem, 1vw, 1.5rem);
   color: white;
 }
 /*====================*/
@@ -159,15 +249,16 @@ h3 {
 }
 /*====================*/
 .patients-sex-distribution-count-div {
-  display: grid;
-  grid-template-rows: 3 33%;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 95%;
-  padding: 15px;
+  padding: 10px;
   background-color: white;
+
   border-radius: 5px;
   font-family: "Poppins", sans-serif;
-
+  max-height: 300px;
   h3 {
     color: #343535;
     color: #0562ba;
@@ -202,12 +293,6 @@ h3 {
   border-radius: 0px 5px 5px 0px;
 }
 
-#teaching-icon-card {
-  background-color: #2f4f4f4d;
-}
-#non-teaching-icon-card {
-  background-color: #e68f167a;
-}
 /*=============================Bar-graph-and-chart-styles==========================================*/
 .tables-bargraphs {
   display: flex;
@@ -241,7 +326,23 @@ h3 {
   max-height: 500px;
 }
 /*=====================Dashboard=====Calendar========================*/
-
+.gender-chart-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 90%;
+  width: 90%;
+  max-width: 340px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 400px;
+}
+#genderChart {
+  width: 100%;
+}
 /*=====================Bar Graph Styles============================================*/
 .bar-graph-container {
   display: flex;
@@ -862,3 +963,52 @@ p {
   font-family: "Poppins", sans-serif;
 }
 /* Default style */
+/*===Modal===*/
+/* The modal (hidden by default) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4); /* Dark overlay */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal box */
+.modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 400px;
+  max-width: 90%;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  animation: slideDown 0.3s ease;
+}
+
+/* Simple animation */
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Close (X) button */
+.close {
+  float: right;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+}
+.close:hover {
+  color: #007bff;
+}
