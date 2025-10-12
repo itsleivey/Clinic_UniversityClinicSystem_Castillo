@@ -2,37 +2,43 @@
 session_start();
 require 'config/database.php';
 
+$error = "";
+$password_error = "";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    $pdo = pdo_connect_mysql();
-    $stmt = $pdo->prepare("SELECT * FROM admin WHERE username = ?");
-    $stmt->execute([$username]);
-    $existingAdmin = $stmt->fetch();
-
-    if ($existingAdmin) {
-        $error = "This username is already taken. Please choose another.";
+    if (strlen($password) < 8) {
+        $password_error = "Password must be at least 8 characters long.";
     } else {
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-        $stmt = $pdo->prepare("INSERT INTO admin (username, password) VALUES (?, ?)");
+        $pdo = pdo_connect_mysql();
+        $stmt = $pdo->prepare("SELECT * FROM admin WHERE username = ?");
+        $stmt->execute([$username]);
+        $existingAdmin = $stmt->fetch();
 
-        if ($stmt->execute([$username, $hashed_password])) {
-            $_SESSION['admin_id'] = $pdo->lastInsertId();
-            header('Location: Dashboard.php'); // Redirect to admin area
-            exit;
+        if ($existingAdmin) {
+            $error = "This username is already taken. Please choose another.";
         } else {
-            $error = "Error creating admin account. Please try again.";
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare("INSERT INTO admin (username, password) VALUES (?, ?)");
+
+            if ($stmt->execute([$username, $hashed_password])) {
+                $_SESSION['admin_id'] = $pdo->lastInsertId();
+                header('Location: index.php?signup=success');
+                exit;
+            } else {
+                $error = "Error creating admin account. Please try again.";
+            }
         }
     }
 }
 ?>
 
-
 <style>
     .input-group {
         position: relative;
-        margin-bottom: 15px;
+        margin-bottom: 5px; /* Reduced margin to make space for error messages */
     }
 
     /* Left-side icons (code, lock) */
@@ -70,6 +76,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         border-radius: 6px;
         font-size: 14px;
     }
+
+    /* Error message styling */
+    .error-message {
+        color: #d93025;
+        font-size: 13px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    .password-error {
+        color: #d93025;
+        font-size: 13px;
+        margin-top: 5px;
+        margin-bottom: 10px;
+        text-align: left;
+        padding-left: 5px;
+    }
+
+    /* Input error state */
+    .input-error {
+        border-color: #d93025 !important;
+    }
+
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -96,27 +127,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
             <?php endif; ?>
 
-            <form id="registerForm" action="register.php" method="POST" onsubmit="return validatePassword()">
-                <input type="hidden" name="consent" id="consentField" value="agree">
+            <form id="registerForm" action="register.php" method="POST">
 
                 <div class="input-group">
-                    <input type="text" class="inputs" name="firstname" placeholder="First Name" required>
-                    <input type="text" class="inputs" name="lastname" placeholder="Last Name" required>
+                    <i class="fas fa-user left-icon"></i>
+                    <input type="text" class="inputs" name="username" placeholder="Username" required>
                 </div>
-
-                <div class="input-group">
-                    <i class="fas fa-envelope left-icon"></i>
-                    <input type="email" class="inputs" name="email" placeholder="Email" required>
-                </div>
-
+                
                 <div class="input-group">
                     <i class="fas fa-lock left-icon"></i>
-                    <input type="password" class="inputs" id="password" name="password" placeholder="Password" required>
+                    <input type="password" class="inputs <?php echo !empty($password_error) ? 'input-error' : ''; ?>" 
+                           id="password" name="password" placeholder="Password" required>
                     <i class="fas fa-eye toggle-password" id="togglePassword" data-target="password"></i>
-                    <div id="errorMsg" class="error">Remove mo tong text nato pre pag i-place mo sa form</div>
                 </div>
+                
+                <!-- Password error message displayed here -->
+                <?php if (!empty($password_error)): ?>
+                    <div class="password-error"><?php echo htmlspecialchars($password_error); ?></div>
+                <?php endif; ?>
 
-                <button type="submit" id="submitBtn" disabled>Create Account</button>
+                <button type="submit">Create Account</button>
                 <p>Already have an account? <a href="index.php">Sign in</a></p>
             </form>
         </div>
@@ -134,54 +164,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             });
         });
 
-        const passwordInput = document.getElementById('password');
-        const errorMsg = document.getElementById('errorMsg');
-        const submitBtn = document.getElementById('submitBtn');
-
-        function checkPasswordStrength(password) {
-        const minLength = /.{8,}/;
-        const uppercase = /[A-Z]/;
-        const lowercase = /[a-z]/;
-        const digit = /[0-9]/;
-
-        if (!minLength.test(password)) {
-            return 'Password must be at least 8 characters long.';
-        }
-        if (!uppercase.test(password)) {
-            return 'Password must include at least one uppercase letter.';
-        }
-        if (!lowercase.test(password)) {
-            return 'Password must include at least one lowercase letter.';
-        }
-        if (!digit.test(password)) {
-            return 'Password must include at least one digit.';
-        }
-        return '';
-        }
-
-        passwordInput.addEventListener('input', () => {
-        const password = passwordInput.value;
-        const error = checkPasswordStrength(password);
-        if (error) {
-            errorMsg.textContent = error;
-            submitBtn.disabled = true;
-        } else {
-            errorMsg.textContent = '';
-            submitBtn.disabled = false;
-        }
+        document.getElementById('password').addEventListener('input', function() {
+            const password = this.value;
+            const errorElement = this.parentElement.nextElementSibling;
+            
+            if (password.length > 0 && password.length < 8) {
+                if (!errorElement || !errorElement.classList.contains('password-error')) {
+                    const newError = document.createElement('div');
+                    newError.className = 'password-error';
+                    newError.textContent = 'Password must be at least 8 characters long.';
+                    this.parentElement.after(newError);
+                } else {
+                    errorElement.textContent = 'Password must be at least 8 characters long.';
+                }
+                this.classList.add('input-error');
+            } else {
+                if (errorElement && errorElement.classList.contains('password-error')) {
+                    errorElement.remove();
+                }
+                this.classList.remove('input-error');
+            }
         });
 
-        function validatePassword() {
-        const password = passwordInput.value;
-        const error = checkPasswordStrength(password);
-        if (error) {
-            errorMsg.textContent = error;
-            return false;
-        }
-        alert('Password accepted. Login successful.');
-        return true;
-        }
-
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            if (password.length < 8) {
+                e.preventDefault();
+                
+                const errorElement = document.getElementById('password').parentElement.nextElementSibling;
+                if (!errorElement || !errorElement.classList.contains('password-error')) {
+                    const newError = document.createElement('div');
+                    newError.className = 'password-error';
+                    newError.textContent = 'Password must be at least 8 characters long.';
+                    document.getElementById('password').parentElement.after(newError);
+                }
+                document.getElementById('password').classList.add('input-error');
+            }
+        });
     </script>
 </body>
 
