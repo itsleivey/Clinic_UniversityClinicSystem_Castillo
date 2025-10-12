@@ -19,11 +19,15 @@ foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
 $counts['Total'] = array_sum($counts);
 
 // === GENDER COUNTS ===
-$genderCounts = [];
-$stmt = $pdo->query("SELECT Gender, COUNT(*) AS total FROM personalinfo GROUP BY Gender");
-foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-    $genderCounts[$row['Gender']] = (int)$row['total'];
-}
+// Execute the query
+$MaleStmt = $pdo->query("SELECT COUNT(*) AS count FROM personalinfo WHERE Gender = 'male'");
+$FemaleStmt = $pdo->query("SELECT COUNT(*) AS count FROM personalinfo WHERE Gender = 'female'");
+
+// Fetch the actual count
+$Male = $MaleStmt->fetch(PDO::FETCH_ASSOC)['count'];
+$Female = $FemaleStmt->fetch(PDO::FETCH_ASSOC)['count'];
+
+
 
 // === CONSULTATION COUNTS ===
 $yearStmt = $pdo->query("SELECT COUNT(*) FROM consultations WHERE YEAR(consultation_date) = YEAR(CURDATE())");

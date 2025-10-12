@@ -54,12 +54,12 @@ h3 {
   border-radius: 5px;
   border: none;
   color: white;
-  background-color: #007bff;
-  background: linear-gradient(to right, #51adfa, #2386d6);
+  background-color: #397dda;
+  /* background: linear-gradient(to right, #51adfa, #2386d6);*/
 }
 .patients-statisticis {
   display: grid;
-  grid-template-columns: repeat(2, 60% 40%);
+  grid-template-columns: repeat(2, 55% 45%);
   height: 100%;
   width: 98%;
   background-color: white;
@@ -73,11 +73,11 @@ h3 {
   width: 100%;
   height: 100%;
   min-height: 300px;
-  padding: 20px;
   background-color: white;
+
   border-radius: 5px;
   font-family: "Montserrat", sans-serif;
-
+  padding: 10px;
   h4 {
     color: #0562ba;
     font-size: clamp(18px, 1vw, 26px);
@@ -102,7 +102,8 @@ h3 {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
+  padding: 10px;
+  max-height: 58px;
   background-color: rgb(241, 247, 255);
   border-radius: 0px 0px 0px 0px;
 }
@@ -137,10 +138,10 @@ h3 {
   height: 100%;
   background-color: white;
   padding: 4px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+
   cursor: pointer;
 
-  background-color: #f0f8ff;
+  background-color: #ffffff;
   border-left-color: #007bff;
 
   transform: scale(1);
@@ -159,9 +160,10 @@ h3 {
     font-weight: bold;
   }
 }
+/*
 #teaching-card {
   background-color: #a7b8b84d;
-}
+}*/
 #teaching-card:hover {
   background-color: #c3d4d44d;
   border-left-color: #2f4f4ffd;
@@ -172,10 +174,10 @@ h3 {
     background-color: #2f4f4fd7;
   }
 }
-
+/*
 #non-teaching-card {
   background-color: #fde7c87a;
-}
+}*/
 #non-teaching-card:hover {
   background-color: #fdebd27a;
   border-left-color: #e68f16c5;
@@ -189,6 +191,29 @@ h3 {
 
 #totals-card {
   background-color: #e2faee;
+  border-top: solid #ccc 1px;
+  border-bottom: solid #ccc 1px;
+}
+#freshman-card:hover {
+  background-color: #d2e8ff;
+  border-left-color: #0099ff;
+  transform: scale(1.03);
+  font-weight: bold;
+
+  #non-teaching-icon-card {
+    background-color: #e68f16e8;
+  }
+}
+
+#new-personnel-card:hover {
+  background-color: #fdebd27a;
+  border-left-color: #e2ae01c5;
+  transform: scale(1.03);
+  font-weight: bold;
+
+  #non-teaching-icon-card {
+    background-color: #e68f16e8;
+  }
 }
 #totals-card:hover {
   background-color: #e2faee;
@@ -203,6 +228,12 @@ h3 {
 }
 #non-teaching-icon-card {
   background-color: #e68f167a;
+}
+#freshman-card-icon-card {
+  background-color: #3d9bff;
+}
+#new-personnel-icon-card {
+  background-color: #ffbf0db6;
 }
 #total-icon-card {
   background-color: #2ebf77;
@@ -252,13 +283,12 @@ h3 {
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 95%;
+  height: 100%;
   padding: 10px;
   background-color: white;
-
   border-radius: 5px;
   font-family: "Poppins", sans-serif;
-  max-height: 300px;
+  max-height: 320px;
   h3 {
     color: #343535;
     color: #0562ba;
@@ -266,15 +296,81 @@ h3 {
     color: #0562ba;
   }
 }
+/*==============Gender-Chart-Start===========================*/
+.gender-chart-container {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  justify-content: center;
+  width: 100%;
+  height: 80%;
+  padding: 3px;
+  border-radius: 0px 0px 5px 5px;
+  background-color: rgb(255, 255, 255);
+  border: solid #f0f0f0 1px;
+}
+#genderChart {
+  display: flex;
+}
+.gender-div-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: rgb(241, 247, 255);
+  border-radius: 0px 0px 0px 0px;
+  color: #0562ba;
+  border: solid #f0f0f0 1px;
+}
+.gender-count {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  width: 100%;
+  height: 100%;
+}
+.gender-count-sub-sec {
+  display: grid;
+  grid-template-columns: repeat(2, 30% 70%);
+
+  width: 100%;
+  height: 40%;
+}
+.gender-icon-cards {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  i {
+    font-size: clamp(18px, 2vw, 26px);
+  }
+}
+.gender-cards-labels {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 15px;
+  align-items: center;
+  width: 80%;
+  height: 100%;
+}
+/*==============Gender-Chart-End===========================*/
 #male-card {
-  background-color: white;
-  color: #71dae8;
+  color: #000000;
+}
+#male-card-icon {
+  color: #3b82f6;
 }
 #female-card {
-  background-color: white;
-  color: #ff8fc9;
+  color: #080808;
 }
-
+#female-card-icon {
+  color: #f472b6;
+}
 #male-card-count:hover {
   background-color: #f0f8ff;
   transform: translateY(-4px);
@@ -284,6 +380,7 @@ h3 {
   border-left: #71dae8 solid 10px;
   border-radius: 0px 5px 5px 0px;
 }
+
 #female-card-count:hover {
   background-color: #ff8fc907;
   transform: translateY(-4px);
@@ -291,6 +388,20 @@ h3 {
   border: solid #ff8fc9 1px;
   border-left: #ff8fc9 solid 10px;
   border-radius: 0px 5px 5px 0px;
+}
+#male-card-count {
+  background-color: #f4feff;
+  transform: scale(1);
+  border-left: transparent solid 10px;
+  transition: transform 0.25s ease-in-out, background-color 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out, border-left-color 0.25s ease-in-out;
+}
+#female-card-count {
+  background-color: #fff0f8;
+  transform: scale(1);
+  border-left: transparent solid 10px;
+  transition: transform 0.25s ease-in-out, background-color 0.25s ease-in-out,
+    box-shadow 0.25s ease-in-out, border-left-color 0.25s ease-in-out;
 }
 
 /*=============================Bar-graph-and-chart-styles==========================================*/
@@ -326,23 +437,7 @@ h3 {
   max-height: 500px;
 }
 /*=====================Dashboard=====Calendar========================*/
-.gender-chart-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  height: 90%;
-  width: 90%;
-  max-width: 340px;
-  background: #fff;
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 400px;
-}
-#genderChart {
-  width: 100%;
-}
+
 /*=====================Bar Graph Styles============================================*/
 .bar-graph-container {
   display: flex;
@@ -982,13 +1077,34 @@ p {
 .modal-content {
   background-color: white;
   padding: 20px;
-  border-radius: 12px;
-  width: 400px;
+  border-radius: 3px;
+  width: 500px;
   max-width: 90%;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
   animation: slideDown 0.3s ease;
 }
-
+.modal-header {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 10%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border: solid #ccc 1px;
+  background-color: #e7f6ff;
+  h2 {
+    color: #004a8f;
+    font-size: clamp(1rem, 1vw, 1.5rem);
+  }
+}
+.patients-table {
+  display: flex;
+  flex-direction: column;
+  border: solid #ccc 1px;
+  border-top: none;
+  border-bottom: none;
+}
 /* Simple animation */
 @keyframes slideDown {
   from {

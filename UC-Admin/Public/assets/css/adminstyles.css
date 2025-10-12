@@ -79,12 +79,13 @@ body {
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: 75px;
-  left: 5px;
+  top: 70px;
+  left: 0px;
   width: 220px;
   height: 95vh;
-  border-radius: 5px;
-  background: linear-gradient(to top, #2e68cc, #52affd);
+  border-radius: 0px;
+  /*background: linear-gradient(to top, #2e68cc, #52affd);*/
+  background-color: #397dda;
   padding: 20px;
   box-shadow: 4px 0 10px rgba(0, 0, 0, 0.2);
   z-index: 999;

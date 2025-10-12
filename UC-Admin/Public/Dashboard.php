@@ -1,5 +1,6 @@
 <?php
 include 'dashboard.dbf/fetch_dashboard_data.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -121,9 +122,66 @@ include 'dashboard.dbf/fetch_dashboard_data.php';
                                 <!-- Modal Structure -->
                                 <div id="myModal" class="modal">
                                     <div class="modal-content">
-                                        <span class="close">&times;</span>
-                                        <h2>Modal Title</h2>
-                                        <p>This is a sample modal content. You can put forms, text, or anything here.</p>
+                                        <div class="modal-header">
+                                            <h2>List of Registered Patient Type</h2>
+                                            <span class="close">&times;</span>
+                                        </div>
+                                        <div class="patients-table">
+                                            <div id="students-card" class="patients-cards-count">
+                                                <div id="students-icon-card" class="icon-cards">
+                                                    <i class="fas fa-user-graduate icon freshman"></i>
+                                                </div>
+                                                <div class="cards-labels">
+                                                    <p>Students</p>
+                                                    <h4><?= $counts['Student'] ?></h4>
+                                                </div>
+                                            </div>
+                                            <div id="teaching-card" class="patients-cards-count">
+                                                <div id="teaching-icon-card" class="icon-cards">
+                                                    <i class="fas fa-chalkboard-teacher icon faculty"></i>
+                                                </div>
+                                                <div class="cards-labels">
+                                                    <p>Teaching Personnels</p>
+                                                    <h4><?= $counts['Faculty'] ?></h4>
+                                                </div>
+                                            </div>
+                                            <div id="non-teaching-card" class="patients-cards-count">
+                                                <div id="non-teaching-icon-card" class="icon-cards">
+                                                    <i class="fas fa-user-tie icon personnel"></i>
+                                                </div>
+                                                <div class="cards-labels">
+                                                    <p>Non-Teaching Personnels</p>
+                                                    <h4><?= $counts['Personnel'] ?></h4>
+                                                </div>
+                                            </div>
+                                            <div id="freshman-card" class="patients-cards-count">
+                                                <div id="freshman-card-icon-card" class="icon-cards">
+                                                    <i class="fas fa-users icon student"></i>
+                                                </div>
+                                                <div class="cards-labels">
+                                                    <p>Freshman/Applicants</p>
+                                                    <h4><?= $counts['Freshman'] ?></h4>
+                                                </div>
+                                            </div>
+                                            <div id="new-personnel-card" class="patients-cards-count">
+                                                <div id="new-personnel-icon-card" class="icon-cards">
+                                                    <i class="fas fa-user-plus icon new-personnel"></i>
+                                                </div>
+                                                <div class="cards-labels">
+                                                    <p>Newly Hired</p>
+                                                    <h4><?= $counts['NewPersonnel'] ?></h4>
+                                                </div>
+                                            </div>
+                                            <div id="totals-card" class="patients-cards-count">
+                                                <div id="total-icon-card" class="icon-cards">
+                                                    <i class="fas fa-chart-bar"></i>
+                                                </div>
+                                                <div class="cards-labels">
+                                                    <p>Total Counts</p>
+                                                    <h4><?= $counts['Total'] ?></h4>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -167,52 +225,74 @@ include 'dashboard.dbf/fetch_dashboard_data.php';
                             </div>
                         </div>
                         <div class="patients-sex-distribution-count-div">
-                            <h3>Patients Sex Distribution</h3>
+                            <div class="gender-div-header">
+                                <h4>Patients Sex Distribution</h4>
+                            </div>
                             <div class="gender-chart-container">
                                 <canvas id="genderChart" width="400" height="400"></canvas>
+                                <div class="gender-count">
+                                    <div id="male-card-count" class="gender-count-sub-sec">
+                                        <div id="male-card-icon" class="gender-icon-cards">
+                                            <i class="fas fa-mars"></i>
+                                        </div>
+                                        <div id="male-card" class="gender-cards-labels">
+                                            <p>Male</p>
+                                            <h4><?= $Male ?? 0 ?></h4>
+                                        </div>
+                                    </div>
+                                    <div id="female-card-count" class="gender-count-sub-sec">
+                                        <div id="female-card-icon" class="gender-icon-cards">
+                                            <i class="fas fa-venus"></i>
+                                        </div>
+
+                                        <div id="female-card" class="gender-cards-labels">
+                                            <p>Female</p>
+                                            <h4><?= $Female ?? 0 ?></h4>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="calendar-div">
                     <div id="calendar-app">
-                        <!-- Header: Title and Year Selector -->
+
                         <div id="calendar-header">
                             <h1 class="app-title">Calendar</h1>
-                            <!-- Replaced <select> with custom div structure for styling control -->
+
                             <div class="year-selector" id="custom-year-selector">
                                 <span id="selected-year" class="year-select-display"></span>
                                 <div class="calendar-icon-bg">
-                                    <!-- Calendar Icon -->
+
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="calendar-icon">
                                         <path d="M19 4h-1V3c0-.55-.45-1-1-1s-1 .45-1 1v1H8V3c0-.55-.45-1-1-1s-1 .45-1 1v1H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11zM5 7V6h14v1H5z" />
                                     </svg>
                                 </div>
-                                <!-- Custom Dropdown List -->
+
                                 <div id="year-options-list" class="hidden">
-                                    <!-- Years injected by JS -->
+
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Month Navigation and Display -->
+
                         <div id="month-navigation">
                             <button id="prev-month" class="nav-arrow left-arrow" aria-label="Previous Month">
-                                <!-- Left Arrow SVG -->
+
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
                                 </svg>
                             </button>
                             <h2 id="current-month"></h2>
                             <button id="next-month" class="nav-arrow right-arrow" aria-label="Next Month">
-                                <!-- Right Arrow SVG -->
+
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                                     <path d="M10 6 8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
                                 </svg>
                             </button>
                         </div>
 
-                        <!-- Day Names -->
                         <div id="day-names" class="calendar-grid">
                             <span>Sun</span>
                             <span>Mon</span>
@@ -223,7 +303,6 @@ include 'dashboard.dbf/fetch_dashboard_data.php';
                             <span>Sat</span>
                         </div>
 
-                        <!-- Dates Grid (filled by JS) -->
                         <div id="dates-grid" class="calendar-grid">
                             <!-- Dates will be injected here -->
                         </div>
@@ -239,7 +318,7 @@ include 'dashboard.dbf/fetch_dashboard_data.php';
             <div class="tables-bargraphs">
                 <div class="second-section-graph-table">
                     <div class="bar-graph-container">
-                        <h2>Health Data Overview</h2>
+                        <h2>Consultations and Health Data Overview</h2>
                         <div class="dropdown-container">
                             <select id="graph-selector">
                                 <option value="consultationgraph" selected>Consultation Graph</option>
