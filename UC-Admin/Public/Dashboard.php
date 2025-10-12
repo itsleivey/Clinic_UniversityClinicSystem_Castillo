@@ -33,7 +33,7 @@ include 'dashboard.dbf/fetch_dashboard_data.php';
     <script src="assets/js/dashcalendar.js" defer></script>
     <script src="assets/js/dashgraph.js" defer></script>
     <script src="assets/css/calendarstyles.css" defer></script>
-
+    <script src="node_modules/chart.js/dist/chart.min.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
         rel="stylesheet" />
@@ -111,70 +111,65 @@ include 'dashboard.dbf/fetch_dashboard_data.php';
                     </div>
                     <div class="patients-statisticis">
                         <div class="patients-type-counts-div">
-                            <h4>Registered Patients</h4>
+                            <div id="header-count-div" class="counts-div">
+                                <h4>Registered Patients</h4>
+                                <button class="header-modal-button">
+                                    <i class="fas fa-plus"></i>
+                                    View more
+                                </button>
+
+                                <!-- Modal Structure -->
+                                <div id="myModal" class="modal">
+                                    <div class="modal-content">
+                                        <span class="close">&times;</span>
+                                        <h2>Modal Title</h2>
+                                        <p>This is a sample modal content. You can put forms, text, or anything here.</p>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="counts-div">
-                                <div class="patients-cards-count">
+                                <div id="students-card" class="patients-cards-count">
                                     <div id="students-icon-card" class="icon-cards">
                                         <i class="fas fa-user-graduate icon freshman"></i>
                                     </div>
                                     <div class="cards-labels">
-                                        <h4><?= $counts['Student'] ?></h4>
                                         <p>Students</p>
+                                        <h4><?= $counts['Student'] ?></h4>
                                     </div>
                                 </div>
-                                <div class="patients-cards-count">
+                                <div id="teaching-card" class="patients-cards-count">
                                     <div id="teaching-icon-card" class="icon-cards">
                                         <i class="fas fa-chalkboard-teacher icon faculty"></i>
                                     </div>
                                     <div class="cards-labels">
-                                        <h4><?= $counts['Faculty'] ?></h4>
                                         <p>Teaching Personnels</p>
+                                        <h4><?= $counts['Faculty'] ?></h4>
                                     </div>
                                 </div>
-                                <div class="patients-cards-count">
+                                <div id="non-teaching-card" class="patients-cards-count">
                                     <div id="non-teaching-icon-card" class="icon-cards">
                                         <i class="fas fa-user-tie icon personnel"></i>
                                     </div>
                                     <div class="cards-labels">
-                                        <h4><?= $counts['Personnel'] ?></h4>
                                         <p>Non-Teaching Personnels</p>
+                                        <h4><?= $counts['Personnel'] ?></h4>
                                     </div>
                                 </div>
-                                <div class="patients-cards-count">
-                                    <div class="icon-cards">
+                                <div id="totals-card" class="patients-cards-count">
+                                    <div id="total-icon-card" class="icon-cards">
                                         <i class="fas fa-chart-bar"></i>
                                     </div>
                                     <div class="cards-labels">
-                                        <h4><?= $counts['Total'] ?></h4>
                                         <p>Total Counts</p>
+                                        <h4><?= $counts['Total'] ?></h4>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
-                        <div class="consultation-count-div">
-
-                        </div>
-
                         <div class="patients-sex-distribution-count-div">
                             <h3>Patients Sex Distribution</h3>
-                            <div id="male-card-count" class="patients-cards-count">
-                                <div id="male-card" class="icon-cards">
-                                    <i class="fas fa-mars"></i>
-                                </div>
-                                <div class="cards-labels">
-                                    <h4><?= $genderCounts['Male'] ?? 0 ?></h4>
-                                    <p>Males</p>
-                                </div>
-                            </div>
-                            <div id="female-card-count" class="patients-cards-count">
-                                <div id="female-card" class="icon-cards">
-                                    <i class="fas fa-venus"></i>
-                                </div>
-                                <div class="cards-labels">
-                                    <h4><?= $genderCounts['Female'] ?? 0 ?></h4>
-                                    <p>Females</p>
-                                </div>
+                            <div class="gender-chart-container">
+                                <canvas id="genderChart" width="400" height="400"></canvas>
                             </div>
                         </div>
                     </div>
@@ -434,5 +429,62 @@ include 'dashboard.dbf/fetch_dashboard_data.php';
     </div>
 
 </body>
+<script>
+    const modal = document.getElementById("myModal");
+    const btn = document.querySelector(".header-modal-button");
+    const close = document.querySelector(".close");
+
+    // Open modal
+    btn.onclick = () => {
+        modal.style.display = "flex";
+    };
+
+    // Close modal when X is clicked
+    close.onclick = () => {
+        modal.style.display = "none";
+    };
+
+    // Close modal when clicking outside of it
+    window.onclick = (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    };
+</script>
+<script>
+    fetch('dashboard.dbf/get_gender_data.php')
+        .then(response => response.json())
+        .then(data => {
+            const ctx = document.getElementById('genderChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: ['Male', 'Female'],
+                    datasets: [{
+                        data: [data.male, data.female],
+                        backgroundColor: ['#3b82f6', '#f472b6'],
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: '',
+                            font: {
+                                size: 18
+                            }
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        })
+        .catch(error => console.error('Error loading data:', error));
+</script>
 
 </html
