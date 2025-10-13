@@ -7,49 +7,78 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      const labels = data.map((item) => item.ClientType);
-      const counts = data.map((item) => item.count);
+      // ✅ Define label mapping and colors
+      const labelMap = {
+        Student: "Students/Regular",
+        Faculty: "Teaching Personnels",
+        Personnel: "Non Teaching Personnels",
+        Freshman: "Freshman/Applicants",
+        NewPersonnel: "Newly Hired Personnels",
+      };
 
-      const ctx = document.getElementById("clientTypeChart").getContext("2d");
-      new Chart(ctx, {
-        type: "pie",
-        data: {
-          labels: labels,
-          datasets: [
-            {
-              label: "Number of Clients by Type",
-              data: counts,
-              backgroundColor: [
-                "#2196f3", // Student
-                "#4caf50", // Faculty
-                "#ff9800", // Personnel
-                "#9c27b0", // Freshman
-                "#f44336", // New Personnel
-                "#607d8b", // Default
-              ],
-              borderColor: "#fff",
-              borderWidth: 2,
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: {
-              position: "bottom",
-              labels: {
-                font: { size: 14 },
-                color: "#333",
+      const colorMap = {
+        Student: "#007bff",
+        Freshman: "#007514",
+        Faculty: "#2f4f4fce",
+        Personnel: "#e68f16c4",
+        NewPersonnel: "#ffbf0db6",
+      };
+
+      // ✅ Filter out any unknown types (not in colorMap)
+      const filteredData = data.filter((item) => colorMap[item.ClientType]);
+
+      // ✅ Map filtered data to labels, counts, and colors
+      const labels = filteredData.map((item) => labelMap[item.ClientType]);
+      const counts = filteredData.map((item) => item.count);
+      const backgroundColors = filteredData.map(
+        (item) => colorMap[item.ClientType]
+      );
+
+      // ✅ Draw the chart after the font is loaded
+      document.fonts.ready.then(() => {
+        const ctx = document.getElementById("clientTypeChart").getContext("2d");
+
+        new Chart(ctx, {
+          type: "pie",
+          data: {
+            labels: labels,
+            datasets: [
+              {
+                label: "Number of Clients by Type",
+                data: counts,
+                backgroundColor: backgroundColors,
+                borderColor: "#fff",
+                borderWidth: 2,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: {
+                  font: {
+                    family: "Poppins",
+                    size: 14,
+                  },
+                  color: "#333",
+                },
+              },
+              title: {
+                display: true,
+                text: "Registered Patients Chart by Type",
+                font: {
+                  family: "Poppins",
+                  size: 14,
+                  weight: "bold",
+                  style: "normal",
+                },
+                color: "#004a8f",
               },
             },
-            title: {
-              display: true,
-              text: "Registered Clients by Type",
-              font: { size: 18, weight: "bold" },
-              color: "#004a8f",
-            },
           },
-        },
+        });
       });
     })
     .catch((error) => console.error("Error fetching data:", error));

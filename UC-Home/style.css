@@ -23,8 +23,7 @@ html {
 
 .title {
   font-size: 40px;
-
-  color: var(--primary-color);
+  color: #337dda;
   cursor: pointer;
 }
 
@@ -126,7 +125,7 @@ html {
 
 .signinbtn {
   color: #ffffff;
-  background-color: var(--primary-color);
+  background-color: #337dda;
 }
 
 .signinbtn:hover {
@@ -188,7 +187,7 @@ section {
 }
 
 .servicebtn {
-  background: linear-gradient(to right, #72aaff, #033296);
+  background: #337dda;
   border: none;
   color: white;
   padding: 12px 24px;
@@ -240,7 +239,7 @@ section {
 }
 
 .highlight {
-  color: var(--primary-color);
+  color: #337dda;
   font-weight: 600;
 }
 
@@ -496,7 +495,7 @@ section {
 .location-container {
   padding: 3rem;
   width: 100%;
-  background: linear-gradient(to top, var(--secondary-color) 75%, #0b58ff 100%);
+  background-color: #337dda;
   border-radius: 0 24px 0 24px;
   box-shadow: var(--box-shadow);
 }
@@ -521,7 +520,7 @@ section {
 /* Contact Section */
 
 footer {
-  background-color: var(--secondary-color);
+  background-color: #337dda;
   position: relative;
   z-index: 600;
   padding: 5rem;
