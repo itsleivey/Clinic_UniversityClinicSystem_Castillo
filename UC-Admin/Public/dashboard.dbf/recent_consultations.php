@@ -19,7 +19,7 @@ $stmt = $pdo->query("
     WHERE cr.consultationid IS NOT NULL OR p.id IS NOT NULL
     GROUP BY c.ClientID
     ORDER BY last_record_datetime DESC
-    LIMIT 5
+    LIMIT 10
 ");
 
 $recentRecords = $stmt->fetchAll(PDO::FETCH_ASSOC);

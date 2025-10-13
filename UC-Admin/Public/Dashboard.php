@@ -472,6 +472,7 @@ require 'dashboard.dbf/recent_consultations.php';
                                     </tbody>
                                     <tfoot>
                                         <tr>
+
                                             <td colspan="2">Total Students</td>
                                             <td><?= $stats['total'] ?></td>
                                             <td></td>
@@ -534,7 +535,7 @@ require 'dashboard.dbf/recent_consultations.php';
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="2">Total Faculties</td>
+                                            <td colspan="2">Total Teaching Personnels</td>
                                             <td><?= $stats['total'] ?></td>
                                             <td></td>
                                             <td></td>
@@ -551,6 +552,7 @@ require 'dashboard.dbf/recent_consultations.php';
                     </div>
                 </div>
             </div>
+
     </div>
 
     </main>

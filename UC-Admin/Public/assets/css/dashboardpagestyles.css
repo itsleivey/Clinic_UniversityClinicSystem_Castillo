@@ -531,7 +531,7 @@ h3 {
 .recent-patients-table {
   max-width: 400px;
   margin: 0 auto;
-  border-radius: 5px;
+  border-radius: 0px;
   border: solid #e6e6e6 1px;
   overflow: hidden;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -547,10 +547,17 @@ h3 {
 .recent-patients-table td {
   padding: 10px;
   text-align: left;
+  background-color: #f7fbff;
   border-bottom: 1px solid #eee;
   vertical-align: middle;
 }
-
+.recent-patients-table th {
+  padding: 20px;
+  text-align: left;
+  background-color: #f7fbff;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
 .recent-patients-table tbody tr {
   transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease,
     box-shadow 0.2s ease;
@@ -607,7 +614,7 @@ h3 {
 
 /* --- Action Button --- */
 .action-btn {
-  background-color: #2196f3;
+  background-color: #0a78df;
   color: white;
   border: none;
   padding: 6px 12px;
@@ -618,7 +625,7 @@ h3 {
 }
 
 .action-btn:hover {
-  background-color: #1976d2;
+  background-color: #09539c;
 }
 
 /* --- Responsive --- */
@@ -643,7 +650,8 @@ h3 {
   width: 100%;
   max-width: 2000px;
   height: 60%;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
+  border-radius: 6px;
 }
 
 .bar-graph-container h2 {
@@ -705,7 +713,14 @@ select {
 .chart-container h2 {
   font-size: clamp(13px, 1vw, 18px);
 }
-
+/*======================================*/
+.patients-table-container {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  height: 100%;
+  width: 100%;
+  padding: 15px;
+}
 .header-container {
   display: flex;
   flex-direction: column;
@@ -751,6 +766,16 @@ select {
 .radio-option input {
   margin: 0;
 }
+/* LEGEND + TABLES CONTAINER */
+.legend-data {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
 
 .legend-data {
   display: flex;
@@ -792,6 +817,7 @@ select {
   width: 100%;
   border-radius: 5px;
   overflow: auto;
+  padding: 10px;
 }
 
 .tab-content::-webkit-scrollbar {
@@ -807,8 +833,17 @@ select {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-}
 
+  h2 {
+    padding: 10px;
+    font-size: clamp(18px, 1vw, 25px);
+    color: #0562ba;
+  }
+}
+.table-name h3 {
+  font-size: clamp(1rem, 1vw, 1.5rem);
+  color: #09539c;
+}
 /*department table styles*/
 .department-table-container {
   margin: 0;
@@ -826,7 +861,7 @@ select {
 }
 
 .department-table thead th {
-  background-color: #3498db;
+  background-color: #397dda;
   color: white;
   text-align: left;
   padding: 12px 15px;
@@ -868,6 +903,42 @@ select {
 
 .department-table tbody tr:last-of-type td {
   box-shadow: none;
+}
+
+.department-table tfoot tr {
+  background-color: #e6f0ff; /* light blue background */
+  font-weight: bold; /* make text bold */
+  color: #003366; /* darker text color */
+  border-top: 2px solid #0056a7; /* add a clear top border */
+}
+
+.department-table tfoot td {
+  height: 50px;
+}
+.department-table tfoot tr:hover {
+  background-color: #d9ebff;
+  transition: background-color 0.3s ease;
+}
+
+/* EMPTY DATA MESSAGE */
+.no-data {
+  text-align: center;
+  color: #888;
+  padding: 15px;
+  font-style: italic;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .department-table th,
+  .department-table td {
+    padding: 8px;
+    font-size: 0.85rem;
+  }
+
+  .legend-header h1 {
+    font-size: 1.2rem;
+  }
 }
 
 .percentage-bar-container {
@@ -935,7 +1006,7 @@ select {
   height: 90%;
   min-height: 390px;
 
-  max-width: 330px; /* Constrain width for calendar look */
+  max-width: 340px; /* Constrain width for calendar look */
   position: relative;
 }
 
