@@ -33,6 +33,7 @@ require 'dashboard.dbf/recent_consultations.php';
     <script src="assets/js/dashboard_func.js" defer></script>
     <script src="assets/js/dashcalendar.js" defer></script>
     <script src="assets/js/dashgraph.js" defer></script>
+    <script src="assets/js/clientTypeChart.js" defer></script>
     <script src="assets/css/calendarstyles.css" defer></script>
     <script src="node_modules/chart.js/dist/chart.min.js"></script>
     <link
@@ -113,7 +114,7 @@ require 'dashboard.dbf/recent_consultations.php';
                     <div class="patients-statisticis">
                         <div class="patients-type-counts-div">
                             <div id="header-count-div" class="counts-div">
-                                <h4>Registered Patients</h4>
+                                <h4>Registered Patients Overview</h4>
                                 <button class="header-modal-button">
                                     <i class="fas fa-plus"></i>
                                     View more
@@ -122,63 +123,69 @@ require 'dashboard.dbf/recent_consultations.php';
                                 <!-- Modal Structure -->
                                 <div id="myModal" class="modal">
                                     <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h2>List of Registered Patients</h2>
-                                            <span class="close">&times;</span>
+                                        <div id="client-type-chart" class="chart-container">
+                                            <h2>Client Type Distribution</h2>
+                                            <canvas id="clientTypeChart"></canvas>
                                         </div>
-                                        <div class="patients-table">
-                                            <div id="students-card" class="patients-cards-count">
-                                                <div id="students-icon-card" class="icon-cards">
-                                                    <i class="fas fa-user-graduate icon freshman"></i>
-                                                </div>
-                                                <div class="cards-labels">
-                                                    <p>Students</p>
-                                                    <h4><?= $counts['Student'] ?></h4>
-                                                </div>
+                                        <div class="text-labels-client-type">
+                                            <div class="modal-header">
+                                                <h2>List of Registered Patients</h2>
+                                                <span class="close">&times;</span>
                                             </div>
-                                            <div id="teaching-card" class="patients-cards-count">
-                                                <div id="teaching-icon-card" class="icon-cards">
-                                                    <i class="fas fa-chalkboard-teacher icon faculty"></i>
+                                            <div class="patients-table">
+                                                <div id="students-card" class="patients-cards-count">
+                                                    <div id="students-icon-card" class="icon-cards">
+                                                        <i class="fas fa-user-graduate icon freshman"></i>
+                                                    </div>
+                                                    <div class="cards-labels">
+                                                        <p>Students</p>
+                                                        <h4><?= $counts['Student'] ?></h4>
+                                                    </div>
                                                 </div>
-                                                <div class="cards-labels">
-                                                    <p>Teaching Personnels</p>
-                                                    <h4><?= $counts['Faculty'] ?></h4>
+                                                <div id="teaching-card" class="patients-cards-count">
+                                                    <div id="teaching-icon-card" class="icon-cards">
+                                                        <i class="fas fa-chalkboard-teacher icon faculty"></i>
+                                                    </div>
+                                                    <div class="cards-labels">
+                                                        <p>Teaching Personnels</p>
+                                                        <h4><?= $counts['Faculty'] ?></h4>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div id="non-teaching-card" class="patients-cards-count">
-                                                <div id="non-teaching-icon-card" class="icon-cards">
-                                                    <i class="fas fa-user-tie icon personnel"></i>
+                                                <div id="non-teaching-card" class="patients-cards-count">
+                                                    <div id="non-teaching-icon-card" class="icon-cards">
+                                                        <i class="fas fa-user-tie icon personnel"></i>
+                                                    </div>
+                                                    <div class="cards-labels">
+                                                        <p>Non-Teaching Personnels</p>
+                                                        <h4><?= $counts['Personnel'] ?></h4>
+                                                    </div>
                                                 </div>
-                                                <div class="cards-labels">
-                                                    <p>Non-Teaching Personnels</p>
-                                                    <h4><?= $counts['Personnel'] ?></h4>
+                                                <div id="freshman-card" class="patients-cards-count">
+                                                    <div id="freshman-card-icon-card" class="icon-cards">
+                                                        <i class="fas fa-users icon student"></i>
+                                                    </div>
+                                                    <div class="cards-labels">
+                                                        <p>Freshman/Applicants</p>
+                                                        <h4><?= $counts['Freshman'] ?></h4>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div id="freshman-card" class="patients-cards-count">
-                                                <div id="freshman-card-icon-card" class="icon-cards">
-                                                    <i class="fas fa-users icon student"></i>
+                                                <div id="new-personnel-card" class="patients-cards-count">
+                                                    <div id="new-personnel-icon-card" class="icon-cards">
+                                                        <i class="fas fa-user-plus icon new-personnel"></i>
+                                                    </div>
+                                                    <div class="cards-labels">
+                                                        <p>Newly Hired</p>
+                                                        <h4><?= $counts['NewPersonnel'] ?></h4>
+                                                    </div>
                                                 </div>
-                                                <div class="cards-labels">
-                                                    <p>Freshman/Applicants</p>
-                                                    <h4><?= $counts['Freshman'] ?></h4>
-                                                </div>
-                                            </div>
-                                            <div id="new-personnel-card" class="patients-cards-count">
-                                                <div id="new-personnel-icon-card" class="icon-cards">
-                                                    <i class="fas fa-user-plus icon new-personnel"></i>
-                                                </div>
-                                                <div class="cards-labels">
-                                                    <p>Newly Hired</p>
-                                                    <h4><?= $counts['NewPersonnel'] ?></h4>
-                                                </div>
-                                            </div>
-                                            <div id="totals-card" class="patients-cards-count">
-                                                <div id="total-icon-card" class="icon-cards">
-                                                    <i class="fas fa-chart-bar"></i>
-                                                </div>
-                                                <div class="cards-labels">
-                                                    <p>Total Counts</p>
-                                                    <h4><?= $counts['Total'] ?></h4>
+                                                <div id="totals-card" class="patients-cards-count">
+                                                    <div id="total-icon-card" class="icon-cards">
+                                                        <i class="fas fa-chart-bar"></i>
+                                                    </div>
+                                                    <div class="cards-labels">
+                                                        <p>Total Counts</p>
+                                                        <h4><?= $counts['Total'] ?></h4>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -424,7 +431,7 @@ require 'dashboard.dbf/recent_consultations.php';
             <div class="chart-container">
                 <div class="legend-data">
                     <div class="legend-header">
-                        <h2>Department List</h2>
+                        <h2>Patients Department List</h2>
                         <div class="tabs">
                             <div class="tab active" data-target="students-content">Students</div>
                             <div class="tab" data-target="employees-content">Teaching Personnels</div>
@@ -433,7 +440,7 @@ require 'dashboard.dbf/recent_consultations.php';
 
                     <div id="students-content" class="tab-content" style="display: block;">
                         <div class="table-name">
-                            <h3>Registered Students</h3>
+                            <h3>Registered Students per Department</h3>
                         </div>
                         <div class="department-table-container">
                             <?php
@@ -497,7 +504,7 @@ require 'dashboard.dbf/recent_consultations.php';
                         </td>-->
                     <div id="employees-content" class="tab-content" style="display: none;">
                         <div class="table-name">
-                            <h3>Registered Teaching Personnels</h3>
+                            <h3>Registered Teaching Personnel by Department</h3>
                         </div>
                         <div class="department-table-container">
                             <?php
@@ -615,6 +622,67 @@ require 'dashboard.dbf/recent_consultations.php';
             });
         })
         .catch(error => console.error('Error loading data:', error));
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        fetch("dashboard.bdf/clientTypeData.php")
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.error) {
+                    console.error(data.error);
+                    return;
+                }
+
+                const labels = data.map((item) => item.ClientType);
+                const counts = data.map((item) => item.count);
+
+                const ctx = document.getElementById("clientTypeChart").getContext("2d");
+                new Chart(ctx, {
+                    type: "pie",
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: "Number of Clients by Type",
+                            data: counts,
+                            backgroundColor: [
+                                "#2196f3", // Student
+                                "#4caf50", // Faculty
+                                "#ff9800", // Personnel
+                                "#9c27b0", // Freshman
+                                "#f44336", // New Personnel
+                                "#607d8b", // Default
+                            ],
+                            borderColor: "#fff",
+                            borderWidth: 2,
+                        }, ],
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                position: "bottom",
+                                labels: {
+                                    font: {
+                                        size: 14
+                                    },
+                                    color: "#333",
+                                },
+                            },
+                            title: {
+                                display: true,
+                                text: "Registered Clients by Type",
+                                font: {
+                                    size: 18,
+                                    weight: "bold"
+                                },
+                                color: "#004a8f",
+                            },
+                        },
+                    },
+                });
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+    });
 </script>
 
 </html
