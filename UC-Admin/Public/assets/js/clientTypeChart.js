@@ -17,11 +17,11 @@ document.addEventListener("DOMContentLoaded", () => {
       };
 
       const colorMap = {
-        Student: "#007bff",
-        Freshman: "#007514",
-        Faculty: "#2f4f4fce",
-        Personnel: "#e68f16c4",
-        NewPersonnel: "#ffbf0db6",
+        Student: "#007bff", // Blue
+        Freshman: "#2ecc71", // Green
+        Faculty: "#17a2b8", // Teal
+        Personnel: "#f39c12", // Amber
+        NewPersonnel: "#9b59b6", // Purple
       };
 
       // ✅ Filter out any unknown types (not in colorMap)

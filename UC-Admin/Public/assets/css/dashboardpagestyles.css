@@ -165,13 +165,14 @@ h3 {
   background-color: #a7b8b84d;
 }*/
 #teaching-card:hover {
-  background-color: #c3d4d44d;
-  border-left-color: #2f4f4ffd;
+  background-color: #e3fcff;
+
+  border-left-color: #17a2b8;
   transform: scale(1.03);
   font-weight: bold;
 
   #teaching-icon-card {
-    background-color: #2f4f4fd7;
+    background-color: #17a2b8;
   }
 }
 /*
@@ -180,12 +181,12 @@ h3 {
 }*/
 #non-teaching-card:hover {
   background-color: #fdebd27a;
-  border-left-color: #e68f16c5;
+  border-left-color: #f39c12;
   transform: scale(1.03);
   font-weight: bold;
 
   #non-teaching-icon-card {
-    background-color: #e68f16e8;
+    background-color: #f39c12;
   }
 }
 
@@ -195,8 +196,8 @@ h3 {
   border-bottom: solid #ccc 1px;
 }
 #freshman-card:hover {
-  background-color: #dcffe1;
-  border-left-color: #007514;
+  background-color: rgb(231, 255, 235);
+  border-left-color: #2ecc71;
   transform: scale(1.03);
   font-weight: bold;
 
@@ -206,8 +207,8 @@ h3 {
 }
 
 #new-personnel-card:hover {
-  background-color: #fdebd27a;
-  border-left-color: #e2ae01c5;
+  background-color: #f3d5ff;
+  border-left-color: #9b59b6;
   transform: scale(1.03);
   font-weight: bold;
 
@@ -224,16 +225,16 @@ h3 {
 }
 
 #teaching-icon-card {
-  background-color: #2f4f4fce;
+  background-color: #17a2b8;
 }
 #non-teaching-icon-card {
-  background-color: #e68f16c4;
+  background-color: #f39c12;
 }
 #freshman-card-icon-card {
-  background-color: #007514;
+  background-color: #2ecc71;
 }
 #new-personnel-icon-card {
-  background-color: #ffbf0db6;
+  background-color: #9b59b6;
 }
 #total-icon-card {
   background-color: #2ebf77;
