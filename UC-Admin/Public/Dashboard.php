@@ -29,17 +29,18 @@ require 'dashboard.dbf/recent_consultations.php';
     </style>
     <link rel="stylesheet" href="webicons/fontawesome-free-6.7.2-web/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="assets/js/dashboard_func.js" defer></script>
     <script src="assets/js/dashcalendar.js" defer></script>
     <script src="assets/js/dashgraph.js" defer></script>
     <script src="assets/js/clientTypeChart.js" defer></script>
     <script src="assets/css/calendarstyles.css" defer></script>
-    <script src="node_modules/chart.js/dist/chart.min.js"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
         rel="stylesheet" />
     <title>Manage Profile</title>
+    <script src="node_modules/chart.js/dist/chart.js"></script>
+    <script src="assets/js/chart.umd.js"></script>
+    <script src="assets/js/chart.umd.js" defer></script>
 </head>
 
 <body>

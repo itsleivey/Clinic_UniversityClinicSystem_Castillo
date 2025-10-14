@@ -4,7 +4,7 @@
   --secondary-color: #1547b3;
   --light-bg: #ffffff;
   --dark-bg: #000000;
-  --font-family: "Inter", Arial;
+  --font-family: "Poppins", sans-serif;
   --box-shadow: 2px 2px 20px 10px rgba(0, 0, 0, 0.1);
   --border-radius: 10px;
   --transition-speed: 0.5s;
@@ -286,7 +286,7 @@ section {
 .material-symbols-outlined {
   width: 100%;
   text-align: center;
-  font-family: "Material Symbols Outlined";
+  font-family: "Poppins", sans-serif;
   font-weight: normal;
   font-style: normal;
   font-size: 40px;
