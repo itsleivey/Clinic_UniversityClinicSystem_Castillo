@@ -1551,3 +1551,93 @@ span {
   align-items: center;
   line-height: 1.4;
 }
+
+/* Tabs Container */
+.tabs {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+}
+
+/* Tabs Inner Wrapper */
+.tabs-child {
+  display: flex;
+  gap: 28px;
+  padding: 5px 0;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+/* Tab Item */
+.tab {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: color 0.25s ease;
+  padding: 8px 0;
+}
+
+/* Tab Hover and Active Colors */
+.tab:hover {
+  color: #111827;
+}
+
+.tab.active {
+  color: #258beb;
+  font-weight: 600;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+/* Underline animation for active tab */
+.tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  width: 0%;
+  height: 2px;
+  background: #2563eb;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.tab.active::after {
+  width: 100%;
+}
+
+/* Tab Icon */
+.tab img.cp-btn-img {
+  width: 18px;
+  height: 18px;
+  opacity: 0.8;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.tab:hover img.cp-btn-img {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .tabs-child {
+    gap: 18px;
+  }
+
+  .tab {
+    font-size: 14px;
+  }
+
+  .tab img.cp-btn-img {
+    width: 16px;
+    height: 16px;
+  }
+}
