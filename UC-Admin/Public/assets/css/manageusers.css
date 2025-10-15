@@ -102,9 +102,7 @@ body {
   overflow-y: auto;
 }
 
-/* Close Button */
-.modal-content span,
-.close-btn {
+.modal-content span {
   position: absolute;
   top: 15px;
   right: 20px;
