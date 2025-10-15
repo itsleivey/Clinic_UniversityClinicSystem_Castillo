@@ -103,6 +103,7 @@ body {
 }
 
 /* Close Button */
+.modal-content span,
 .close-btn {
   position: absolute;
   top: 15px;
