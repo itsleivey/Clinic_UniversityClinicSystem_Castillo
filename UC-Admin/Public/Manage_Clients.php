@@ -121,68 +121,72 @@ if (isset($_GET['error'])) {
                     </div>
 
 
-                    <div id="addPatientModal" class="modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
-                        <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px; border-radius:12px; width:480px; position:relative; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
-                            <span onclick="closeAddPatientModal()" style="position:absolute; top:15px; right:20px; cursor:pointer; font-weight:bold; font-size:24px; color:#888; transition:color 0.2s;">&times;</span>
-                            <h3 style="margin-bottom:25px; text-align:center; font-size:24px; color:#333; font-weight:600;">Add Patient</h3>
+                    <!-- Add Patient Modal -->
+                    <div id="addPatientModal" class="modal">
+                        <div class="modal-content">
+                            <span onclick="closeAddPatientModal()" class="close-btn">&times;</span>
+                            <h3 class="modal-title">Add Patient</h3>
+
                             <form method="POST" action="manageclients.dbf/add-patient.php" id="addPatientForm">
 
-                                <div class="form-group" style="margin-bottom:20px; position:relative;">
-                                    <label style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
-                                        <i class="fas fa-user" style="margin-right:8px; color:#0D74F9;"></i>Full Name
+                                <!-- Full Name -->
+                                <div class="form-group">
+                                    <label>
+                                        <i class="fas fa-user icon-blue"></i> Full Name
                                     </label>
-                                    <input type="text" name="fullname" class="form-control" required
-                                        style="width:100%; padding:12px 15px 12px 45px; border:1px solid #ddd; border-radius:8px; font-size:14px; transition:border 0.3s;">
-                                    <i class="fas fa-user" style="position:absolute; left:15px; top:55%; transform:translateY(-50%); color:#666; font-size:16px;"></i>
-                                </div>
-
-                                <div class="form-group" style="margin-bottom:10px; position:relative;">
-                                    <label style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
-                                        <i class="fas fa-envelope" style="margin-right:8px; color:#0D74F9;"></i>Email
-                                    </label>
-                                    <!-- Moved error message above the input -->
-                                    <div id="emailError" style="display:none; color:#e74c3c; font-size:12px; margin-bottom:5px; padding:5px 0;">
-                                        <i class="fas fa-exclamation-triangle" style="margin-right:5px;"></i>Email already exists
-                                    </div>
-
-                                    <div style="position:relative;">
-                                        <input type="email" name="email" id="emailInput" class="form-control" required
-                                            style="width:100%; padding:12px 15px 12px 45px; border:1px solid #ddd; border-radius:8px; font-size:14px; transition:border 0.3s;">
-                                        <i class="fas fa-envelope" style="position:absolute; left:15px; top:38%; transform:translateY(-50%); color:#666; font-size:16px;"></i>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-user input-icon"></i>
+                                        <input type="text" name="fullname" class="form-control" required>
                                     </div>
                                 </div>
 
-                                <div class="form-group" style="margin-bottom:20px; position:relative;">
-                                    <label style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
-                                        <i class="fas fa-lock" style="margin-right:8px; color:#0D74F9;"></i>Password
+                                <!-- Email -->
+                                <div class="form-group">
+                                    <label>
+                                        <i class="fas fa-envelope icon-blue"></i> Email
                                     </label>
-                                    <input type="password" name="password" class="form-control" required
-                                        style="width:100%; padding:12px 15px 12px 45px; border:1px solid #ddd; border-radius:8px; font-size:14px; transition:border 0.3s;">
-                                    <i class="fas fa-lock" style="position:absolute; left:15px; top:55%; transform:translateY(-50%); color:#666; font-size:16px;"></i>
+                                    <div id="emailError" class="error-message">
+                                        <i class="fas fa-exclamation-triangle"></i> Email already exists
+                                    </div>
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-envelope input-icon"></i>
+                                        <input type="email" name="email" id="emailInput" class="form-control" required>
+                                    </div>
                                 </div>
 
-                                <div class="form-group" style="margin-bottom:20px;">
-                                    <label style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
-                                        <i class="fas fa-users" style="margin-right:8px; color:#0D74F9;"></i>Client Type
+                                <!-- Password -->
+                                <div class="form-group">
+                                    <label>
+                                        <i class="fas fa-lock icon-blue"></i> Password
                                     </label>
-                                    <select name="client_type" id="clientTypeSelect" class="form-control" onchange="toggleDepartment()" required
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-lock input-icon"></i>
+                                        <input type="password" name="password" class="form-control" required>
+                                    </div>
+                                </div>
 
+                                <!-- Client Type -->
+                                <div class="form-group">
+                                    <label>
+                                        <i class="fas fa-users icon-blue"></i> Client Type
+                                    </label>
+                                    <select name="client_type" id="clientTypeSelect" class="form-control" onchange="toggleDepartment()" required>
                                         <option value="">Select Type</option>
                                         <option value="Freshman">Freshman Student</option>
                                         <option value="Student">Student (Enrolled/Regular)</option>
                                         <option value="Faculty">Teaching Personnel</option>
                                         <option value="Personnel">Non-Teaching Personnel</option>
-                                        <option value="NewPersonnel">NewPersonnel</option>
+                                        <option value="NewPersonnel">New Personnel</option>
                                         <option value="Default">Default</option>
                                     </select>
                                 </div>
 
-                                <div id="departmentField" style="display: none; margin-bottom:25px;">
-                                    <label for="department" style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
-                                        <i class="fas fa-building-columns" style="margin-right:8px; color:#0D74F9;"></i>Department
+                                <!-- Department -->
+                                <div id="departmentField" class="form-group" style="display: none;">
+                                    <label for="department">
+                                        <i class="fas fa-building-columns icon-blue"></i> Department
                                     </label>
                                     <select id="department" name="department" class="form-control">
-
                                         <option value="">Select a Department</option>
                                         <option value="None">None</option>
                                         <option value="College of Computer Studies">College of Computer Studies</option>
@@ -200,13 +204,13 @@ if (isset($_GET['error'])) {
                                     </select>
                                 </div>
 
-                                <br>
                                 <button type="submit" id="saveButton" class="btn btn-success">
-                                    <i class=" fas fa-save" style="margin-right:8px;"></i>Save Patient
+                                    <i class="fas fa-save"></i> Save Patient
                                 </button>
                             </form>
                         </div>
                     </div>
+
 
                 </div>
                 <script>
