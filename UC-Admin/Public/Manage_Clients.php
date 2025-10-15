@@ -7,6 +7,10 @@ $faculties = fetchFaculty();
 $personnel = fetchPersonnel();
 $freshman =  fetchFreshman();
 $newpersonnel = fetchNewPersonnel();
+
+if (isset($_GET['error'])) {
+    echo '<div class="alert-error">' . htmlspecialchars($_GET['error']) . '</div>';
+}
 ?>
 
 
@@ -84,52 +88,85 @@ $newpersonnel = fetchNewPersonnel();
         </nav>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <main class="content" id="mainContent">
-            <div id="normalViewContainer">
-                <div class="search-filter-container" style="background-color:rgb(255, 255, 255); border: 1px solid #ccc; padding: 10px; padding-bottom: 5px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 25px;">
-                    <div class="search-bar">
-                        <div class="search-input-container">
-                            <form id="idSearchForm" method="get" class="search-form">
-                                <div class="input-wrapper">
-                                    <input type="text"
-                                        id="searchInput"
-                                        name="id_filter"
-                                        placeholder="Search ID, Name, Email, Department, ClientType"
-                                        value="<?= htmlspecialchars($_GET['id_filter'] ?? '') ?>"
-                                        maxlength="200">
-                                    <i class="fas fa-search"></i>
+            
+                            <div id="normalViewContainer">
+                                            <div class="clients-table-container">
+                                                <div class="table-header-controls">
+                            <div class="table-left-controls">
+                                <!-- Dropdown menu on the left -->
+                                <select id="clientTypeDropdown" class="client-type-dropdown">
+                                    <option value="students-content">Regular Students</option>
+                                    <option value="freshman-content">Freshman Students</option>
+                                    <option value="employees-content">Teaching Personnels</option>
+                                    <option value="personnel-content">Non-Teaching Personnels</option>
+                                    <option value="newpersonnel-content">Newly Hired Personnels</option>
+                                </select>
+                                
+                                <div class="search-input-container rectangular-search">
+                                    <div class="input-wrapper">
+                                        <i class="fas fa-search search-icon-inset"></i>
+                                        <input type="text"
+                                            id="searchInput"
+                                            name="id_filter"
+                                            placeholder="Search ID, Name, Email, Department, ClientType"
+                                            value="<?= htmlspecialchars($_GET['id_filter'] ?? '') ?>"
+                                            maxlength="200">
+                                    </div>
                                 </div>
-                                <div class="button-group">
-                                    <!-- <button type="submit" class="btn search-btn">Search</button>-->
-                                    <button type="button" id="resetSearch" class="btn clear-btn">Clear</button>
-                                </div>
-                            </form>
+                            </div>
+                            
+                            <button type="button" class="btn-add-patient" onclick="openAddPatientModal()">
+                                <i class="fas fa-user-plus"></i> Add Patient
+                            </button>
                         </div>
-                    </div>
-
-                    <button type="button" class="btn-add-patient" onclick="openAddPatientModal()">
-                        <i class="fas fa-user-plus"></i> Add Patient
-                    </button>
+                    
 
                     <div id="addPatientModal" class="modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
-                        <div class="modal-content" style="background:#fff; margin:10% auto; padding:20px; border-radius:8px; width:400px; position:relative;">
-                            <span onclick="closeAddPatientModal()" style="position:absolute; top:10px; right:15px; cursor:pointer; font-weight:bold;">&times;</span>
-                            <h3>Add Patient</h3>
-                            <form method="POST" action="manageclients.dbf/add-patient.php">
-                                <div>
-                                    <label><i class="fas fa-user"></i> Full Name</label>
-                                    <input type="text" name="fullname" class="form-control" required>
+                        <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px; border-radius:12px; width:480px; position:relative; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
+                            <span onclick="closeAddPatientModal()" style="position:absolute; top:15px; right:20px; cursor:pointer; font-weight:bold; font-size:24px; color:#888; transition:color 0.2s;">&times;</span>
+                            <h3 style="margin-bottom:25px; text-align:center; font-size:24px; color:#333; font-weight:600;">Add Patient</h3>
+                            <form method="POST" action="manageclients.dbf/add-patient.php" id="addPatientForm">
+
+                                <div class="form-group" style="margin-bottom:20px; position:relative;">
+                                    <label style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
+                                        <i class="fas fa-user" style="margin-right:8px; color:#0D74F9;"></i>Full Name
+                                    </label>
+                                    <input type="text" name="fullname" class="form-control" required 
+                                        style="width:100%; padding:12px 15px 12px 45px; border:1px solid #ddd; border-radius:8px; font-size:14px; transition:border 0.3s;">
+                                    <i class="fas fa-user" style="position:absolute; left:15px; top:55%; transform:translateY(-50%); color:#666; font-size:16px;"></i>
                                 </div>
-                                <div>
-                                    <label><i class="fas fa-envelope"></i> Email</label>
-                                    <input type="email" name="email" class="form-control" required>
+
+                                <div class="form-group" style="margin-bottom:10px; position:relative;">
+                                    <label style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
+                                        <i class="fas fa-envelope" style="margin-right:8px; color:#0D74F9;"></i>Email
+                                    </label>
+                                    <!-- Moved error message above the input -->
+                                    <div id="emailError" style="display:none; color:#e74c3c; font-size:12px; margin-bottom:5px; padding:5px 0;">
+                                        <i class="fas fa-exclamation-triangle" style="margin-right:5px;"></i>Email already exists
+                                    </div>
+                                    
+                                    <div style="position:relative;">
+                                        <input type="email" name="email" id="emailInput" class="form-control" required 
+                                            style="width:100%; padding:12px 15px 12px 45px; border:1px solid #ddd; border-radius:8px; font-size:14px; transition:border 0.3s;">
+                                        <i class="fas fa-envelope" style="position:absolute; left:15px; top:38%; transform:translateY(-50%); color:#666; font-size:16px;"></i>
+                                    </div>
                                 </div>
-                                <div>
-                                    <label><i class="fas fa-lock"></i> Password</label>
-                                    <input type="password" name="password" class="form-control" required>
+
+                                <div class="form-group" style="margin-bottom:20px; position:relative;">
+                                    <label style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
+                                        <i class="fas fa-lock" style="margin-right:8px; color:#0D74F9;"></i>Password
+                                    </label>
+                                    <input type="password" name="password" class="form-control" required 
+                                        style="width:100%; padding:12px 15px 12px 45px; border:1px solid #ddd; border-radius:8px; font-size:14px; transition:border 0.3s;">
+                                    <i class="fas fa-lock" style="position:absolute; left:15px; top:55%; transform:translateY(-50%); color:#666; font-size:16px;"></i>
                                 </div>
-                                <div>
-                                    <label><i class="fas fa-users"></i> Client Type</label>
-                                    <select name="client_type" id="clientTypeSelect" class="form-control" onchange="toggleDepartment()" required>
+                                
+                                <div class="form-group" style="margin-bottom:20px;">
+                                    <label style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
+                                        <i class="fas fa-users" style="margin-right:8px; color:#0D74F9;"></i>Client Type
+                                    </label>
+                                    <select name="client_type" id="clientTypeSelect" class="form-control" onchange="toggleDepartment()" required 
+                                            style="width:100%; padding:12px 15px; border:1px solid #ddd; border-radius:8px; font-size:14px; background-color:white; color:#333; background-image:url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" fill=\"%23333\" viewBox=\"0 0 16 16\"><path d=\"M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z\"/></svg>'); background-repeat:no-repeat; background-position:right 15px center; background-size:12px; appearance:none;">
                                         <option value="">Select Type</option>
                                         <option value="Freshman">Freshman Student</option>
                                         <option value="Student">Student (Enrolled/Regular)</option>
@@ -139,30 +176,35 @@ $newpersonnel = fetchNewPersonnel();
                                         <option value="Default">Default</option>
                                     </select>
                                 </div>
-                                <div id="departmentField" style="display: none;">
-                                    <label for="department"><i class="fas fa-building-columns"></i> Department</label>
-                                    <select id="department" name="department" class="form-control">
+                                
+                                <div id="departmentField" style="display: none; margin-bottom:25px;">
+                                    <label for="department" style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
+                                        <i class="fas fa-building-columns" style="margin-right:8px; color:#0D74F9;"></i>Department
+                                    </label>
+                                    <select id="department" name="department" class="form-control" 
+                                            style="width:100%; padding:12px 15px; border:1px solid #ddd; border-radius:8px; font-size:14px; background-color:white; color:#333; background-image:url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" fill=\"%23333\" viewBox=\"0 0 16 16\"><path d=\"M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z\"/></svg>'); background-repeat:no-repeat; background-position:right 15px center; background-size:12px; appearance:none;">
                                         <option value="">Select a Department</option>
-                                        <option value="None" <?= (isset($_POST['department']) && $_POST['department'] == 'None') ? 'selected' : '' ?>>None</option>
-                                        <option value="College of Computer Studies" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Computer Studies') ? 'selected' : '' ?>>College of Computer Studies</option>
-                                        <option value="College of Food Nutrition and Dietetics" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Food Nutrition and Dietetics') ? 'selected' : '' ?>>College of Food Nutrition and Dietetics</option>
-                                        <option value="College of Industrial Technology" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Industrial Technology') ? 'selected' : '' ?>>College of Industrial Technology</option>
-                                        <option value="College of Teacher Education" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Teacher Education') ? 'selected' : '' ?>>College of Teacher Education</option>
-                                        <option value="College of Agriculture" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Agriculture') ? 'selected' : '' ?>>College of Agriculture</option>
-                                        <option value="College of Arts and Sciences" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Arts and Sciences') ? 'selected' : '' ?>>College of Arts and Sciences</option>
-                                        <option value="College of Business Administration and Accountancy" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Business Administration and Accountancy') ? 'selected' : '' ?>>College of Business Administration and Accountancy</option>
-                                        <option value="College of Engineering" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Engineering') ? 'selected' : '' ?>>College of Engineering</option>
-                                        <option value="College of Criminal Justice Education" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Criminal Justice Education') ? 'selected' : '' ?>>College of Criminal Justice Education</option>
-                                        <option value="College of Fisheries" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Fisheries') ? 'selected' : '' ?>>College of Fisheries</option>
-                                        <option value="College of Hospitality Management and Tourism" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Hospitality Management and Tourism') ? 'selected' : '' ?>>College of Hospitality Management and Tourism</option>
-                                        <option value="College of Nursing and Allied Health" <?= (isset($_POST['department']) && $_POST['department'] == 'College of Nursing and Allied Health') ? 'selected' : '' ?>>College of Nursing and Allied Health</option>
+                                        <option value="None">None</option>
+                                        <option value="College of Computer Studies">College of Computer Studies</option>
+                                        <option value="College of Food Nutrition and Dietetics">College of Food Nutrition and Dietetics</option>
+                                        <option value="College of Industrial Technology">College of Industrial Technology</option>
+                                        <option value="College of Teacher Education">College of Teacher Education</option>
+                                        <option value="College of Agriculture">College of Agriculture</option>
+                                        <option value="College of Arts and Sciences">College of Arts and Sciences</option>
+                                        <option value="College of Business Administration and Accountancy">College of Business Administration and Accountancy</option>
+                                        <option value="College of Engineering">College of Engineering</option>
+                                        <option value="College of Criminal Justice Education">College of Criminal Justice Education</option>
+                                        <option value="College of Fisheries">College of Fisheries</option>
+                                        <option value="College of Hospitality Management and Tourism">College of Hospitality Management and Tourism</option>
+                                        <option value="College of Nursing and Allied Health">College of Nursing and Allied Health</option>
                                     </select>
                                 </div>
 
                                 <br>
-                                <button type="submit" class="btn btn-success"><i class="fas fa-save"></i> Save</button>
+                                <button type="submit" id="saveButton" class="btn btn-success" style="width:100%; padding:14px; background-color:#28a745; color:white; border:none; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; transition:background-color 0.3s;">
+                                    <i class="fas fa-save" style="margin-right:8px;"></i>Save Patient
+                                </button>
                             </form>
-
                         </div>
                     </div>
 
@@ -252,13 +294,14 @@ $newpersonnel = fetchNewPersonnel();
                                                         <a href="ClientProfile.php?id=<?= $freshman['ClientID'] ?>" title="Edit User">
                                                             <img class="table-icon-img" src="assets/images/edit-blue-icon.svg" alt="Edit Icon" style="border-radius: 0; object-fit: unset; width: 20px; height: 20px;">
                                                         </a>
-                                                        <a href="ClientProfile.php?id=<?= $freshman['ClientID'] ?>" class="btn btn-primary btn-sm">View</a>
+                                                        <a href="ClientProfile.php?id=<?= $freshman['ClientID'] ?>" title="View Profile">
+                                                            <i class="fas fa-eye eye-icon" style="color: #000; font-size: 18px;"></i>
+                                                        </a>
                                                         <a href="manageclients.dbf/delete_client.php?id=<?= $freshman['ClientID'] ?>"
                                                             onclick="return confirm('Are you sure you want to delete this user?');"
                                                             title="Delete User">
                                                             <img class="table-icon-img" src="assets/images/delete-icon.svg" alt="Delete Icon" style="border-radius: 0; object-fit: unset; width: 20px; height: 20px;">
                                                         </a>
-
                                                     </div>
                                                 </td>
                                             </tr>
@@ -315,13 +358,14 @@ $newpersonnel = fetchNewPersonnel();
                                                         <a href="ClientProfile.php?id=<?= $newpersonnel['ClientID'] ?>" title="Edit User">
                                                             <img class="table-icon-img" src="assets/images/edit-blue-icon.svg" alt="Edit Icon" style="border-radius: 0; object-fit: unset; width: 20px; height: 20px;">
                                                         </a>
-                                                        <a href="ClientProfile.php?id=<?= $newpersonnel['ClientID'] ?>" class="btn btn-primary btn-sm">View</a>
+                                                        <a href="ClientProfile.php?id=<?= $newpersonnel['ClientID'] ?>" title="View Profile">
+                                                            <i class="fas fa-eye eye-icon" style="color: #000; font-size: 18px;"></i>
+                                                        </a>
                                                         <a href="manageclients.dbf/delete_client.php?id=<?= $newpersonnel['ClientID'] ?>"
                                                             onclick="return confirm('Are you sure you want to delete this user?');"
                                                             title="Delete User">
                                                             <img class="table-icon-img" src="assets/images/delete-icon.svg" alt="Delete Icon" style="border-radius: 0; object-fit: unset; width: 20px; height: 20px;">
                                                         </a>
-
                                                     </div>
                                                 </td>
                                             </tr>
@@ -380,7 +424,9 @@ $newpersonnel = fetchNewPersonnel();
                                                         <a href="ClientProfile.php?id=<?= $students['ClientID'] ?>" title="Edit User">
                                                             <img class="table-icon-img" src="assets/images/edit-blue-icon.svg" alt="Edit Icon" style="border-radius: 0; object-fit: unset; width: 20px; height: 20px;">
                                                         </a>
-                                                        <a href="ClientProfile.php?id=<?= $students['ClientID'] ?>" class="btn btn-primary btn-sm">View</a>
+                                                        <a href="ClientProfile.php?id=<?= $students['ClientID'] ?>" title="View Profile">
+                                                            <i class="fas fa-eye eye-icon" style="color: #000; font-size: 18px;"></i>
+                                                        </a>
                                                         <a href="manageclients.dbf/delete_client.php?id=<?= $students['ClientID'] ?>"
                                                             onclick="return confirm('Are you sure you want to delete this user?');" title="Delete User">
                                                             <img class="table-icon-img" src="assets/images/delete-icon.svg" alt="Delete Icon" style="border-radius: 0; object-fit: unset; width: 20px; height: 20px;">
@@ -441,11 +487,14 @@ $newpersonnel = fetchNewPersonnel();
                                                         <a href="ClientProfile.php?id=<?= $faculties['ClientID'] ?>" title="Edit User">
                                                             <img class="table-icon-img" src="assets/images/edit-blue-icon.svg" alt="Edit Icon" style="border-radius: 0; object-fit: unset; width: 20px; height: 20px;">
                                                         </a>
-                                                        <a href="ClientProfile.php?id=<?= $faculties['ClientID'] ?>" class="btn btn-primary btn-sm">View</a>
+                                                        <a href="ClientProfile.php?id=<?= $faculties['ClientID'] ?>" title="View Profile">
+                                                            <i class="fas fa-eye eye-icon" style="color: #000; font-size: 18px;"></i>
+                                                        </a>
                                                         <a href="manageclients.dbf/delete_client.php?id=<?= $faculties['ClientID'] ?>"
                                                             onclick="return confirm('Are you sure you want to delete this user?');" title="Delete User">
                                                             <img class="table-icon-img" src="assets/images/delete-icon.svg" alt="Delete Icon" style="border-radius: 0; object-fit: unset; width: 20px; height: 20px;">
                                                         </a>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>
@@ -497,7 +546,9 @@ $newpersonnel = fetchNewPersonnel();
                                                         <a href="ClientProfile.php?id=<?= $personnel['ClientID'] ?>" title="Edit User">
                                                             <img class="table-icon-img" src="assets/images/edit-blue-icon.svg" alt="Edit Icon" style="border-radius: 0; object-fit: unset; width: 20px; height: 20px;">
                                                         </a>
-                                                        <a href="ClientProfile.php?id=<?= $personnel['ClientID'] ?>" class="btn btn-primary btn-sm">View</a>
+                                                        <a href="ClientProfile.php?id=<?= $personnel['ClientID'] ?>" title="View Profile">
+                                                            <i class="fas fa-eye eye-icon" style="color: #000; font-size: 18px;"></i>
+                                                        </a>
                                                         <a href="manageclients.dbf/delete_client.php?id=<?= $personnel['ClientID'] ?>"
                                                             onclick="return confirm('Are you sure you want to delete this user?');" title="Delete User">
                                                             <img class="table-icon-img" src="assets/images/delete-icon.svg" alt="Delete Icon" style="border-radius: 0; object-fit: unset; width: 20px; height: 20px;">
