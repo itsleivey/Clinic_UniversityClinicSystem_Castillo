@@ -70,7 +70,7 @@ require 'dashboard.dbf/recent_consultations.php';
         </div>
     </div>
 
-    <div class="main-container">
+    <div class="main-container"> 
         <nav class="navbar">
             <a href="Dashboard.php">
                 <button class="buttons" id="dashboardBtn">

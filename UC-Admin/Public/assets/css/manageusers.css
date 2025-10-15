@@ -99,6 +99,7 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
+
 .modal-content span {
   position: absolute;
   top: 0px;
@@ -194,7 +195,7 @@ body {
 
 #department option:hover,
 #department option:focus {
-    background-color: #0D74F9 !important;
+    background-color: #0D74F8 !important;
     color: white !important;
 }
 
