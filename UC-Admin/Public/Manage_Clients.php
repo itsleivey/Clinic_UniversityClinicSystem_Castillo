@@ -88,38 +88,38 @@ if (isset($_GET['error'])) {
         </nav>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <main class="content" id="mainContent">
-            
-                            <div id="normalViewContainer">
-                                            <div class="clients-table-container">
-                                                <div class="table-header-controls">
-                            <div class="table-left-controls">
-                                <!-- Dropdown menu on the left -->
-                                <select id="clientTypeDropdown" class="client-type-dropdown">
-                                    <option value="students-content">Regular Students</option>
-                                    <option value="freshman-content">Freshman Students</option>
-                                    <option value="employees-content">Teaching Personnels</option>
-                                    <option value="personnel-content">Non-Teaching Personnels</option>
-                                    <option value="newpersonnel-content">Newly Hired Personnels</option>
-                                </select>
-                                
-                                <div class="search-input-container rectangular-search">
-                                    <div class="input-wrapper">
-                                        <i class="fas fa-search search-icon-inset"></i>
-                                        <input type="text"
-                                            id="searchInput"
-                                            name="id_filter"
-                                            placeholder="Search ID, Name, Email, Department, ClientType"
-                                            value="<?= htmlspecialchars($_GET['id_filter'] ?? '') ?>"
-                                            maxlength="200">
-                                    </div>
+
+            <div id="normalViewContainer">
+                <div class="clients-table-container">
+                    <div class="table-header-controls">
+                        <div class="table-left-controls">
+                            <!-- Dropdown menu on the left -->
+                            <select id="clientTypeDropdown" class="client-type-dropdown">
+                                <option value="students-content">Regular Students</option>
+                                <option value="freshman-content">Freshman Students</option>
+                                <option value="employees-content">Teaching Personnels</option>
+                                <option value="personnel-content">Non-Teaching Personnels</option>
+                                <option value="newpersonnel-content">Newly Hired Personnels</option>
+                            </select>
+
+                            <div class="search-input-container rectangular-search">
+                                <div class="input-wrapper">
+                                    <i class="fas fa-search search-icon-inset"></i>
+                                    <input type="text"
+                                        id="searchInput"
+                                        name="id_filter"
+                                        placeholder="Search ID, Name, Email, Department, ClientType"
+                                        value="<?= htmlspecialchars($_GET['id_filter'] ?? '') ?>"
+                                        maxlength="200">
                                 </div>
                             </div>
-                            
-                            <button type="button" class="btn-add-patient" onclick="openAddPatientModal()">
-                                <i class="fas fa-user-plus"></i> Add Patient
-                            </button>
                         </div>
-                    
+
+                        <button type="button" class="btn-add-patient" onclick="openAddPatientModal()">
+                            <i class="fas fa-user-plus"></i> Add Patient
+                        </button>
+                    </div>
+
 
                     <div id="addPatientModal" class="modal" style="display:none; position:fixed; z-index:9999; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5);">
                         <div class="modal-content" style="background:#fff; margin:5% auto; padding:30px; border-radius:12px; width:480px; position:relative; box-shadow: 0 20px 40px rgba(0,0,0,0.15);">
@@ -131,7 +131,7 @@ if (isset($_GET['error'])) {
                                     <label style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
                                         <i class="fas fa-user" style="margin-right:8px; color:#0D74F9;"></i>Full Name
                                     </label>
-                                    <input type="text" name="fullname" class="form-control" required 
+                                    <input type="text" name="fullname" class="form-control" required
                                         style="width:100%; padding:12px 15px 12px 45px; border:1px solid #ddd; border-radius:8px; font-size:14px; transition:border 0.3s;">
                                     <i class="fas fa-user" style="position:absolute; left:15px; top:55%; transform:translateY(-50%); color:#666; font-size:16px;"></i>
                                 </div>
@@ -144,9 +144,9 @@ if (isset($_GET['error'])) {
                                     <div id="emailError" style="display:none; color:#e74c3c; font-size:12px; margin-bottom:5px; padding:5px 0;">
                                         <i class="fas fa-exclamation-triangle" style="margin-right:5px;"></i>Email already exists
                                     </div>
-                                    
+
                                     <div style="position:relative;">
-                                        <input type="email" name="email" id="emailInput" class="form-control" required 
+                                        <input type="email" name="email" id="emailInput" class="form-control" required
                                             style="width:100%; padding:12px 15px 12px 45px; border:1px solid #ddd; border-radius:8px; font-size:14px; transition:border 0.3s;">
                                         <i class="fas fa-envelope" style="position:absolute; left:15px; top:38%; transform:translateY(-50%); color:#666; font-size:16px;"></i>
                                     </div>
@@ -156,17 +156,17 @@ if (isset($_GET['error'])) {
                                     <label style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
                                         <i class="fas fa-lock" style="margin-right:8px; color:#0D74F9;"></i>Password
                                     </label>
-                                    <input type="password" name="password" class="form-control" required 
+                                    <input type="password" name="password" class="form-control" required
                                         style="width:100%; padding:12px 15px 12px 45px; border:1px solid #ddd; border-radius:8px; font-size:14px; transition:border 0.3s;">
                                     <i class="fas fa-lock" style="position:absolute; left:15px; top:55%; transform:translateY(-50%); color:#666; font-size:16px;"></i>
                                 </div>
-                                
+
                                 <div class="form-group" style="margin-bottom:20px;">
                                     <label style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
                                         <i class="fas fa-users" style="margin-right:8px; color:#0D74F9;"></i>Client Type
                                     </label>
-                                    <select name="client_type" id="clientTypeSelect" class="form-control" onchange="toggleDepartment()" required 
-                                            style="width:100%; padding:12px 15px; border:1px solid #ddd; border-radius:8px; font-size:14px; background-color:white; color:#333; background-image:url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" fill=\"%23333\" viewBox=\"0 0 16 16\"><path d=\"M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z\"/></svg>'); background-repeat:no-repeat; background-position:right 15px center; background-size:12px; appearance:none;">
+                                    <select name="client_type" id="clientTypeSelect" class="form-control" onchange="toggleDepartment()" required
+
                                         <option value="">Select Type</option>
                                         <option value="Freshman">Freshman Student</option>
                                         <option value="Student">Student (Enrolled/Regular)</option>
@@ -176,13 +176,13 @@ if (isset($_GET['error'])) {
                                         <option value="Default">Default</option>
                                     </select>
                                 </div>
-                                
+
                                 <div id="departmentField" style="display: none; margin-bottom:25px;">
                                     <label for="department" style="display:block; margin-bottom:8px; font-weight:500; color:#555; font-size:14px;">
                                         <i class="fas fa-building-columns" style="margin-right:8px; color:#0D74F9;"></i>Department
                                     </label>
-                                    <select id="department" name="department" class="form-control" 
-                                            style="width:100%; padding:12px 15px; border:1px solid #ddd; border-radius:8px; font-size:14px; background-color:white; color:#333; background-image:url('data:image/svg+xml;charset=US-ASCII,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" fill=\"%23333\" viewBox=\"0 0 16 16\"><path d=\"M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z\"/></svg>'); background-repeat:no-repeat; background-position:right 15px center; background-size:12px; appearance:none;">
+                                    <select id="department" name="department" class="form-control">
+
                                         <option value="">Select a Department</option>
                                         <option value="None">None</option>
                                         <option value="College of Computer Studies">College of Computer Studies</option>
@@ -201,8 +201,8 @@ if (isset($_GET['error'])) {
                                 </div>
 
                                 <br>
-                                <button type="submit" id="saveButton" class="btn btn-success" style="width:100%; padding:14px; background-color:#28a745; color:white; border:none; border-radius:8px; font-size:16px; font-weight:600; cursor:pointer; transition:background-color 0.3s;">
-                                    <i class="fas fa-save" style="margin-right:8px;"></i>Save Patient
+                                <button type="submit" id="saveButton" class="btn btn-success">
+                                    <i class=" fas fa-save" style="margin-right:8px;"></i>Save Patient
                                 </button>
                             </form>
                         </div>
