@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $check_stmt->execute([$email]);
     
     if ($check_stmt->rowCount() > 0) {
-        // Email already exists
+        
         header("Location: ../Manage_Clients.php?error=Email already exists");
         exit();
     }

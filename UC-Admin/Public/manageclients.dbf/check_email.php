@@ -10,4 +10,5 @@ if (isset($_GET['email'])) {
     
     echo json_encode(['exists' => $stmt->rowCount() > 0]);
 }
+
 ?>

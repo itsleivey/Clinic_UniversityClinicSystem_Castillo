@@ -511,7 +511,7 @@ if (isset($_GET['error'])) {
                     <div id="personnel-content" class="tab-content" style="display: none;">
                         <div class="table-container">
                             <div class="table-div">
-                                <table class="table table-bordered table-hover align-middle" id="personnelTable">
+                                <table class="table table-bordered table-hover align-middle " id="personnelTable">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
