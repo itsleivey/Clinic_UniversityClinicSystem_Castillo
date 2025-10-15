@@ -294,7 +294,7 @@ $fullName = trim($givenName . $surname);
             <span class="university_title"> University Clinic </span>
         </div>
         <button id="toggle-btn">
-            <img id="btnicon" src="assets/images/menu-icon.svg">
+            <img id="btnicon" src="assets/images/menu.png">
         </button>
         <div class="page-title">
             <h4>Patient's Visit History</h4>

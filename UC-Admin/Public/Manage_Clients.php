@@ -43,7 +43,7 @@ if (isset($_GET['error'])) {
             <span class="university_title"> University Clinic </span>
         </div>
         <button id="toggle-btn">
-            <img id="btnicon" src="assets/images/menu-icon.svg">
+            <img id="btnicon" src="assets/images/menu.png">
         </button>
         </button>
         <div class="page-title">
