@@ -669,14 +669,14 @@ body {
   font-size: 14px;
   color: #333;
   background-color: #fff;
-  text-align: center;
+  text-align: left;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: all 0.25s ease;
 }
 
 .rectangular-search .input-wrapper input::placeholder {
   color: #aaa;
-  text-align: center;
+  text-align: left;
 }
 
 .rectangular-search .input-wrapper input:focus {

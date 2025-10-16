@@ -110,10 +110,35 @@ p {
   color: #555;
   margin-bottom: 40px;
 }
+input {
+  font-family: "Poppins", sans-serif;
+}
+.name-input-group {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 20px;
+  gap: 5px;
 
+  input {
+    width: 100%;
+    padding: 13px 40px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    font-family: "Poppins", sans-serif;
+  }
+
+  input:focus {
+    border-color: #278bfd;
+    box-shadow: 0 0 8px rgba(7, 72, 238, 0.2);
+    outline: none;
+  }
+}
 .input-group {
   position: relative;
   margin-bottom: 20px;
+  gap: 15px;
 }
 
 .input-group i.left-icon,
@@ -141,14 +166,17 @@ p {
   border: 1px solid #ccc;
   font-size: 16px;
   transition: all 0.3s ease;
+  gap: 15px;
 }
 
 .input-group input:focus {
-  border-color: #0748ee;
+  border-color: #278bfd;
   box-shadow: 0 0 8px rgba(7, 72, 238, 0.2);
   outline: none;
 }
-
+i {
+  padding-right: 15px;
+}
 button {
   width: 100%;
   padding: 13px;
