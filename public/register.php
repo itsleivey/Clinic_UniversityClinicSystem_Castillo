@@ -84,7 +84,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         /* extra left padding for left icon */
         border: 1px solid #ccc;
         border-radius: 6px;
-        font-size: 14px;
+        font-size: clamp(0.75rem, 1vw, 1rem);
+        font-family: "Poppins", sans-serif;
+        font-weight: 350;
     }
 </style>
 
@@ -94,6 +96,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>University Clinic Sign Up</title>
     <link rel="stylesheet" href="styles.css">
     <script src="assets/js/script.js" defer></script>
+    <style>
+        @font-face {
+            font-family: "Montserrat";
+            src: url("assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format("woff2");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: "Poppins";
+            src: url("assets/fonts/Poppins/Poppins-Medium.ttf") format("woff2");
+            font-weight: 400;
+            font-style: normal;
+        }
+    </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         /* Modal styles */
@@ -153,9 +170,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .consent-btn {
             display: block;
-            width: 200px;
+            width: 300px;
             margin: 30px auto 0;
-            padding: 12px 0;
+            padding: 15px 10px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
@@ -197,6 +214,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 width: 100%;
             }
         }
+
+        #signup {
+            padding: 10px;
+            font-weight: 450;
+        }
     </style>
 </head>
 
@@ -210,7 +232,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
         <div class="right-section">
-            <h2 id="signup">Sign Up</h2>
+            <h2 id="signup">Create your account</h2>
             <?php if (!empty($error)): ?>
                 <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
             <?php endif; ?>
@@ -259,7 +281,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <button type="submit">Create Account</button>
-                <p>Already have an account? <a href="index.php">Sign in</a></p>
+                <p>Already have an account? <a class="register-link" href="index.php">Sign in</a></p>
             </form>
         </div>
     </div>

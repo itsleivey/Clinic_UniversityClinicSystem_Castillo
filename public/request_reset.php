@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $mail->SMTPAuth = true;
                 $mail->Username = 'jaymichaelcastillo18@gmail.com';
                 $mail->Password = 'dmjh epxq wsiw cwnm';
-                $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+                $mail->SMTPSecure = 'tls';
                 $mail->Port = 587;
 
                 $mail->setFrom('jaymichaelcastillo18@gmail.com', 'University Clinic');
@@ -71,6 +71,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="assets/js/script.js" defer></script>
+    <style>
+        @font-face {
+            font-family: "Montserrat";
+            src: url("assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format("woff2");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: "Poppins";
+            src: url("assets/fonts/Poppins/Poppins-Medium.ttf") format("woff2");
+            font-weight: 400;
+            font-style: normal;
+        }
+    </style>
 </head>
 <style>
     .input-group {
@@ -114,6 +129,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         border-radius: 6px;
         font-size: 14px;
     }
+
+    #login {
+        font-weight: 400;
+    }
 </style>
 
 <body onload="autoScrollToLogin()">
@@ -137,7 +156,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="email" class="inputs" name="email" placeholder="Email" required>
                 </div>
                 <button type="submit">Send Reset Code</button>
-                <p>Remember your password? <a href="index.php">Sign in</a></p>
+                <p>Remember your password? <a class="register-link" href="index.php">Sign in</a></p>
             </form>
         </div>
     </div>

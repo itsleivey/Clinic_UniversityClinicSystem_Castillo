@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <button type="submit" class="buttons">Login</button>
 
                 <p><a href="request_reset.php" class="register-link">Forgot Password?</a></p>
-                <p><a href="register.php" class="register-link">Don't have an account? Sign up here</a></p>
+                <p>Don't have an account? <a href="register.php" class="register-link">Sign up here</a></p>
             </form>
         </div>
     </div>

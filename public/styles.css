@@ -19,11 +19,14 @@ body {
 }
 
 .container {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 48% 52%);
   width: 85%;
   max-width: 1000px;
   min-width: 500px;
   height: 90%;
+  max-height: 700px;
+  min-height: 500px;
   background: #ffffff;
   border-radius: 15px;
   overflow: hidden;
@@ -32,6 +35,8 @@ body {
 }
 
 .left-section {
+  display: flex;
+  height: 100%;
   flex: 1;
   background: url("office-photo.png") center/cover no-repeat;
   position: relative;
@@ -44,6 +49,7 @@ p {
 }
 
 .overlay {
+  display: flex;
   width: 100%;
   height: 100%;
   padding: 5% 10%; /* use % instead of px for responsiveness */
@@ -83,7 +89,9 @@ p {
 }
 
 .right-section {
-  flex: 1;
+  display: flex;
+  width: 100%;
+  height: 100%;
   padding: 60px 50px;
   display: flex;
   flex-direction: column;
@@ -128,8 +136,8 @@ p {
 
 .input-group input {
   width: 100%;
-  padding: 15px 40px;
-  border-radius: 10px;
+  padding: 13px 40px;
+  border-radius: 3px;
   border: 1px solid #ccc;
   font-size: 16px;
   transition: all 0.3s ease;
@@ -143,13 +151,15 @@ p {
 
 button {
   width: 100%;
-  padding: 18px;
-  background: #0748ee;
+  padding: 13px;
+  background: #0763ee;
   color: white;
   border: none;
-  border-radius: 10px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  border-radius: 3px;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 400;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
 }
@@ -169,10 +179,11 @@ p {
 a.register-link {
   color: #0748ee;
   font-weight: 500;
+  text-decoration: none;
 }
 
 a.register-link:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 #lspulogo {
   width: 25%;
@@ -193,6 +204,7 @@ a.register-link:hover {
 /* Responsive for tablets */
 @media (max-width: 900px) {
   .container {
+    display: flex;
     flex-direction: column;
     height: auto;
     border-radius: 15px; /* keep rounded corners */
@@ -201,7 +213,7 @@ a.register-link:hover {
 
   .left-section {
     height: 40vh;
-    border-radius: 15px 15px 0 0;
+    border-radius: 15px;
   }
 
   .right-section {
@@ -237,7 +249,7 @@ a.register-link:hover {
   }
   .left-section {
     height: 35vh;
-    border-radius: 15px 15px 0 0;
+    border-radius: 15px;
   }
 
   .overlay {
