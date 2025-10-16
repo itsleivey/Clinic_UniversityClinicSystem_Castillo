@@ -70,7 +70,7 @@ require 'dashboard.dbf/recent_consultations.php';
         </div>
     </div>
 
-    <div class="main-container"> 
+    <div class="main-container">
         <nav class="navbar">
             <a href="Dashboard.php">
                 <button class="buttons" id="dashboardBtn">
@@ -170,7 +170,7 @@ require 'dashboard.dbf/recent_consultations.php';
                                                             <i class="fas fa-users icon student"></i>
                                                         </div>
                                                         <div class="cards-labels">
-                                                            <p>Freshman/Applicants</p>
+                                                            <p>Incoming Freshman Students</p>
                                                             <h4><?= $counts['Freshman'] ?></h4>
                                                         </div>
                                                     </div>

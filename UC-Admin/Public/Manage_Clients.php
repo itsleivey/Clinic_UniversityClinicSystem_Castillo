@@ -93,14 +93,17 @@ if (isset($_GET['error'])) {
                 <div class="clients-table-container">
                     <div class="table-header-controls">
                         <div class="table-left-controls">
-                            <!-- Dropdown menu on the left -->
-                            <select id="clientTypeDropdown" class="client-type-dropdown">
-                                <option value="students-content">Regular Students</option>
-                                <option value="freshman-content">Freshman Students</option>
-                                <option value="employees-content">Teaching Personnels</option>
-                                <option value="personnel-content">Non-Teaching Personnels</option>
-                                <option value="newpersonnel-content">Newly Hired Personnels</option>
-                            </select>
+                            <div class="select-wrapper">
+                                <i class="fas fa-filter"></i>
+                                <select id="clientTypeDropdown" class="client-type-dropdown">
+                                    <option value="students-content">Regular Students</option>
+                                    <option value="freshman-content">Incoming Freshman Students</option>
+                                    <option value="employees-content">Teaching Personnels</option>
+                                    <option value="personnel-content">Non-Teaching Personnels</option>
+                                    <option value="newpersonnel-content">Newly Hired Personnels</option>
+                                </select>
+                            </div>
+
 
                             <div class="search-input-container rectangular-search">
                                 <div class="input-wrapper">
@@ -120,59 +123,67 @@ if (isset($_GET['error'])) {
                         </button>
                     </div>
 
-
-                    <!-- Add Patient Modal -->
                     <div id="addPatientModal" class="modal">
                         <div class="modal-content">
                             <span onclick="closeAddPatientModal()" class="close-btn">&times;</span>
-                            <h3 class="modal-title">Add Patient</h3>
+                            <h3 class="modal-title">
+                                <i class="fas fa-user-plus title-icon"></i> Add Patient
+                            </h3>
 
                             <form method="POST" action="manageclients.dbf/add-patient.php" id="addPatientForm">
 
-                                <!-- Full Name -->
                                 <div class="form-group">
-                                    <label>
-                                        <i class="fas fa-user icon-blue"></i> Full Name
-                                    </label>
+                                    <label><i class="fas fa-user icon-blue"></i> Full Name</label>
                                     <div class="input-wrapper">
                                         <i class="fas fa-user input-icon"></i>
-                                        <input type="text" name="fullname" class="form-control" required>
+                                        <input type="text" name="fullname" placeholder="Enter patient's full name" class="form-control" required autocomplete="off">
                                     </div>
                                 </div>
 
-                                <!-- Email -->
                                 <div class="form-group">
-                                    <label>
-                                        <i class="fas fa-envelope icon-blue"></i> Email
-                                    </label>
+                                    <label><i class="fas fa-envelope icon-blue"></i> Email</label>
                                     <div id="emailError" class="error-message">
                                         <i class="fas fa-exclamation-triangle"></i> Email already exists
                                     </div>
                                     <div class="input-wrapper">
                                         <i class="fas fa-envelope input-icon"></i>
-                                        <input type="email" name="email" id="emailInput" class="form-control" required>
+                                        <input type="email"
+                                            name="email"
+                                            id="emailInput"
+                                            class="form-control"
+                                            required
+                                            autocomplete="off"
+                                            placeholder="Enter patient's email">
+
                                     </div>
                                 </div>
 
-                                <!-- Password -->
+
                                 <div class="form-group">
-                                    <label>
-                                        <i class="fas fa-lock icon-blue"></i> Password
-                                    </label>
-                                    <div class="input-wrapper">
+                                    <label><i class="fas fa-lock icon-blue"></i> Password</label>
+                                    <div class="pass-input-wrapper">
                                         <i class="fas fa-lock input-icon"></i>
-                                        <input type="password" name="password" class="form-control" required>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            id="passwordInput"
+                                            class="form-control"
+                                            required
+                                            minlength="8"
+                                            placeholder="Enter a strong password">
+
+                                        <i id="togglePassword" class="fas fa-eye toggle-password"></i>
+                                    </div>
+                                    <div id="passwordStrength" class="password-strength">
+                                        Password will be automatically generated based on user input (e.g., name or email).
                                     </div>
                                 </div>
 
-                                <!-- Client Type -->
                                 <div class="form-group">
-                                    <label>
-                                        <i class="fas fa-users icon-blue"></i> Client Type
-                                    </label>
+                                    <label><i class="fas fa-users icon-blue"></i> Client Type</label>
                                     <select name="client_type" id="clientTypeSelect" class="form-control" onchange="toggleDepartment()" required>
                                         <option value="">Select Type</option>
-                                        <option value="Freshman">Freshman Student</option>
+                                        <option value="Freshman">Incoming Freshman Student</option>
                                         <option value="Student">Student (Enrolled/Regular)</option>
                                         <option value="Faculty">Teaching Personnel</option>
                                         <option value="Personnel">Non-Teaching Personnel</option>
@@ -181,11 +192,8 @@ if (isset($_GET['error'])) {
                                     </select>
                                 </div>
 
-                                <!-- Department -->
                                 <div id="departmentField" class="form-group" style="display: none;">
-                                    <label for="department">
-                                        <i class="fas fa-building-columns icon-blue"></i> Department
-                                    </label>
+                                    <label for="department"><i class="fas fa-building-columns icon-blue"></i> Department</label>
                                     <select id="department" name="department" class="form-control">
                                         <option value="">Select a Department</option>
                                         <option value="None">None</option>
@@ -204,7 +212,7 @@ if (isset($_GET['error'])) {
                                     </select>
                                 </div>
 
-                                <button type="submit" id="saveButton" class="btn btn-success">
+                                <button type="submit" id="saveButton" class="btn-save">
                                     <i class="fas fa-save"></i> Save Patient
                                 </button>
                             </form>
@@ -212,7 +220,51 @@ if (isset($_GET['error'])) {
                     </div>
 
 
+
                 </div>
+                <script>
+                    document.getElementById("emailInput").addEventListener("blur", generateAutoPassword);
+                    document.querySelector("input[name='fullname']").addEventListener("blur", generateAutoPassword);
+
+                    function generateAutoPassword() {
+                        const fullname = document.querySelector("input[name='fullname']").value.trim();
+                        const email = document.getElementById("emailInput").value.trim();
+
+                        if (!fullname && !email) return;
+
+                        fetch("manageclients.dbf/generate-password.php", {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/x-www-form-urlencoded"
+                                },
+                                body: `fullname=${encodeURIComponent(fullname)}&email=${encodeURIComponent(email)}`
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.password) {
+                                    const passwordInput = document.getElementById("passwordInput");
+                                    passwordInput.value = data.password;
+
+                                    passwordInput.dispatchEvent(new Event("input"));
+                                }
+                            })
+                            .catch(err => console.error("Password generation failed:", err));
+                    }
+                </script>
+                <script>
+                    const passwordInput = document.getElementById("passwordInput");
+                    const togglePassword = document.getElementById("togglePassword");
+
+                    togglePassword.addEventListener("click", () => {
+                        const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
+                        passwordInput.setAttribute("type", type);
+
+                        togglePassword.classList.toggle("fa-eye");
+                        togglePassword.classList.toggle("fa-eye-slash");
+                    });
+                </script>
+
+
                 <script>
                     function openAddPatientModal() {
                         document.getElementById('addPatientModal').style.display = 'block';
@@ -239,7 +291,7 @@ if (isset($_GET['error'])) {
                             <i class="fas fa-user-graduate"></i> Regular Students
                         </div>
                         <div class="tab" data-target="freshman-content">
-                            <i class="fas fa-child"></i> Freshman Students
+                            <i class="fas fa-child"></i>Incoming Freshman Students
                         </div>
                         <div class="tab" data-target="employees-content">
                             <i class="fas fa-chalkboard-teacher"></i> Teaching Personnels

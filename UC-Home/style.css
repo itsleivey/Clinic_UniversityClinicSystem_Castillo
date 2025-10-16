@@ -1,5 +1,5 @@
 :root {
-  --primary: #337dda;
+  --primary: #397dda;
   --secondary: #1547b3;
   --light: #ffffff;
   --dark: #000000;
@@ -119,8 +119,11 @@ html {
 
 /* Home Section */
 #home {
-  background: linear-gradient(rgba(51, 125, 218, 0.9), rgba(21, 71, 179, 0.95)),
-    url("assets/images/image 15.png") center/cover fixed;
+  background: linear-gradient(
+      rgba(51, 126, 218, 0.897),
+      rgba(21, 71, 179, 0.938)
+    ),
+    url("assets/images/Lspu-Image.jpg") center/cover fixed;
   color: var(--light);
   display: flex;
   align-items: center;
@@ -291,7 +294,7 @@ html {
 /* Location */
 #location {
   padding: 80px 20px;
-  background: url("assets/images/Map.png") center/cover no-repeat;
+  /* background: url("assets/images/Map.png") center/cover no-repeat;*/
   display: flex;
   justify-content: center;
 }
