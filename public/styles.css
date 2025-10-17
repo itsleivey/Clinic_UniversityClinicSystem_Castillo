@@ -45,7 +45,7 @@ body {
 
 .register-container {
   min-height: 500px;
-  max-height: 800px;
+  max-height: 900px;
 }
 
 /* ========== LEFT SECTION ========== */
@@ -89,13 +89,24 @@ body {
   max-width: 90%;
   line-height: 1.5;
 }
-
+#login {
+  padding-bottom: 15px;
+}
 /* ========== RIGHT SECTION ========== */
 .right-section {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 60px 50px;
+  box-sizing: border-box;
+  max-height: 550px;
+}
+.register-right-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 50px;
+  box-sizing: border-box;
 }
 
 /* Headers */
@@ -118,7 +129,7 @@ body {
   flex-direction: column;
   flex: 1;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .input-container label {
@@ -202,9 +213,12 @@ input[type="date"].inputs:hover::-webkit-calendar-picker-indicator {
   justify-content: space-between;
   gap: 15px;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
-
+.parent-pass-input-group {
+  gap: 3px;
+  margin-bottom: 3px;
+}
 /* Responsive stacking for small screens */
 @media (max-width: 768px) {
   .name-input-group,
@@ -213,7 +227,9 @@ input[type="date"].inputs:hover::-webkit-calendar-picker-indicator {
     gap: 10px;
   }
 }
-
+.parent-pass-input-group {
+  flex-direction: column;
+}
 /* Icon-based input groups (e.g., email, password) */
 .input-group {
   position: relative;
@@ -297,6 +313,9 @@ a.register-link:hover {
     padding-top: 15px;
     padding-bottom: 15px;
   }
+  .parent-pass-input-group {
+    flex-direction: row;
+  }
   .container,
   .register-container {
     display: flex;
@@ -305,7 +324,7 @@ a.register-link:hover {
     padding: 5px;
   }
   .register-container {
-    max-height: 1300px;
+    max-height: 2000px;
   }
 
   .left-section {
@@ -330,7 +349,10 @@ a.register-link:hover {
     min-height: 700px;
   }
   .register-container {
-    max-height: 1300px;
+    max-height: 2000px;
+  }
+  .parent-pass-input-group {
+    flex-direction: column;
   }
   .left-section {
     height: 35vh;
@@ -492,4 +514,47 @@ a.register-link:hover {
 #signup {
   padding: 10px;
   font-weight: 450;
+}
+
+.error-message {
+  background-color: #ffebe9;
+  border: 1px solid #ff8182;
+  border-radius: 6px;
+  margin: 10px 0 0 0;
+  padding: 12px 15px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #cf222e;
+  font-size: 14px;
+  margin-bottom: 3px;
+}
+
+.error-message i {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.error-hidden {
+  display: none;
+}
+
+/* Optional: Add subtle animation */
+.error-message {
+  animation: fadeIn 0.3s ease-in;
+}
+.input-error {
+  border: 1px solid #ff8182 !important;
+  background-color: #fff5f5;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

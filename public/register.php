@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 require '../config/database.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -10,36 +9,51 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $firstname = trim($_POST['firstname']);
         $lastname  = trim($_POST['lastname']);
         $email     = trim($_POST['email']);
+        $sex       = trim($_POST['sex']);
+        $dob       = trim($_POST["dob"]);
         $password  = trim($_POST['password']);
+        $confirm_password = trim($_POST['confirm_password']);
 
-        // Check if the email already exists in the database
-        $pdo  = pdo_connect_mysql();
-        $stmt = $pdo->prepare("SELECT * FROM Clients WHERE Email = ?");
-        $stmt->execute([$email]);
-        $existingUser = $stmt->fetch();
-
-        if ($existingUser) {
-            $error = "This email is already registered. Please use a different email.";
+        // 🧩 VALIDATION SECTION
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = "Please enter a valid email address.";
+        } elseif (empty($sex) || empty($dob)) {
+            $error = "Please select your sex and birth date.";
+        } elseif (strlen($password) < 8) {
+            $error = "Password must be at least 8 characters long.";
+        } elseif ($password !== $confirm_password) {
+            $error = "Passwords do not match.";
         } else {
-            // If email doesn't exist, proceed with registration
-            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $pdo->prepare("
-                INSERT INTO Clients (Firstname, Lastname, Email, Password)
-                VALUES (?, ?, ?, ?)
-            ");
+            // 🧩 DATABASE CHECK
+            $pdo  = pdo_connect_mysql();
+            $stmt = $pdo->prepare("SELECT * FROM Clients WHERE Email = ?");
+            $stmt->execute([$email]);
+            $existingUser = $stmt->fetch();
 
-            if ($stmt->execute([$firstname, $lastname, $email, $hashed_password])) {
-                $clientId = $pdo->lastInsertId();
-                $_SESSION['ClientID'] = $clientId;
-                header('Location: Profile.php');
-                exit;
+            if ($existingUser) {
+                $error = "This email is already registered. Please use a different email.";
             } else {
-                $error = "Error creating account. Please try again.";
+                // 🧩 INSERT NEW CLIENT
+                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+                $stmt = $pdo->prepare("
+                    INSERT INTO Clients (Firstname, Lastname, Email, Sex, Birthdate, Password)
+                    VALUES (?, ?, ?, ?, ?, ?)
+                ");
+
+                if ($stmt->execute([$firstname, $lastname, $email, $sex, $dob, $hashed_password])) {
+                    $clientId = $pdo->lastInsertId();
+                    $_SESSION['ClientID'] = $clientId;
+                    header('Location: Profile.php');
+                    exit;
+                } else {
+                    $error = "Error creating account. Please try again.";
+                }
             }
         }
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -96,6 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>University Clinic Sign Up</title>
     <link rel="stylesheet" href="styles.css">
     <script src="assets/js/script.js" defer></script>
+    <script src="UC-Client/assets/js/validation.js" defer></script>
     <style>
         @font-face {
             font-family: "Montserrat";
@@ -126,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <p id="loginsmg"></p>
             </div>
         </div>
-        <div class="right-section">
+        <div class="register-right-section">
             <div class="login-header">
                 <h2 id="login">Create your account</h2>
                 <!--  <p class="login-subtitle">Securely access your medical records and manage your health profile online.</p>-->
@@ -187,7 +202,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <input type="date" class="inputs" id="dob" name="dob" required>
                     </div>
                 </div>
-
+                <div id="dobError" class="error-message error-hidden"></div>
                 <div class="input-container">
                     <label for="email">Email</label>
                     <div class="input-group">
@@ -215,6 +230,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                     </div>
                 </div>
+                <div id="passwordError" class="error-message error-hidden"></div>
+                <div id="confirmPasswordError" class="error-message error-hidden"></div>
 
                 <button type="submit">Create Account</button>
                 <p>Already have an account? <a class="register-link" href="index.php">Sign in</a></p>
@@ -270,6 +287,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         };
     </script>
+
 </body>
 
 </html>

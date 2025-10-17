@@ -380,14 +380,14 @@ a.register-link:hover {
   background-color: #ffebe9;
   border: 1px solid #ff8182;
   border-radius: 6px;
-  margin: 10px 0 0 0;
+  margin-top: 10px;
   padding: 12px 15px;
   display: flex;
   align-items: center;
   gap: 10px;
   color: #cf222e;
   font-size: 14px;
-  margin-bottom: 10px;
+  animation: fadeIn 0.3s ease-in;
 }
 
 .error-message i {
@@ -397,11 +397,6 @@ a.register-link:hover {
 
 .error-hidden {
   display: none;
-}
-
-/* Optional: Add subtle animation */
-.error-message {
-  animation: fadeIn 0.3s ease-in;
 }
 
 @keyframes fadeIn {

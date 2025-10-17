@@ -116,30 +116,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <div class="right-section" id="login-section">
-                <h2 id="login">Admin Login</h2>
-                
-                <!-- Error Message Display -->
-                <div class="error-message <?php echo empty($error_message) ? 'error-hidden' : ''; ?>" id="error-message">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <span id="error-text"><?php echo htmlspecialchars($error_message); ?></span>
+            <h2 id="login">Admin Login</h2>
+
+            <!-- Error Message Display -->
+            <div class="error-message <?php echo empty($error_message) ? 'error-hidden' : ''; ?>" id="error-message">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="error-text"><?php echo htmlspecialchars($error_message); ?></span>
+            </div>
+
+            <form action="index.php" method="POST">
+                <div class="input-group">
+                    <i class="fas fa-user left-icon"></i>
+                    <input type="text" class="inputs" name="username" placeholder="Username" required
+                        value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>">
+                </div>
+                <div class="input-group">
+                    <i class="fas fa-lock left-icon"></i>
+                    <input type="password" class="inputs" id="password" name="password" placeholder="Password" required>
+                    <i class="fas fa-eye toggle-password" id="togglePassword" data-target="password"></i>
                 </div>
 
-                <form action="index.php" method="POST">
-                    <div class="input-group">
-                        <i class="fas fa-user left-icon"></i>
-                        <input type="text" class="inputs" name="username" placeholder="Username" required 
-                            value="<?php echo isset($_POST['username']) ? htmlspecialchars($_POST['username']) : ''; ?>">
-                    </div>
-                    <div class="input-group">
-                        <i class="fas fa-lock left-icon"></i>
-                        <input type="password" class="inputs" id="password" name="password" placeholder="Password" required>
-                        <i class="fas fa-eye toggle-password" id="togglePassword" data-target="password"></i>
-                    </div>
-
-                    <button type="submit" class="buttons">Login</button>
-                    <p>Don't have an account? <a href="register.php" class="register-link"> Sign up here</a></p>
-                </form>
-            </div>
+                <button type="submit" class="buttons">Login</button>
+                <p>Don't have an account? <a href="register.php" class="register-link"> Sign up here</a></p>
+            </form>
+        </div>
     </div>
     <script>
         // Toggle password visibility for multiple fields

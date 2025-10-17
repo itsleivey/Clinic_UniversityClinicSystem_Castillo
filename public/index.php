@@ -7,7 +7,7 @@ function verify_password($password, $stored_hash)
 }
 
 session_start();
-
+$error_message = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $pdo = pdo_connect_mysql();
@@ -25,7 +25,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
             echo "<script>alert('Invalid email or password');</script>";
         }
+
+        $error_message = 'Invalid username or password.'; // Set error message
     } catch (PDOException $e) {
+        $error_message = 'Database connection failed: ' . $e->getMessage();
         echo "<script>alert('Database connection failed: " . $e->getMessage() . "');</script>";
     }
 }
@@ -72,9 +75,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="login-header">
                 <h2 id="login">Login to your account</h2>
                 <p class="login-subtitle">Securely access your medical records and manage your health profile online.</p>
+                <div class="error-message <?php echo empty($error_message) ? 'error-hidden' : ''; ?>" id="error-message">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span id="error-text"><?php echo htmlspecialchars($error_message); ?></span>
+                </div>
             </div>
-
             <form action="index.php" method="POST">
+
                 <div class="input-group">
                     <i class="fas fa-envelope left-icon"></i>
                     <input type="email" class="inputs" name="email" placeholder="Email" required>
