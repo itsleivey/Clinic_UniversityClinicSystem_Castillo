@@ -99,6 +99,7 @@ body {
 }
 .navbar.collapsed {
   width: 60px;
+  padding:20px;
 }
 
 .navbar.collapsed ~ .content {

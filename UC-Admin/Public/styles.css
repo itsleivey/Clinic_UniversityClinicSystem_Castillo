@@ -375,3 +375,35 @@ a.register-link:hover {
     font-size: 11px;
   }
 }
+
+.error-message {
+    background-color: #ffebe9;
+    border: 1px solid #ff8182;
+    border-radius: 6px;
+    margin: 10px 0 0 0 ;
+    padding: 12px 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #cf222e;
+    font-size: 14px;
+}
+
+.error-message i {
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.error-hidden {
+    display: none;
+}
+
+/* Optional: Add subtle animation */
+.error-message {
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

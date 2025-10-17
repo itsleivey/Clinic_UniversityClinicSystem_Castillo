@@ -99,15 +99,6 @@ body {
   position: relative;
 }
 
-.input-icon {
-  position: absolute;
-  left: 15px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #666;
-  font-size: 16px;
-}
-
 /* Form Controls */
 .form-control {
   width: 100%;
@@ -828,14 +819,6 @@ label {
 .input-wrapper {
   position: relative;
 }
-.input-icon {
-  position: absolute;
-  top: 50%;
-  left: 12px;
-  transform: translateY(-50%);
-  color: #888;
-  font-size: 0.95rem;
-}
 
 .modal-content input,
 .modal-content select {
@@ -948,7 +931,7 @@ label {
 /* Left lock icon */
 .input-icon {
   position: absolute;
-  top: 50%;
+  top: 43%;
   left: 12px;
   transform: translateY(-50%);
   color: #888;
@@ -958,7 +941,7 @@ label {
 /* Right eye icon */
 .toggle-password {
   position: absolute !important;
-  top: 50%;
+  top: 43%;
   right: 14px; /* ensure it sticks to the right */
   transform: translateY(-50%);
   color: #888;
