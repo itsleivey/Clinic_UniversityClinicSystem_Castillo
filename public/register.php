@@ -232,7 +232,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
         <div class="right-section">
-            <h2 id="signup">Create your account</h2>
+            <div class="login-header">
+                <h2 id="login">Create your account</h2>
+                <p class="login-subtitle">Securely access your medical records and manage your health profile online.</p>
+            </div>
             <?php if (!empty($error)): ?>
                 <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
             <?php endif; ?>
@@ -263,7 +266,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form id="registerForm" action="register.php" method="POST">
                 <input type="hidden" name="consent" id="consentField" value="">
 
-                <div class="input-group">
+                <div class="name-input-group">
                     <input class="inputs" type="text" name="firstname" placeholder="First Name" required>
                     <input class="inputs" type="text" name="lastname" placeholder="Last Name" required>
                 </div>

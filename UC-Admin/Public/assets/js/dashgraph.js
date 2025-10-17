@@ -67,31 +67,28 @@ document.addEventListener("DOMContentLoaded", function () {
               label: "Number of Clients",
               data: values,
               backgroundColor: [
-                "#4fd1c5",
-                "#63b3ed",
-                "#fbd38d",
-                "#b794f4",
-                "#ed8936",
-                "#9b2c2c",
-                "#f56565",
-                "#48bb78",
-                "#4299e1",
-                "#ed64a6",
-                "#ecc94b",
-                "#a0aec0",
-                "#38b2ac",
-                "#9f7aea",
-                "#f6ad55",
-                "#e53e3e",
-                "#3182ce",
-                "#2f855a",
-                "#c53030",
-                "#805ad5",
-                "#f687b3",
-                "#81e6d9",
-                "#cbd5e0",
-                "#fc8181",
+                "#3b82f6", // Blue
+                "#06b6d4", // Cyan
+                "#10b981", // Green
+                "#f59e0b", // Amber
+                "#f97316", // Orange
+                "#ef4444", // Soft Red
+                "#8b5cf6", // Violet
+                "#64748b", // Slate Gray
               ],
+              hoverBackgroundColor: [
+                "#2563eb",
+                "#0891b2",
+                "#059669",
+                "#d97706",
+                "#ea580c",
+                "#dc2626",
+                "#7c3aed",
+                "#475569",
+              ],
+              borderColor: "#ffffff",
+              borderWidth: 1,
+
               borderRadius: 0,
               barPercentage: 1.3,
               categoryPercentage: 0.7,
@@ -166,31 +163,18 @@ document.addEventListener("DOMContentLoaded", function () {
               label: "Total Cases",
               data: values,
               backgroundColor: [
-                "#4fd1c5",
-                "#63b3ed",
-                "#fbd38d",
-                "#b794f4",
-                "#ed8936",
-                "#9b2c2c",
-                "#f56565",
-                "#48bb78",
-                "#4299e1",
-                "#ed64a6",
-                "#ecc94b",
-                "#a0aec0",
-                "#38b2ac",
-                "#9f7aea",
-                "#f6ad55",
-                "#e53e3e",
-                "#3182ce",
-                "#2f855a",
-                "#c53030",
-                "#805ad5",
-                "#f687b3",
-                "#81e6d9",
-                "#cbd5e0",
-                "#fc8181",
+                "#3b82f6", // Blue
+                "#06b6d4", // Cyan
+                "#10b981", // Green
+                "#f59e0b", // Amber
+                "#ef4444", // Red
+                "#8b5cf6", // Violet
+                "#ec4899", // Pink
+                "#64748b", // Slate
               ],
+              borderColor: "#ffffff",
+              borderWidth: 1,
+
               borderRadius: 0,
               barPercentage: 1.3,
               categoryPercentage: 0.7,
@@ -454,20 +438,8 @@ document.addEventListener("DOMContentLoaded", function () {
               {
                 label: `Consultations in ${year}`,
                 data: data,
-                backgroundColor: [
-                  "#4fd1c5",
-                  "#63b3ed",
-                  "#fbd38d",
-                  "#b794f4",
-                  "#ed8936",
-                  "#9b2c2c",
-                  "#f56565",
-                  "#48bb78",
-                  "#4299e1",
-                  "#ed64a6",
-                  "#ecc94b",
-                  "#a0aec0",
-                ],
+                backgroundColor: ["#62aeff"],
+                borderColor: "#1e40af",
 
                 barPercentage: 1.3,
                 categoryPercentage: 0.7,

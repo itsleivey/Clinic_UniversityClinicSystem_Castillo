@@ -262,7 +262,9 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
             <img id="btnicon" src="assets/images/menu.png">
         </button>
         <div class="page-title">
-            <h4>Patient's Profile</h4>
+            <a href="Manage_Clients.php">Manage Clients</a>
+            <i class="fas fa-angle-right"></i>
+            <h4 class="active_page">Patient's Profile</h4>
         </div>
     </div>
 
@@ -2393,7 +2395,7 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
     </div>
     </main>
     </div>
-    
+
 </body>
 
 </html

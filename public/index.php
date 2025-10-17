@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="right-section" id="login-section">
             <div class="login-header">
-                <h2 id="login">Login</h2>
+                <h2 id="login">Login to your account</h2>
                 <p class="login-subtitle">Securely access your medical records and manage your health profile online.</p>
             </div>
 

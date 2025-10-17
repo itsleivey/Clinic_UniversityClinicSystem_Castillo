@@ -297,6 +297,10 @@ $fullName = trim($givenName . $surname);
             <img id="btnicon" src="assets/images/menu.png">
         </button>
         <div class="page-title">
+            <a href="Manage_Clients.php">Manage Clients</a>
+            <i class="fas fa-angle-right"></i>
+            <a href="ClientProfile.php?id=<?= urlencode($clientID) ?>">Patient's Profile</a>
+            <i class="fas fa-angle-right"></i>
             <h4>Patient's Visit History</h4>
         </div>
     </div>
