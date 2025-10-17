@@ -98,7 +98,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     .input-error {
         border-color: #d93025 !important;
     }
-
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -109,6 +108,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>University Clinic Sign Up</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="webicons/fontawesome-free-6.7.2-web/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: "Montserrat";
+            src: url("assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format("woff2");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: "Poppins";
+            src: url("assets/fonts/Poppins/Poppins-Medium.ttf") format("woff2");
+            font-weight: 400;
+            font-style: normal;
+        }
+    </style>
 </head>
 
 <body>
@@ -131,25 +145,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <i class="fas fa-user left-icon"></i>
                     <input type="text" class="inputs" name="username" placeholder="Username" required>
                 </div>
-                
+
                 <div class="input-group">
                     <i class="fas fa-lock left-icon"></i>
-                    <input type="password" class="inputs <?php echo !empty($password_error) ? 'input-error' : ''; ?>" 
-                           id="password" name="password" placeholder="Password" required>
+                    <input type="password" class="inputs <?php echo !empty($password_error) ? 'input-error' : ''; ?>"
+                        id="password" name="password" placeholder="Password" required>
                     <i class="fas fa-eye toggle-password" id="togglePassword" data-target="password"></i>
                 </div>
-                
+
+
                 <?php if (!empty($password_error)): ?>
                     <div class="password-error"><?php echo htmlspecialchars($password_error); ?></div>
                 <?php endif; ?>
 
                 <button type="submit">Create Account</button>
-                <p>Already have an account? <a href="index.php">Sign in</a></p>
+                <p>Already have an account? <a class="register-link" href="index.php">Sign in</a></p>
             </form>
         </div>
     </div>
     <script>
-
         document.querySelectorAll(".toggle-password").forEach(toggle => {
             toggle.addEventListener("click", function() {
                 const input = document.getElementById(this.dataset.target);
@@ -164,7 +178,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         document.getElementById('password').addEventListener('input', function() {
             const password = this.value;
             const errorElement = this.parentElement.nextElementSibling;
-            
+
             if (password.length > 0 && password.length < 8) {
                 if (!errorElement || !errorElement.classList.contains('password-error')) {
                     const newError = document.createElement('div');
@@ -188,7 +202,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             const password = document.getElementById('password').value;
             if (password.length < 8) {
                 e.preventDefault();
-                
+
                 const errorElement = document.getElementById('password').parentElement.nextElementSibling;
                 if (!errorElement || !errorElement.classList.contains('password-error')) {
                     const newError = document.createElement('div');

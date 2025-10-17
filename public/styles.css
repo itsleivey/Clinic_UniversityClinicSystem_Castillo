@@ -34,6 +34,21 @@ body {
   padding: 5px;
 }
 
+.register-container {
+  display: grid;
+  grid-template-columns: repeat(2, 48% 52%);
+  width: 85%;
+  max-width: 1000px;
+  min-width: 500px;
+  height: 100%;
+  max-height: 800px;
+  min-height: 500px;
+  background: #ffffff;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  padding: 5px;
+}
 .left-section {
   display: flex;
   height: 100%;
@@ -110,6 +125,68 @@ p {
   color: #555;
   margin-bottom: 40px;
 }
+.input-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.input-container label {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.inputs,
+select.inputs,
+input[type="date"].inputs {
+  width: 100%;
+  padding: 13px 40px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
+  background-color: #fff;
+}
+
+.inputs:focus,
+select.inputs:focus,
+input[type="date"].inputs:focus {
+  border-color: #278bfd;
+  box-shadow: 0 0 8px rgba(7, 72, 238, 0.2);
+  outline: none;
+}
+
+select.inputs {
+  appearance: none;
+  background: url("https://cdn.jsdelivr.net/gh/encharm/Font-Awesome-SVG-PNG/black/png/16/chevron-down.png")
+    no-repeat right 15px center;
+  background-size: 12px;
+}
+
+input[type="date"].inputs::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.3);
+}
+
+input[type="date"].inputs:hover::-webkit-calendar-picker-indicator {
+  filter: invert(0.6);
+}
+
+.name-input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.parent-pass-input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
 input {
   font-family: "Poppins", sans-serif;
 }
@@ -134,6 +211,17 @@ input {
     box-shadow: 0 0 8px rgba(7, 72, 238, 0.2);
     outline: none;
   }
+}
+
+.parent-pass-input-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.inputs {
+  font-family: "Poppins", sans-serif;
 }
 .input-group {
   position: relative;

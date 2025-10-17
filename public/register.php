@@ -95,6 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>University Clinic Sign Up</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="register_style.css">
     <script src="assets/js/script.js" defer></script>
     <style>
         @font-face {
@@ -223,7 +224,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body onload="autoScrollToLogin(); showConsentModal()">
-    <div class="container">
+    <div class="register-container">
         <div class="left-section">
             <div class="overlay">
                 <img id="lspulogo" src="UC-Client/assets/images/Lspu logo.png" alt="LSPU Logo" class="logo">
@@ -267,36 +268,82 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="hidden" name="consent" id="consentField" value="">
 
                 <div class="name-input-group">
-                    <input class="inputs" type="text" name="firstname" placeholder="First Name" required>
-                    <input class="inputs" type="text" name="lastname" placeholder="Last Name" required>
+                    <div class="input-container">
+                        <label for="firstname">First Name</label>
+                        <input class="inputs" type="text" id="firstname" name="firstname" placeholder="Enter first name" required>
+                    </div>
+                    <div class="input-container">
+                        <label for="lastname">Last Name</label>
+                        <input class="inputs" type="text" id="lastname" name="lastname" placeholder="Enter last name" required>
+                    </div>
                 </div>
 
-                <div class="input-group">
-                    <i class="fas fa-envelope left-icon"></i>
-                    <input type="email" class="inputs" name="email" placeholder="Email" required>
+                <div class="name-input-group">
+                    <div class="input-container">
+                        <label for="sex">Sex</label>
+                        <select class="inputs" id="sex" name="sex" required>
+                            <option value="" disabled selected>Select Sex</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+
+                    <div class="input-container">
+                        <label for="dob">Date of Birth</label>
+                        <input type="date" class="inputs" id="dob" name="dob" required>
+                    </div>
                 </div>
 
-                <!-- Password -->
-                <div class="input-group">
-                    <i class="fas fa-lock left-icon"></i>
-                    <input type="password" class="inputs" id="password" name="password" placeholder="Password" required>
-                    <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                <div class="input-container">
+                    <label for="email">Email</label>
+                    <div class="input-group">
+                        <i class="fas fa-envelope left-icon"></i>
+                        <input type="email" class="inputs" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                </div>
+
+                <div class="parent-pass-input-group">
+                    <div class="input-container">
+                        <label for="password">Password</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock left-icon"></i>
+                            <input type="password" class="inputs" id="password" name="password" placeholder="••••••" required>
+                            <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                        </div>
+                    </div>
+
+                    <div class="input-container">
+                        <label for="confirm-password">Confirm Password</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock left-icon"></i>
+                            <input type="password" class="inputs" id="confirm-password" name="confirm_password" placeholder="••••••" required>
+                            <i class="fas fa-eye toggle-password" id="confirm-togglePassword"></i>
+                        </div>
+                    </div>
                 </div>
 
                 <button type="submit">Create Account</button>
                 <p>Already have an account? <a class="register-link" href="index.php">Sign in</a></p>
             </form>
+
         </div>
     </div>
     <script>
         const passwordInput = document.getElementById("password");
+        const confirmpassInput = document.getElementById("confirm-password");
         const togglePassword = document.getElementById("togglePassword");
+        const confirmtogglepass = document.getElementById("confirm-togglePassword");
 
         togglePassword.addEventListener("click", function() {
             const type = passwordInput.type === "password" ? "text" : "password";
             passwordInput.type = type;
+            this.classList.toggle("fa-eye");
+            this.classList.toggle("fa-eye-slash");
+        });
 
-            // Toggle between eye and eye-slash
+        confirmtogglepass.addEventListener("click", function() {
+            const type = confirmpassInput.type === "password" ? "text" : "password";
+            confirmpassInput.type = type;
             this.classList.toggle("fa-eye");
             this.classList.toggle("fa-eye-slash");
         });

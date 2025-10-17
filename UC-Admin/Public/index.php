@@ -86,6 +86,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="styles.css">
     <script src="assets/js/script.js" defer></script>
     <link rel="stylesheet" href="webicons/fontawesome-free-6.7.2-web/css/all.min.css">
+    <style>
+        @font-face {
+            font-family: "Montserrat";
+            src: url("assets/fonts/Montserrat/Montserrat-VariableFont_wght.ttf") format("woff2");
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: "Poppins";
+            src: url("assets/fonts/Poppins/Poppins-Medium.ttf") format("woff2");
+            font-weight: 400;
+            font-style: normal;
+        }
+    </style>
 </head>
 
 <body onload="autoScrollToLogin()">
