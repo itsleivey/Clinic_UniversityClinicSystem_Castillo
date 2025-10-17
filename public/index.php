@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="overlay">
                 <img id="lspulogo" src="UC-Client/assets/images/Lspu logo.png" alt="LSPU Logo" class="logo">
                 <h1 id="welcomesmg">Welcome to <br>University Clinic Online Form</h1>
-                <p id="loginsmg">Securely access your medical records, view your examinations, and manage your health profile online.</p>
+                <!--  <p class="login-subtitle">Securely access your medical records and manage your health profile online.</p>-->
             </div>
         </div>
 

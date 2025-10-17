@@ -95,7 +95,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>University Clinic Sign Up</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="register_style.css">
     <script src="assets/js/script.js" defer></script>
     <style>
         @font-face {
@@ -113,114 +112,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 100;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(3px);
-        }
-
-        .modal-content {
-            background-color: #f8f9fa;
-            margin: 5% auto;
-            padding: 30px;
-            border: none;
-            width: 85%;
-            max-width: 800px;
-            max-height: 85vh;
-            overflow-y: auto;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            position: relative;
-        }
-
-        .modal-header {
-            border-bottom: 2px solid #dee2e6;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-
-        .modal-header h2 {
-            color: #2c3e50;
-            font-size: 24px;
-            margin: 0;
-            text-align: center;
-        }
-
-        .modal-body {
-            padding: 10px 0;
-            line-height: 1.6;
-            color: #495057;
-        }
-
-        .modal-body ol {
-            padding-left: 20px;
-        }
-
-        .modal-body li {
-            margin-bottom: 10px;
-        }
-
-        .consent-btn {
-            display: block;
-            width: 300px;
-            margin: 30px auto 0;
-            padding: 15px 10px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background-color: #3498db;
-            color: white;
-            text-align: center;
-        }
-
-        .consent-btn:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .error-message {
-            color: #e74c3c;
-            margin-bottom: 15px;
-            padding: 10px;
-            background-color: #fadbd8;
-            border-radius: 4px;
-            text-align: center;
-        }
-
-        #registerForm {
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .modal-content {
-                width: 95%;
-                margin: 10% auto;
-                padding: 20px;
-            }
-
-            .consent-btn {
-                width: 100%;
-            }
-        }
-
-        #signup {
-            padding: 10px;
-            font-weight: 450;
-        }
-    </style>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
 </head>
 
 <body onload="autoScrollToLogin(); showConsentModal()">
@@ -235,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="right-section">
             <div class="login-header">
                 <h2 id="login">Create your account</h2>
-                <p class="login-subtitle">Securely access your medical records and manage your health profile online.</p>
+                <!--  <p class="login-subtitle">Securely access your medical records and manage your health profile online.</p>-->
             </div>
             <?php if (!empty($error)): ?>
                 <div class="error-message"><?php echo htmlspecialchars($error); ?></div>
@@ -270,15 +164,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="name-input-group">
                     <div class="input-container">
                         <label for="firstname">First Name</label>
-                        <input class="inputs" type="text" id="firstname" name="firstname" placeholder="Enter first name" required>
+                        <input class="inputs" type="text" id="firstname" name="firstname" placeholder="First name" required>
                     </div>
                     <div class="input-container">
                         <label for="lastname">Last Name</label>
-                        <input class="inputs" type="text" id="lastname" name="lastname" placeholder="Enter last name" required>
+                        <input class="inputs" type="text" id="lastname" name="lastname" placeholder="Last name" required>
                     </div>
                 </div>
 
-                <div class="name-input-group">
+                <div class="age-sex-input-group">
                     <div class="input-container">
                         <label for="sex">Sex</label>
                         <select class="inputs" id="sex" name="sex" required>
