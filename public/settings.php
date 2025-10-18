@@ -35,7 +35,7 @@ require_once '../Profile/Profile_db.php';
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
         rel="stylesheet" />
-    <title>Profile</title>
+    <title>Settings</title>
 </head>
 
 <body>
@@ -50,7 +50,7 @@ require_once '../Profile/Profile_db.php';
             <img id="btnicon" src="UC-Client/assets/images/menu.png">
         </button>
         <div class="page-title">
-            <h4>Profile</h4>
+            <h4>Settings</h4>
         </div>
 
         <!-- Profile dropdown -->
@@ -90,6 +90,152 @@ require_once '../Profile/Profile_db.php';
         </nav>
 
         <main class="content" loading="lazy">
+
+            <div class="profile-main-container">
+                <!-- Profile Picture -->
+                <div class="profile-picture-section">
+                    <img src="../uploads/profilepic2.png" alt="Profile Picture" class="profile-pic">
+                    <button class="btn-upload" onclick="alert('Upload feature not implemented')">
+                        <i class="fas fa-upload"></i> Change Picture
+                    </button>
+                </div>
+
+                <!-- Personal Info -->
+                <div class="profile-info-section">
+                    <h2>User Profile</h2>
+
+                    <div class="profile-field">
+                        <label for="fullName">Full Name:</label>
+                        <input type="text" id="fullName" value="<?= htmlspecialchars($userData['FullName'] ?? 'John Doe') ?>">
+                    </div>
+
+                    <div class="profile-field">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" value="<?= htmlspecialchars($userData['Email'] ?? 'user@email.com') ?>">
+                    </div>
+
+                    <div class="profile-field">
+                        <label for="password">Password:</label>
+                        <input type="password" id="password" placeholder="Enter new password">
+                    </div>
+
+                    <div class="profile-field">
+                        <label for="birthdate">Birthdate:</label>
+                        <input type="date" id="birthdate" value="<?= htmlspecialchars($userData['Birthdate'] ?? '') ?>">
+                    </div>
+
+                    <div class="profile-field">
+                        <label for="gender">Gender:</label>
+                        <input type="text" id="gender" value="<?= htmlspecialchars($userData['Sex'] ?? 'Not specified') ?>" readonly>
+                    </div>
+
+                    <button class="btn-save" onclick="alert('Save feature not implemented')">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                </div>
+            </div>
+
+            <style>
+                .profile-main-container {
+                    display: flex;
+                    gap: 2rem;
+                    padding: 2rem;
+                    background-color: #f8f9fa;
+                    border-radius: 10px;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+                }
+
+                .profile-picture-section {
+                    flex: 1;
+                    text-align: center;
+                }
+
+                .profile-pic {
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    border: 3px solid #2767c0;
+                }
+
+                .btn-upload {
+                    margin-top: 10px;
+                    background-color: #2767c0;
+                    color: white;
+                    border: none;
+                    padding: 8px 12px;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    font-size: 0.9rem;
+                }
+
+                .btn-upload i {
+                    margin-right: 5px;
+                }
+
+                .profile-info-section {
+                    flex: 2;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
+                }
+
+                .profile-info-section h2 {
+                    margin-bottom: 1rem;
+                    color: #1547b3;
+                }
+
+                .profile-field {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .profile-field label {
+                    font-weight: 600;
+                    margin-bottom: 0.3rem;
+                }
+
+                .profile-field input {
+                    padding: 8px 10px;
+                    border-radius: 6px;
+                    border: 1px solid #ccc;
+                    font-size: 1rem;
+                }
+
+                .profile-field input:focus {
+                    border-color: #2767c0;
+                    outline: none;
+                }
+
+                .btn-save {
+                    align-self: flex-start;
+                    background-color: #2767c0;
+                    color: white;
+                    border: none;
+                    padding: 10px 16px;
+                    border-radius: 3px;
+                    cursor: pointer;
+                    font-size: 1rem;
+                    margin-top: 1rem;
+                }
+
+                .btn-save i {
+                    margin-right: 5px;
+                }
+
+                @media (max-width: 768px) {
+                    .profile-main-container {
+                        flex-direction: column;
+                        align-items: center;
+                    }
+
+                    .profile-info-section {
+                        width: 100%;
+                    }
+                }
+            </style>
+
+
         </main>
     </div>
 

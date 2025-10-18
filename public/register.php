@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 if ($stmt->execute([$firstname, $lastname, $email, $sex, $dob, $hashed_password])) {
                     $clientId = $pdo->lastInsertId();
                     $_SESSION['ClientID'] = $clientId;
-                    header('Location: Profile.php');
+                    header('Location: client_type_selection.php');
                     exit;
                 } else {
                     $error = "Error creating account. Please try again.";

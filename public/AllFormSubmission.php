@@ -1,12 +1,9 @@
 <?php
 session_start();
 require_once __DIR__ . '/../config/database.php';
-
-// Set proper content type
 header('Content-Type: application/json');
 
 try {
-    // Get the raw POST data and decode JSON
     $input = file_get_contents('php://input');
     $data = json_decode($input, true);
 
@@ -14,42 +11,38 @@ try {
         throw new Exception("No data received.");
     }
 
-    // Get database connection
     $pdo = pdo_connect_mysql();
-
-    // Start transaction
     $pdo->beginTransaction();
 
-    // Set default values for checkboxes
-    $clientID = $data['ClientID'] ?? 12; // Use provided ClientID or default
+    $clientID = $data['ClientID'] ?? null;
     $historyID = $data['historyID'] ?? null;
 
-    // ✅ FIXED: Get or create history record (no more progress column)
-    if (!$historyID) {
-        $getHistory = $pdo->prepare("
-            SELECT historyID 
-            FROM history 
-            WHERE ClientID = ? 
-            ORDER BY historyID DESC 
-            LIMIT 1
-        ");
-        $getHistory->execute([$clientID]);
-        $history = $getHistory->fetch(PDO::FETCH_ASSOC);
+    if (!$clientID) {
+        throw new Exception("ClientID missing.");
+    }
 
-        if (!$history) {
-            // No existing history record — create one automatically
-            $insert = $pdo->prepare("
-                INSERT INTO history (ClientID, actionDate, actionTime)
-                VALUES (?, CURDATE(), CURTIME())
-            ");
-            $insert->execute([$clientID]);
+    // ---------------------------
+    // 1️⃣ Get or create history record
+    // ---------------------------
+    if (!$historyID) {
+        $getHistory = $pdo->prepare("SELECT historyID FROM history WHERE ClientID = ? ORDER BY historyID DESC LIMIT 1");
+        $getHistory->execute([$clientID]);
+        $historyID = $getHistory->fetchColumn();
+
+        if (!$historyID) {
+            $insertHistory = $pdo->prepare("INSERT INTO history (ClientID, actionDate, actionTime) VALUES (?, CURDATE(), CURTIME())");
+            $insertHistory->execute([$clientID]);
             $historyID = $pdo->lastInsertId();
-        } else {
-            $historyID = $history['historyID'];
         }
     }
 
-    // Convert checkbox values to integers (0 or 1)
+    if (!$historyID) {
+        throw new Exception("Cannot determine historyID for ClientID $clientID");
+    }
+
+    // ---------------------------
+    // 2️⃣ Convert checkbox fields to 0 or 1
+    // ---------------------------
     $checkboxFields = [
         'KnownIllness',
         'Hospitalization',
@@ -76,41 +69,20 @@ try {
     ];
 
     foreach ($checkboxFields as $field) {
-        $data[$field] = isset($data[$field]) && $data[$field] ? 1 : 0;
+        if (isset($data[$field])) {
+            $data[$field] = ($data[$field] === '1' || $data[$field] === 1 || $data[$field] === true) ? 1 : 0;
+        } else {
+            $data[$field] = 0;
+        }
     }
 
-    /* ---------------------------
-       1️⃣ Insert/Update personalinfo
-    ----------------------------*/
-    $stmt1 = $pdo->prepare("
-        INSERT INTO personalinfo (
-            ClientID, Surname, GivenName, MiddleName, Age, Gender, DateOfBirth,
-            Status, Course, SchoolYearEntered, CurrentAddress, ContactNumber,
-            MothersName, FathersName, GuardiansName, EmergencyContactPerson,
-            EmergencyContactName, EmergencyContactRelationship
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE
-            Surname = VALUES(Surname),
-            GivenName = VALUES(GivenName),
-            MiddleName = VALUES(MiddleName),
-            Age = VALUES(Age),
-            Gender = VALUES(Gender),
-            DateOfBirth = VALUES(DateOfBirth),
-            Status = VALUES(Status),
-            Course = VALUES(Course),
-            SchoolYearEntered = VALUES(SchoolYearEntered),
-            CurrentAddress = VALUES(CurrentAddress),
-            ContactNumber = VALUES(ContactNumber),
-            MothersName = VALUES(MothersName),
-            FathersName = VALUES(FathersName),
-            GuardiansName = VALUES(GuardiansName),
-            EmergencyContactPerson = VALUES(EmergencyContactPerson),
-            EmergencyContactName = VALUES(EmergencyContactName),
-            EmergencyContactRelationship = VALUES(EmergencyContactRelationship)
-    ");
+    // ---------------------------
+    // 3️⃣ personalinfo
+    // ---------------------------
+    $check = $pdo->prepare("SELECT ClientID FROM personalinfo WHERE ClientID = ?");
+    $check->execute([$clientID]);
 
-    $stmt1->execute([
-        $clientID,
+    $personalParams = [
         $data['Surname'] ?? '',
         $data['GivenName'] ?? '',
         $data['MiddleName'] ?? '',
@@ -125,195 +97,184 @@ try {
         $data['MothersName'] ?? '',
         $data['FathersName'] ?? '',
         $data['GuardiansName'] ?? '',
-        $data['EmergencyGuardiansName'] ?? '', // Note: field name difference
+        $data['EmergencyContactPerson'] ?? '',
         $data['EmergencyContactName'] ?? '',
-        $data['EmergencyContactRelationship'] ?? ''
-    ]);
+        $data['EmergencyContactRelationship'] ?? '',
+        $clientID
+    ];
 
-    /* ------------------------------------
-       2️⃣ Insert/Update familymedicalhistory
-    -------------------------------------*/
-    $stmt2 = $pdo->prepare("
-        INSERT INTO familymedicalhistory (
-            ClientID, historyID,
-            Allergy, AllergyDetails, Asthma, AsthmaDetails, Tuberculosis, TuberculosisDetails,
-            Hypertension, HypertensionDetails, BloodDisease, BloodDiseaseDetails,
-            Stroke, StrokeDetails, Diabetes, DiabetesDetails, Cancer, CancerDetails,
-            LiverDisease, LiverDiseaseDetails, KidneyBladder, KidneyBladderDetails,
-            BloodDisorder, BloodDisorderDetails, Epilepsy, EpilepsyDetails,
-            MentalDisorder, MentalDisorderDetails, OtherIllness, OtherIllnessDetails
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE
-            Allergy = VALUES(Allergy),
-            AllergyDetails = VALUES(AllergyDetails),
-            Asthma = VALUES(Asthma),
-            AsthmaDetails = VALUES(AsthmaDetails),
-            Tuberculosis = VALUES(Tuberculosis),
-            TuberculosisDetails = VALUES(TuberculosisDetails),
-            Hypertension = VALUES(Hypertension),
-            HypertensionDetails = VALUES(HypertensionDetails),
-            BloodDisease = VALUES(BloodDisease),
-            BloodDiseaseDetails = VALUES(BloodDiseaseDetails),
-            Stroke = VALUES(Stroke),
-            StrokeDetails = VALUES(StrokeDetails),
-            Diabetes = VALUES(Diabetes),
-            DiabetesDetails = VALUES(DiabetesDetails),
-            Cancer = VALUES(Cancer),
-            CancerDetails = VALUES(CancerDetails),
-            LiverDisease = VALUES(LiverDisease),
-            LiverDiseaseDetails = VALUES(LiverDiseaseDetails),
-            KidneyBladder = VALUES(KidneyBladder),
-            KidneyBladderDetails = VALUES(KidneyBladderDetails),
-            BloodDisorder = VALUES(BloodDisorder),
-            BloodDisorderDetails = VALUES(BloodDisorderDetails),
-            Epilepsy = VALUES(Epilepsy),
-            EpilepsyDetails = VALUES(EpilepsyDetails),
-            MentalDisorder = VALUES(MentalDisorder),
-            MentalDisorderDetails = VALUES(MentalDisorderDetails),
-            OtherIllness = VALUES(OtherIllness),
-            OtherIllnessDetails = VALUES(OtherIllnessDetails)
-    ");
-
-    $stmt2->execute([
-        $clientID,
-        $historyID,
-        $data['allergy'] ?? 0,
-        $data['allergyDetails'] ?? '',
-        $data['asthma'] ?? 0,
-        $data['asthmaDetails'] ?? '',
-        $data['tuberculosis'] ?? 0,
-        $data['tuberculosisDetails'] ?? '',
-        $data['hypertension'] ?? 0,
-        $data['hypertensionDetails'] ?? '',
-        $data['bloodDisease'] ?? 0,
-        $data['bloodDiseaseDetails'] ?? '',
-        $data['stroke'] ?? 0,
-        $data['strokeDetails'] ?? '',
-        $data['diabetes'] ?? 0,
-        $data['diabetesDetails'] ?? '',
-        $data['cancer'] ?? 0,
-        $data['cancerDetails'] ?? '',
-        $data['liverDisease'] ?? 0,
-        $data['liverDiseaseDetails'] ?? '',
-        $data['kidneyBladder'] ?? 0,
-        $data['kidneyBladderDetails'] ?? '',
-        $data['bloodDisorder'] ?? 0,
-        $data['bloodDisorderDetails'] ?? '',
-        $data['epilepsy'] ?? 0,
-        $data['epilepsyDetails'] ?? '',
-        $data['mentalDisorder'] ?? 0,
-        $data['mentalDisorderDetails'] ?? '',
-        $data['otherIllness'] ?? 0,
-        $data['otherIllnessDetails'] ?? ''
-    ]);
-
-    /* -------------------------------------
-       3️⃣ Insert/Update medicaldentalhistory
-    --------------------------------------*/
-    $stmt3 = $pdo->prepare("
-        INSERT INTO medicaldentalhistory (
-            ClientID, historyID, KnownIllness, KnownIllnessDetails, Hospitalization, HospitalizationDetails,
-            Allergies, AllergiesDetails, ChildImmunization, ChildImmunizationDetails,
-            PresentImmunizations, PresentImmunizationsDetails, CurrentMedicines, CurrentMedicinesDetails,
-            DentalProblems, DentalProblemsDetails, PrimaryPhysician, PrimaryPhysicianDetails
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE
-            KnownIllness = VALUES(KnownIllness),
-            KnownIllnessDetails = VALUES(KnownIllnessDetails),
-            Hospitalization = VALUES(Hospitalization),
-            HospitalizationDetails = VALUES(HospitalizationDetails),
-            Allergies = VALUES(Allergies),
-            AllergiesDetails = VALUES(AllergiesDetails),
-            ChildImmunization = VALUES(ChildImmunization),
-            ChildImmunizationDetails = VALUES(ChildImmunizationDetails),
-            PresentImmunizations = VALUES(PresentImmunizations),
-            PresentImmunizationsDetails = VALUES(PresentImmunizationsDetails),
-            CurrentMedicines = VALUES(CurrentMedicines),
-            CurrentMedicinesDetails = VALUES(CurrentMedicinesDetails),
-            DentalProblems = VALUES(DentalProblems),
-            DentalProblemsDetails = VALUES(DentalProblemsDetails),
-            PrimaryPhysician = VALUES(PrimaryPhysician),
-            PrimaryPhysicianDetails = VALUES(PrimaryPhysicianDetails)
-    ");
-
-    $stmt3->execute([
-        $clientID,
-        $historyID,
-        $data['knownIllness'] ?? 0,
-        $data['knownIllnessDetails'] ?? '',
-        $data['hospitalization'] ?? 0,
-        $data['hospitalizationDetails'] ?? '',
-        $data['allergies'] ?? 0,
-        $data['allergiesDetails'] ?? '',
-        $data['childImmunization'] ?? 0,
-        $data['childImmunizationDetails'] ?? '',
-        $data['presentImmunizations'] ?? 0,
-        $data['presentImmunizationsDetails'] ?? '',
-        $data['currentMedicines'] ?? 0,
-        $data['currentMedicinesDetails'] ?? '',
-        $data['dentalProblems'] ?? 0,
-        $data['dentalProblemsDetails'] ?? '',
-        $data['primaryPhysician'] ?? 0,
-        $data['primaryPhysicianDetails'] ?? ''
-    ]);
-
-    /* -----------------------------------
-       4️⃣ Insert/Update personalsocialhistory
-    ------------------------------------*/
-    $stmt4 = $pdo->prepare("
-        INSERT INTO personalsocialhistory (
-            ClientID, historyID, AlcoholIntake, AlcoholDetails,
-            TobaccoUse, TobaccoDetails, DrugUse, DrugDetails
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE
-            AlcoholIntake = VALUES(AlcoholIntake),
-            AlcoholDetails = VALUES(AlcoholDetails),
-            TobaccoUse = VALUES(TobaccoUse),
-            TobaccoDetails = VALUES(TobaccoDetails),
-            DrugUse = VALUES(DrugUse),
-            DrugDetails = VALUES(DrugDetails)
-    ");
-
-    $stmt4->execute([
-        $clientID,
-        $historyID,
-        $data['alcoholIntake'] ?? 'no',
-        $data['alcoholDetails'] ?? '',
-        $data['tobaccoUse'] ?? 'no',
-        $data['tobaccoDetails'] ?? '',
-        $data['drugUse'] ?? 'no',
-        $data['drugDetails'] ?? ''
-    ]);
-
-    /* --------------------------------
-       5️⃣ Insert/Update femalehealthhistory (if female)
-    ---------------------------------*/
-    if (isset($data['Gender']) && strtolower($data['Gender']) === 'female') {
-        $stmt5 = $pdo->prepare("
-            INSERT INTO femalehealthhistory (
-                ClientID, historyID, LastPeriod, Regularity, Duration,
-                PadsPerDay, Dysmenorrhea, DysmenorrheaSeverity, LastOBVisit,
-                AbnormalBleeding, PreviousPregnancy, PregnancyDetails,
-                HasChildren, ChildrenCount
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE
-                LastPeriod = VALUES(LastPeriod),
-                Regularity = VALUES(Regularity),
-                Duration = VALUES(Duration),
-                PadsPerDay = VALUES(PadsPerDay),
-                Dysmenorrhea = VALUES(Dysmenorrhea),
-                DysmenorrheaSeverity = VALUES(DysmenorrheaSeverity),
-                LastOBVisit = VALUES(LastOBVisit),
-                AbnormalBleeding = VALUES(AbnormalBleeding),
-                PreviousPregnancy = VALUES(PreviousPregnancy),
-                PregnancyDetails = VALUES(PregnancyDetails),
-                HasChildren = VALUES(HasChildren),
-                ChildrenCount = VALUES(ChildrenCount)
+    if ($check->rowCount() > 0) {
+        $stmt = $pdo->prepare("
+            UPDATE personalinfo SET 
+                Surname=?, GivenName=?, MiddleName=?, Age=?, Gender=?, DateOfBirth=?,
+                Status=?, Course=?, SchoolYearEntered=?, CurrentAddress=?, ContactNumber=?,
+                MothersName=?, FathersName=?, GuardiansName=?, EmergencyContactPerson=?,
+                EmergencyContactName=?, EmergencyContactRelationship=?
+            WHERE ClientID=?
         ");
+        $stmt->execute($personalParams);
+    } else {
+        array_pop($personalParams); // remove clientID at the end
+        array_unshift($personalParams, $clientID); // add clientID at start
+        $stmt = $pdo->prepare("
+            INSERT INTO personalinfo (
+                ClientID, Surname, GivenName, MiddleName, Age, Gender, DateOfBirth,
+                Status, Course, SchoolYearEntered, CurrentAddress, ContactNumber,
+                MothersName, FathersName, GuardiansName, EmergencyContactPerson,
+                EmergencyContactName, EmergencyContactRelationship
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->execute($personalParams);
+    }
 
-        $stmt5->execute([
-            $clientID,
-            $historyID,
+    // ---------------------------
+    // 4️⃣ familymedicalhistory
+    // ---------------------------
+    $check = $pdo->prepare("SELECT historyID FROM familymedicalhistory WHERE historyID = ?");
+    $check->execute([$historyID]);
+
+    $familyParams = [
+        $data['Allergy'] ?? 0,
+        $data['AllergyDetails'] ?? '',
+        $data['Asthma'] ?? 0,
+        $data['AsthmaDetails'] ?? '',
+        $data['Tuberculosis'] ?? 0,
+        $data['TuberculosisDetails'] ?? '',
+        $data['Hypertension'] ?? 0,
+        $data['HypertensionDetails'] ?? '',
+        $data['BloodDisease'] ?? 0,
+        $data['BloodDiseaseDetails'] ?? '',
+        $data['Stroke'] ?? 0,
+        $data['StrokeDetails'] ?? '',
+        $data['Diabetes'] ?? 0,
+        $data['DiabetesDetails'] ?? '',
+        $data['Cancer'] ?? 0,
+        $data['CancerDetails'] ?? '',
+        $data['LiverDisease'] ?? 0,
+        $data['LiverDiseaseDetails'] ?? '',
+        $data['KidneyBladder'] ?? 0,
+        $data['KidneyBladderDetails'] ?? '',
+        $data['BloodDisorder'] ?? 0,
+        $data['BloodDisorderDetails'] ?? '',
+        $data['Epilepsy'] ?? 0,
+        $data['EpilepsyDetails'] ?? '',
+        $data['MentalDisorder'] ?? 0,
+        $data['MentalDisorderDetails'] ?? '',
+        $data['OtherIllness'] ?? 0,
+        $data['OtherIllnessDetails'] ?? ''
+    ];
+
+    if ($check->rowCount() > 0) {
+        $stmt = $pdo->prepare("
+            UPDATE familymedicalhistory SET
+                Allergy=?, AllergyDetails=?, Asthma=?, AsthmaDetails=?, Tuberculosis=?, TuberculosisDetails=?,
+                Hypertension=?, HypertensionDetails=?, BloodDisease=?, BloodDiseaseDetails=?, Stroke=?, StrokeDetails=?,
+                Diabetes=?, DiabetesDetails=?, Cancer=?, CancerDetails=?, LiverDisease=?, LiverDiseaseDetails=?,
+                KidneyBladder=?, KidneyBladderDetails=?, BloodDisorder=?, BloodDisorderDetails=?, Epilepsy=?, EpilepsyDetails=?,
+                MentalDisorder=?, MentalDisorderDetails=?, OtherIllness=?, OtherIllnessDetails=?
+            WHERE historyID=?
+        ");
+        $stmt->execute([...$familyParams, $historyID]);
+    } else {
+        $stmt = $pdo->prepare("
+            INSERT INTO familymedicalhistory (
+                ClientID, historyID, Allergy, AllergyDetails, Asthma, AsthmaDetails,
+                Tuberculosis, TuberculosisDetails, Hypertension, HypertensionDetails,
+                BloodDisease, BloodDiseaseDetails, Stroke, StrokeDetails, Diabetes, DiabetesDetails,
+                Cancer, CancerDetails, LiverDisease, LiverDiseaseDetails, KidneyBladder,
+                KidneyBladderDetails, BloodDisorder, BloodDisorderDetails, Epilepsy, EpilepsyDetails,
+                MentalDisorder, MentalDisorderDetails, OtherIllness, OtherIllnessDetails
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->execute([$clientID, $historyID, ...$familyParams]);
+    }
+
+    // ---------------------------
+    // 5️⃣ medicaldentalhistory
+    // ---------------------------
+    $check = $pdo->prepare("SELECT historyID FROM medicaldentalhistory WHERE historyID = ?");
+    $check->execute([$historyID]);
+
+    $medicalParams = [
+        $data['KnownIllness'] ?? 0,
+        $data['KnownIllnessDetails'] ?? '',
+        $data['Hospitalization'] ?? 0,
+        $data['HospitalizationDetails'] ?? '',
+        $data['Allergies'] ?? 0,
+        $data['AllergiesDetails'] ?? '',
+        $data['ChildImmunization'] ?? 0,
+        $data['ChildImmunizationDetails'] ?? '',
+        $data['PresentImmunizations'] ?? 0,
+        $data['PresentImmunizationsDetails'] ?? '',
+        $data['CurrentMedicines'] ?? 0,
+        $data['CurrentMedicinesDetails'] ?? '',
+        $data['DentalProblems'] ?? 0,
+        $data['DentalProblemsDetails'] ?? '',
+        $data['PrimaryPhysician'] ?? 0,
+        $data['PrimaryPhysicianDetails'] ?? ''
+    ];
+
+    if ($check->rowCount() > 0) {
+        $stmt = $pdo->prepare("
+            UPDATE medicaldentalhistory SET
+                KnownIllness=?, KnownIllnessDetails=?, Hospitalization=?, HospitalizationDetails=?,
+                Allergies=?, AllergiesDetails=?, ChildImmunization=?, ChildImmunizationDetails=?,
+                PresentImmunizations=?, PresentImmunizationsDetails=?, CurrentMedicines=?, CurrentMedicinesDetails=?,
+                DentalProblems=?, DentalProblemsDetails=?, PrimaryPhysician=?, PrimaryPhysicianDetails=?
+            WHERE historyID=?
+        ");
+        $stmt->execute([...$medicalParams, $historyID]);
+    } else {
+        $stmt = $pdo->prepare("
+            INSERT INTO medicaldentalhistory (
+                ClientID, historyID, KnownIllness, KnownIllnessDetails, Hospitalization, HospitalizationDetails,
+                Allergies, AllergiesDetails, ChildImmunization, ChildImmunizationDetails,
+                PresentImmunizations, PresentImmunizationsDetails, CurrentMedicines, CurrentMedicinesDetails,
+                DentalProblems, DentalProblemsDetails, PrimaryPhysician, PrimaryPhysicianDetails
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->execute([$clientID, $historyID, ...$medicalParams]);
+    }
+
+    // ---------------------------
+    // 6️⃣ personalsocialhistory
+    // ---------------------------
+    $check = $pdo->prepare("SELECT historyID FROM personalsocialhistory WHERE historyID = ?");
+    $check->execute([$historyID]);
+
+    $socialParams = [
+        $data['AlcoholIntake'] ?? 'no',
+        $data['AlcoholDetails'] ?? '',
+        $data['TobaccoUse'] ?? 'no',
+        $data['TobaccoDetails'] ?? '',
+        $data['DrugUse'] ?? 'no',
+        $data['DrugDetails'] ?? ''
+    ];
+
+    if ($check->rowCount() > 0) {
+        $stmt = $pdo->prepare("
+            UPDATE personalsocialhistory SET
+                AlcoholIntake=?, AlcoholDetails=?, TobaccoUse=?, TobaccoDetails=?, DrugUse=?, DrugDetails=?
+            WHERE historyID=?
+        ");
+        $stmt->execute([...$socialParams, $historyID]);
+    } else {
+        $stmt = $pdo->prepare("
+            INSERT INTO personalsocialhistory (
+                ClientID, historyID, AlcoholIntake, AlcoholDetails, TobaccoUse, TobaccoDetails, DrugUse, DrugDetails
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ");
+        $stmt->execute([$clientID, $historyID, ...$socialParams]);
+    }
+
+    // ---------------------------
+    // 7️⃣ femalehealthhistory (if female)
+    // ---------------------------
+    if (!empty($data['Gender']) && strtolower($data['Gender'])[0] === 'f') {
+        $check = $pdo->prepare("SELECT historyID FROM femalehealthhistory WHERE historyID = ?");
+        $check->execute([$historyID]);
+
+        $femaleParams = [
             $data['LastPeriod'] ?? '',
             $data['Regularity'] ?? '',
             $data['Duration'] ?? '',
@@ -326,10 +287,27 @@ try {
             $data['PregnancyDetails'] ?? '',
             $data['HasChildren'] ?? 'no',
             $data['ChildrenCount'] ?? 0
-        ]);
+        ];
+
+        if ($check->rowCount() > 0) {
+            $stmt = $pdo->prepare("
+                UPDATE femalehealthhistory SET
+                    LastPeriod=?, Regularity=?, Duration=?, PadsPerDay=?, Dysmenorrhea=?, DysmenorrheaSeverity=?,
+                    LastOBVisit=?, AbnormalBleeding=?, PreviousPregnancy=?, PregnancyDetails=?, HasChildren=?, ChildrenCount=?
+                WHERE historyID=?
+            ");
+            $stmt->execute([...$femaleParams, $historyID]);
+        } else {
+            $stmt = $pdo->prepare("
+                INSERT INTO femalehealthhistory (
+                    ClientID, historyID, LastPeriod, Regularity, Duration, PadsPerDay, Dysmenorrhea, DysmenorrheaSeverity,
+                    LastOBVisit, AbnormalBleeding, PreviousPregnancy, PregnancyDetails, HasChildren, ChildrenCount
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ");
+            $stmt->execute([$clientID, $historyID, ...$femaleParams]);
+        }
     }
 
-    // Commit transaction
     $pdo->commit();
 
     echo json_encode([
@@ -339,13 +317,8 @@ try {
         "historyID" => $historyID
     ]);
 } catch (Exception $e) {
-    // Rollback transaction on error
-    if (isset($pdo) && $pdo->inTransaction()) {
-        $pdo->rollBack();
-    }
-
+    if (isset($pdo) && $pdo->inTransaction()) $pdo->rollBack();
     error_log("Form submission error: " . $e->getMessage());
-
     echo json_encode([
         "success" => false,
         "message" => "Error saving data: " . $e->getMessage()

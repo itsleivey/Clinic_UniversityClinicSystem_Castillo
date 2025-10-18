@@ -4,19 +4,12 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+
 require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../MedicalDB/PersonalInfoLogic.php';
 
 $pdo = pdo_connect_mysql();
-
-// Ensure ClientID exists
-if (!isset($_SESSION['ClientID'])) {
-    // Redirect to login or register page if not set
-    header("Location: register.php");
-    exit();
-}
-
-$clientId = (int) $_SESSION['ClientID']; // cast to int to satisfy the function
+$clientId = $_SESSION['ClientID'] ?? null;
 $userData = getUserDataFromDatabase($pdo, $clientId);
 // Get the most recent in-progress historyID
 $getHistory = $pdo->prepare("
@@ -29,21 +22,6 @@ $getHistory = $pdo->prepare("
 
 $getHistory->execute([$clientId]);
 $historyID = $getHistory->fetchColumn();
-
-try {
-    $clientId = $_SESSION['ClientID']; // make sure ClientID is set in session
-    $stmt = $pdo->prepare("SELECT * FROM clients WHERE ClientID = ?");
-    $stmt->execute([$clientId]);
-    $UserInfoData = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if (!$UserInfoData || !isset($UserInfoData['Sex'])) {
-        $_SESSION['error_message'] = "No gender data found for this client.";
-    }
-} catch (PDOException $e) {
-    error_log("Database error: " . $e->getMessage());
-    $_SESSION['error_message'] = "Failed to load gender data.";
-}
-
 
 // ==================== Medical Dental History ====================
 $medicalData = [
@@ -143,6 +121,7 @@ $stmt->execute(['client_id' => $clientId, 'historyID' => $historyID]);
 $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
+$formData = [];
 ?>
 
 
@@ -174,7 +153,7 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
         rel="stylesheet" />
-    <title>Medical Forms</title>
+    <title>Profile</title>
 </head>
 
 <body>
@@ -185,12 +164,13 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
             <span class="university_title">LSPU-LBC</span>
             <span class="university_title"> University Clinic </span>
         </div>
+        <?php echo $clientId; ?>
 
         <button id="toggle-btn">
             <img id="btnicon" src="UC-Client/assets/images/menu.png">
         </button>
         <div class="page-title">
-            <h4>Medical Forms</h4>
+            <h4>Profile</h4>
         </div>
 
         <!-- Profile dropdown -->
@@ -199,14 +179,12 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
             <img id="profileBtn" src="../uploads/profilepic2.png" alt="Profile Picture">
 
             <div class="profile-dropdown" id="profileDropdown">
-                <div class="fixed-profile-item">
+                <div class="profile-item">
                     <i class="fas fa-envelope"></i> user@email.com
                 </div>
-                <a href="settings.php">
-                    <div class="profile-item">
-                        <i class="fas fa-cog"></i> Settings
-                    </div>
-                </a>
+                <div class="profile-item">
+                    <i class="fas fa-cog"></i> Settings
+                </div>
                 <div class="profile-item" onclick="document.getElementById('logoutForm').submit()">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </div>
@@ -232,29 +210,6 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
         </nav>
 
         <main class="content" loading="lazy">
-            <!-- Confirm Submission Modal -->
-            <div id="confirmModal" class="modal">
-                <div class="modal-content">
-                    <h2>Confirm Submission</h2>
-                    <p>Are you sure all entered details are correct?</p>
-                    <div class="modal-buttons">
-                        <button id="confirmYes" class="btn-primary">Yes, Submit</button>
-                        <button id="confirmNo" class="btn-secondary">Cancel</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Success Modal -->
-            <div id="successModal" class="modal">
-                <div class="modal-content">
-                    <h2>✅ Submitted Successfully!</h2>
-                    <p>Your information has been saved.</p>
-                    <div class="modal-buttons">
-                        <button id="successClose" class="btn-primary">OK</button>
-                    </div>
-                </div>
-            </div>
-
             <section class="card">
                 <form id="completeMedicalForm" action="AllFormSubmission.php" method="POST" autocomplete="off">
 
@@ -262,14 +217,15 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
 
                     <!-- PERSONAL INFORMATION -->
                     <h1 class="h1-style">Personal Information</h1>
+
                     <div class="form-row">
                         <div>
                             <label for="Surname"><i class="fa-solid fa-user"></i> Surname</label>
-                            <input type="text" id="Surname" name="Surname" placeholder="Surname" value="<?= htmlspecialchars($UserInfoData['Lastname'] ?? '') ?>" required>
+                            <input type="text" id="Surname" name="Surname" placeholder="Surname" value="<?= htmlspecialchars($userData['Surname'] ?? '') ?>" required>
                         </div>
                         <div>
                             <label for="GivenName"><i class="fa-solid fa-user"></i> Given Name</label>
-                            <input type="text" id="GivenName" name="GivenName" placeholder="Given Name" value="<?= htmlspecialchars($UserInfoData['Firstname'] ?? '') ?>" required>
+                            <input type="text" id="GivenName" name="GivenName" placeholder="Given Name" value="<?= htmlspecialchars($userData['GivenName'] ?? '') ?>" required>
                         </div>
                         <div>
                             <label for="MiddleName"><i class="fa-solid fa-user"></i> Middle Name</label>
@@ -284,18 +240,17 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
                         </div>
 
                         <div>
-                            <label for="Gender"><i class="fa-solid fa-venus-mars"></i> Sex</label>
-                            <select id="Gender" name="Gender" required>
-                                <option value="">Select Gender</option>
-                                <option value="Male" <?= (isset($UserInfoData['Sex']) && $UserInfoData['Sex'] === 'Male') ? 'selected' : '' ?>>Male</option>
-                                <option value="Female" <?= (isset($UserInfoData['Sex']) && $UserInfoData['Sex'] === 'Female') ? 'selected' : '' ?>>Female</option>
+                            <label for="genderSelect"><i class="fa-solid fa-venus-mars"></i> Sex</label>
+                            <select id="genderSelect" name="Gender" required>
+                                <option value="">Gender</option>
+                                <option value="male" <?= (isset($userData['Gender']) && $userData['Gender'] === 'male') ? 'selected' : '' ?>>Male</option>
+                                <option value="female" <?= (isset($userData['Gender']) && $userData['Gender'] === 'female') ? 'selected' : '' ?>>Female</option>
                             </select>
                         </div>
 
-
                         <div>
                             <label for="DateOfBirth"><i class="fa-solid fa-calendar-day"></i> Date of Birth</label>
-                            <input type="date" id="DateOfBirth" name="DateOfBirth" value="<?= htmlspecialchars($UserInfoData['BirthDate'] ?? '') ?>" required>
+                            <input type="date" id="DateOfBirth" name="DateOfBirth" value="<?= htmlspecialchars($userData['DateOfBirth'] ?? '') ?>" required>
                         </div>
 
                         <div>
@@ -311,7 +266,7 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
                     <div class="form-row">
                         <div>
                             <label for="Course"><i class="fa-solid fa-book"></i> Course</label>
-                            <input type="text" id="Course" name="Course" placeholder="Course" value="<?= htmlspecialchars($UserInfoData['Course'] ?? '') ?>">
+                            <input type="text" id="Course" name="Course" placeholder="Course" value="<?= htmlspecialchars($userData['Course'] ?? '') ?>">
                         </div>
                         <div>
                             <label for="SchoolYearEntered"><i class="fa-solid fa-calendar-alt"></i> School Year Entered</label>
@@ -361,65 +316,156 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
                     <div class="form-row">
                         <div>
                             <label for="EmergencyGuardiansName"><i class="fa-solid fa-user-shield"></i> Name of Contact Person in CASE OF EMERGENCY</label>
-                            <input type="text" id="EmergencyGuardiansName" name="EmergencyContactPerson" placeholder="(REQUIRED)" value="<?= htmlspecialchars($userData['EmergencyContactPerson'] ?? '') ?>">
+                            <input type="text" id="EmergencyGuardiansName" name="EmergencyGuardiansName" placeholder="(REQUIRED)" value="<?= htmlspecialchars($userData['EmergencyContactPerson'] ?? '') ?>">
                         </div>
                     </div>
 
                     <!-- MEDICAL & DENTAL HISTORY -->
                     <h1 class="h1-style">Medical & Dental History</h1>
 
-                    <?php
-                    $medicalFields = [
-                        'KnownIllness' => 'Previous/present KNOWN illness',
-                        'Hospitalization' => 'Past hospitalization/confinement',
-                        'Allergies' => 'Known allergies to food or medicine',
-                        'ChildImmunization' => 'Childhood immunization',
-                        'PresentImmunizations' => 'Present immunizations (ex. Flu, Hepa B, etc.)',
-                        'CurrentMedicines' => 'Currently taking medicines/vitamins',
-                        'DentalProblems' => 'Dental problems (ex. Gingivitis, etc.)',
-                        'PrimaryPhysician' => 'Primary care physician (name, specialty, clinic location and date of last check-up/follow-up)'
-                    ];
+                    <!-- We keep the same checkbox names and details inputs -->
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="knownIllness" name="knownIllness" <?= $medicalData['KnownIllness'] ? 'checked' : '' ?>>
+                        <label for="knownIllness">Previous/present KNOWN illness</label>
+                        <input type="text" class="details-input" placeholder="Details" name="knownIllnessDetails"
+                            value="<?= htmlspecialchars($medicalData['KnownIllnessDetails'] ?? '') ?>">
+                    </div>
 
-                    foreach ($medicalFields as $field => $label) {
-                        $detailsField = $field . 'Details';
-                        echo '<div class="form-row checkbox-row">';
-                        echo '<input type="checkbox" id="' . $field . '" name="' . $field . '" ' . (!empty($medicalData[$field]) ? 'checked' : '') . '>';
-                        echo '<label for="' . $field . '">' . $label . '</label>';
-                        echo '<input type="text" class="details-input" placeholder="Details" name="' . $detailsField . '" value="' . htmlspecialchars($medicalData[$detailsField] ?? '') . '">';
-                        echo '</div>';
-                    }
-                    ?>
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="hospitalization" name="hospitalization" <?= $medicalData['Hospitalization'] ? 'checked' : '' ?>>
+                        <label for="hospitalization">Past hospitalization/confinement</label>
+                        <input type="text" class="details-input" placeholder="Details" name="hospitalizationDetails"
+                            value="<?= htmlspecialchars($medicalData['HospitalizationDetails'] ?? '') ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="allergies" name="allergies" <?= $medicalData['Allergies'] ? 'checked' : '' ?>>
+                        <label for="allergies">Known allergies to food or medicine</label>
+                        <input type="text" class="details-input" placeholder="Details" name="allergiesDetails"
+                            value="<?= htmlspecialchars($medicalData['AllergiesDetails'] ?? '') ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="childImmunization" name="childImmunization" <?= $medicalData['ChildImmunization'] ? 'checked' : '' ?>>
+                        <label for="childImmunization">Childhood immunization</label>
+                        <input type="text" class="details-input" placeholder="Details" name="childImmunizationDetails"
+                            value="<?= htmlspecialchars($medicalData['ChildImmunizationDetails'] ?? '') ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="presentImmunizations" name="presentImmunizations" <?= $medicalData['PresentImmunizations'] ? 'checked' : '' ?>>
+                        <label for="presentImmunizations">Present immunizations (ex. Flu, Hepa B, etc.)</label>
+                        <input type="text" class="details-input" placeholder="Details" name="presentImmunizationsDetails"
+                            value="<?= htmlspecialchars($medicalData['PresentImmunizationsDetails'] ?? '') ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="currentMedicines" name="currentMedicines" <?= $medicalData['CurrentMedicines'] ? 'checked' : '' ?>>
+                        <label for="currentMedicines">Currently taking medicines/vitamins</label>
+                        <input type="text" class="details-input" placeholder="Details" name="currentMedicinesDetails"
+                            value="<?= htmlspecialchars($medicalData['CurrentMedicinesDetails'] ?? '') ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="dentalProblems" name="dentalProblems" <?= $medicalData['DentalProblems'] ? 'checked' : '' ?>>
+                        <label for="dentalProblems">Dental problems (ex. Gingivitis, etc.)</label>
+                        <input type="text" class="details-input" placeholder="Details" name="dentalProblemsDetails"
+                            value="<?= htmlspecialchars($medicalData['DentalProblemsDetails'] ?? '') ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="primaryPhysician" name="primaryPhysician" <?= $medicalData['PrimaryPhysician'] ? 'checked' : '' ?>>
+                        <label for="primaryPhysician">Primary care physician (name, specialty, clinic location and date of last check-up/follow-up)</label>
+                        <input type="text" class="details-input" placeholder="Details" name="primaryPhysicianDetails"
+                            value="<?= htmlspecialchars($medicalData['PrimaryPhysicianDetails'] ?? '') ?>">
+                    </div>
 
                     <!-- FAMILY MEDICAL HISTORY -->
                     <h1 class="h1-style">Family Medical History</h1>
 
-                    <?php
-                    $familyFields = [
-                        'Allergy',
-                        'Asthma',
-                        'Tuberculosis',
-                        'Hypertension',
-                        'BloodDisease',
-                        'Stroke',
-                        'Diabetes',
-                        'Cancer',
-                        'LiverDisease',
-                        'KidneyBladder',
-                        'BloodDisorder',
-                        'Epilepsy',
-                        'MentalDisorder',
-                        'OtherIllness'
-                    ];
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="allergy" name="allergy" <?php echo is_checked('Allergy'); ?>>
+                        <label for="allergy">Allergy</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="allergyDetails" value="<?php echo $familymedicalhistory['AllergyDetails'] ?? ''; ?>">
+                    </div>
 
-                    foreach ($familyFields as $field) {
-                        $detailsField = $field . 'Details';
-                        echo '<div class="form-row checkbox-row">';
-                        echo '<input type="checkbox" id="' . $field . '" name="' . $field . '" ' . (!empty($familymedicalhistory[$field]) ? 'checked' : '') . '>';
-                        echo '<label for="' . $field . '">' . $field . '</label>';
-                        echo '<input type="text" class="details-input" placeholder="Specify" name="' . $detailsField . '" value="' . htmlspecialchars($familymedicalhistory[$detailsField] ?? '') . '">';
-                        echo '</div>';
-                    }
-                    ?>
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="asthma" name="asthma" <?php echo is_checked('Asthma'); ?>>
+                        <label for="asthma">Asthma/Thias</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="asthmaDetails" value="<?php echo $familymedicalhistory['AsthmaDetails'] ?? ''; ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="tuberculosis" name="tuberculosis" <?php echo is_checked('Tuberculosis'); ?>>
+                        <label for="tuberculosis">Tuberculosis</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="tuberculosisDetails" value="<?php echo $familymedicalhistory['TuberculosisDetails'] ?? ''; ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="hypertension" name="hypertension" <?php echo is_checked('Hypertension'); ?>>
+                        <label for="hypertension">Hypertension</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="hypertensionDetails" value="<?php echo $familymedicalhistory['HypertensionDetails'] ?? ''; ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="bloodDisease" name="bloodDisease" <?php echo is_checked('BloodDisease'); ?>>
+                        <label for="bloodDisease">Blood Disease</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="bloodDiseaseDetails" value="<?php echo $familymedicalhistory['BloodDiseaseDetails'] ?? ''; ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="stroke" name="stroke" <?php echo is_checked('Stroke'); ?>>
+                        <label for="stroke">Stroke</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="strokeDetails" value="<?php echo $familymedicalhistory['StrokeDetails'] ?? ''; ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="diabetes" name="diabetes" <?php echo is_checked('Diabetes'); ?>>
+                        <label for="diabetes">Diabetes</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="diabetesDetails" value="<?php echo $familymedicalhistory['DiabetesDetails'] ?? ''; ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="cancer" name="cancer" <?php echo is_checked('Cancer'); ?>>
+                        <label for="cancer">Cancer</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="cancerDetails" value="<?php echo $familymedicalhistory['CancerDetails'] ?? ''; ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="liverDisease" name="liverDisease" <?php echo is_checked('LiverDisease'); ?>>
+                        <label for="liverDisease">Liver Disease</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="liverDiseaseDetails" value="<?php echo $familymedicalhistory['LiverDiseaseDetails'] ?? ''; ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="kidneyBladder" name="kidneyBladder" <?php echo is_checked('KidneyBladder'); ?>>
+                        <label for="kidneyBladder">Kidney/Bladder Disease</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="kidneyBladderDetails" value="<?php echo $familymedicalhistory['KidneyBladderDetails'] ?? ''; ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="bloodDisorder" name="bloodDisorder" <?php echo is_checked('BloodDisorder'); ?>>
+                        <label for="bloodDisorder">Blood Disorder</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="bloodDisorderDetails" value="<?php echo $familymedicalhistory['BloodDisorderDetails'] ?? ''; ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="epilepsy" name="epilepsy" <?php echo is_checked('Epilepsy'); ?>>
+                        <label for="epilepsy">Epilepsy</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="epilepsyDetails" value="<?php echo $familymedicalhistory['EpilepsyDetails'] ?? ''; ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="mentalDisorder" name="mentalDisorder" <?php echo is_checked('MentalDisorder'); ?>>
+                        <label for="mentalDisorder">Mental Disorder</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="mentalDisorderDetails" value="<?php echo $familymedicalhistory['MentalDisorderDetails'] ?? ''; ?>">
+                    </div>
+
+                    <div class="form-row checkbox-row">
+                        <input type="checkbox" id="otherIllness" name="otherIllness" <?php echo is_checked('OtherIllness'); ?>>
+                        <label for="otherIllness">Other Illness</label>
+                        <input type="text" class="details-input" placeholder="Specify" name="otherIllnessDetails" value="<?php echo $familymedicalhistory['OtherIllnessDetails'] ?? ''; ?>">
+                    </div>
 
                     <!-- PERSONAL & SOCIAL HISTORY -->
                     <h1 class="h1-style">Personal & Social History</h1>
@@ -427,41 +473,39 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
                     <div class="form-row">
                         <div>
                             <label for="alcoholIntake">Alcohol intake:</label>
-                            <select id="alcoholIntake" name="AlcoholIntake" required>
+                            <select id="alcoholIntake" name="alcoholIntake" required>
                                 <option value="no" <?= ($socialHistoryData['AlcoholIntake'] ?? '') === 'no' ? 'selected' : '' ?>>No</option>
                                 <option value="yes" <?= ($socialHistoryData['AlcoholIntake'] ?? '') === 'yes' ? 'selected' : '' ?>>Yes</option>
                             </select>
                             <input type="text" class="details-input" placeholder="Frequency/Amount (if applicable)"
-                                name="AlcoholDetails" value="<?= htmlspecialchars($socialHistoryData['AlcoholDetails'] ?? '') ?>">
+                                name="alcoholDetails" value="<?= htmlspecialchars($socialHistoryData['AlcoholDetails'] ?? '') ?>">
                         </div>
 
                         <div>
                             <label for="tobaccoUse">Tobacco use:</label>
-                            <select id="tobaccoUse" name="TobaccoUse" required>
+                            <select id="tobaccoUse" name="tobaccoUse" required>
                                 <option value="no" <?= ($socialHistoryData['TobaccoUse'] ?? '') === 'no' ? 'selected' : '' ?>>No</option>
                                 <option value="yes" <?= ($socialHistoryData['TobaccoUse'] ?? '') === 'yes' ? 'selected' : '' ?>>Yes</option>
                             </select>
                             <input type="text" class="details-input" placeholder="Frequency/Amount (if applicable)"
-                                name="TobaccoDetails" value="<?= htmlspecialchars($socialHistoryData['TobaccoDetails'] ?? '') ?>">
+                                name="tobaccoDetails" value="<?= htmlspecialchars($socialHistoryData['TobaccoDetails'] ?? '') ?>">
                         </div>
 
                         <div>
                             <label for="drugUse">Illicit drug use:</label>
-                            <select id="drugUse" name="DrugUse" required>
+                            <select id="drugUse" name="drugUse" required>
                                 <option value="no" <?= ($socialHistoryData['DrugUse'] ?? '') === 'no' ? 'selected' : '' ?>>No</option>
                                 <option value="yes" <?= ($socialHistoryData['DrugUse'] ?? '') === 'yes' ? 'selected' : '' ?>>Yes</option>
                             </select>
                             <input type="text" class="details-input" placeholder="Type/Frequency (if applicable)"
-                                name="DrugDetails" value="<?= htmlspecialchars($socialHistoryData['DrugDetails'] ?? '') ?>">
+                                name="drugDetails" value="<?= htmlspecialchars($socialHistoryData['DrugDetails'] ?? '') ?>">
                         </div>
                     </div>
+
                     <!-- FOR FEMALES (hidden unless Gender = female) -->
                     <?php
                     // set initial display based on saved gender value
-                    $femaleDisplayStyle = (isset($UserInfoData['Sex']) && strtolower($UserInfoData['Sex']) === 'female')
-                        ? 'display:block;'
-                        : 'display:none;';
-
+                    $femaleDisplayStyle = (isset($formData['Gender']) && $formData['Gender'] === 'female') ? 'display:block;' : 'display:none;';
                     ?>
                     <div id="for-females-input" class="scroll-input-div" style="<?= $femaleDisplayStyle ?>">
                         <h1 class="h1-style">Female Menstrual History</h1>
@@ -568,28 +612,6 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
                     </div>
                 </form>
             </section>
-            <div id="confirmModal" class="modal">
-                <div class="modal-content">
-                    <h2>Confirm Submission</h2>
-                    <p>Are you sure all entered details are correct?</p>
-                    <div class="modal-buttons">
-                        <button id="confirmYes" class="btn-primary">Yes, Submit</button>
-                        <button id="confirmNo" class="btn-secondary">Cancel</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Success Modal -->
-            <div id="successModal" class="modal" style="display: none;">
-                <div class="modal-content">
-                    <h2><i class="fas fa-check-circle" style="color: green;"></i> Submitted Successfully!</h2>
-                    <p>Your information has been saved.</p>
-                    <div class="modal-buttons">
-                        <button id="successClose" class="btn-primary">OK</button>
-                    </div>
-                </div>
-            </div>
-
         </main>
 
         <script>
@@ -643,32 +665,12 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
                 handleChildrenChange();
 
                 // AJAX submit
-
                 const form = document.getElementById('completeMedicalForm');
                 const submitBtn = document.getElementById('submitBtn');
                 const messageBox = document.getElementById('formMessage');
 
-                // Modals
-                const confirmModal = document.getElementById('confirmModal');
-                const confirmYes = document.getElementById('confirmYes');
-                const confirmNo = document.getElementById('confirmNo');
-                const successModal = document.getElementById('successModal');
-                const successClose = document.getElementById('successClose');
-
-                // Step 1️⃣: Intercept submit -> show confirm modal
-                form.addEventListener('submit', function(e) {
+                form.addEventListener('submit', async function(e) {
                     e.preventDefault();
-                    confirmModal.style.display = 'flex';
-                });
-
-                // Step 2️⃣: If user cancels
-                confirmNo.addEventListener('click', () => {
-                    confirmModal.style.display = 'none';
-                });
-
-                // Step 3️⃣: If user confirms, run AJAX
-                confirmYes.addEventListener('click', async function() {
-                    confirmModal.style.display = 'none';
 
                     messageBox.textContent = '';
                     messageBox.className = 'form-message';
@@ -676,17 +678,21 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
                     submitBtn.textContent = 'Saving...';
 
                     try {
+                        // Convert form data to plain JS object
                         const formData = new FormData(form);
                         const data = Object.fromEntries(formData.entries());
 
+                        // ✅ Add ClientID and historyID safely (prevents syntax errors)
                         data.ClientID = <?= isset($clientId) ? (int)$clientId : 'null' ?>;
                         data.historyID = <?= isset($historyID) ? (int)$historyID : 'null' ?>;
 
+                        // ✅ Convert checkbox values to boolean
                         const checkboxes = form.querySelectorAll('input[type="checkbox"]');
                         checkboxes.forEach(checkbox => {
                             data[checkbox.name] = checkbox.checked ? 1 : 0;
                         });
 
+                        // ✅ Send JSON to backend
                         const response = await fetch('AllFormSubmission.php', {
                             method: 'POST',
                             headers: {
@@ -697,41 +703,37 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
 
                         const result = await response.json();
 
+                        // ✅ Handle response
                         if (result.success) {
                             messageBox.style.color = '#0a6b2e';
                             messageBox.textContent = result.message || 'Data saved successfully!';
                             messageBox.className = 'form-message success';
-                            successModal.style.display = 'flex';
+
+                            // Optional: reload or redirect after save
+                            // setTimeout(() => { window.location.reload(); }, 2000);
                         } else {
                             messageBox.style.color = '#b22222';
-                            messageBox.textContent = result.message || 'Failed to save data.';
+                            messageBox.textContent = result.message || 'Failed to save data. Please try again.';
                             messageBox.className = 'form-message error';
                         }
                     } catch (error) {
                         console.error('Error:', error);
                         messageBox.style.color = '#b22222';
-                        messageBox.textContent = 'Network error. Please try again.';
+                        messageBox.textContent = 'Network error. Please check your connection and try again.';
                         messageBox.className = 'form-message error';
                     } finally {
                         submitBtn.disabled = false;
                         submitBtn.textContent = 'Save All';
+
+                        // Clear message after 5 seconds
                         setTimeout(() => {
                             messageBox.textContent = '';
                             messageBox.className = 'form-message';
                         }, 5000);
                     }
                 });
-
-                // Step 4️⃣: Close success modal (optional redirect)
-                successClose.addEventListener('click', () => {
-                    successModal.style.display = 'none';
-                    // window.location.href = 'Freshman_Profile.php';
-                });
-
-
             });
         </script>
-
     </div>
 
 </body>

@@ -15,6 +15,7 @@ body {
   display: flex;
   flex-direction: column;
   height: 130vh;
+  max-height: 2000px;
   background-color: #eaf0fc;
   grid-template-columns: auto 1fr;
   font-family: "Poppins", sans-serif;
@@ -24,13 +25,13 @@ body {
 .content {
   display: flex;
   flex-direction: column;
-  margin-top: 45px;
+  margin-top: 70px;
   margin-left: 220px;
   flex: 1;
   height: 100%;
   gap: 35px;
   padding: 25px;
-  max-height: 3200px;
+  max-height: 6200px;
   width: calc(100% - 250px);
   transition: margin-left 0.2s ease-in-out, width 0.2s ease-in-out;
   overflow: hidden;
@@ -270,6 +271,8 @@ a {
 
 /* Dropdown hidden by default */
 .profile-dropdown {
+  display: flex;
+  flex-direction: column;
   display: none;
   position: absolute;
   top: 50px;
@@ -281,20 +284,25 @@ a {
   z-index: 10000;
   overflow: hidden;
   font-size: 14px;
+  padding: 15px;
 }
 
-.profile-item {
+.profile-item,
+.fixed-profile-item {
   padding: 10px 15px;
   display: flex;
   align-items: center;
   gap: 10px;
   color: #333;
   cursor: pointer;
-  transition: background 0.2s;
+  transform: scale(1); /* normal size */
+  transition: background 0.2s, transform 0.1s ease;
 }
 
 .profile-item:hover {
   background-color: #f0f0f0;
+  transform: scale(1.03); /* slightly bigger on hover */
+  border-left: solid #0b62c9 3px;
 }
 
 #profileBtn {
@@ -484,5 +492,377 @@ select:focus,
   .form-row > div {
     width: 100%;
     min-width: 100%;
+  }
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background: #fff;
+  padding: 25px 35px;
+  border-radius: 10px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease;
+}
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+.btn-primary {
+  background: #2767c0;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.btn-secondary {
+  background: #ddd;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.fem-form-section {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* ================== MOBILE RESPONSIVENESS ================== */
+
+/* Tablets and below */
+@media (max-width: 1024px) {
+  .navbar {
+    position: fixed;
+    left: -220px;
+    top: 50px;
+    height: calc(100vh - 50px);
+    transition: left 0.3s ease-in-out;
+    box-shadow: none;
+  }
+
+  .navbar.show {
+    left: 0;
+  }
+
+  .content {
+    margin-left: 0;
+    width: 100%;
+    transition: margin-left 0.3s ease-in-out;
+  }
+
+  /* Mobile menu toggle */
+  .mobile-menu-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0);
+  }
+
+  .mobile-menu-overlay.show {
+    display: block;
+  }
+}
+
+/* Small devices (tablets/mobile) */
+@media (max-width: 768px) {
+  .header {
+    height: 60px;
+    padding: 8px 15px;
+  }
+
+  .header img {
+    height: 50px;
+    margin-left: -10px;
+  }
+
+  .title {
+    font-size: clamp(10px, 3vw, 12px);
+    margin-left: 5px;
+  }
+
+  .university_title {
+    font-size: clamp(10px, 3vw, 12px);
+  }
+
+  .page-title h4 {
+    font-size: 14px;
+  }
+
+  .content {
+    margin-top: 60px;
+    margin-left: 0;
+    width: 100%;
+    padding: 15px;
+    gap: 20px;
+  }
+
+  .profile-container {
+    top: 10px;
+    right: 15px;
+  }
+
+  #profileBtn {
+    width: 35px;
+    height: 35px;
+  }
+
+  .profile-dropdown {
+    top: 45px;
+    min-width: 160px;
+    font-size: 13px;
+  }
+
+  /* Form improvements for mobile */
+  .form-row {
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .form-row > div {
+    flex: 1 1 100%;
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .checkbox-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .checkbox-row .details-input {
+    flex: 1 1 100%;
+    min-width: 100%;
+    width: 100%;
+  }
+
+  .fem-form-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .fem-radio-group {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .h1-style {
+    padding: 15px;
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .form-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .form-buttons {
+    width: 100%;
+    text-align: center;
+  }
+
+  .modal-content {
+    padding: 20px;
+    width: 95%;
+    max-width: 350px;
+  }
+
+  .modal-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+  .header {
+    height: 55px;
+    padding: 5px 10px;
+  }
+
+  .header img {
+    height: 45px;
+  }
+
+  #btnicon {
+    width: 25px;
+    height: 25px;
+    margin-left: 5px;
+  }
+
+  .title {
+    margin-left: 3px;
+  }
+
+  .content {
+    margin-top: 55px;
+    padding: 10px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  .h1-style {
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  .details-input {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .fem-form-section {
+    padding: 10px;
+  }
+
+  .profile-dropdown {
+    min-width: 140px;
+    right: -10px;
+  }
+
+  /* Ensure all form elements are properly aligned */
+  .form-row > div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  label {
+    margin-bottom: 5px;
+    font-size: 13px;
+  }
+}
+
+/* Fix for very small screens */
+@media (max-width: 360px) {
+  .header {
+    height: 50px;
+  }
+
+  .header img {
+    height: 40px;
+  }
+
+  .content {
+    margin-top: 50px;
+  }
+
+  .profile-container {
+    top: 8px;
+  }
+
+  #profileBtn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .card {
+    padding: 12px;
+  }
+
+  .h1-style {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+/* Landscape orientation fixes */
+@media (max-height: 500px) and (orientation: landscape) {
+  .navbar {
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  .content {
+    padding: 10px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  .form-row {
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+}
+
+/* High-resolution devices */
+@media (min-width: 1400px) {
+  .content {
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Print styles */
+@media print {
+  .navbar,
+  .header,
+  .form-actions {
+    display: none;
+  }
+
+  .content {
+    margin: 0;
+    width: 100%;
+    padding: 0;
+  }
+
+  .card {
+    box-shadow: none;
+    padding: 0;
   }
 }

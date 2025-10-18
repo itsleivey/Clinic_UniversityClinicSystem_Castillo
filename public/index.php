@@ -8,11 +8,12 @@ function verify_password($password, $stored_hash)
 
 session_start();
 $error_message = '';
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     try {
         $pdo = pdo_connect_mysql();
 
-        $email = htmlspecialchars($_POST['email']);
+        $email = htmlspecialchars(trim($_POST['email']));
         $password = $_POST['password'];
 
         $stmt = $pdo->prepare("SELECT * FROM Clients WHERE Email = ?");
@@ -20,19 +21,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && verify_password($password, $user['Password'])) {
+            // Store session data
             $_SESSION['ClientID'] = $user['ClientID'];
-            header("Location: Freshman_Profile.php");
-            exit();
-            echo "<script>alert('Invalid email or password');</script>";
-        }
+            $_SESSION['ClientType'] = $user['ClientType'];
+            $_SESSION['Firstname'] = $user['Firstname'];
+            $_SESSION['Lastname'] = $user['Lastname'];
+            $_SESSION['Email'] = $user['Email'];
 
-        $error_message = 'Invalid username or password.'; // Set error message
+            switch ($user['ClientType']) {
+                case 'Student':
+                    header("Location: Student_Profile.php");
+                    break;
+                case 'Freshman':
+                    header("Location: Freshman_Profile.php");
+                    break;
+                case 'Faculty':
+                    header("Location: Faculty_Profile.php");
+                    break;
+                case 'Personnel':
+                    header("Location: Non-Teaching_Profile.php");
+                    break;
+                case 'NewPersonnel':
+                    header("Location: Newly_Hired_Profile.php");
+                    break;
+                default:
+                    header("Location: Profile.php");
+                    break;
+            }
+            exit();
+        } else {
+            $error_message = 'Invalid email or password.';
+        }
     } catch (PDOException $e) {
         $error_message = 'Database connection failed: ' . $e->getMessage();
-        echo "<script>alert('Database connection failed: " . $e->getMessage() . "');</script>";
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
