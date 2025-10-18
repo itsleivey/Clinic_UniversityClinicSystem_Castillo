@@ -75,25 +75,36 @@ html {
   border-radius: 50px;
   text-decoration: none;
   color: rgb(255, 255, 255);
-  display: inline-block;
-  transform: scale(1); /* default scale */
+  display: flex;               /* Use flexbox */
+  align-items: center;         /* Vertically center text */
+  justify-content: center;     /* Horizontally center text */
+  transform: scale(1);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   margin-right: 15px;
   font-weight: 600;
   width: 160px;
+  height: 50px;
 }
+
+
+
 .btnsecondary {
-  background: linear-gradient(to left, #3191ff, #6da6f7);
+  background: linear-gradient(to left, #97cdff, #6da6f7);
   padding: 15px 30px;
   border-radius: 50px;
   text-decoration: none;
+  color: rgb(255, 255, 255);
+  display: flex;               /* Use flexbox */
+  align-items: center;         /* Vertically center text */
+  justify-content: center;     /* Horizontally center text */
+  transform: scale(1);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  margin-right: 15px;
   font-weight: 600;
   width: 160px;
-  color: rgb(255, 255, 255);
-  display: inline-block;
-  transform: scale(1); /* default scale */
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  height: 50px;                /* Optional: consistent button height */
 }
+
 .btnprimary:hover,
 .btnsecondary:hover {
   transform: scale(1.05); /* slightly larger on hover */
@@ -151,6 +162,7 @@ html {
 
 /* Home Section */
 #home {
+  
   background: linear-gradient(
       rgba(51, 126, 218, 0.897),
       rgba(21, 71, 179, 0.938)
@@ -175,10 +187,12 @@ html {
 }
 
 .home-text h1 {
-  font-size: 3rem;
-  line-height: 1.2;
-  margin-bottom: 20px;
+  font-size: 3.8rem;      /* was 3rem — increased for better emphasis */
+  font-weight: 700;       /* makes it bolder */
+  line-height: 1.1;       /* tighter spacing for a cleaner look */
+  margin-bottom: 25px;    /* adds a bit more breathing room below */
 }
+
 
 .home-actions {
   display: flex;
@@ -187,6 +201,7 @@ html {
   align-items: center;
   gap: 15px;
 }
+
 
 .btn.primary {
   background: var(--primary);
@@ -430,15 +445,17 @@ footer {
 
 .footer-credit {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  justify-content: center;  /* centers content horizontally */
+  align-items: center;      /* centers vertically if there's height */
   border-top: solid white 1px;
   padding-top: 25px;
   font-size: 0.9rem;
   opacity: 0.8;
   margin-top: 20px;
   color: white;
+  text-align: center;
 }
+
 
 /* Responsive */
 @media (max-width: 992px) {
