@@ -164,7 +164,6 @@ $formData = [];
             <span class="university_title">LSPU-LBC</span>
             <span class="university_title"> University Clinic </span>
         </div>
-        <?php echo $clientId; ?>
 
         <button id="toggle-btn">
             <img id="btnicon" src="UC-Client/assets/images/menu.png">
@@ -210,532 +209,388 @@ $formData = [];
         </nav>
 
         <main class="content" loading="lazy">
-            <section class="card">
-                <form id="completeMedicalForm" action="AllFormSubmission.php" method="POST" autocomplete="off">
+            <div class="form-container">
+                <form id="medicalForm" method="post">
+                    <input type="hidden" name="client_id" value="<?= htmlspecialchars($clientID ?? '') ?>">
+                    <input type="hidden" id="print_action" name="print_action" value="">
 
-                    <input type="hidden" name="unifiedSubmit" value="1">
-
-                    <!-- PERSONAL INFORMATION -->
-                    <h1 class="h1-style">Personal Information</h1>
-
-                    <div class="form-row">
-                        <div>
-                            <label for="Surname"><i class="fa-solid fa-user"></i> Surname</label>
-                            <input type="text" id="Surname" name="Surname" placeholder="Surname" value="<?= htmlspecialchars($userData['Surname'] ?? '') ?>" required>
-                        </div>
-                        <div>
-                            <label for="GivenName"><i class="fa-solid fa-user"></i> Given Name</label>
-                            <input type="text" id="GivenName" name="GivenName" placeholder="Given Name" value="<?= htmlspecialchars($userData['GivenName'] ?? '') ?>" required>
-                        </div>
-                        <div>
-                            <label for="MiddleName"><i class="fa-solid fa-user"></i> Middle Name</label>
-                            <input type="text" id="MiddleName" name="MiddleName" placeholder="Middle Name" value="<?= htmlspecialchars($userData['MiddleName'] ?? '') ?>">
-                        </div>
+                    <div class="header-div" style="display: flex; width: 100%; justify-content: right; align-items: center;">
+                        <button type="button" class="page-buttons " onclick="printMedicalForm()">Print</button>
+                    </div>
+                    <div class="form-header">
+                        <h1>CS Form No. 211</h1>
+                        <h2>Revised 2018</h2>
+                        <h1>MEDICAL CERTIFICATE</h1>
+                        <h2>(For Employment)</h2>
                     </div>
 
-                    <div class="form-row">
-                        <div>
-                            <label for="Age"><i class="fa-solid fa-hourglass-half"></i> Age</label>
-                            <input type="number" id="Age" name="Age" placeholder="Age" min="1" max="120" value="<?= htmlspecialchars($userData['Age'] ?? '') ?>" required>
-                        </div>
+                    <div class="section">
+                        <div class="section-title">INSTRUCTIONS</div>
+                        <p>a. This medical certificate should be accomplished by a licensed government physician.</p>
+                        <p>b. Attach this certificate to original appointment, transfer and reemployment.</p>
+                        <p>c. The results of the following pre-employment medical/physical must be attached to this form:</p>
 
-                        <div>
-                            <label for="genderSelect"><i class="fa-solid fa-venus-mars"></i> Sex</label>
-                            <select id="genderSelect" name="Gender" required>
-                                <option value="">Gender</option>
-                                <option value="male" <?= (isset($userData['Gender']) && $userData['Gender'] === 'male') ? 'selected' : '' ?>>Male</option>
-                                <option value="female" <?= (isset($userData['Gender']) && $userData['Gender'] === 'female') ? 'selected' : '' ?>>Female</option>
-                            </select>
-                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="blood-test" name="blood_test" value="1" <?= !empty($blood_test) ? 'checked' : '' ?>>
+                            <label for="blood-test">Blood Test</label>
 
-                        <div>
-                            <label for="DateOfBirth"><i class="fa-solid fa-calendar-day"></i> Date of Birth</label>
-                            <input type="date" id="DateOfBirth" name="DateOfBirth" value="<?= htmlspecialchars($userData['DateOfBirth'] ?? '') ?>" required>
-                        </div>
+                            <input type="checkbox" id="urinalysis" name="urinalysis" value="1" <?= !empty($urinalysis) ? 'checked' : '' ?>>
+                            <label for="urinalysis">Urinalysis</label>
 
-                        <div>
-                            <label for="Status"><i class="fa-solid fa-ring"></i> Status</label>
-                            <select id="Status" name="Status" required>
-                                <option value="">Status</option>
-                                <option value="single" <?= (isset($userData['Status']) && $userData['Status'] === 'single') ? 'selected' : '' ?>>Single</option>
-                                <option value="married" <?= (isset($userData['Status']) && $userData['Status'] === 'married') ? 'selected' : '' ?>>Married</option>
-                            </select>
+                            <input type="checkbox" id="xray" name="chest_xray" value="1" <?= !empty($chest_xray) ? 'checked' : '' ?>>
+                            <label for="xray">Chest X-Ray</label>
+
+                            <input type="checkbox" id="drug-test" name="drug_test" value="1" <?= !empty($drug_test) ? 'checked' : '' ?>>
+                            <label for="drug-test">Drug Test</label>
+
+                            <input type="checkbox" id="psych-test" name="psych_test" value="1" <?= !empty($psych_test) ? 'checked' : '' ?>>
+                            <label for="psych-test">Psychological Test</label>
+
+                            <input type="checkbox" id="neuro-test" name="neuro_test" value="1" <?= !empty($neuro_test) ? 'checked' : '' ?>>
+                            <label for="neuro-test">Neuro-Psychiatric Examination</label>
                         </div>
                     </div>
 
-                    <div class="form-row">
-                        <div>
-                            <label for="Course"><i class="fa-solid fa-book"></i> Course</label>
-                            <input type="text" id="Course" name="Course" placeholder="Course" value="<?= htmlspecialchars($userData['Course'] ?? '') ?>">
-                        </div>
-                        <div>
-                            <label for="SchoolYearEntered"><i class="fa-solid fa-calendar-alt"></i> School Year Entered</label>
-                            <input type="text" id="SchoolYearEntered" name="SchoolYearEntered" placeholder="School Year Entered" value="<?= htmlspecialchars($userData['SchoolYearEntered'] ?? '') ?>">
-                        </div>
-                    </div>
+                    <div class="section">
+                        <div class="section-title">FOR THE PROPOSED APPOINTEE</div>
 
-                    <div class="form-row">
-                        <div>
-                            <label for="CurrentAddress"><i class="fa-solid fa-house"></i> Current Address</label>
-                            <input type="text" id="CurrentAddress" name="CurrentAddress" placeholder="Current Address" value="<?= htmlspecialchars($userData['CurrentAddress'] ?? '') ?>" required>
-                        </div>
-                        <div>
-                            <label for="ContactNumber"><i class="fa-solid fa-phone"></i> Contact Number</label>
-                            <input type="text" id="ContactNumber" name="ContactNumber" placeholder="Contact Number" value="<?= htmlspecialchars($userData['ContactNumber'] ?? '') ?>" required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div>
-                            <label for="MothersName"><i class="fa-solid fa-person-dress"></i> Mother's Name</label>
-                            <input type="text" id="MothersName" name="MothersName" placeholder="Mother's Name" value="<?= htmlspecialchars($userData['MothersName'] ?? '') ?>">
-                        </div>
-                        <div>
-                            <label for="FathersName"><i class="fa-solid fa-person"></i> Father's Name</label>
-                            <input type="text" id="FathersName" name="FathersName" placeholder="Father's Name" value="<?= htmlspecialchars($userData['FathersName'] ?? '') ?>">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div>
-                            <label for="GuardiansName"><i class="fa-solid fa-user-shield"></i> Guardian's Name</label>
-                            <input type="text" id="GuardiansName" name="GuardiansName" placeholder="Guardian's Name" value="<?= htmlspecialchars($userData['GuardiansName'] ?? '') ?>">
+                        <div class="form-group">
+                            <label for="name">NAME</label>
+                            <input type="text" id="name" name="name" value="<?= htmlspecialchars($name ?? '') ?>" required>
                         </div>
 
-                        <div>
-                            <label for="EmergencyContactName"><i class="fa-solid fa-triangle-exclamation"></i> Emergency Contact Name</label>
-                            <input type="text" id="EmergencyContactName" name="EmergencyContactName" placeholder="Emergency Contact Name" value="<?= htmlspecialchars($userData['EmergencyContactName'] ?? '') ?>" required>
-                        </div>
-
-                        <div>
-                            <label for="EmergencyContactRelationship"><i class="fa-solid fa-people-arrows"></i> Emergency Contact Relationship</label>
-                            <input type="text" id="EmergencyContactRelationship" name="EmergencyContactRelationship" placeholder="Relationship" value="<?= htmlspecialchars($userData['EmergencyContactRelationship'] ?? '') ?>" required>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div>
-                            <label for="EmergencyGuardiansName"><i class="fa-solid fa-user-shield"></i> Name of Contact Person in CASE OF EMERGENCY</label>
-                            <input type="text" id="EmergencyGuardiansName" name="EmergencyGuardiansName" placeholder="(REQUIRED)" value="<?= htmlspecialchars($userData['EmergencyContactPerson'] ?? '') ?>">
-                        </div>
-                    </div>
-
-                    <!-- MEDICAL & DENTAL HISTORY -->
-                    <h1 class="h1-style">Medical & Dental History</h1>
-
-                    <!-- We keep the same checkbox names and details inputs -->
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="knownIllness" name="knownIllness" <?= $medicalData['KnownIllness'] ? 'checked' : '' ?>>
-                        <label for="knownIllness">Previous/present KNOWN illness</label>
-                        <input type="text" class="details-input" placeholder="Details" name="knownIllnessDetails"
-                            value="<?= htmlspecialchars($medicalData['KnownIllnessDetails'] ?? '') ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="hospitalization" name="hospitalization" <?= $medicalData['Hospitalization'] ? 'checked' : '' ?>>
-                        <label for="hospitalization">Past hospitalization/confinement</label>
-                        <input type="text" class="details-input" placeholder="Details" name="hospitalizationDetails"
-                            value="<?= htmlspecialchars($medicalData['HospitalizationDetails'] ?? '') ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="allergies" name="allergies" <?= $medicalData['Allergies'] ? 'checked' : '' ?>>
-                        <label for="allergies">Known allergies to food or medicine</label>
-                        <input type="text" class="details-input" placeholder="Details" name="allergiesDetails"
-                            value="<?= htmlspecialchars($medicalData['AllergiesDetails'] ?? '') ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="childImmunization" name="childImmunization" <?= $medicalData['ChildImmunization'] ? 'checked' : '' ?>>
-                        <label for="childImmunization">Childhood immunization</label>
-                        <input type="text" class="details-input" placeholder="Details" name="childImmunizationDetails"
-                            value="<?= htmlspecialchars($medicalData['ChildImmunizationDetails'] ?? '') ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="presentImmunizations" name="presentImmunizations" <?= $medicalData['PresentImmunizations'] ? 'checked' : '' ?>>
-                        <label for="presentImmunizations">Present immunizations (ex. Flu, Hepa B, etc.)</label>
-                        <input type="text" class="details-input" placeholder="Details" name="presentImmunizationsDetails"
-                            value="<?= htmlspecialchars($medicalData['PresentImmunizationsDetails'] ?? '') ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="currentMedicines" name="currentMedicines" <?= $medicalData['CurrentMedicines'] ? 'checked' : '' ?>>
-                        <label for="currentMedicines">Currently taking medicines/vitamins</label>
-                        <input type="text" class="details-input" placeholder="Details" name="currentMedicinesDetails"
-                            value="<?= htmlspecialchars($medicalData['CurrentMedicinesDetails'] ?? '') ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="dentalProblems" name="dentalProblems" <?= $medicalData['DentalProblems'] ? 'checked' : '' ?>>
-                        <label for="dentalProblems">Dental problems (ex. Gingivitis, etc.)</label>
-                        <input type="text" class="details-input" placeholder="Details" name="dentalProblemsDetails"
-                            value="<?= htmlspecialchars($medicalData['DentalProblemsDetails'] ?? '') ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="primaryPhysician" name="primaryPhysician" <?= $medicalData['PrimaryPhysician'] ? 'checked' : '' ?>>
-                        <label for="primaryPhysician">Primary care physician (name, specialty, clinic location and date of last check-up/follow-up)</label>
-                        <input type="text" class="details-input" placeholder="Details" name="primaryPhysicianDetails"
-                            value="<?= htmlspecialchars($medicalData['PrimaryPhysicianDetails'] ?? '') ?>">
-                    </div>
-
-                    <!-- FAMILY MEDICAL HISTORY -->
-                    <h1 class="h1-style">Family Medical History</h1>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="allergy" name="allergy" <?php echo is_checked('Allergy'); ?>>
-                        <label for="allergy">Allergy</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="allergyDetails" value="<?php echo $familymedicalhistory['AllergyDetails'] ?? ''; ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="asthma" name="asthma" <?php echo is_checked('Asthma'); ?>>
-                        <label for="asthma">Asthma/Thias</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="asthmaDetails" value="<?php echo $familymedicalhistory['AsthmaDetails'] ?? ''; ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="tuberculosis" name="tuberculosis" <?php echo is_checked('Tuberculosis'); ?>>
-                        <label for="tuberculosis">Tuberculosis</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="tuberculosisDetails" value="<?php echo $familymedicalhistory['TuberculosisDetails'] ?? ''; ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="hypertension" name="hypertension" <?php echo is_checked('Hypertension'); ?>>
-                        <label for="hypertension">Hypertension</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="hypertensionDetails" value="<?php echo $familymedicalhistory['HypertensionDetails'] ?? ''; ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="bloodDisease" name="bloodDisease" <?php echo is_checked('BloodDisease'); ?>>
-                        <label for="bloodDisease">Blood Disease</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="bloodDiseaseDetails" value="<?php echo $familymedicalhistory['BloodDiseaseDetails'] ?? ''; ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="stroke" name="stroke" <?php echo is_checked('Stroke'); ?>>
-                        <label for="stroke">Stroke</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="strokeDetails" value="<?php echo $familymedicalhistory['StrokeDetails'] ?? ''; ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="diabetes" name="diabetes" <?php echo is_checked('Diabetes'); ?>>
-                        <label for="diabetes">Diabetes</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="diabetesDetails" value="<?php echo $familymedicalhistory['DiabetesDetails'] ?? ''; ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="cancer" name="cancer" <?php echo is_checked('Cancer'); ?>>
-                        <label for="cancer">Cancer</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="cancerDetails" value="<?php echo $familymedicalhistory['CancerDetails'] ?? ''; ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="liverDisease" name="liverDisease" <?php echo is_checked('LiverDisease'); ?>>
-                        <label for="liverDisease">Liver Disease</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="liverDiseaseDetails" value="<?php echo $familymedicalhistory['LiverDiseaseDetails'] ?? ''; ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="kidneyBladder" name="kidneyBladder" <?php echo is_checked('KidneyBladder'); ?>>
-                        <label for="kidneyBladder">Kidney/Bladder Disease</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="kidneyBladderDetails" value="<?php echo $familymedicalhistory['KidneyBladderDetails'] ?? ''; ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="bloodDisorder" name="bloodDisorder" <?php echo is_checked('BloodDisorder'); ?>>
-                        <label for="bloodDisorder">Blood Disorder</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="bloodDisorderDetails" value="<?php echo $familymedicalhistory['BloodDisorderDetails'] ?? ''; ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="epilepsy" name="epilepsy" <?php echo is_checked('Epilepsy'); ?>>
-                        <label for="epilepsy">Epilepsy</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="epilepsyDetails" value="<?php echo $familymedicalhistory['EpilepsyDetails'] ?? ''; ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="mentalDisorder" name="mentalDisorder" <?php echo is_checked('MentalDisorder'); ?>>
-                        <label for="mentalDisorder">Mental Disorder</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="mentalDisorderDetails" value="<?php echo $familymedicalhistory['MentalDisorderDetails'] ?? ''; ?>">
-                    </div>
-
-                    <div class="form-row checkbox-row">
-                        <input type="checkbox" id="otherIllness" name="otherIllness" <?php echo is_checked('OtherIllness'); ?>>
-                        <label for="otherIllness">Other Illness</label>
-                        <input type="text" class="details-input" placeholder="Specify" name="otherIllnessDetails" value="<?php echo $familymedicalhistory['OtherIllnessDetails'] ?? ''; ?>">
-                    </div>
-
-                    <!-- PERSONAL & SOCIAL HISTORY -->
-                    <h1 class="h1-style">Personal & Social History</h1>
-
-                    <div class="form-row">
-                        <div>
-                            <label for="alcoholIntake">Alcohol intake:</label>
-                            <select id="alcoholIntake" name="alcoholIntake" required>
-                                <option value="no" <?= ($socialHistoryData['AlcoholIntake'] ?? '') === 'no' ? 'selected' : '' ?>>No</option>
-                                <option value="yes" <?= ($socialHistoryData['AlcoholIntake'] ?? '') === 'yes' ? 'selected' : '' ?>>Yes</option>
-                            </select>
-                            <input type="text" class="details-input" placeholder="Frequency/Amount (if applicable)"
-                                name="alcoholDetails" value="<?= htmlspecialchars($socialHistoryData['AlcoholDetails'] ?? '') ?>">
-                        </div>
-
-                        <div>
-                            <label for="tobaccoUse">Tobacco use:</label>
-                            <select id="tobaccoUse" name="tobaccoUse" required>
-                                <option value="no" <?= ($socialHistoryData['TobaccoUse'] ?? '') === 'no' ? 'selected' : '' ?>>No</option>
-                                <option value="yes" <?= ($socialHistoryData['TobaccoUse'] ?? '') === 'yes' ? 'selected' : '' ?>>Yes</option>
-                            </select>
-                            <input type="text" class="details-input" placeholder="Frequency/Amount (if applicable)"
-                                name="tobaccoDetails" value="<?= htmlspecialchars($socialHistoryData['TobaccoDetails'] ?? '') ?>">
-                        </div>
-
-                        <div>
-                            <label for="drugUse">Illicit drug use:</label>
-                            <select id="drugUse" name="drugUse" required>
-                                <option value="no" <?= ($socialHistoryData['DrugUse'] ?? '') === 'no' ? 'selected' : '' ?>>No</option>
-                                <option value="yes" <?= ($socialHistoryData['DrugUse'] ?? '') === 'yes' ? 'selected' : '' ?>>Yes</option>
-                            </select>
-                            <input type="text" class="details-input" placeholder="Type/Frequency (if applicable)"
-                                name="drugDetails" value="<?= htmlspecialchars($socialHistoryData['DrugDetails'] ?? '') ?>">
-                        </div>
-                    </div>
-
-                    <!-- FOR FEMALES (hidden unless Gender = female) -->
-                    <?php
-                    // set initial display based on saved gender value
-                    $femaleDisplayStyle = (isset($formData['Gender']) && $formData['Gender'] === 'female') ? 'display:block;' : 'display:none;';
-                    ?>
-                    <div id="for-females-input" class="scroll-input-div" style="<?= $femaleDisplayStyle ?>">
-                        <h1 class="h1-style">Female Menstrual History</h1>
-
-                        <div class="fem-form-section">
-                            <h4>Menstrual Period</h4>
-
-                            <div class="fem-form-row">
-                                <label for="lastPeriod" class="fem-label">Date of first day of LAST menstrual period:</label>
-                                <input type="date" id="lastPeriod" name="LastPeriod" class="fem-details-input"
-                                    value="<?= htmlspecialchars($data['LastPeriod'] ?? '') ?>">
-                            </div>
-
-                            <div class="fem-form-row fem-radio-group">
-                                <span class="fem-radio-label">Regularity:</span>
-                                <div class="fem-radio-options">
-                                    <label><input type="radio" name="Regularity" value="regular" <?= ($data['Regularity'] ?? '') == 'regular' ? 'checked' : '' ?>> Regular</label>
-                                    <label><input type="radio" name="Regularity" value="irregular" <?= ($data['Regularity'] ?? '') == 'irregular' ? 'checked' : '' ?>> Irregular</label>
-                                </div>
-                            </div>
-
-                            <div class="fem-form-row">
-                                <label for="duration" class="fem-label">Duration:</label>
-                                <input type="text" id="duration" name="Duration" class="fem-details-input fem-short-input" placeholder="days/weeks"
-                                    value="<?= htmlspecialchars($data['Duration'] ?? '') ?>">
-                            </div>
-
-                            <div class="fem-form-row">
-                                <label for="padsPerDay" class="fem-label">No. of pads/day:</label>
-                                <input type="number" id="padsPerDay" name="PadsPerDay" class="fem-details-input fem-short-input" min="0"
-                                    value="<?= htmlspecialchars($data['PadsPerDay'] ?? '') ?>">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="agency">AGENCY / ADDRESS</label>
+                                <input type="text" id="agency" name="agency" value="<?= htmlspecialchars($agency ?? '') ?>" required>
                             </div>
                         </div>
 
-                        <div class="fem-form-section">
-                            <div class="fem-form-row fem-radio-group">
-                                <span class="fem-radio-label">History of dysmenorrhea:</span>
-                                <div class="fem-radio-options">
-                                    <label><input type="radio" name="Dysmenorrhea" value="yes" <?= ($data['Dysmenorrhea'] ?? '') == 'yes' ? 'checked' : '' ?>> Yes</label>
-                                    <label><input type="radio" name="Dysmenorrhea" value="no" <?= ($data['Dysmenorrhea'] ?? '') == 'no' ? 'checked' : '' ?>> No</label>
-                                </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="address">ADDRESS</label>
+                                <input type="text" id="address" name="address" value="<?= htmlspecialchars($address ?? '') ?>" required>
                             </div>
+                        </div>
 
-                            <div class="fem-form-row" id="fem-severityRow" style="<?= ($data['Dysmenorrhea'] ?? '') == 'yes' ? '' : 'display: none;' ?>">
-                                <label for="severity" class="fem-label">If YES, how severe is your dysmenorrhea?</label>
-                                <select id="severity" name="DysmenorrheaSeverity" class="fem-details-input">
-                                    <option value="">Select severity</option>
-                                    <option value="mild" <?= ($data['DysmenorrheaSeverity'] ?? '') == 'mild' ? 'selected' : '' ?>>Mild</option>
-                                    <option value="moderate" <?= ($data['DysmenorrheaSeverity'] ?? '') == 'moderate' ? 'selected' : '' ?>>Moderate</option>
-                                    <option value="severe" <?= ($data['DysmenorrheaSeverity'] ?? '') == 'severe' ? 'selected' : '' ?>>Severe</option>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="age">AGE</label>
+                                <input type="number" id="age" name="age" value="<?= htmlspecialchars($age ?? '') ?>" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="sex">SEX</label>
+                                <select id="sex" name="sex" required>
+                                    <option value="">Select</option>
+                                    <option value="Male" <?= ($sex ?? '') === 'Male' ? 'selected' : '' ?>>Male</option>
+                                    <option value="Female" <?= ($sex ?? '') === 'Female' ? 'selected' : '' ?>>Female</option>
                                 </select>
                             </div>
-
-                            <div class="fem-form-row">
-                                <label for="lastOBVisit" class="fem-label">Date of last check-up with an OB-gynecologist:</label>
-                                <input type="date" id="lastOBVisit" name="LastOBVisit" class="fem-details-input"
-                                    value="<?= htmlspecialchars($data['LastOBVisit'] ?? '') ?>">
+                            <div class="form-group">
+                                <label for="civil-status">CIVIL STATUS</label>
+                                <select id="civil-status" name="civil-status" required>
+                                    <option value="">Select</option>
+                                    <option value="Single" <?= ($civil_status ?? '') === 'Single' ? 'selected' : '' ?>>Single</option>
+                                    <option value="Married" <?= ($civil_status ?? '') === 'Married' ? 'selected' : '' ?>>Married</option>
+                                    <option value="Divorced" <?= ($civil_status ?? '') === 'Divorced' ? 'selected' : '' ?>>Divorced</option>
+                                    <option value="Widowed" <?= ($civil_status ?? '') === 'Widowed' ? 'selected' : '' ?>>Widowed</option>
+                                </select>
                             </div>
-
-                            <div class="fem-form-row fem-radio-group">
-                                <span class="fem-radio-label">History of excessive/abnormal bleeding?</span>
-                                <div class="fem-radio-options">
-                                    <label><input type="radio" name="AbnormalBleeding" value="yes" <?= ($data['AbnormalBleeding'] ?? '') == 'yes' ? 'checked' : '' ?>> Yes</label>
-                                    <label><input type="radio" name="AbnormalBleeding" value="no" <?= ($data['AbnormalBleeding'] ?? '') == 'no' ? 'checked' : '' ?>> No</label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="fem-form-section">
-                            <div class="fem-form-row fem-radio-group">
-                                <span class="fem-radio-label">Previous pregnancy?</span>
-                                <div class="fem-radio-options">
-                                    <label><input type="radio" name="PreviousPregnancy" value="yes" <?= ($data['PreviousPregnancy'] ?? '') == 'yes' ? 'checked' : '' ?>> Yes</label>
-                                    <label><input type="radio" name="PreviousPregnancy" value="no" <?= ($data['PreviousPregnancy'] ?? '') == 'no' ? 'checked' : '' ?>> No</label>
-                                </div>
-                            </div>
-
-                            <div class="fem-form-row" id="fem-pregnancyDetailsRow" style="<?= ($data['PreviousPregnancy'] ?? '') == 'yes' ? '' : 'display: none;' ?>">
-                                <label for="pregnancyDetails" class="fem-label">Details (number, normal/C-section, home/hospital, etc.):</label>
-                                <input type="text" id="pregnancyDetails" name="PregnancyDetails" class="fem-details-input"
-                                    value="<?= htmlspecialchars($data['PregnancyDetails'] ?? '') ?>">
-                            </div>
-
-                            <div class="fem-form-row fem-radio-group">
-                                <span class="fem-radio-label">Children?</span>
-                                <div class="fem-radio-options">
-                                    <label><input type="radio" name="HasChildren" value="yes" <?= ($data['HasChildren'] ?? '') == 'yes' ? 'checked' : '' ?>> Yes</label>
-                                    <label><input type="radio" name="HasChildren" value="no" <?= ($data['HasChildren'] ?? '') == 'no' ? 'checked' : '' ?>> No</label>
-                                </div>
-                            </div>
-
-                            <div class="fem-form-row" id="fem-childrenDetailsRow" style="<?= ($data['HasChildren'] ?? '') == 'yes' ? '' : 'display: none;' ?>">
-                                <label for="childrenCount" class="fem-label">How many?</label>
-                                <input type="number" id="childrenCount" name="ChildrenCount" class="fem-details-input fem-short-input" min="0"
-                                    value="<?= htmlspecialchars($data['ChildrenCount'] ?? '') ?>">
+                            <div class="form-group">
+                                <label for="position">PROPOSED POSITION</label>
+                                <input type="text" id="position" name="position" value="<?= htmlspecialchars($position ?? '') ?>" required>
                             </div>
                         </div>
                     </div>
 
-                    <!-- SUBMIT -->
-                    <div class="form-actions">
-                        <button type="submit" id="submitBtn" class="form-buttons">Save All</button>
-                        <div id="formMessage" class="form-message" role="status" aria-live="polite"></div>
+                    <div class="section">
+                        <div class="section-title">FOR THE LICENSED GOVERNMENT PHYSICIAN</div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <p>I hereby certify that I have reviewed and evaluated the attached examination results, personally examined the above named individual and found him/her to be physically and medically □FIT / □UNFIT for employment.</p>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="physician_signature">SIGNATURE over PRINTED NAME:</label>
+                                <input type="text" id="physician_signature" name="physician_signature" value="<?= htmlspecialchars($physician_signature ?? '') ?>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="physician_agency">AGENCY/Affiliation:</label>
+                                <input type="text" id="physician_agency" name="physician_agency" value="<?= htmlspecialchars($physician_agency ?? '') ?>" readonly>
+                            </div>
+                            <div class="form-group">
+                                <label for="otherinfo">Other Information About The Proposed Appointee:</label>
+                                <input type="text" id="otherinfo" name="otherinfo" value="<?= htmlspecialchars($other_info ?? '') ?>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="license_no">LICENSE NO.</label>
+                                <input type="text" id="license_no" name="license_no" value="<?= htmlspecialchars($license_no ?? '') ?>" readonly>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="height">HEIGHT (M)</label>
+                                <input type="text" id="height" name="height" value="<?= htmlspecialchars($height ?? '') ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="weight">WEIGHT (KG)</label>
+                                <input type="text" id="weight" name="weight" value="<?= htmlspecialchars($weight ?? '') ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="blood-type">BLOOD TYPE</label>
+                                <input type="text" id="blood-type" name="blood-type" value="<?= htmlspecialchars($blood_type ?? '') ?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="official_designation">OFFICIAL DESIGNATION</label>
+                                <input type="text" id="official_designation" name="official_designation" value="<?= htmlspecialchars($official_designation ?? '') ?>" readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="date_created">Date:</label>
+                                <input type="date" id="date_created" name="date_created" value="<?= htmlspecialchars($date_created ?? date('Y-m-d')) ?>" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit" id="submitBtn">Submit</button>
                     </div>
                 </form>
-            </section>
-        </main>
+                <script>
+                    function printMedicalForm() {
+                        document.getElementById('print_action').value = '1'; // set to "1" to trigger printing
+                        document.getElementById('medicalForm').action = 'generate_np_medform.php'; // send to PHP file
+                        document.getElementById('medicalForm').submit();
+                    }
+                </script>
+            </div>
 
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                // elements
-                const genderSelect = document.getElementById('genderSelect');
-                const femaleBlock = document.getElementById('for-females-input');
-
-                const dysRadios = document.getElementsByName('Dysmenorrhea');
-                const dysSeverityRow = document.getElementById('fem-severityRow');
-
-                const prevPregRadios = document.getElementsByName('PreviousPregnancy');
-                const pregnancyDetailsRow = document.getElementById('fem-pregnancyDetailsRow');
-
-                const hasChildrenRadios = document.getElementsByName('HasChildren');
-                const childrenDetailsRow = document.getElementById('fem-childrenDetailsRow');
-
-                // toggle female section
-                function toggleFemale() {
-                    if (!genderSelect) return;
-                    femaleBlock.style.display = (genderSelect.value === 'female') ? 'block' : 'none';
-                }
-
-                if (genderSelect) {
-                    genderSelect.addEventListener('change', toggleFemale);
-                    toggleFemale(); // initial
-                }
-
-                // dysmenorrhea toggles
-                function handleDysChange() {
-                    const v = Array.from(dysRadios).find(r => r.checked);
-                    dysSeverityRow.style.display = (v && v.value === 'yes') ? '' : 'none';
-                }
-                dysRadios.forEach(r => r.addEventListener('change', handleDysChange));
-                handleDysChange();
-
-                // previous pregnancy toggle
-                function handlePregChange() {
-                    const v = Array.from(prevPregRadios).find(r => r.checked);
-                    pregnancyDetailsRow.style.display = (v && v.value === 'yes') ? '' : 'none';
-                }
-                prevPregRadios.forEach(r => r.addEventListener('change', handlePregChange));
-                handlePregChange();
-
-                // has children toggle
-                function handleChildrenChange() {
-                    const v = Array.from(hasChildrenRadios).find(r => r.checked);
-                    childrenDetailsRow.style.display = (v && v.value === 'yes') ? '' : 'none';
-                }
-                hasChildrenRadios.forEach(r => r.addEventListener('change', handleChildrenChange));
-                handleChildrenChange();
-
-                // AJAX submit
-                const form = document.getElementById('completeMedicalForm');
-                const submitBtn = document.getElementById('submitBtn');
-                const messageBox = document.getElementById('formMessage');
-
-                form.addEventListener('submit', async function(e) {
+            <script>
+                document.getElementById('medicalForm').addEventListener('submit', async function(e) {
                     e.preventDefault();
 
-                    messageBox.textContent = '';
-                    messageBox.className = 'form-message';
+                    const form = e.target;
+                    const formData = new FormData(form);
+
+                    // Disable submit button to prevent multiple submissions
+                    const submitBtn = document.getElementById('submitBtn');
                     submitBtn.disabled = true;
-                    submitBtn.textContent = 'Saving...';
+                    submitBtn.textContent = 'Submitting...';
 
                     try {
-                        // Convert form data to plain JS object
-                        const formData = new FormData(form);
-                        const data = Object.fromEntries(formData.entries());
-
-                        // ✅ Add ClientID and historyID safely (prevents syntax errors)
-                        data.ClientID = <?= isset($clientId) ? (int)$clientId : 'null' ?>;
-                        data.historyID = <?= isset($historyID) ? (int)$historyID : 'null' ?>;
-
-                        // ✅ Convert checkbox values to boolean
-                        const checkboxes = form.querySelectorAll('input[type="checkbox"]');
-                        checkboxes.forEach(checkbox => {
-                            data[checkbox.name] = checkbox.checked ? 1 : 0;
-                        });
-
-                        // ✅ Send JSON to backend
-                        const response = await fetch('AllFormSubmission.php', {
+                        const response = await fetch('submit_np_form.php', {
                             method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(data)
+                            body: formData
                         });
-
                         const result = await response.json();
 
-                        // ✅ Handle response
                         if (result.success) {
-                            messageBox.style.color = '#0a6b2e';
-                            messageBox.textContent = result.message || 'Data saved successfully!';
-                            messageBox.className = 'form-message success';
-
-                            // Optional: reload or redirect after save
-                            // setTimeout(() => { window.location.reload(); }, 2000);
+                            alert(result.message);
+                            form.reset();
                         } else {
-                            messageBox.style.color = '#b22222';
-                            messageBox.textContent = result.message || 'Failed to save data. Please try again.';
-                            messageBox.className = 'form-message error';
+                            alert('Error: ' + (result.message || 'Unknown error'));
+                            if (result.missing_fields) {
+                                console.warn('Missing fields:', result.missing_fields);
+                            }
                         }
                     } catch (error) {
-                        console.error('Error:', error);
-                        messageBox.style.color = '#b22222';
-                        messageBox.textContent = 'Network error. Please check your connection and try again.';
-                        messageBox.className = 'form-message error';
+                        alert('Failed to submit form. Please try again.');
+                        console.error(error);
                     } finally {
                         submitBtn.disabled = false;
-                        submitBtn.textContent = 'Save All';
-
-                        // Clear message after 5 seconds
-                        setTimeout(() => {
-                            messageBox.textContent = '';
-                            messageBox.className = 'form-message';
-                        }, 5000);
+                        submitBtn.textContent = 'Submit';
                     }
                 });
-            });
-        </script>
-    </div>
+            </script>
 
+            <style>
+                :root {
+                    --primary-color: #0b62c9;
+                    --secondary-color: #094d9a;
+                    --light-gray: #f5f7fa;
+                    --medium-gray: #dfe3e8;
+                    --dark-gray: #555;
+                    --border-radius: 4px;
+                }
+
+                .form-container {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: flex-start;
+                    width: 100%;
+                    max-height: 3200px;
+                    background-color: #fff;
+                    padding: 40px;
+                    border-radius: var(--border-radius);
+                    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+                }
+
+                .form-header {
+                    text-align: center;
+                    margin-bottom: 35px;
+                    padding-bottom: 15px;
+                    border-bottom: 1px solid var(--medium-gray);
+                }
+
+                .form-header h1 {
+                    font-size: 22px;
+                    font-weight: 600;
+                    color: var(--primary-color);
+                    margin: 0;
+                }
+
+                .form-header h2 {
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: var(--dark-gray);
+                    margin: 5px 0 0 0;
+                }
+
+                .section {
+                    margin-bottom: 25px;
+                    padding: 25px;
+                    background-color: var(--light-gray);
+                    border: 1px solid var(--medium-gray);
+                    border-radius: var(--border-radius);
+                }
+
+                .section-title {
+                    font-weight: 600;
+                    color: var(--primary-color);
+                    font-size: 17px;
+                    margin-bottom: 20px;
+                    border-bottom: 1px solid var(--medium-gray);
+                    padding-bottom: 6px;
+                }
+
+                .form-row {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 18px;
+                    margin-bottom: 20px;
+                }
+
+                .form-group {
+                    flex: 1;
+                    min-width: 220px;
+                }
+
+                label {
+                    display: block;
+                    margin-bottom: 8px;
+                    font-weight: 500;
+                    color: var(--dark-gray);
+                    font-size: 14px;
+                }
+
+                input[type="text"],
+                input[type="number"],
+                input[type="date"],
+                select {
+                    width: 100%;
+                    padding: 10px 12px;
+                    border: 1px solid var(--medium-gray);
+                    border-radius: 4px;
+                    background-color: #fff;
+                    font-size: 14px;
+                    color: #333;
+                    transition: border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+                }
+
+                input[type="text"]:focus,
+                input[type="number"]:focus,
+                input[type="date"]:focus,
+                select:focus {
+                    outline: none;
+                    border-color: var(--primary-color);
+                    background-color: #f9fbff;
+                }
+
+                .checkbox-group {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                    gap: 10px;
+                }
+
+                .checkbox-group input[type="checkbox"] {
+                    margin-right: 8px;
+                    accent-color: var(--primary-color);
+                }
+
+                .buttons,
+                .page-buttons {
+                    background-color: var(--primary-color);
+                    color: #fff;
+                    border: none;
+                    border-radius: 5px;
+                    padding: 12px 25px;
+                    font-weight: 500;
+                    cursor: pointer;
+                    transition: background-color 0.25s ease;
+                }
+
+                .buttons:hover,
+                .page-buttons:hover {
+                    background-color: var(--secondary-color);
+                }
+
+                .buttons:disabled {
+                    opacity: 0.6;
+                    cursor: not-allowed;
+                }
+
+                .form-footer {
+                    margin-top: 25px;
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                }
+
+                #submitBtn,
+                .header-div button {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    background-color: var(--primary-color);
+                    color: #fff;
+                    border: none;
+                    border-radius: 3px;
+                    font-size: clamp(1rem, 1vw, 1.5rem);
+                    width: 150px;
+                    height: 50px;
+                    font-weight: 500;
+                    font-family: "Poppins", sans-serif;
+                    cursor: pointer;
+                    transition: background-color 0.25s ease;
+                }
+
+                #settingBtn {
+                    background-color: #397dda;
+                }
+
+                @media (max-width: 768px) {
+                    .form-container {
+                        padding: 25px;
+                    }
+
+                    .form-row {
+                        flex-direction: column;
+                        gap: 15px;
+                    }
+                }
+            </style>
+        </main>
+    </div>
 </body>
 
 </html

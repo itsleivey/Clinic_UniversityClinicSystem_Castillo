@@ -179,3 +179,84 @@ Array
     [official_designation] => 
     [date_created] => 2025-09-07
 )
+Array
+(
+    [client_id] => 
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael M. Castillo
+    [agency] => Calamba, Laguna
+    [address] => Timugan, Los Banos, Laguna
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => IT
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5'8
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-18
+)
+Array
+(
+    [client_id] => 
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael M. Castillo
+    [agency] => Calamba, Laguna
+    [address] => Timugan, Los Banos, Laguna
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => IT
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5'8
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-18
+)
+Array
+(
+    [client_id] => 
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael M. Castillo
+    [agency] => Calamba, Laguna
+    [address] => Timugan, Los Banos, Laguna
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => IT
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5'8
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-18
+)
