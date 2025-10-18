@@ -49,39 +49,26 @@ if ($clientID) {
     }
 }
 //============================================
-$currentStatus = 'undone'; // Default status
+
 $actionDate = '--.--.--';
 $actionTime = '--:--:--';
 
 if ($clientID) {
     try {
         $pdo = pdo_connect_mysql();
-        $stmt = $pdo->prepare("SELECT actionDate, actionTime, progress 
+        $stmt = $pdo->prepare("SELECT actionDate, actionTime
                                FROM history 
                                WHERE ClientID = ? 
                                ORDER BY historyID DESC 
                                LIMIT 1");
         $stmt->execute([$clientID]);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($result) {
-            $currentStatus = $result['progress'] ?? 'undone';
-            $actionDate = $result['actionDate'] ?? '--.--.--';
-            $actionTime = $result['actionTime'] ?? '--:--:--';
-        }
     } catch (PDOException $e) {
         error_log("Status check error: " . $e->getMessage());
     }
 }
 
-$statusClass = '';
-if ($currentStatus === 'completed') {
-    $statusClass = 'status-completed';
-} elseif ($currentStatus === 'inprogress') {
-    $statusClass = 'status-inprogress';
-} elseif ($currentStatus === 'undone') {
-    $statusClass = 'status-undone';
-}
+
 /*
 $headerText = 'Recent Progress'; // Default text
 if ($currentStatus === 'inprogress') {
@@ -97,7 +84,7 @@ if (!$clientID) {
 } else {
     try {
         $pdo = pdo_connect_mysql();
-        $stmt = $pdo->prepare("SELECT historyID, actionDate, actionTime, progress FROM history WHERE ClientID = ? ORDER BY actionDate DESC, actionTime DESC");
+        $stmt = $pdo->prepare("SELECT historyID, actionDate, actionTime FROM history WHERE ClientID = ? ORDER BY actionDate DESC, actionTime DESC");
         $stmt->execute([$clientID]);
         $historyData = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -129,11 +116,6 @@ $currentTime = date('h:i:s A');
 $checkStmt = $pdo->prepare("SELECT COUNT(*) FROM medicalcertificate WHERE ClientID = ? AND historyID = ?");
 $checkStmt->execute([$clientID, $historyID]);
 $medicalCertCompleted = $checkStmt->fetchColumn();
-
-if ($medicalCertCompleted > 0) {
-    $updateStmt = $pdo->prepare("UPDATE history SET progress = 'completed', actionTime = ? WHERE historyID = ?");
-    $updateStmt->execute([$currentTime, $historyID]);
-}
 //============================================================================
 
 //=============================================================================
@@ -500,9 +482,6 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
                                                 <td class="id-col"><?= htmlspecialchars($row['ClientID']) ?></td>
                                                 <td class="action-datetime"><?= htmlspecialchars($row['actionDate']) ?></td>
                                                 <td class="action-datetime"><?= htmlspecialchars($row['actionTime']) ?></td>
-                                                <td class="progress-<?= htmlspecialchars($row['progress']) ?>">
-                                                    <?= ucfirst(htmlspecialchars($row['progress'])) ?>
-                                                </td>
                                                 <td>
                                                     <a href="<?= htmlspecialchars($url) ?>" class="btn btn-primary btn-sm">View</a>
                                                 </td>

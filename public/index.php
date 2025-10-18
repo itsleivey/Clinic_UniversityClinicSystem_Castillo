@@ -1,5 +1,5 @@
 <?php
-require '../config/database.php';
+require 'config/database.php';
 
 function verify_password($password, $stored_hash)
 {
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($user && verify_password($password, $user['Password'])) {
             $_SESSION['ClientID'] = $user['ClientID'];
-            header("Location: Profile.php");
+            header("Location: Freshman_Profile.php");
             exit();
             echo "<script>alert('Invalid email or password');</script>";
         }

@@ -1,5 +1,5 @@
 <?php
-// config/credentials.php
+// db_cridentials.php
 
 $DATABASE_HOST = 'localhost';
 $DATABASE_USER = 'root';
