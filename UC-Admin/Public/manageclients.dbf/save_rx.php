@@ -19,10 +19,10 @@ try {
     $actionTime12hr = date('h:i:s A');
     $date_issued = date('Y-m-d');
 
-    // Insert into history table
+    // Insert into history table (progress column removed)
     $insertHistory = $pdo->prepare("
-        INSERT INTO history (ClientID, actionDate, actionTime, progress) 
-        VALUES (?, ?, ?, 'completed')
+        INSERT INTO history (ClientID, actionDate, actionTime)
+        VALUES (?, ?, ?)
     ");
     $insertHistory->execute([$client_id, $actionDate, $actionTime12hr]);
     $historyID = $pdo->lastInsertId();
@@ -44,14 +44,13 @@ try {
         ':date_created' => $data['date_created']
     ]);
 
+    // Insert into consultations table
     $remarks = "Medical certificate issued on $date_issued";
     $stmt2 = $pdo->prepare("INSERT INTO consultations (client_id, historyID, consultation_date, certificate_issued, remarks) 
                             VALUES (?, ?, CURDATE(), TRUE, ?)");
     $stmt2->execute([$client_id, $historyID, $remarks]);
 
     echo json_encode(['success' => true]);
-
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
-?>

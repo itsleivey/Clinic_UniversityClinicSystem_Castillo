@@ -617,6 +617,10 @@ if ($clientId) {
                         padding: 25px;
                     }
 
+                    .header .title {
+                        display: none;
+                    }
+
                     .form-row {
                         flex-direction: column;
                         gap: 15px;

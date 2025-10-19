@@ -25,8 +25,8 @@ $userType = $user['ClientType'] ?? 'Default';
 $redirectMap = [
     'Freshman' => 'Freshman_Profile.php',
     'Student' => 'Student_Profile.php',
-    'Faculty' => 'Faculty_Profile.php',
-    'Personnel' => 'Non-Teaching_Profile.php',
+    'Faculty' => 'All_Personnel_Profile.php',
+    'Personnel' => 'All_Personnel_Profile.php',
     'NewPersonnel' => 'Newly_Hired_Profile.php',
 ];
 

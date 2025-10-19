@@ -35,11 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 case 'Freshman':
                     header("Location: Freshman_Profile.php");
                     break;
-                case 'Faculty':
-                    header("Location: Faculty_Profile.php");
-                    break;
-                case 'Personnel':
-                    header("Location: Non-Teaching_Profile.php");
+                case 'Faculty' || 'Personnel':
+                    header("Location: All_Personnel_Profile.php");
                     break;
                 case 'NewPersonnel':
                     header("Location: Newly_Hired_Profile.php");

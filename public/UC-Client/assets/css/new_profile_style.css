@@ -479,6 +479,9 @@ select:focus,
   .form-row > div {
     min-width: 160px;
   }
+  .header .title {
+    display: none;
+  }
 }
 
 @media (max-width: 560px) {
@@ -491,6 +494,9 @@ select:focus,
   .form-row > div {
     width: 100%;
     min-width: 100%;
+  }
+  .header .title {
+    display: none;
   }
 }
 
@@ -567,6 +573,9 @@ select:focus,
     transition: left 0.3s ease-in-out;
     box-shadow: none;
   }
+  .header .title {
+    display: none;
+  }
 
   .navbar.show {
     left: 0;
@@ -602,6 +611,9 @@ select:focus,
   .header {
     height: 60px;
     padding: 8px 15px;
+  }
+  .header .title {
+    display: none;
   }
 
   .header img {
@@ -800,6 +812,9 @@ select:focus,
   .content {
     margin-top: 50px;
   }
+  .header .title {
+    display: none;
+  }
 
   .profile-container {
     top: 8px;
@@ -826,9 +841,15 @@ select:focus,
     height: 100vh;
     overflow-y: auto;
   }
+  .header .title {
+    display: none;
+  }
 
   .content {
     padding: 10px;
+  }
+  .header .title {
+    display: none;
   }
 
   .card {
@@ -848,6 +869,9 @@ select:focus,
     margin-left: auto;
     margin-right: auto;
   }
+  .header .title {
+    display: none;
+  }
 }
 
 /* Print styles */
@@ -855,6 +879,9 @@ select:focus,
   .navbar,
   .header,
   .form-actions {
+    display: none;
+  }
+  .header .title {
     display: none;
   }
 
