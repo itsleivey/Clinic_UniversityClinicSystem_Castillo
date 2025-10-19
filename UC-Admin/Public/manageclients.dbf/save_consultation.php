@@ -38,10 +38,10 @@ try {
     $actionDate     = date('Y-m-d');
     $actionTime12hr = date('h:i:s A');
 
-    // Insert into history table
+    // Insert into history table (progress removed)
     $insertHistory = $pdo->prepare("
-        INSERT INTO history (ClientID, actionDate, actionTime, progress) 
-        VALUES (?, ?, ?, 'completed')
+        INSERT INTO history (ClientID, actionDate, actionTime) 
+        VALUES (?, ?, ?)
     ");
     $insertHistory->execute([$clientID, $actionDate, $actionTime12hr]);
     $historyID = $pdo->lastInsertId();
