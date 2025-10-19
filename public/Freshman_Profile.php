@@ -217,12 +217,11 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
 
     <div class="main-container">
         <nav class="navbar">
-            <a href="Medical_Form.php">
-                <button class="active-buttons" id="medicalBtn">
-                    <i class="fas fa-file-lines button-icon-nav"></i>
-                    <span class="nav-text">Medical Forms</span>
-                </button>
-            </a>
+
+            <button class="active-buttons" id="medicalBtn">
+                <i class="fas fa-file-lines button-icon-nav"></i>
+                <span class="nav-text">Medical Forms</span>
+            </button>
             <a href="Settings.php">
                 <button class="buttons" id="settingBtn">
                     <i class="fas fa-cog"></i>
@@ -348,7 +347,7 @@ $diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
                         </div>
 
                         <div>
-                            <label for="EmergencyContactName"><i class="fa-solid fa-triangle-exclamation"></i> Emergency Contact Name</label>
+                            <label for="EmergencyContactName"><i class="fa-solid fa-triangle-exclamation"></i> Emergency Contact Number</label>
                             <input type="text" id="EmergencyContactName" name="EmergencyContactName" placeholder="Emergency Contact Name" value="<?= htmlspecialchars($userData['EmergencyContactName'] ?? '') ?>" required>
                         </div>
 

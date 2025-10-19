@@ -279,7 +279,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_type_modal'])) {
 
     <div class="card-container">
         <div class="user-card"><button data-type="Student"><i class="fas fa-user-graduate"></i><span>Student</span></button></div>
-        <div class="user-card"><button data-type="Freshman"><i class="fas fa-user-graduate"></i><span>Freshman</span></button></div>
+        <div class="user-card"><button data-type="Freshman"><i class="fas fa-user-graduate"></i><span>Incoming Freshman Students</span></button></div>
         <div class="user-card"><button data-type="Faculty"><i class="fas fa-chalkboard-teacher"></i><span>Faculty</span></button></div>
         <div class="user-card"><button data-type="Personnel"><i class="fas fa-user-tie"></i><span>Personnel</span></button></div>
         <div class="user-card"><button data-type="NewPersonnel"><i class="fas fa-user-plus"></i><span>New Personnel</span></button></div>

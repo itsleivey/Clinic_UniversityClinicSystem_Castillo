@@ -1,127 +1,51 @@
 <?php
-
-if (session_status() == PHP_SESSION_NONE) {
+if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-
 require_once __DIR__ . '/../config/database.php';
-require_once __DIR__ . '/../MedicalDB/PersonalInfoLogic.php';
-
 $pdo = pdo_connect_mysql();
+
+$UserInfoData = [];
 $clientId = $_SESSION['ClientID'] ?? null;
-$userData = getUserDataFromDatabase($pdo, $clientId);
-// Get the most recent in-progress historyID
-$getHistory = $pdo->prepare("
-    SELECT historyID 
-    FROM history 
-    WHERE ClientID = ? 
-    ORDER BY historyID DESC 
-    LIMIT 1
-");
 
-$getHistory->execute([$clientId]);
-$historyID = $getHistory->fetchColumn();
+$name = $agency = $npaddress = $npage = $sex = $civil_status = $position = '';
+$blood_test = $urinalysis = $chest_xray = $drug_test = $psych_test = $neuro_test = 0;
+$physician_signature = $physician_agency = $other_info = $license_no = $height = $weight = $blood_type = '';
+$date_created = date('Y-m-d'); // default today
 
-// ==================== Medical Dental History ====================
-$medicalData = [
-    'KnownIllness' => 0,
-    'KnownIllnessDetails' => '',
-    'Hospitalization' => 0,
-    'HospitalizationDetails' => '',
-    'Allergies' => 0,
-    'AllergiesDetails' => '',
-    'ChildImmunization' => 0,
-    'ChildImmunizationDetails' => '',
-    'PresentImmunizations' => 0,
-    'PresentImmunizationsDetails' => '',
-    'CurrentMedicines' => 0,
-    'CurrentMedicinesDetails' => '',
-    'DentalProblems' => 0,
-    'DentalProblemsDetails' => '',
-    'PrimaryPhysician' => 0,
-    'PrimaryPhysicianDetails' => ''
-];
+if ($clientId) {
+    $stmt = $pdo->prepare("SELECT * FROM newpersonnel_form WHERE client_id = :client_id ORDER BY form_id Desc");
+    $stmt->execute(['client_id' => $clientId]);
+    $npdata = $stmt->fetch(PDO::FETCH_ASSOC);
 
-try {
-    $stmt = $pdo->prepare("SELECT * FROM medicaldentalhistory WHERE ClientID = ? AND historyID = ?");
-    $stmt->execute([$clientId, $historyID]);
-    $existingData = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($npdata) {
+        $name = $npdata['full_name'] ?? '';
+        $agency = $npdata['agency_address'] ?? '';
+        $npaddress = $npdata['address'] ?? '';
+        $npage = $npdata['age'] ?? '';
+        $sex = $npdata['sex'] ?? '';
+        $civil_status = $npdata['civil_status'] ?? '';
+        $position = $npdata['proposed_position'] ?? '';
 
-    if ($existingData) {
-        $medicalData = array_merge($medicalData, $existingData);
+        $blood_test = !empty($npdata['blood_test']);
+        $urinalysis = !empty($npdata['urinalysis']);
+        $chest_xray = !empty($npdata['chest_xray']);
+        $drug_test = !empty($npdata['drug_test']);
+        $psych_test = !empty($npdata['psych_test']);
+        $neuro_test = !empty($npdata['neuro_test']);
+
+        $physician_signature = $npdata['physician_signature'] ?? '';
+        $physician_agency = $npdata['physician_agency'] ?? '';
+        $other_info = $npdata["OtherInfo"] ?? '';
+        $license_no = $npdata['physician_license'] ?? '';
+        $height = $npdata['height'] ?? '';
+        $weight = $npdata['weight'] ?? '';
+        $blood_type = $npdata['blood_type'] ?? '';
+        $date_created = $npdata['date_created'] ?? date('Y-m-d');
+        $official_designation = $npdata['physician_designation'] ?? '';
     }
-} catch (PDOException $e) {
-    error_log("Database error: " . $e->getMessage());
-    $_SESSION['error_message'] = "Failed to load medical history.";
 }
-
-// Display messages
-if (isset($_SESSION['success_message'])) {
-    echo '<div class="alert alert-success">' . htmlspecialchars($_SESSION['success_message']) . '</div>';
-    unset($_SESSION['success_message']);
-}
-
-if (isset($_SESSION['error_message'])) {
-    echo '<div class="alert alert-danger">' . htmlspecialchars($_SESSION['error_message']) . '</div>';
-    unset($_SESSION['error_message']);
-}
-
-// ==================== Family Medical History ====================
-$stmt = $pdo->prepare("SELECT * FROM familymedicalhistory WHERE ClientID = ? AND historyID = ?");
-$stmt->execute([$clientId, $historyID]);
-$familymedicalhistory = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// Checkbox helper
-function is_checked($field)
-{
-    global $familymedicalhistory;
-    return isset($familymedicalhistory[$field]) && $familymedicalhistory[$field] == 1 ? 'checked' : '';
-}
-
-// ==================== Personal Social History ====================
-function getSocialHistory($clientId, $historyID)
-{
-    $conn = pdo_connect_mysql();
-    $stmt = $conn->prepare("SELECT * FROM personalsocialhistory WHERE ClientID = ? AND historyID = ?");
-    $stmt->execute([$clientId, $historyID]);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    return $result ?: [];
-}
-
-$socialHistoryData = getSocialHistory($clientId, $historyID);
-
-// ==================== Female Health History ====================
-function getFemaleHealthData($clientId, $historyID)
-{
-    $conn = pdo_connect_mysql();
-    if (!$conn) {
-        die("Database connection failed.");
-    }
-
-    $query = $conn->prepare("SELECT * FROM femalehealthhistory WHERE ClientID = ? AND historyID = ?");
-    $query->execute([$clientId, $historyID]);
-    $data = $query->fetch(PDO::FETCH_ASSOC);
-
-    return $data ?: [];
-}
-
-$data = getFemaleHealthData($clientId, $historyID);
-
-// ==================== Physical Examination ====================
-$sql = "SELECT * FROM physicalexamination WHERE ClientID = :client_id AND historyID = :historyID";
-$stmt = $pdo->prepare($sql);
-$stmt->execute(['client_id' => $clientId, 'historyID' => $historyID]);
-$physicalExam = $stmt->fetch(PDO::FETCH_ASSOC);
-
-// ==================== Diagnostic Results ====================
-$sql = "SELECT * FROM diagnosticresults WHERE ClientID = :client_id AND historyID = :historyID";
-$stmt = $pdo->prepare($sql);
-$stmt->execute(['client_id' => $clientId, 'historyID' => $historyID]);
-$diagnostic = $stmt->fetch(PDO::FETCH_ASSOC);
-
-
-$formData = [];
 ?>
 
 
@@ -181,9 +105,11 @@ $formData = [];
                 <div class="profile-item">
                     <i class="fas fa-envelope"></i> user@email.com
                 </div>
-                <div class="profile-item">
-                    <i class="fas fa-cog"></i> Settings
-                </div>
+                <a href="settings.php">
+                    <div class="profile-item">
+                        <i class="fas fa-cog"></i> Settings
+                    </div>
+                </a>
                 <div class="profile-item" onclick="document.getElementById('logoutForm').submit()">
                     <i class="fas fa-sign-out-alt"></i> Logout
                 </div>
@@ -194,13 +120,13 @@ $formData = [];
 
     <div class="main-container">
         <nav class="navbar">
-            <a href="Medical_Form.php">
-                <button class="active-buttons" id="medicalBtn">
-                    <i class="fas fa-file-lines button-icon-nav"></i>
-                    <span class="nav-text">Medical Forms</span>
-                </button>
-            </a>
-            <a href="Settings.php">
+
+            <button class="active-buttons" id="medicalBtn">
+                <i class="fas fa-file-lines button-icon-nav"></i>
+                <span class="nav-text">Medical Forms</span>
+            </button>
+
+            <a href="settings.php">
                 <button class="buttons" id="settingBtn">
                     <i class="fas fa-cog"></i>
                     <span class="nav-text">Settings</span>
@@ -209,13 +135,35 @@ $formData = [];
         </nav>
 
         <main class="content" loading="lazy">
+            <div id="confirmModal" class="modal">
+                <div class="modal-content">
+                    <h2>Confirm Submission</h2>
+                    <p>Are you sure all entered details are correct?</p>
+                    <div class="modal-buttons">
+                        <button id="confirmYes" class="btn-primary">Yes, Submit</button>
+                        <button id="confirmNo" class="btn-secondary">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Modal -->
+            <div id="successModal" class="modal">
+                <div class="modal-content">
+                    <h2>✅ Submitted Successfully!</h2>
+                    <p>Your information has been saved.</p>
+                    <div class="modal-buttons">
+                        <button id="successClose" class="btn-primary">OK</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="form-container">
                 <form id="medicalForm" method="post">
-                    <input type="hidden" name="client_id" value="<?= htmlspecialchars($clientID ?? '') ?>">
+                    <input type="hidden" name="client_id" value="<?= htmlspecialchars($clientId ?? '') ?>">
                     <input type="hidden" id="print_action" name="print_action" value="">
 
-                    <div class="header-div" style="display: flex; width: 100%; justify-content: right; align-items: center;">
-                        <button type="button" class="page-buttons " onclick="printMedicalForm()">Print</button>
+                    <div class="header-div">
+                        <button type="button" class="buttonsdp" onclick="printMedicalForm()">Print</button>
                     </div>
                     <div class="form-header">
                         <h1>CS Form No. 211</h1>
@@ -230,24 +178,34 @@ $formData = [];
                         <p>b. Attach this certificate to original appointment, transfer and reemployment.</p>
                         <p>c. The results of the following pre-employment medical/physical must be attached to this form:</p>
 
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="blood-test" name="blood_test" value="1" <?= !empty($blood_test) ? 'checked' : '' ?>>
-                            <label for="blood-test">Blood Test</label>
+                        <div class="check-box-parent-div">
+                            <div class="checkbox-group">
+                                <div class="checkboxes">
+                                    <input type="checkbox" id="blood-test" name="blood_test" value="1" <?= !empty($blood_test) ? 'checked' : '' ?>>
+                                    <label for="blood-test">Blood Test</label>
+                                </div>
+                                <div class="checkboxes">
+                                    <input type="checkbox" id="urinalysis" name="urinalysis" value="1" <?= !empty($urinalysis) ? 'checked' : '' ?>>
+                                    <label for="urinalysis">Urinalysis</label>
 
-                            <input type="checkbox" id="urinalysis" name="urinalysis" value="1" <?= !empty($urinalysis) ? 'checked' : '' ?>>
-                            <label for="urinalysis">Urinalysis</label>
-
-                            <input type="checkbox" id="xray" name="chest_xray" value="1" <?= !empty($chest_xray) ? 'checked' : '' ?>>
-                            <label for="xray">Chest X-Ray</label>
-
-                            <input type="checkbox" id="drug-test" name="drug_test" value="1" <?= !empty($drug_test) ? 'checked' : '' ?>>
-                            <label for="drug-test">Drug Test</label>
-
-                            <input type="checkbox" id="psych-test" name="psych_test" value="1" <?= !empty($psych_test) ? 'checked' : '' ?>>
-                            <label for="psych-test">Psychological Test</label>
-
-                            <input type="checkbox" id="neuro-test" name="neuro_test" value="1" <?= !empty($neuro_test) ? 'checked' : '' ?>>
-                            <label for="neuro-test">Neuro-Psychiatric Examination</label>
+                                </div>
+                                <div class="checkboxes">
+                                    <input type="checkbox" id="xray" name="chest_xray" value="1" <?= !empty($chest_xray) ? 'checked' : '' ?>>
+                                    <label for="xray">Chest X-Ray</label>
+                                </div>
+                                <div class="checkboxes">
+                                    <input type="checkbox" id="drug-test" name="drug_test" value="1" <?= !empty($drug_test) ? 'checked' : '' ?>>
+                                    <label for="drug-test">Drug Test</label>
+                                </div>
+                                <div class="checkboxes">
+                                    <input type="checkbox" id="psych-test" name="psych_test" value="1" <?= !empty($psych_test) ? 'checked' : '' ?>>
+                                    <label for="psych-test">Psychological Test</label>
+                                </div>
+                                <div class="checkboxes">
+                                    <input type="checkbox" id="neuro-test" name="neuro_test" value="1" <?= !empty($neuro_test) ? 'checked' : '' ?>>
+                                    <label for="neuro-test">Neuro-Psychiatric Examination</label>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -256,7 +214,7 @@ $formData = [];
 
                         <div class="form-group">
                             <label for="name">NAME</label>
-                            <input type="text" id="name" name="name" value="<?= htmlspecialchars($name ?? '') ?>" required>
+                            <input type="text" id="personnel-name" name="name" value="<?= htmlspecialchars($name ?? '') ?>" required>
                         </div>
 
                         <div class="form-row">
@@ -269,14 +227,14 @@ $formData = [];
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="address">ADDRESS</label>
-                                <input type="text" id="address" name="address" value="<?= htmlspecialchars($address ?? '') ?>" required>
+                                <input type="text" id="personnel-address" name="address" value="<?= htmlspecialchars($npaddress ?? '') ?>" required>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="age">AGE</label>
-                                <input type="number" id="age" name="age" value="<?= htmlspecialchars($age ?? '') ?>" required>
+                                <input type="number" id="personnel-age" name="age" value="<?= htmlspecialchars($npage ?? '') ?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="sex">SEX</label>
@@ -304,6 +262,7 @@ $formData = [];
                     </div>
 
                     <div class="section">
+
                         <div class="section-title">FOR THE LICENSED GOVERNMENT PHYSICIAN</div>
 
                         <div class="form-row">
@@ -335,18 +294,17 @@ $formData = [];
                                 <label for="license_no">LICENSE NO.</label>
                                 <input type="text" id="license_no" name="license_no" value="<?= htmlspecialchars($license_no ?? '') ?>" readonly>
                             </div>
-
                             <div class="form-group">
                                 <label for="height">HEIGHT (M)</label>
-                                <input type="text" id="height" name="height" value="<?= htmlspecialchars($height ?? '') ?>">
+                                <input type="text" id="height" name="height" value="<?= htmlspecialchars($height ?? '') ?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="weight">WEIGHT (KG)</label>
-                                <input type="text" id="weight" name="weight" value="<?= htmlspecialchars($weight ?? '') ?>">
+                                <input type="text" id="weight" name="weight" value="<?= htmlspecialchars($weight ?? '') ?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="blood-type">BLOOD TYPE</label>
-                                <input type="text" id="blood-type" name="blood-type" value="<?= htmlspecialchars($blood_type ?? '') ?>">
+                                <input type="text" id="blood-type" name="blood-type" value="<?= htmlspecialchars($blood_type ?? '') ?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="official_designation">OFFICIAL DESIGNATION</label>
@@ -361,57 +319,92 @@ $formData = [];
                             </div>
                         </div>
                     </div>
-
-                    <div class="form-footer">
-                        <button type="submit" id="submitBtn">Submit</button>
+                    <div id="messageBox" class="form-message"></div>
+                    <div class="form-footer" style="padding: 30px">
+                        <button type="submit" class="buttonsdp" id="submitBtn">Submit</button>
                     </div>
                 </form>
                 <script>
                     function printMedicalForm() {
-                        document.getElementById('print_action').value = '1'; // set to "1" to trigger printing
-                        document.getElementById('medicalForm').action = 'generate_np_medform.php'; // send to PHP file
+                        document.getElementById('print_action').value = '1';
+                        document.getElementById('medicalForm').action = 'generate_np_medform.php';
                         document.getElementById('medicalForm').submit();
                     }
                 </script>
+
             </div>
 
             <script>
-                document.getElementById('medicalForm').addEventListener('submit', async function(e) {
-                    e.preventDefault();
-
-                    const form = e.target;
-                    const formData = new FormData(form);
-
-                    // Disable submit button to prevent multiple submissions
+                document.addEventListener('DOMContentLoaded', () => {
+                    const form = document.getElementById('medicalForm');
+                    const confirmModal = document.getElementById('confirmModal');
+                    const confirmYes = document.getElementById('confirmYes');
+                    const confirmNo = document.getElementById('confirmNo');
                     const submitBtn = document.getElementById('submitBtn');
-                    submitBtn.disabled = true;
-                    submitBtn.textContent = 'Submitting...';
+                    const messageBox = document.getElementById('messageBox'); // ✅ Add this
+                    const successModal = document.getElementById('successModal'); // ✅ Add this
+                    const successClose = document.getElementById('successClose'); // ✅ Add this
 
-                    try {
-                        const response = await fetch('submit_np_form.php', {
-                            method: 'POST',
-                            body: formData
-                        });
-                        const result = await response.json();
+                    // Step 1️⃣: Show confirm modal before submitting
+                    form.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        confirmModal.style.display = 'flex';
+                    });
 
-                        if (result.success) {
-                            alert(result.message);
-                            form.reset();
-                        } else {
-                            alert('Error: ' + (result.message || 'Unknown error'));
-                            if (result.missing_fields) {
-                                console.warn('Missing fields:', result.missing_fields);
+                    // Step 2️⃣: Cancel submission
+                    confirmNo.addEventListener('click', () => {
+                        confirmModal.style.display = 'none';
+                    });
+
+                    // Step 3️⃣: Confirm submission
+                    confirmYes.addEventListener('click', async function() {
+                        confirmModal.style.display = 'none';
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = 'Submitting...';
+
+                        const formData = new FormData(form);
+
+                        try {
+                            const response = await fetch('submit_np_form.php', {
+                                method: 'POST',
+                                body: formData
+                            });
+                            const result = await response.json();
+
+                            if (result.success) {
+                                messageBox.style.color = '#0a6b2e';
+                                messageBox.textContent = result.message || 'Data saved successfully!';
+                                messageBox.className = 'form-message success';
+                                successModal.style.display = 'flex';
+                            } else {
+                                messageBox.style.color = '#b22222';
+                                messageBox.textContent = result.message || 'Failed to save data.';
+                                messageBox.className = 'form-message error';
                             }
+                        } catch (error) {
+                            console.error('Error:', error);
+                            messageBox.style.color = '#b22222';
+                            messageBox.textContent = 'Network error. Please try again.';
+                            messageBox.className = 'form-message error';
+                        } finally {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Save All';
+                            setTimeout(() => {
+                                messageBox.textContent = '';
+                                messageBox.className = 'form-message';
+                            }, 5000);
                         }
-                    } catch (error) {
-                        alert('Failed to submit form. Please try again.');
-                        console.error(error);
-                    } finally {
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Submit';
-                    }
+                    });
+
+                    // Step 4️⃣: Close success modal
+                    successClose.addEventListener('click', () => {
+                        successModal.style.display = 'none';
+                        // Optional: redirect back to profile
+                        // window.location.href = 'Newly_Hired_Profile.php';
+                    });
                 });
             </script>
+
 
             <style>
                 :root {
@@ -432,6 +425,7 @@ $formData = [];
                     background-color: #fff;
                     padding: 40px;
                     border-radius: var(--border-radius);
+                    font-family: "Poppins", sans-serif;
                     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
                 }
 
@@ -483,6 +477,7 @@ $formData = [];
                 .form-group {
                     flex: 1;
                     min-width: 220px;
+                    margin-bottom: 15px;
                 }
 
                 label {
@@ -518,13 +513,23 @@ $formData = [];
 
                 .checkbox-group {
                     display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+                    grid-template-columns: repeat(auto, 33%);
+                    grid-template-rows: repeat(auto, 33%);
                     gap: 10px;
+                    padding: 15px;
+
                 }
 
                 .checkbox-group input[type="checkbox"] {
                     margin-right: 8px;
                     accent-color: var(--primary-color);
+                }
+
+                .checkboxes {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 8px;
+
                 }
 
                 .buttons,
@@ -556,6 +561,17 @@ $formData = [];
                     align-items: center;
                 }
 
+                .header-div {
+                    display: flex;
+                    justify-content: flex-end;
+                }
+
+                .check-box-parent-div {
+                    display: flex;
+                    height: 100%;
+                    width: 100%;
+                }
+
                 #submitBtn,
                 .header-div button {
                     display: flex;
@@ -576,6 +592,24 @@ $formData = [];
 
                 #settingBtn {
                     background-color: #397dda;
+                }
+
+                p {
+                    font-family: "Montserrat", sans-serif;
+                }
+
+                .form-message {
+                    text-align: center;
+                    margin-top: 10px;
+                    font-weight: 500;
+                }
+
+                .form-message.success {
+                    color: #0a6b2e;
+                }
+
+                .form-message.error {
+                    color: #b22222;
                 }
 
                 @media (max-width: 768px) {

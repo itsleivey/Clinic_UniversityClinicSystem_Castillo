@@ -5,21 +5,15 @@
   font-family: "Poppins", sans-serif;
 }
 
-html,
-body {
-  height: 100%;
-  margin: 0;
-}
-
 body {
   display: flex;
   flex-direction: column;
   height: 130vh;
-  max-height: 2000px;
+  max-height: 3000px;
   background-color: #eaf0fc;
   grid-template-columns: auto 1fr;
   font-family: "Poppins", sans-serif;
-  overflow-y: auto;
+  overflow: auto;
 }
 
 .content {
@@ -31,7 +25,7 @@ body {
   height: 100%;
   gap: 35px;
   padding: 25px;
-  max-height: 6200px;
+  max-height: 4200px;
   width: calc(100% - 250px);
   transition: margin-left 0.2s ease-in-out, width 0.2s ease-in-out;
   overflow: hidden;
@@ -89,6 +83,7 @@ body {
 .main-container {
   display: flex;
   flex: 1;
+  max-height: 4000px;
 }
 
 /*Navigation Bar--------------------------------------*/
@@ -231,6 +226,10 @@ a {
   background-color: white;
   color: #2e68cc;
   font-weight: bold;
+
+  i {
+    color: #2e68cc;
+  }
 }
 
 .button-icon-nav {
@@ -597,6 +596,9 @@ select:focus,
 
 /* Small devices (tablets/mobile) */
 @media (max-width: 768px) {
+  .content {
+    max-height: 3000px;
+  }
   .header {
     height: 60px;
     padding: 8px 15px;
@@ -613,7 +615,7 @@ select:focus,
   }
 
   .university_title {
-    font-size: clamp(10px, 3vw, 12px);
+    font-size: clamp(8px, 3vw, 10px);
   }
 
   .page-title h4 {
@@ -866,4 +868,12 @@ select:focus,
     box-shadow: none;
     padding: 0;
   }
+}
+
+.content {
+  height: auto !important;
+  min-height: 100vh !important;
+  max-height: 3000px !important;
+  overflow: visible !important;
+  padding-bottom: 120px !important; /* allow space for last form field */
 }

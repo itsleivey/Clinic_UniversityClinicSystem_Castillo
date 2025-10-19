@@ -1,10 +1,54 @@
 <?php
-require_once '../config/database.php';
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-require_once '../Profile/Profile_db.php';
+require_once __DIR__ . '/../config/database.php';
+$pdo = pdo_connect_mysql();
 
+// 🔒 Ensure user is logged in
+if (!isset($_SESSION['ClientID'])) {
+    header("Location: index.php");
+    exit();
+}
+
+$clientId = $_SESSION['ClientID'];
+
+// 🔍 Fetch user type from the database
+$stmt = $pdo->prepare("SELECT ClientType FROM clients WHERE ClientID = ?");
+$stmt->execute([$clientId]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$userType = $user['ClientType'] ?? 'Default';
+
+// ✅ Define mapping once (safer and centralized)
+$redirectMap = [
+    'Freshman' => 'Freshman_Profile.php',
+    'Student' => 'Student_Profile.php',
+    'Faculty' => 'Faculty_Profile.php',
+    'Personnel' => 'Non-Teaching_Profile.php',
+    'NewPersonnel' => 'Newly_Hired_Profile.php',
+];
+
+// Fallback page if user type not found
+$targetPage = $redirectMap[$userType] ?? 'Profile.php';
+
+try {
+    $clientId = $_SESSION['ClientID']; // make sure ClientID is set in session
+    $stmt = $pdo->prepare("SELECT * FROM clients WHERE ClientID = ?");
+    $stmt->execute([$clientId]);
+    $UserInfoData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$UserInfoData || !isset($UserInfoData['Sex'])) {
+        $_SESSION['error_message'] = "No gender data found for this client.";
+    }
+} catch (PDOException $e) {
+    error_log("Database error: " . $e->getMessage());
+    $_SESSION['error_message'] = "Failed to load gender data.";
+}
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -75,12 +119,12 @@ require_once '../Profile/Profile_db.php';
 
     <div class="main-container">
         <nav class="navbar">
-            <a href="Freshman_Profile.php">
-                <button class="buttons" id="medicalBtn">
-                    <i class="fas fa-file-lines button-icon-nav"></i>
-                    <span class="nav-text">Medical Forms</span>
-                </button>
-            </a>
+            <button class="buttons" id="backToForm">
+                <i class="fas fa-file-lines button-icon-nav"></i>
+                <span class="nav-text">Medical Forms</span>
+            </button>
+
+
             <a href="Settings.php">
                 <button class="active-buttons" id="settingBtn">
                     <i class="fas fa-cog"></i>
@@ -88,6 +132,7 @@ require_once '../Profile/Profile_db.php';
                 </button>
             </a>
         </nav>
+
 
         <main class="content" loading="lazy">
 
@@ -106,27 +151,27 @@ require_once '../Profile/Profile_db.php';
 
                     <div class="profile-field">
                         <label for="fullName">Full Name:</label>
-                        <input type="text" id="fullName" value="<?= htmlspecialchars($userData['FullName'] ?? 'John Doe') ?>">
+                        <input type="text" id="fullName" value="<?= htmlspecialchars(trim(($UserInfoData['Firstname'] ?? '') . ' ' . ($UserInfoData['Lastname'] ?? '')) ?: 'Undone') ?>">
                     </div>
 
                     <div class="profile-field">
                         <label for="email">Email:</label>
-                        <input type="email" id="email" value="<?= htmlspecialchars($userData['Email'] ?? 'user@email.com') ?>">
+                        <input type="email" id="email" value="<?= htmlspecialchars($UserInfoData['Email'] ?? 'user@email.com') ?>">
                     </div>
 
                     <div class="profile-field">
                         <label for="password">Password:</label>
-                        <input type="password" id="password" placeholder="Enter new password">
+                        <input type="password" id="password" value="<?= htmlspecialchars($UserInfoData["Password"]) ?>" placeholder="Enter new password">
                     </div>
 
                     <div class="profile-field">
                         <label for="birthdate">Birthdate:</label>
-                        <input type="date" id="birthdate" value="<?= htmlspecialchars($userData['Birthdate'] ?? '') ?>">
+                        <input type="date" id="birthdate" value="<?= htmlspecialchars($UserInfoData['BirthDate'] ?? '') ?>">
                     </div>
 
                     <div class="profile-field">
                         <label for="gender">Gender:</label>
-                        <input type="text" id="gender" value="<?= htmlspecialchars($userData['Sex'] ?? 'Not specified') ?>" readonly>
+                        <input type="text" id="gender" value="<?= htmlspecialchars($UserInfoData['Sex'] ?? 'Not specified') ?>" readonly>
                     </div>
 
                     <button class="btn-save" onclick="alert('Save feature not implemented')">
@@ -134,15 +179,23 @@ require_once '../Profile/Profile_db.php';
                     </button>
                 </div>
             </div>
-
+            <script>
+                document.getElementById('backToForm').addEventListener('click', () => {
+                    // This URL comes directly from PHP mapping above
+                    window.location.href = "<?= $targetPage ?>";
+                });
+            </script>
             <style>
                 .profile-main-container {
                     display: flex;
                     gap: 2rem;
                     padding: 2rem;
-                    background-color: #f8f9fa;
-                    border-radius: 10px;
+                    background-color: #ffffffff;
+                    border-radius: 5px;
                     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+                    height: 100%;
+                    max-height: 2000px;
+
                 }
 
                 .profile-picture-section {

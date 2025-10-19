@@ -260,3 +260,626 @@ Array
     [official_designation] => 
     [date_created] => 2025-10-18
 )
+Array
+(
+    [client_id] => 
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Malinta, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguna
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5'8
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5'8
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael 
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Montemar Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Montemar Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Montemar Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Montemar Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => Jay Michael M. Castillo
+    [physician_agency] => IT
+    [otherinfo] => Test
+    [license_no] => 12345
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => Test
+    [date_created] => 2025-10-19
+)
+Array
+(
+    [client_id] => 13148
+    [print_action] => 
+    [blood_test] => 1
+    [urinalysis] => 1
+    [chest_xray] => 1
+    [drug_test] => 1
+    [psych_test] => 1
+    [neuro_test] => 1
+    [name] => Jay Michael Montemar Castillo
+    [agency] => Timugan, Los Banos, Laguan
+    [address] => Timugan, Los Banos, Laguan
+    [age] => 21
+    [sex] => Male
+    [civil-status] => Single
+    [position] => Programmer
+    [physician_signature] => 
+    [physician_agency] => 
+    [otherinfo] => 
+    [license_no] => 
+    [height] => 5.00
+    [weight] => 54.00
+    [blood-type] => O
+    [official_designation] => 
+    [date_created] => 2025-10-19
+)
