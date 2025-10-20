@@ -19,6 +19,20 @@ $stmt = $pdo->prepare("SELECT * FROM clients WHERE ClientID = ?");
 $stmt->execute([$clientId]);
 $client = $stmt->fetch(PDO::FETCH_ASSOC);
 
+// Map ClientType to user-friendly label
+switch ($client['ClientType']) {
+    case 'Faculty':
+        $displayType = 'Teaching Personnel';
+        break;
+    case 'Personnel':
+    case 'NewPersonnel':
+        $displayType = 'Non-Teaching Personnel';
+        break;
+    default:
+        $displayType = $client['ClientType'];
+        break;
+}
+
 // Get consultation records
 // Get history records
 $stmtHistory = $pdo->prepare("SELECT * FROM history WHERE ClientID = ? ORDER BY actionDate DESC, actionTime DESC");
@@ -38,374 +52,6 @@ $histories = $stmtHistory->fetchAll(PDO::FETCH_ASSOC);
     <link rel="stylesheet" href="UC-Client/assets/css/new_profile_style.css">
     <link rel="stylesheet" href="webicons/fontawesome-free-6.7.2-web/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-
-    <style>
-        body {
-            background-color: #eef3fc;
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-
-        .content {
-            padding: 25px;
-            transition: all 0.3s ease;
-        }
-
-        .card {
-            background: #fff;
-            border-radius: 3px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            padding: 25px;
-            margin-bottom: 5px;
-        }
-
-        p {
-            font-family: "Inter", 'Segoe UI', sans-serif;
-        }
-
-        .card h3 {
-            color: #397dda;
-            border-bottom: 2px solid #e5e9f2;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
-
-        /* PERSONAL INFO GRID */
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px 40px;
-        }
-
-        .info-item {
-            font-size: 15px;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #333;
-        }
-
-        .info-value {
-            color: #555;
-        }
-
-        /* TABLE STYLE */
-        .table-container {
-            overflow-x: auto;
-            width: 100%;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-            min-width: 600px;
-        }
-
-        th,
-        td {
-            padding: 10px 12px;
-            border-bottom: 1px solid #ddd;
-            text-align: left;
-            vertical-align: top;
-        }
-
-        th {
-            background-color: #397dda;
-            color: #fff;
-            font-weight: 600;
-        }
-
-        tr:hover {
-            background-color: #f6f9ff;
-        }
-
-        /* UPLOAD SECTION */
-        .upload-section {
-            text-align: center;
-            padding: 30px;
-            border: 2px dashed #99b5e1;
-            border-radius: 3px;
-            background: #f9fbff;
-        }
-
-        .upload-section input[type=file] {
-            display: none;
-        }
-
-        .upload-section label {
-            background-color: #397dda;
-            color: #fff;
-            padding: 12px 25px;
-            border-radius: 3px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: 500;
-        }
-
-        .upload-section label:hover {
-            background-color: #003f8a;
-        }
-
-        .upload-section button {
-            background-color: #397dda;
-            color: #fff;
-            border: none;
-            padding: 10px 22px;
-            border-radius: 3px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .upload-section button:hover {
-            background-color: #003f8a;
-        }
-
-        /* RESPONSIVE DESIGN */
-        @media (max-width: 992px) {
-            .content {
-                padding: 20px;
-            }
-
-            .card {
-                padding: 20px;
-            }
-
-            th,
-            td {
-                font-size: 13px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .header .title {
-                display: none;
-            }
-
-            .info-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .upload-section {
-                padding: 20px;
-            }
-
-            .upload-section label,
-            .upload-section button {
-                width: 100%;
-                display: block;
-            }
-
-            .page-title h4 {
-                font-size: 16px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .card h3 {
-                font-size: 18px;
-            }
-
-            .info-item {
-                font-size: 14px;
-            }
-
-            th,
-            td {
-                padding: 8px;
-            }
-        }
-
-        /* MODAL */
-        /* MODAL DESIGN */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow-y: hidden;
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background: #fff;
-            margin: 30px auto;
-            padding: 0;
-            border-radius: 6px;
-            width: 90%;
-            max-width: 1000px;
-            max-height: 700px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-            animation: fadeIn 0.3s ease-in-out;
-        }
-
-        .modal-header {
-            background: #397dda;
-            color: #fff;
-            padding: 16px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 6px 6px 0 0;
-        }
-
-        .modal-body {
-            padding: 25px;
-            background-color: #f9fbff;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .close-btn {
-            color: #fff;
-            font-size: 22px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .close-btn:hover {
-            color: #ffdddd;
-        }
-
-        /* TABLE STYLE INSIDE MODAL */
-        .modal-body table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #fff;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-
-        .modal-body th {
-            background: #397dda;
-            color: #fff;
-            padding: 10px;
-            text-align: left;
-        }
-
-        .modal-body td {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-            color: #333;
-            vertical-align: top;
-        }
-
-        .modal-body tr:hover {
-            background-color: #f3f7ff;
-        }
-
-        /* VIEW BUTTON */
-        .view-btn {
-            background-color: #397dda;
-            color: #fff;
-            border: none;
-            padding: 7px 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: background-color 0.3s;
-        }
-
-        .view-btn:hover {
-            background-color: #003f8a;
-        }
-
-        /* SMOOTH ANIMATION */
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-
-
-
-
-        .messagemodal {
-            display: none;
-            position: fixed;
-            z-index: 999;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .messagemodal-content {
-            background: #fff;
-            padding: 25px 35px;
-            border-radius: 10px;
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.3s ease;
-        }
-
-        .messagemodal-buttons {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .btn-primary {
-            background: #2767c0;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .btn-secondary {
-            background: #ddd;
-            color: #333;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-
-        .modal-content.large {
-            width: 90%;
-            max-width: 1000px;
-            height: auto;
-        }
-
-        .modal-body {
-            padding: 0;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: scale(0.9);
-            }
-
-            to {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -458,9 +104,8 @@ $histories = $stmtHistory->fetchAll(PDO::FETCH_ASSOC);
                     <div class="info-item"><span class="info-label">Email:</span> <span class="info-value"><?= htmlspecialchars($client['Email']) ?></span></div>
                     <div class="info-item"><span class="info-label">Sex:</span> <span class="info-value"><?= htmlspecialchars($client['Sex']) ?></span></div>
                     <div class="info-item"><span class="info-label">Birth Date:</span> <span class="info-value"><?= htmlspecialchars($client['BirthDate']) ?></span></div>
-                    <div class="info-item"><span class="info-label">Client Type:</span> <span class="info-value"><?= htmlspecialchars($client['ClientType']) ?></span></div>
+                    <div class="info-item"><span class="info-label">Client Type:</span> <span class="info-value"><?= htmlspecialchars($displayType) ?></span></div>
                     <div class="info-item"><span class="info-label">Department:</span> <span class="info-value"><?= htmlspecialchars($client['Department']) ?></span></div>
-                    <div class="info-item"><span class="info-label">Course:</span> <span class="info-value"><?= htmlspecialchars($client['Course']) ?></span></div>
                 </div>
             </div>
 
@@ -540,7 +185,8 @@ $histories = $stmtHistory->fetchAll(PDO::FETCH_ASSOC);
                 <h3>Upload Annual Examination File</h3>
                 <div class="upload-section">
                     <form id="uploadForm" enctype="multipart/form-data">
-                        <input type="file" name="exam_file" id="exam_file" accept=".pdf,.doc,.docx,.jpg,.png" required>
+                        <input type="file" name="exam_files[]" id="exam_file" accept=".pdf,.doc,.docx,.jpg,.png" multiple required>
+
                         <label for="exam_file"><i class="fas fa-upload"></i> Choose File</label>
                         <br><br>
                         <button type="button" id="uploadBtn">Upload</button>
@@ -604,8 +250,6 @@ $histories = $stmtHistory->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <!-- File Preview Modal -->
-            <!-- File Preview Modal -->
-            <!-- File Preview Modal -->
             <div id="filePreviewModal" class="modal">
                 <div class="modal-content large">
                     <div class="modal-header">
@@ -644,7 +288,7 @@ $histories = $stmtHistory->fetchAll(PDO::FETCH_ASSOC);
                 if (this.files.length > 0) {
                     const file = this.files[0];
                     fileOverview.innerHTML = `
-            <div style="font-family:Segoe UI,sans-serif; border:1px solid #ddd; border-radius:8px; padding:15px; background:#397dda;">
+            <div style="font-family:Segoe UI,sans-serif; border:1px solid #ddd; border-radius:8px; padding:15px; background: #d0ffde;">
                 <h4 style="color:black; margin-bottom:10px;">Selected File</h4>
                 <p><strong>File Name:</strong> ${file.name}</p>
                 <p><strong>File Size:</strong> ${(file.size / 1024).toFixed(2)} KB</p>
@@ -678,7 +322,7 @@ $histories = $stmtHistory->fetchAll(PDO::FETCH_ASSOC);
                         if (data.status === 'success') {
                             successModal.style.display = 'flex';
                             fileOverview.innerHTML = `
-                    <div style="font-family:Segoe UI,sans-serif; border:1px solid #4CAF50; border-radius:8px; padding:15px; background:#397dda;">
+                    <div style="font-family:Segoe UI,sans-serif; border:1px solid #4CAF50; border-radius:8px; padding:15px; background:#d0ffde;">
                         <h4 style="color:#4CAF50; margin-bottom:10px;">✅ Upload Successful</h4>
                         <p><strong>File Name:</strong> ${data.file_name}</p>
                         <p><strong>File Size:</strong> ${data.file_size} KB</p>
@@ -803,6 +447,7 @@ $histories = $stmtHistory->fetchAll(PDO::FETCH_ASSOC);
                         // Show PDF in iframe
                         pdfViewer.style.display = 'block';
                         pdfViewer.src = filePath;
+
                         break;
 
                     case 'jpg':
@@ -954,7 +599,7 @@ $histories = $stmtHistory->fetchAll(PDO::FETCH_ASSOC);
                     modalData.innerHTML = '<p>Loading details...</p>';
                     detailsModal.style.display = 'block';
 
-                    fetch(`fetch_history_details.php?historyID=${historyID}`)
+                    fetch(`fetch_details.php?historyID=${historyID}`)
                         .then(res => res.text())
                         .then(data => modalData.innerHTML = data)
                         .catch(err => {
@@ -990,6 +635,433 @@ $histories = $stmtHistory->fetchAll(PDO::FETCH_ASSOC);
                 }
             };
         </script>
+
+
+
+        <style>
+            body {
+                background-color: #eef3fc;
+                font-family: 'Poppins', sans-serif;
+                margin: 0;
+                padding: 0;
+            }
+
+            .content {
+                padding: 25px;
+                transition: all 0.3s ease;
+            }
+
+            .card {
+                background: #fff;
+                border-radius: 3px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+                padding: 25px;
+                margin-bottom: 5px;
+            }
+
+            p {
+                font-family: "Inter", 'Segoe UI', sans-serif;
+            }
+
+            .card h3 {
+                color: #397dda;
+                border-bottom: 2px solid #e5e9f2;
+                padding-bottom: 10px;
+                margin-bottom: 20px;
+                font-size: 20px;
+            }
+
+            /* PERSONAL INFO GRID */
+            .info-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 15px 40px;
+            }
+
+            .info-item {
+                font-size: 15px;
+            }
+
+            .info-label {
+                font-weight: 600;
+                color: #333;
+            }
+
+            .info-value {
+                color: #555;
+            }
+
+            /* TABLE STYLE */
+            .table-container {
+                overflow-x: auto;
+                width: 100%;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 14px;
+                min-width: 600px;
+            }
+
+            th,
+            td {
+                padding: 10px 12px;
+                border-bottom: 1px solid #ddd;
+                text-align: left;
+                vertical-align: top;
+            }
+
+            th {
+                background-color: #397dda;
+                color: #fff;
+                font-weight: 600;
+            }
+
+            tr:hover {
+                background-color: #f6f9ff;
+            }
+
+            /* UPLOAD SECTION */
+            .upload-section {
+                text-align: center;
+                padding: 30px;
+                border: 2px dashed #99b5e1;
+                border-radius: 3px;
+                background: #f9fbff;
+            }
+
+            .upload-section input[type=file] {
+                display: none;
+            }
+
+            .upload-section label {
+                background-color: #397dda;
+                color: #fff;
+                padding: 12px 25px;
+                border-radius: 3px;
+                cursor: pointer;
+                transition: 0.3s;
+                font-weight: 500;
+            }
+
+            .upload-section label:hover {
+                background-color: #003f8a;
+            }
+
+            .upload-section button {
+                background-color: #397dda;
+                color: #fff;
+                border: none;
+                padding: 10px 22px;
+                border-radius: 3px;
+                cursor: pointer;
+                transition: 0.3s;
+            }
+
+            .upload-section button:hover {
+                background-color: #003f8a;
+            }
+
+            /* RESPONSIVE DESIGN */
+            @media (max-width: 992px) {
+                .content {
+                    padding: 20px;
+                }
+
+                .card {
+                    padding: 20px;
+                }
+
+                th,
+                td {
+                    font-size: 13px;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .header .title {
+                    display: none;
+                }
+
+                .info-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .upload-section {
+                    padding: 20px;
+                }
+
+                .upload-section label,
+                .upload-section button {
+                    width: 100%;
+                    display: block;
+                }
+
+                .page-title h4 {
+                    font-size: 16px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .card h3 {
+                    font-size: 18px;
+                }
+
+                .info-item {
+                    font-size: 14px;
+                }
+
+                th,
+                td {
+                    padding: 8px;
+                }
+            }
+
+            /* MODAL */
+            /* MODAL DESIGN */
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 1000;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow-y: hidden;
+                background: rgba(0, 0, 0, 0.5);
+            }
+
+            .modal-content {
+                background: #fff;
+                margin: 30px auto;
+                padding: 0;
+                border-radius: 6px;
+                width: 90%;
+                max-width: 1000px;
+                max-height: 700px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+                animation: fadeIn 0.3s ease-in-out;
+            }
+
+            .modal-header {
+                background: #397dda;
+                color: #fff;
+                padding: 16px 25px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-radius: 6px 6px 0 0;
+            }
+
+            .modal-body {
+                padding: 25px;
+                background-color: #f9fbff;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+
+            .close-btn {
+                color: #fff;
+                font-size: 22px;
+                cursor: pointer;
+                transition: 0.2s;
+            }
+
+            .close-btn:hover {
+                color: #ffdddd;
+            }
+
+            /* TABLE STYLE INSIDE MODAL */
+            .modal-body table {
+                width: 100%;
+                border-collapse: collapse;
+                background: #fff;
+                border-radius: 5px;
+                overflow: hidden;
+                margin-bottom: 25px;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            }
+
+            .modal-body th {
+                background: #397dda;
+                color: #fff;
+                padding: 10px;
+                text-align: left;
+            }
+
+            .modal-body td {
+                padding: 10px;
+                border-bottom: 1px solid #eee;
+                color: #333;
+                vertical-align: top;
+            }
+
+            .modal-body tr:hover {
+                background-color: #f3f7ff;
+            }
+
+            /* VIEW BUTTON */
+            .view-btn {
+                background-color: #397dda;
+                color: #fff;
+                border: none;
+                padding: 7px 14px;
+                border-radius: 4px;
+                cursor: pointer;
+                font-size: 13px;
+                transition: background-color 0.3s;
+            }
+
+            .view-btn:hover {
+                background-color: #003f8a;
+            }
+
+            /* SMOOTH ANIMATION */
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+
+
+
+
+            .messagemodal {
+                display: none;
+                position: fixed;
+                z-index: 999;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.4);
+                justify-content: center;
+                align-items: center;
+            }
+
+            .messagemodal-content {
+                background: #fff;
+                padding: 25px 35px;
+                border-radius: 10px;
+                text-align: center;
+                width: 90%;
+                max-width: 400px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+                animation: fadeIn 0.3s ease;
+            }
+
+            .messagemodal-buttons {
+                margin-top: 20px;
+                display: flex;
+                justify-content: center;
+                gap: 10px;
+            }
+
+            .btn-primary {
+                background: #2767c0;
+                color: #fff;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 6px;
+                cursor: pointer;
+            }
+
+            .btn-secondary {
+                background: #ddd;
+                color: #333;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 6px;
+                cursor: pointer;
+            }
+
+            /* FILE PREVIEW MODAL STYLES */
+            .modal-content.large {
+                width: 95%;
+                max-width: 1200px;
+                height: 90vh;
+                display: flex;
+                flex-direction: column;
+                overflow: hidden;
+            }
+
+            .modal-body {
+                flex: 1;
+                padding: 0;
+                overflow: hidden;
+                background: #f9fbff;
+            }
+
+            /* Make preview fill modal body properly */
+            #pdfViewer {
+                width: 100%;
+                height: 100%;
+                display: block;
+                border: none;
+            }
+
+            /* Preview container for images and other files */
+            #previewContainer {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: #f5f5f5;
+                padding: 0;
+                margin: 0;
+            }
+
+            /* Keep images perfectly scaled */
+            #previewContainer img {
+                max-width: 100%;
+                max-height: 100%;
+                object-fit: contain;
+            }
+
+            /* Text file preview */
+            #previewContainer pre {
+                width: 100%;
+                height: 100%;
+                padding: 20px;
+                overflow: auto;
+                background: white;
+                margin: 0;
+                box-sizing: border-box;
+            }
+
+            /* Download button container */
+            #previewContainer>div {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: scale(0.9);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+        </style>
         <script src="UC-Client/assets/js/new_profile_function.js" defer></script>
 </body>
 
