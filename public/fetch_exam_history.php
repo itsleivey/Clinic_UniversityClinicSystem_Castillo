@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../config/database.php';
 $pdo = pdo_connect_mysql();
-
+//fetch_exam_history.php
 session_start();
 $clientId = $_SESSION['ClientID'] ?? null;
 

@@ -126,6 +126,7 @@ $clienttype = $stmt->fetchColumn();
 $isstudent = ($clienttype === 'Student');
 $isfreshman = ($clienttype === 'Freshman');
 $showLimitedTabs = ($clienttype === 'Freshman' || $clienttype === 'NewPersonnel');
+$showAnnualTabs = ($clienttype === 'Faculty' || $clienttype === 'Personnel');
 //=============================================================================
 $name = $agency = $npaddress = $npage = $sex = $civil_status = $position = '';
 $blood_test = $urinalysis = $chest_xray = $drug_test = $psych_test = $neuro_test = 0;
@@ -340,11 +341,15 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
                                 src="assets/images/personalinfo2.svg"
                                 data-active="assets/images/personalinfo1.svg"
                                 data-inactive="assets/images/personalinfo2.svg">
-                            Personal Information
+                            <?php if ($showAnnualTabs): ?>
+                                Submitted Files
+                            <?php endif; ?>
+                            <?php if (!$showAnnualTabs): ?>
+                                Personal Information
+                            <?php endif; ?>
                         </div>
 
                         <?php if ($clienttype === 'Freshman'): ?>
-
                             <div class="tab" data-target="medical-history">
                                 <img class="cp-btn-img"
                                     src="assets/images/medicalhistory2.svg"
@@ -417,7 +422,7 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
                 </style>
 
                 <?php if (!$showLimitedTabs): ?>
-                    <div id="visit-history" class="department-table-container" style="display: none;">
+                    <div id="visit-history" class="history-table-container" style="display: none;">
 
                         <div class="filter-container">
                             <div class="filter-group">
@@ -443,7 +448,7 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
                                         visitTab.classList.add('active');
                                     }
 
-                                    document.querySelectorAll('#personal-info-div, #medical-history, #medical-cert, #visit-history, #medrec, #rx').forEach(content => {
+                                    document.querySelectorAll('#personal-info-div, #medical-history, #medical-cert, #visit-history, #examFilesTab, #medrec, #rx').forEach(content => {
                                         content.style.display = 'none';
                                     });
 
@@ -453,44 +458,41 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
                                     }
                                 }
                             </script>
-                            <div style="display: flex; width: 100%; height: 500px; justify-content: flex-end; margin-right: 20px; overflow-y: auto; padding: 10px;">
-                                <table class="department-table">
-                                    <thead>
-                                        <tr>
-                                            <th class="id-col">ID</th>
-                                            <th class="id-col">Client ID</th>
-                                            <th class="action-datetime">Date</th>
-                                            <th class="action-datetime">Time</th>
-                                            <th class="id-col">Remarks</th>
-                                            <th id="viewth" class="visual-col">View History</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ($historyData as $index => $row): ?>
-                                            <?php
-                                            $url = "History_Page.php?client_id=" . urlencode($row['ClientID']) .
-                                                "&history_id=" . urlencode($row['historyID']) .
-                                                "&date=" . urlencode($row['actionDate']);
-                                            ?>
-                                            <tr class="history-row"
-                                                data-tooltip="Click to view"
-                                                data-href="<?= htmlspecialchars($url) ?>"
-                                                data-history-id="<?= htmlspecialchars($row['historyID']) ?>"
-                                                data-client-id="<?= htmlspecialchars($row['ClientID']) ?>">
-
-                                                <td class="id-col"><?= htmlspecialchars($row['historyID']) ?></td>
-                                                <td class="id-col"><?= htmlspecialchars($row['ClientID']) ?></td>
-                                                <td class="action-datetime"><?= htmlspecialchars($row['actionDate']) ?></td>
-                                                <td class="action-datetime"><?= htmlspecialchars($row['actionTime']) ?></td>
-                                                <td>
-                                                    <a href="<?= htmlspecialchars($url) ?>" class="btn btn-primary btn-sm">View</a>
-                                                </td>
+                            <div id="client-history-container">
+                                <h3>Client History</h3>
+                                <div class="table-wrapper">
+                                    <table class="client-history-table">
+                                        <thead>
+                                            <tr>
+                                                <th class="id-col">History ID</th>
+                                                <th class="id-col">Client ID</th>
+                                                <th class="action-datetime">Date</th>
+                                                <th class="action-datetime">Time</th>
+                                                <th class="visual-col">View History</th>
                                             </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-
-                                </table>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($historyData as $row): ?>
+                                                <?php
+                                                $url = "History_Page.php?client_id=" . urlencode($row['ClientID']) .
+                                                    "&history_id=" . urlencode($row['historyID']) .
+                                                    "&date=" . urlencode($row['actionDate']);
+                                                ?>
+                                                <tr class="history-row" data-href="<?= htmlspecialchars($url) ?>">
+                                                    <td class="id-col"><?= htmlspecialchars($row['historyID']) ?></td>
+                                                    <td class="id-col"><?= htmlspecialchars($row['ClientID']) ?></td>
+                                                    <td class="action-datetime"><?= htmlspecialchars($row['actionDate']) ?></td>
+                                                    <td class="action-datetime"><?= htmlspecialchars($row['actionTime']) ?></td>
+                                                    <td class="remarks-col">
+                                                        <a href="<?= htmlspecialchars($url) ?>" class="btn-view">View</a>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
+
                         </div>
 
                         <script>
@@ -534,187 +536,421 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
                     </div>
                 <?php endif; ?>
-                <div id="personal-info-div" style="display: flex">
-
-                    <div class="button-group">
-                        <button id="editButton" type="button" class="personalform-buttons">Edit</button>
-                        <button id="backButton" type="button" class="personalform-buttons" style="display: none;">Back</button>
-                    </div>
-                    <div class="info-grid">
-                        <p><span class="person-info-label">Surname:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['Surname'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Given Name:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['GivenName'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Middle Name:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['MiddleName'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Age:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['Age'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Gender:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['Gender'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Date of Birth:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['DateOfBirth'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Status:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['Status'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Course:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['Course'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">School Year Entered:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['SchoolYearEntered'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Contact Number:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['ContactNumber'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Current Address:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['CurrentAddress'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Mother's Name:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['MothersName'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Father's Name:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['FathersName'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Guardian's Name:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['GuardiansName'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Emergency Contact Name:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['EmergencyContactName'] ?? '--.--.--') ?></span>
-                        </p>
-
-                        <p><span class="person-info-label">Emergency Contact Relationship:</span><br>
-                            <span class="person-value-label"><?= htmlspecialchars($personalInfo['EmergencyContactRelationship'] ?? '--.--.--') ?></span>
-                        </p>
-                    </div>
-
-                    <div id="personal-info-input" class="scroll-input-div" style="display: none;">
-                        <form class="form-in-forms" id="personalInfoForm" autocomplete="off">
-                            <input type="hidden" name="ClientID" value="<?= htmlspecialchars($clientID) ?>">
-                            <div class="reminder-banner">
-                                ⚠️ Please be careful when editing the patient's personal information.
-                                Use edit mode **only if the patient is unable to update it themselves**.
-                            </div>
-
-                            <div class="form-row">
-                                <div>
-                                    <label for="Surname"><i class="fa-solid fa-user"></i> Surname</label>
-                                    <input type="text" id="Surname" name="Surname" placeholder="Surname" value="<?= htmlspecialchars($personalInfo['Surname'] ?? '') ?>" required>
-                                </div>
-                                <div>
-                                    <label for="GivenName"><i class="fa-solid fa-user"></i> Given Name</label>
-                                    <input type="text" id="GivenName" name="GivenName" placeholder="Given Name" value="<?= htmlspecialchars($personalInfo['GivenName'] ?? '') ?>" required>
-                                </div>
-                                <div>
-                                    <label for="MiddleName"><i class="fa-solid fa-user"></i> Middle Name</label>
-                                    <input type="text" id="MiddleName" name="MiddleName" placeholder="Middle Name" value="<?= htmlspecialchars($personalInfo['MiddleName'] ?? '') ?>">
+                <div id="personal-info-div" style="display: flex; overflow: auto">
+                    <?php if ($showAnnualTabs): ?>
+                        <div style="overflow: auto">
+                            <!--
+                            <div id="latestFilePreview" class="latest-file-preview">
+                                <h3>Latest Uploaded File</h3>
+                                <div id="latestPreviewContent" style="width:100%; height:500px; border:1px solid #ccc; display:flex; justify-content:center; align-items:center; background:#f9f9f9;">
+                                    <p>No file uploaded yet.</p>
                                 </div>
                             </div>
-
-                            <div class="form-row">
-                                <div>
-                                    <label for="Age"><i class="fa-solid fa-hourglass-half"></i> Age</label>
-                                    <input type="number" id="Age" name="Age" placeholder="Age" min="1" max="120" value="<?= htmlspecialchars($personalInfo['Age'] ?? '') ?>" required>
+                    -->
+                            <!-- History -->
+                            <div class="file-history">
+                                <h3>Previous Uploads</h3>
+                                <table id="historyTable" style="width:100%; border-collapse:collapse;">
+                                    <thead>
+                                        <tr>
+                                            <th>File Name</th>
+                                            <th>Type</th>
+                                            <th>Size</th>
+                                            <th>Date</th>
+                                            <th>Preview</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="historyTableBody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div id="filePreviewModal" class="modal" aria-hidden="true" role="dialog" aria-label="File preview">
+                            <div class="modal-overlay" data-close="filePreviewModal"></div>
+                            <div class="modal-content large" role="document">
+                                <div class="modal-header">
+                                    <h2 style="margin:0; font-size:18px;">📄 File Preview</h2>
+                                    <button class="close-btn" data-close="filePreviewModal" aria-label="Close preview">&times;</button>
                                 </div>
-                                <div>
-                                    <label for="genderSelect"><i class="fa-solid fa-venus-mars"></i> Sex</label>
-                                    <select id="genderSelect" name="Gender" required>
-                                        <option value="">Gender</option>
-                                        <option value="male" <?= (isset($personalInfo['Gender']) && $personalInfo['Gender'] === 'male') ? 'selected' : '' ?>>Male</option>
-                                        <option value="female" <?= (isset($personalInfo['Gender']) && $personalInfo['Gender'] === 'female') ? 'selected' : '' ?>>Female</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="DateOfBirth"><i class="fa-solid fa-calendar-day"></i> Date of Birth</label>
-                                    <input type="date" id="DateOfBirth" name="DateOfBirth" value="<?= htmlspecialchars($personalInfo['DateOfBirth'] ?? '') ?>" required>
-                                </div>
-                                <div>
-                                    <label for="Status"><i class="fa-solid fa-ring"></i> Status</label>
-                                    <select id="Status" name="Status" required>
-                                        <option value="">Status</option>
-                                        <option value="single" <?= (isset($personalInfo['Status']) && $personalInfo['Status'] === 'single') ? 'selected' : '' ?>>Single</option>
-                                        <option value="married" <?= (isset($personalInfo['Status']) && $personalInfo['Status'] === 'married') ? 'selected' : '' ?>>Married</option>
-                                    </select>
+                                <div class="modal-body">
+                                    <iframe id="pdfViewer" title="PDF viewer"></iframe>
+                                    <div id="previewContainer"></div>
                                 </div>
                             </div>
+                        </div>
 
-                            <div class="form-row">
-                                <div>
-                                    <label for="Course"><i class="fa-solid fa-book"></i> Course</label>
-                                    <input type="text" id="Course" name="Course" placeholder="Course" value="<?= htmlspecialchars($personalInfo['Course'] ?? '') ?>">
-                                </div>
-                                <div>
-                                    <label for="SchoolYearEntered"><i class="fa-solid fa-calendar-alt"></i> School Year Entered</label>
-                                    <input type="text" id="SchoolYearEntered" name="SchoolYearEntered" placeholder="School Year Entered" value="<?= htmlspecialchars($personalInfo['SchoolYearEntered'] ?? '') ?>">
-                                </div>
-                            </div>
+                        <script>
+                            (function() {
+                                const clientId = <?= json_encode($clientID) ?>;
 
-                            <div class="form-row">
-                                <div>
-                                    <label for="CurrentAddress"><i class="fa-solid fa-house"></i> Current Address</label>
-                                    <input type="text" id="CurrentAddress" name="CurrentAddress" placeholder="Current Address" value="<?= htmlspecialchars($personalInfo['CurrentAddress'] ?? '') ?>" required>
-                                </div>
-                                <div>
-                                    <label for="ContactNumber"><i class="fa-solid fa-phone"></i> Contact Number</label>
-                                    <input type="text" id="ContactNumber" name="ContactNumber" placeholder="Contact Number" value="<?= htmlspecialchars($personalInfo['ContactNumber'] ?? '') ?>" required>
-                                </div>
-                            </div>
+                                function loadExamFiles() {
+                                    if (!clientId) return;
 
-                            <div class="form-row">
-                                <div>
-                                    <label for="MothersName"><i class="fa-solid fa-person-dress"></i> Mother's Name</label>
-                                    <input type="text" id="MothersName" name="MothersName" placeholder="Mother's Name" value="<?= htmlspecialchars($personalInfo['MothersName'] ?? '') ?>">
-                                </div>
-                                <div>
-                                    <label for="FathersName"><i class="fa-solid fa-person"></i> Father's Name</label>
-                                    <input type="text" id="FathersName" name="FathersName" placeholder="Father's Name" value="<?= htmlspecialchars($personalInfo['FathersName'] ?? '') ?>">
-                                </div>
-                            </div>
+                                    fetch(`fetch_exam_history.php?client_id=${clientId}`)
+                                        .then(res => res.json())
+                                        .then(files => {
+                                            console.log('Fetched files:', files);
+                                            const tbody = document.getElementById('historyTableBody');
+                                            const latestContainer = document.getElementById('latestPreviewContent');
 
-                            <div class="form-row">
-                                <div>
-                                    <label for="GuardiansName"><i class="fa-solid fa-user-shield"></i> Guardian's Name</label>
-                                    <input type="text" id="GuardiansName" name="GuardiansName" placeholder="Guardian's Name" value="<?= htmlspecialchars($personalInfo['GuardiansName'] ?? '') ?>">
-                                </div>
-                                <div>
-                                    <label for="EmergencyContactName"><i class="fa-solid fa-triangle-exclamation"></i> Emergency Contact Name</label>
-                                    <input type="text" id="EmergencyContactName" name="EmergencyContactName" placeholder="Emergency Contact Name" value="<?= htmlspecialchars($personalInfo['EmergencyContactName'] ?? '') ?>" required>
-                                </div>
-                                <div>
-                                    <label for="EmergencyContactRelationship"><i class="fa-solid fa-people-arrows"></i> Emergency Contact Relationship</label>
-                                    <input type="text" id="EmergencyContactRelationship" name="EmergencyContactRelationship" placeholder="Relationship" value="<?= htmlspecialchars($personalInfo['EmergencyContactRelationship'] ?? '') ?>" required>
-                                </div>
-                            </div>
+                                            if (!files || files.error || !files.length) {
+                                                if (tbody) tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:#666;">No files uploaded yet.</td></tr>`;
+                                                if (latestContainer) latestContainer.innerHTML = `<p>No file uploaded yet.</p>`;
+                                                return;
+                                            }
 
-                            <div class="form-row">
-                                <div>
-                                    <label for="EmergencyGuardiansName"><i class="fa-solid fa-user-shield"></i> Name of Contact Person in CASE OF EMERGENCY</label>
-                                    <input type="text" id="EmergencyContactPerson" name="EmergencyContactPerson" placeholder="(REQUIRED)" value="<?= htmlspecialchars($personalInfo['EmergencyContactPerson'] ?? '') ?>">
+                                            const latest = files[0];
+                                            // show latest in the designated area (if present)
+                                            if (latestContainer) displayPreview(latest, latestContainer, null, true);
 
+                                            if (tbody) {
+                                                tbody.innerHTML = files.map(file => `
+            <tr>
+              <td>${escapeHtml(file.file_name)}</td>
+              <td>${escapeHtml((file.file_type.split('/')[1] || 'FILE').toUpperCase())}</td>
+              <td>${escapeHtml(file.file_size_formatted)}</td>
+              <td>${escapeHtml(file.upload_date_formatted)}</td>
+              <td style="text-align:center;">
+                <button class="view-btn" data-file='${escapeAttr(JSON.stringify(file))}'>Preview</button>
+              </td>
+            </tr>
+          `).join('');
+
+                                                // Add event listeners to preview buttons
+                                                document.querySelectorAll('.view-btn').forEach(btn => {
+                                                    btn.addEventListener('click', () => {
+                                                        const file = JSON.parse(btn.getAttribute('data-file'));
+                                                        openPreviewModal(file);
+                                                    });
+                                                });
+                                            }
+                                        })
+                                        .catch(err => {
+                                            console.error('Error fetching files:', err);
+                                            const tbody = document.getElementById('historyTableBody');
+                                            if (tbody) tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px; color:red;">Error loading files.</td></tr>`;
+                                        });
+                                }
+
+                                // open modal and inject preview
+                                function openPreviewModal(file) {
+                                    const modal = document.getElementById('filePreviewModal');
+                                    const container = document.getElementById('previewContainer');
+                                    const pdfViewer = document.getElementById('pdfViewer');
+
+                                    if (!modal || !container || !pdfViewer) return;
+
+                                    // reset previous content
+                                    container.innerHTML = '';
+                                    pdfViewer.style.display = 'none';
+                                    pdfViewer.src = '';
+
+                                    displayPreview(file, container, pdfViewer, false);
+
+                                    // show modal
+                                    modal.style.display = 'flex';
+                                    modal.setAttribute('aria-hidden', 'false');
+                                    // lock page scroll
+                                    document.documentElement.style.overflow = 'hidden';
+                                    document.body.style.overflow = 'hidden';
+                                }
+
+                                // displayPreview: renders file into container or pdfViewer
+                                function displayPreview(file, container, pdfViewer = null, isLatest = false) {
+                                    const ext = (file.file_name.split('.').pop() || '').toLowerCase();
+                                    const filePath = file.file_path;
+
+                                    console.log('Displaying preview for', filePath, 'ext', ext);
+
+                                    // Clear container first
+                                    container.innerHTML = '';
+
+                                    if (ext === 'pdf') {
+                                        if (isLatest) {
+                                            // For latest preview area - smaller container
+                                            container.innerHTML = `<iframe src="${escapeAttr(filePath)}" style="width:100%; height:100%; border:none;"></iframe>`;
+                                        } else {
+                                            // For modal - use the dedicated PDF viewer
+                                            if (pdfViewer) {
+                                                pdfViewer.style.display = 'block';
+                                                pdfViewer.src = filePath;
+                                                // Hide the regular container when PDF is shown
+                                                container.style.display = 'none';
+                                            }
+                                        }
+                                    } else if (['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'].includes(ext)) {
+                                        // Show container for images
+                                        if (pdfViewer) pdfViewer.style.display = 'none';
+                                        container.style.display = 'flex';
+
+                                        const img = document.createElement('img');
+                                        img.src = filePath;
+                                        img.alt = file.file_name;
+                                        img.style.maxWidth = '100%';
+                                        img.style.maxHeight = '100%';
+                                        img.style.objectFit = 'contain';
+                                        img.onload = function() {
+                                            console.log('Image loaded successfully');
+                                        };
+                                        img.onerror = function() {
+                                            console.error('Failed to load image:', filePath);
+                                            container.innerHTML = `<div style="padding: 20px; text-align: center;">
+                <p>Error loading image.</p>
+                <p><a href="${escapeAttr(filePath)}" target="_blank" rel="noopener">Open in new tab</a></p>
+            </div>`;
+                                        };
+                                        container.appendChild(img);
+                                    } else {
+                                        // Show container for other files
+                                        if (pdfViewer) pdfViewer.style.display = 'none';
+                                        container.style.display = 'flex';
+                                        container.innerHTML = `
+            <div style="text-align:center; padding:40px; width:100%;">
+                <p>Preview not available for .${escapeHtml(ext)} files.</p>
+                <p><a href="${escapeAttr(filePath)}" target="_blank" rel="noopener" download="${escapeAttr(file.file_name)}">Download File</a></p>
+            </div>
+        `;
+                                    }
+                                }
+                                // close modal helper
+                                function closePreviewModal() {
+                                    const modal = document.getElementById('filePreviewModal');
+                                    if (!modal) return;
+                                    modal.style.display = 'none';
+                                    modal.setAttribute('aria-hidden', 'true');
+
+                                    const pdfViewer = document.getElementById('pdfViewer');
+                                    const container = document.getElementById('previewContainer');
+
+                                    if (pdfViewer) {
+                                        pdfViewer.src = '';
+                                        pdfViewer.style.display = 'none';
+                                    }
+                                    if (container) {
+                                        container.innerHTML = '';
+                                        container.style.display = 'flex';
+                                    }
+
+                                    document.documentElement.style.overflow = '';
+                                    document.body.style.overflow = '';
+                                }
+
+                                document.addEventListener('click', function(e) {
+                                    const modal = document.getElementById('filePreviewModal');
+                                    if (e.target.classList.contains('modal-overlay') || e.target.closest('[data-close="filePreviewModal"]')) {
+                                        closePreviewModal();
+                                    }
+                                });
+
+                                document.getElementById('filePreviewModal').addEventListener('click', function(e) {
+                                    if (e.target === this) {
+                                        closePreviewModal();
+                                    }
+                                });
+
+                                // Small helpers to avoid XSS in inserted HTML
+                                function escapeHtml(str) {
+                                    if (!str && str !== 0) return '';
+                                    return String(str).replace(/[&<>"']/g, function(s) {
+                                        return ({
+                                            '&': '&amp;',
+                                            '<': '&lt;',
+                                            '>': '&gt;',
+                                            '"': '&quot;',
+                                            "'": '&#39;'
+                                        })[s];
+                                    });
+                                }
+
+                                function escapeAttr(s) {
+                                    return escapeHtml(s).replace(/"/g, '&quot;');
+                                }
+
+                                // init
+                                document.addEventListener('DOMContentLoaded', loadExamFiles);
+                            })();
+                        </script>
+                    <?php endif; ?>
+                    <?php if (!$showAnnualTabs): ?>
+                        <div class="button-group">
+                            <button id="editButton" type="button" class="personalform-buttons">Edit</button>
+                            <button id="backButton" type="button" class="personalform-buttons" style="display: none;">Back</button>
+                        </div>
+                        <div class="info-grid">
+                            <p><span class="person-info-label">Surname:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['Surname'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Given Name:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['GivenName'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Middle Name:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['MiddleName'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Age:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['Age'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Gender:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['Gender'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Date of Birth:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['DateOfBirth'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Status:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['Status'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Course:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['Course'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">School Year Entered:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['SchoolYearEntered'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Contact Number:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['ContactNumber'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Current Address:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['CurrentAddress'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Mother's Name:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['MothersName'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Father's Name:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['FathersName'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Guardian's Name:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['GuardiansName'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Emergency Contact Name:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['EmergencyContactName'] ?? '--.--.--') ?></span>
+                            </p>
+
+                            <p><span class="person-info-label">Emergency Contact Relationship:</span><br>
+                                <span class="person-value-label"><?= htmlspecialchars($personalInfo['EmergencyContactRelationship'] ?? '--.--.--') ?></span>
+                            </p>
+                        </div>
+
+                        <div id="personal-info-input" class="scroll-input-div" style="display: none;">
+                            <form class="form-in-forms" id="personalInfoForm" autocomplete="off">
+                                <input type="hidden" name="ClientID" value="<?= htmlspecialchars($clientID) ?>">
+                                <div class="reminder-banner">
+                                    ⚠️ Please be careful when editing the patient's personal information.
+                                    Use edit mode **only if the patient is unable to update it themselves**.
                                 </div>
-                            </div>
-                            <button class="form-buttons" type="submit">Save</button>
-                        </form>
 
-                    </div>
+                                <div class="form-row">
+                                    <div>
+                                        <label for="Surname"><i class="fa-solid fa-user"></i> Surname</label>
+                                        <input type="text" id="Surname" name="Surname" placeholder="Surname" value="<?= htmlspecialchars($personalInfo['Surname'] ?? '') ?>" required>
+                                    </div>
+                                    <div>
+                                        <label for="GivenName"><i class="fa-solid fa-user"></i> Given Name</label>
+                                        <input type="text" id="GivenName" name="GivenName" placeholder="Given Name" value="<?= htmlspecialchars($personalInfo['GivenName'] ?? '') ?>" required>
+                                    </div>
+                                    <div>
+                                        <label for="MiddleName"><i class="fa-solid fa-user"></i> Middle Name</label>
+                                        <input type="text" id="MiddleName" name="MiddleName" placeholder="Middle Name" value="<?= htmlspecialchars($personalInfo['MiddleName'] ?? '') ?>">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div>
+                                        <label for="Age"><i class="fa-solid fa-hourglass-half"></i> Age</label>
+                                        <input type="number" id="Age" name="Age" placeholder="Age" min="1" max="120" value="<?= htmlspecialchars($personalInfo['Age'] ?? '') ?>" required>
+                                    </div>
+                                    <div>
+                                        <label for="genderSelect"><i class="fa-solid fa-venus-mars"></i> Sex</label>
+                                        <select id="genderSelect" name="Gender" required>
+                                            <option value="">Gender</option>
+                                            <option value="male" <?= (isset($personalInfo['Gender']) && $personalInfo['Gender'] === 'male') ? 'selected' : '' ?>>Male</option>
+                                            <option value="female" <?= (isset($personalInfo['Gender']) && $personalInfo['Gender'] === 'female') ? 'selected' : '' ?>>Female</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="DateOfBirth"><i class="fa-solid fa-calendar-day"></i> Date of Birth</label>
+                                        <input type="date" id="DateOfBirth" name="DateOfBirth" value="<?= htmlspecialchars($personalInfo['DateOfBirth'] ?? '') ?>" required>
+                                    </div>
+                                    <div>
+                                        <label for="Status"><i class="fa-solid fa-ring"></i> Status</label>
+                                        <select id="Status" name="Status" required>
+                                            <option value="">Status</option>
+                                            <option value="single" <?= (isset($personalInfo['Status']) && $personalInfo['Status'] === 'single') ? 'selected' : '' ?>>Single</option>
+                                            <option value="married" <?= (isset($personalInfo['Status']) && $personalInfo['Status'] === 'married') ? 'selected' : '' ?>>Married</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div>
+                                        <label for="Course"><i class="fa-solid fa-book"></i> Course</label>
+                                        <input type="text" id="Course" name="Course" placeholder="Course" value="<?= htmlspecialchars($personalInfo['Course'] ?? '') ?>">
+                                    </div>
+                                    <div>
+                                        <label for="SchoolYearEntered"><i class="fa-solid fa-calendar-alt"></i> School Year Entered</label>
+                                        <input type="text" id="SchoolYearEntered" name="SchoolYearEntered" placeholder="School Year Entered" value="<?= htmlspecialchars($personalInfo['SchoolYearEntered'] ?? '') ?>">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div>
+                                        <label for="CurrentAddress"><i class="fa-solid fa-house"></i> Current Address</label>
+                                        <input type="text" id="CurrentAddress" name="CurrentAddress" placeholder="Current Address" value="<?= htmlspecialchars($personalInfo['CurrentAddress'] ?? '') ?>" required>
+                                    </div>
+                                    <div>
+                                        <label for="ContactNumber"><i class="fa-solid fa-phone"></i> Contact Number</label>
+                                        <input type="text" id="ContactNumber" name="ContactNumber" placeholder="Contact Number" value="<?= htmlspecialchars($personalInfo['ContactNumber'] ?? '') ?>" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div>
+                                        <label for="MothersName"><i class="fa-solid fa-person-dress"></i> Mother's Name</label>
+                                        <input type="text" id="MothersName" name="MothersName" placeholder="Mother's Name" value="<?= htmlspecialchars($personalInfo['MothersName'] ?? '') ?>">
+                                    </div>
+                                    <div>
+                                        <label for="FathersName"><i class="fa-solid fa-person"></i> Father's Name</label>
+                                        <input type="text" id="FathersName" name="FathersName" placeholder="Father's Name" value="<?= htmlspecialchars($personalInfo['FathersName'] ?? '') ?>">
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div>
+                                        <label for="GuardiansName"><i class="fa-solid fa-user-shield"></i> Guardian's Name</label>
+                                        <input type="text" id="GuardiansName" name="GuardiansName" placeholder="Guardian's Name" value="<?= htmlspecialchars($personalInfo['GuardiansName'] ?? '') ?>">
+                                    </div>
+                                    <div>
+                                        <label for="EmergencyContactName"><i class="fa-solid fa-triangle-exclamation"></i> Emergency Contact Name</label>
+                                        <input type="text" id="EmergencyContactName" name="EmergencyContactName" placeholder="Emergency Contact Name" value="<?= htmlspecialchars($personalInfo['EmergencyContactName'] ?? '') ?>" required>
+                                    </div>
+                                    <div>
+                                        <label for="EmergencyContactRelationship"><i class="fa-solid fa-people-arrows"></i> Emergency Contact Relationship</label>
+                                        <input type="text" id="EmergencyContactRelationship" name="EmergencyContactRelationship" placeholder="Relationship" value="<?= htmlspecialchars($personalInfo['EmergencyContactRelationship'] ?? '') ?>" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+                                    <div>
+                                        <label for="EmergencyGuardiansName"><i class="fa-solid fa-user-shield"></i> Name of Contact Person in CASE OF EMERGENCY</label>
+                                        <input type="text" id="EmergencyContactPerson" name="EmergencyContactPerson" placeholder="(REQUIRED)" value="<?= htmlspecialchars($personalInfo['EmergencyContactPerson'] ?? '') ?>">
+
+                                    </div>
+                                </div>
+                                <button class="form-buttons" type="submit">Save</button>
+                            </form>
+
+                        </div>
+                    <?php endif; ?>
                     <script>
                         document.getElementById('personalInfoForm').addEventListener('submit', function(e) {
                             e.preventDefault(); // Prevent full page reload
@@ -1937,7 +2173,7 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
                                 visitTab.classList.add('active');
                             }
 
-                            document.querySelectorAll('#personal-info-div, #medical-history, #medical-cert, #visit-history, #medrec, #rx')
+                            document.querySelectorAll('#personal-info-div, #medical-history, #medical-cert, #visit-history,#examFilesTab, #medrec, #rx')
                                 .forEach(content => content.style.display = 'none');
 
                             const visitSection = document.getElementById('visit-history');
@@ -2087,7 +2323,6 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
                         element.style.height = (element.scrollHeight) + "px"; // set new height
                     }
                 </script>
-
                 <script>
                     function saveConsultation() {
                         const requiredFields = [{
@@ -2261,7 +2496,9 @@ $data = $stmt->fetch(PDO::FETCH_ASSOC);
                         </form>
                     </div>
                 </div>
+                <!-------->
 
+                <!----------------------------------->
                 <script>
                     document.addEventListener("DOMContentLoaded", function() {
                         const dateSpan = document.getElementById("date2");

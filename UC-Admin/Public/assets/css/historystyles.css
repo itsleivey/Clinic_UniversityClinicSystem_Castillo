@@ -13,7 +13,9 @@
   padding: 15px;
   box-shadow: 0 3px 10px 1px rgba(134, 134, 134, 0.63);
 }
-
+p {
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
 .page-title {
   display: flex;
   justify-content: center;
@@ -47,7 +49,13 @@ img {
   height: 100%;
   padding: 10px;
 }
-
+.tabs {
+  display: flex;
+  flex-direction: row;
+  padding: 15px;
+  justify-content: flex-start;
+  gap: 25px;
+}
 /*==========================*/
 /*Physical Examination Table*/
 .exam-notice {

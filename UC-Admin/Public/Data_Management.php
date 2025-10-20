@@ -285,7 +285,7 @@ try {
         <style>
             /* General Page Style */
             body {
-                overflow: hidden;
+                overflow: auto;
             }
 
             .content-body {
@@ -302,56 +302,119 @@ try {
             }
 
             /* Options Grid */
+
             .data-management-options {
                 display: flex;
-                flex-direction: row;
                 gap: 25px;
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-bottom: 40px;
             }
 
-            /* Card Style */
             .data-management-card {
-                background: white;
-                border-radius: 18px;
-                padding: 45px 20px;
+                display: flex;
+                flex-direction: column;
+                background: #ecececff;
+                border-radius: 15px;
+                padding: 35px 25px;
                 text-align: center;
-                box-shadow: 0 6px 20px rgba(0, 122, 204, 0.1);
-                transition: transform 0.25s ease, box-shadow 0.25s ease;
-                cursor: pointer;
+                box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                width: 480px;
+                height: 100%;
+                max-height: 250px;
             }
 
-            .data-management-card h3 {
-                font-size: 20px;
+            .data-management-card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+                background: #e6f5ff;
+            }
+
+            .data-management-card i {
+                font-size: 28px;
                 color: #005b99;
-                margin-bottom: 10px;
+                margin-bottom: 12px;
             }
 
             .data-management-card p {
                 font-size: 14px;
                 color: #555;
-                line-height: 1.5;
             }
 
-            /* Hover Effects */
-            .data-management-card:hover {
-                transform: translateY(-8px);
-                box-shadow: 0 10px 25px rgba(0, 122, 204, 0.2);
-                background: #e6f5ff;
+            /* ---------- TABLE STYLE ---------- */
+            .backup-history {
+                background: #fff;
+                padding: 25px 20px;
+                border-radius: 12px;
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
             }
 
-            .data-management-link {
+            .backup-history h2 {
+                margin-bottom: 20px;
+                color: #005b99;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .history-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            .history-table th,
+            .history-table td {
+                padding: 12px 15px;
+                text-align: center;
+                font-size: 14px;
+            }
+
+            .history-table th {
+                background: #f0f4f8;
+                font-weight: 500;
+            }
+
+            .history-table tr {
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            .history-table tr:hover {
+                background: #f9f9f9;
+            }
+
+            .status.success {
+                color: #28a745;
+                font-weight: 500;
+            }
+
+            .status.failed {
+                color: #dc3545;
+                font-weight: 500;
+            }
+
+            .btn-download {
+                padding: 6px 12px;
+                background: #005b99;
+                color: #fff;
+                border-radius: 6px;
+                font-size: 13px;
                 text-decoration: none;
-                color: inherit;
+                transition: 0.2s;
             }
 
-            .icon-span {
-                font-size: clamp(18px, 2.5vw, 22px);
+            .btn-download:hover {
+                background: #004080;
             }
 
-            .p-tag {
-                padding-top: 15px;
+            .no-records {
+                text-align: center;
+                padding: 20px 0;
+                font-style: italic;
+                color: #666;
             }
 
-            /* ⚠️ Modal Styles */
+            /* ---------- MODAL STYLE ---------- */
             .modal-overlay {
                 display: none;
                 position: fixed;
@@ -362,18 +425,18 @@ try {
                 background: rgba(0, 0, 0, 0.6);
                 justify-content: center;
                 align-items: center;
-                z-index: 9999;
+                z-index: 10000;
             }
 
             .modal-box {
                 background: #fff;
                 padding: 25px 30px;
-                border-radius: 12px;
+                border-radius: 15px;
                 width: 400px;
                 max-width: 90%;
                 text-align: center;
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-                animation: scaleUp 0.3s ease;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+                animation: popUp 0.3s ease;
             }
 
             .modal-box h2 {
@@ -386,7 +449,6 @@ try {
                 font-size: 14px;
                 color: #444;
                 margin-bottom: 20px;
-                line-height: 1.4;
             }
 
             .modal-actions {
@@ -395,20 +457,15 @@ try {
                 gap: 15px;
             }
 
-            .btn-cancel,
-            .btn-confirm {
-                flex: 1;
-                padding: 10px 15px;
-                border: none;
-                border-radius: 6px;
-                cursor: pointer;
-                font-size: 14px;
-                transition: background 0.25s;
-            }
-
             .btn-cancel {
                 background: #ccc;
                 color: #333;
+                flex: 1;
+                border-radius: 8px;
+                padding: 10px 15px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: 0.2s;
             }
 
             .btn-cancel:hover {
@@ -416,24 +473,59 @@ try {
             }
 
             .btn-confirm {
-                background: #d9534f;
-                color: white;
-                font-weight: bold;
+                background: #005b99;
+                color: #fff;
+                flex: 1;
+                border-radius: 8px;
+                padding: 10px 15px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: 0.2s;
             }
 
             .btn-confirm:hover {
-                background: #c9302c;
+                background: #004080;
             }
 
-            @keyframes scaleUp {
-                from {
+            @keyframes popUp {
+                0% {
                     transform: scale(0.9);
                     opacity: 0;
                 }
 
-                to {
+                100% {
                     transform: scale(1);
                     opacity: 1;
+                }
+            }
+
+            /* ---------- RESPONSIVE ---------- */
+            @media screen and (max-width: 1024px) {
+                .main-container {
+                    margin-left: 0;
+                    padding: 20px;
+                }
+
+                .navbar {
+                    flex-direction: row;
+                    overflow-x: auto;
+                    width: 100%;
+                    border-right: none;
+                    border-bottom: 1px solid #e0e0e0;
+                    padding: 10px;
+                    position: sticky;
+                    top: 0;
+                    z-index: 1000;
+                }
+
+                .data-management-options {
+                    flex-direction: column;
+                    gap: 20px;
+                    align-items: center;
+                }
+
+                .data-management-card {
+                    width: 90%;
                 }
             }
         </style>

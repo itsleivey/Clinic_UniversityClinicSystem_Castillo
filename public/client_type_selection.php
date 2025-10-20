@@ -39,7 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_type_modal'])) {
         case 'Freshman':
             header("Location: Freshman_Profile.php");
             break;
-        case 'Faculty' || 'Personnel':
+        case 'Faculty':
+        case 'Personnel':
             header("Location: All_Personnel_Profile.php");
             break;
         case 'NewPersonnel':
@@ -49,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_type_modal'])) {
             header("Location: Profile.php");
             break;
     }
-    exit();
 }
 ?>
 

@@ -35,7 +35,7 @@
   display: flex;
   flex-direction: row;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 3px;
   height: 20%;
   width: 100%;
   gap: 5px;
@@ -47,7 +47,7 @@
   display: flex;
   flex-direction: column;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 3px;
   height: 100%;
   width: 25%;
   padding: 10px;
@@ -112,7 +112,7 @@
   align-items: center;
   width: 100%;
   height: 40px;
-  border-radius: 10px;
+  border-radius: 3px;
   background-color: #e6e8fa;
 }
 
@@ -140,7 +140,7 @@ h3 {
   color: white;
   background-color: #15a83f;
   border: none;
-  border-radius: 5px;
+  border-radius: 3px;
   width: 100%;
   transition: background-color 0.3s ease-in-out;
   align-self: center;
@@ -940,7 +940,6 @@ textarea {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  margin-bottom: 16px;
 }
 
 .filter-group {
@@ -1155,42 +1154,57 @@ textarea {
 }
 
 /*=====================History Div================================*/
-
+/* ---------- Vertical Steps Container ---------- */
 .vertical-steps-container {
-  padding: 20px;
-  border-radius: 8px;
-  background: transparent;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 25px;
+  border-radius: 12px;
+  background: #f8fbff;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  max-width: 360px;
+  margin: 0 auto;
 }
 
+/* ---------- Each Step ---------- */
 .vertical-step {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  margin-bottom: 12px;
-  border-radius: 6px;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+  border-radius: 10px;
   background-color: #ffffff;
-  transition: background-color 0.3s ease;
+  position: relative;
+  transition: all 0.3s ease;
 }
 
 .vertical-step:last-child {
   margin-bottom: 0;
 }
 
+.vertical-step:hover {
+  background-color: #f1f5f9;
+}
+
+/* ---------- Step Icon ---------- */
 .step-icon {
-  width: 28px;
-  height: 28px;
-  min-width: 28px;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
   border-radius: 50%;
-  background-color: #adb5bd;
-  color: #ffffff;
+  background-color: #ced4da;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 14px;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 2;
 }
 
+/* Colors for step status */
 .vertical-step.done .step-icon {
   background-color: #28a745;
 }
@@ -1200,40 +1214,72 @@ textarea {
 }
 
 .vertical-step.pending .step-icon {
-  background-color: #dee2e6;
+  background-color: #e9ecef;
   color: #adb5bd;
 }
 
+/* ---------- Step Text ---------- */
 .step-text {
   display: flex;
   flex-direction: column;
+  gap: 2px;
 }
 
 .step-number {
-  font-size: 12px;
-  font-weight: bold;
+  font-size: 11px;
+  font-weight: 600;
   color: #6c757d;
-  margin-bottom: 2px;
   text-transform: uppercase;
 }
 
 .step-label {
   font-size: 15px;
   color: #495057;
+  font-weight: 500;
 }
 
+/* Status colors for labels */
 .vertical-step.done .step-label {
   color: #28a745;
-  font-weight: 500;
 }
 
 .vertical-step.current .step-label {
   color: #3b82f6;
-  font-weight: 500;
 }
 
-.vertical-step:hover {
-  background-color: #f8f9fa;
+/* ---------- Connecting Line ---------- */
+.vertical-step::before {
+  content: "";
+  position: absolute;
+  top: 40px;
+  left: 16px;
+  width: 4px;
+  height: calc(100% - 40px);
+  background-color: #dee2e6;
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.vertical-step:last-child::before {
+  display: none;
+}
+
+/* ---------- Responsive ---------- */
+@media screen and (max-width: 480px) {
+  .vertical-step {
+    gap: 12px;
+    padding: 12px 14px;
+  }
+
+  .step-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+
+  .step-label {
+    font-size: 14px;
+  }
 }
 
 /*=========================Logbook Styles==========================================================*/
@@ -1282,68 +1328,75 @@ textarea {
 
 /* Container styling */
 #visit-history.department-table-container {
-  background-color: #f0f8ff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 100, 0.1);
+  background-color: #f8fbff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 25px rgba(0, 0, 100, 0.08);
   font-family: "Poppins", sans-serif;
+  transition: all 0.3s ease;
 }
 
 /* Heading style */
 .department-table h3 {
   color: #0b4f8a;
-  font-size: 24px;
-  margin-bottom: 20px;
-  border-left: 5px solid #0b4f8a;
-  padding-left: 10px;
+  font-size: 26px;
+  margin-bottom: 25px;
+  border-left: 6px solid #0b4f8a;
+  padding-left: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
 }
 
 /* Table styling */
 .department-table table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0 10px;
+  border-spacing: 0 12px;
   background-color: transparent;
 }
 
 /* Table header */
 .department-table thead {
-  background-color: #3498db;
-  color: white;
+  background: linear-gradient(90deg, #3498db, #2980b9);
+  color: #fff;
+  border-radius: 10px;
 }
 
 .department-table th {
-  padding: 14px 16px;
+  padding: 14px 18px;
   text-align: left;
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 /* Table rows */
 .department-table tbody tr {
   background-color: #ffffff;
   border-left: 4px solid #3b82f6;
-  box-shadow: 0 1px 3px rgba(0, 0, 80, 0.1);
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 80, 0.05);
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease;
+  cursor: pointer;
 }
 
 /* Table cells */
 .department-table td {
-  padding: 12px 15px;
+  padding: 14px 18px;
   font-size: 14px;
-  border-bottom: none;
-  border-right: 1px solid #e0ecf8;
+  color: #333;
   border-left: 1px solid #e0ecf8;
+  border-right: 1px solid #e0ecf8;
 }
 
 /* Rounded cell edges */
 .department-table tbody tr td:first-child {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
 }
 
 .department-table tbody tr td:last-child {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
   border-right: none;
 }
 
@@ -1354,8 +1407,27 @@ textarea {
 
 /* Hover effect */
 .department-table tbody tr:hover {
-  background-color: #e6f2ff;
-  transform: scale(1.005);
+  background-color: #e3f0ff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 80, 0.12);
+}
+
+/* Optional: subtle transition for all table cells */
+.department-table td,
+.department-table th {
+  transition: all 0.3s ease;
+}
+
+/* Responsive typography */
+@media screen and (max-width: 768px) {
+  .department-table h3 {
+    font-size: 22px;
+  }
+  .department-table th,
+  .department-table td {
+    padding: 12px 10px;
+    font-size: 13px;
+  }
 }
 
 /*============================================================*/
@@ -1519,6 +1591,59 @@ span {
   padding: 10px;
   overflow: auto;
 }
+/* Modal Background */
+.medrec-modal {
+  display: none; /* hidden by default */
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Content */
+.medrec-modal-content {
+  background-color: #f5f9ff;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 15px;
+  max-width: 1200px;
+  width: 90%;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: modalFadeIn 0.3s ease;
+}
+
+/* Close Button */
+.medrec-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  color: #3b82f6;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.medrec-close:hover {
+  color: #1d5bbf;
+}
+
+/* Animation */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
 /*===================================================================*/
 .info-row {
@@ -1656,5 +1781,355 @@ span {
   .tab img.cp-btn-img {
     width: 16px;
     height: 16px;
+  }
+}
+
+/* ---------- Client History Table Container ---------- */
+.history-table-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+#client-history-container {
+  background: #f8fbff;
+  padding: 0px;
+  border-radius: 3px;
+  box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+  font-family: "Poppins", sans-serif;
+  max-width: 1000px;
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* Heading */
+#client-history-container h3 {
+  font-size: 26px;
+  font-weight: 600;
+  color: #0b4f8a;
+  margin-bottom: 20px;
+  border-left: 6px solid #0b4f8a;
+  padding-left: 12px;
+}
+
+/* Table Wrapper */
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* Table Styling */
+.client-history-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.client-history-table thead {
+  background: linear-gradient(90deg, #3498db, #2980b9);
+  color: #fff;
+  border-radius: 10px;
+}
+
+.client-history-table th {
+  padding: 14px 18px;
+  text-align: left;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* Table Rows */
+.client-history-table tbody tr {
+  background-color: #ffffff;
+  border-left: 4px solid #3b82f6;
+  box-shadow: 0 2px 8px rgba(0, 0, 80, 0.05);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.client-history-table tbody tr:hover {
+  background-color: #e3f0ff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 80, 0.12);
+}
+
+/* Table Cells */
+.client-history-table td {
+  padding: 14px 18px;
+  font-size: 14px;
+  color: #333;
+  border-left: 1px solid #e0ecf8;
+  border-right: 1px solid #e0ecf8;
+}
+
+/* Rounded edges for first and last cell in row */
+.client-history-table tbody tr td:first-child {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+.client-history-table tbody tr td:last-child {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  border-right: none;
+}
+
+/* Alternating row color */
+.client-history-table tbody tr:nth-child(even) {
+  background-color: #f7faff;
+}
+
+/* View Button */
+.btn-view {
+  background: #3b82f6;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.btn-view:hover {
+  background: #1d5bbf;
+}
+
+/* Clickable row */
+.history-row {
+  transition: background 0.3s ease;
+}
+.history-row:hover {
+  cursor: pointer;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  #client-history-container {
+    padding: 20px 15px;
+  }
+  .client-history-table th,
+  .client-history-table td {
+    padding: 12px 10px;
+    font-size: 13px;
+  }
+  #client-history-container h3 {
+    font-size: 22px;
+  }
+}
+
+/*=======For Annual Exam Styles ===========*/
+/* Full-screen modal overlay */
+#filePreviewModal.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Modal overlay for background clicks */
+#filePreviewModal .modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Modal content container */
+#filePreviewModal .modal-content.large {
+  position: relative;
+  width: 85%;
+  height: 100%;
+  max-width: 1400px;
+  max-height: 90vh;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+/* Modal header */
+#filePreviewModal .modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: #f7f9fb;
+  border-bottom: 1px solid #e6e9ee;
+  flex-shrink: 0;
+  min-height: 60px;
+  box-sizing: border-box;
+}
+
+/* Modal body - FIXED to take remaining space */
+#filePreviewModal .modal-body {
+  flex: 1;
+  padding: 0;
+  background: #111;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  min-height: 0; /* Important for flex children */
+}
+
+/* PDF iframe - FIXED */
+#filePreviewModal iframe#pdfViewer {
+  width: 100%;
+  height: 100%;
+  border: none;
+  display: none;
+  flex: 1;
+}
+
+/* Preview container - FIXED */
+#filePreviewModal #previewContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  flex: 1;
+  overflow: auto;
+}
+
+/* Images inside preview */
+#filePreviewModal #previewContainer img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Close button */
+#filePreviewModal .close-btn {
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+  padding: 8px 12px;
+  border-radius: 4px;
+  color: #333;
+  background: transparent;
+  border: none;
+  transition: background-color 0.2s;
+}
+#filePreviewModal .close-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive tweaks */
+@media (max-width: 800px) {
+  #filePreviewModal .modal-content.large {
+    width: 98%;
+    height: 96%;
+    max-width: none;
+    max-height: none;
+    border-radius: 4px;
+  }
+}
+
+.file-history {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 25px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.file-history h3 {
+  margin-bottom: 15px;
+  font-size: 20px;
+  color: #003366; /* LSPU-LBC blue tone */
+  border-bottom: 2px solid #0055aa;
+  padding-bottom: 8px;
+}
+
+#historyTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+}
+
+#historyTable thead {
+  background: #0055aa;
+  color: #fff;
+  text-align: left;
+}
+
+#historyTable th,
+#historyTable td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+#historyTable tbody tr:hover {
+  background-color: #f1f6ff;
+}
+
+#historyTable td {
+  color: #333;
+}
+
+.view-btn {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.view-btn:hover {
+  background-color: #004c99;
+}
+
+@media (max-width: 768px) {
+  #historyTable thead {
+    display: none;
+  }
+
+  #historyTable,
+  #historyTable tbody,
+  #historyTable tr,
+  #historyTable td {
+    display: block;
+    width: 100%;
+  }
+
+  #historyTable tr {
+    margin-bottom: 15px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  #historyTable td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  #historyTable td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 10px;
+    width: 45%;
+    text-align: left;
+    font-weight: bold;
+    color: #555;
   }
 }
