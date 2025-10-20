@@ -110,7 +110,7 @@ $histories = $stmtHistory->fetchAll(PDO::FETCH_ASSOC);
             </div>
 
             <!-- CONSULTATION RECORDS -->
-            <!-- HISTORY TABLE -->
+            <!-- HISTORY TABLE
             <div class="card">
                 <h3>Consultation History</h3>
                 <div class="table-container">
@@ -164,7 +164,7 @@ $histories = $stmtHistory->fetchAll(PDO::FETCH_ASSOC);
                     </table>
                 </div>
 
-            </div>
+            </div> -->
             <!-- LARGE MODAL -->
             <div id="detailsModal" class="modal">
                 <div class="modal-content">

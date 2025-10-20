@@ -120,8 +120,27 @@ try {
     <div class="main-container">
         <nav class="navbar">
             <button class="buttons" id="backToForm">
-                <i class="fas fa-file-lines button-icon-nav"></i>
-                <span class="nav-text">Medical Forms</span>
+
+                <?php if ($userType === "Faculty" || $userType === "Personnel") : ?>
+                    <i class="fas fa-user"></i>
+                <?php endif; ?>
+                <?php if ($userType === "Freshman" || $userType === "NewPersonnel") : ?>
+                    <i class="fas fa-file-lines button-icon-nav"></i>
+                <?php endif; ?>
+                <?php if ($userType === "Student") : ?>
+                    <i class="fas fa-home"></i>
+                <?php endif; ?>
+                <span class="nav-text">
+                    <?php if ($userType === "Faculty" || $userType === "Personnel") : ?>
+                        Profile
+                    <?php endif; ?>
+                    <?php if ($userType === "Freshman" || $userType === "NewPersonnel") : ?>
+                        Medical Forms
+                    <?php endif; ?>
+                    <?php if ($userType === "Student") : ?>
+                        Home
+                    <?php endif; ?>
+                </span>
             </button>
 
 
