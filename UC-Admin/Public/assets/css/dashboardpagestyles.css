@@ -1010,7 +1010,7 @@ select {
   height: 90%;
   min-height: 390px;
 
-  max-width: 340px; /* Constrain width for calendar look */
+  
   position: relative;
 }
 
