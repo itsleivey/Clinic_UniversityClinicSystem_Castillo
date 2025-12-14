@@ -81,8 +81,9 @@ html {
   transform: scale(1);
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   margin-right: 15px;
-  width: 160px;
-  height: 50px;
+  width: 240px;
+  height: 70px;
+  font-size: 1.2rem; /* or use 20px */
 }
 
 .btnsecondary {
@@ -98,8 +99,9 @@ html {
   transition: transform 0.1s ease, box-shadow 0.1s ease;
   margin-right: 15px;
   font-weight: 500;
-  width: 160px;
-  height: 50px; /* Optional: consistent button height */
+  width: 240px;
+  height: 70px;
+  font-size: 1.2rem; /* or use 20px */
 }
 
 .btnprimary:hover,
@@ -179,15 +181,16 @@ html {
   justify-content: space-between;
   gap: 40px;
   flex-wrap: wrap;
-  width: 100%;
+
   max-width: 1200px;
 }
 
 .home-text h1 {
-  font-size: 3.8rem; /* was 3rem — increased for better emphasis */
+  font-size: 5.5rem; /* was 3rem — increased for better emphasis */
   font-weight: 700; /* makes it bolder */
   line-height: 1.1; /* tighter spacing for a cleaner look */
-  margin-bottom: 25px; /* adds a bit more breathing room below */
+  margin-bottom: 5px; /* adds a bit more breathing room below */
+  text-align: center;
 }
 
 .home-actions {
@@ -195,8 +198,16 @@ html {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 15px;
+  gap: 30px;
 }
+
+.home-text p {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
 
 .btn.primary {
   background: var(--primary);
