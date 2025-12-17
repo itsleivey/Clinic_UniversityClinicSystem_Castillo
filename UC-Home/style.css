@@ -75,6 +75,7 @@ html {
   border-radius: 50px;
   text-decoration: none;
   color: rgb(255, 255, 255);
+<<<<<<< HEAD
   display: flex; /* Use flexbox */
   align-items: center; /* Vertically center text */
   justify-content: center; /* Horizontally center text */
@@ -88,10 +89,26 @@ html {
 
 .btnsecondary {
   background: #467beed2;
+=======
+  display: flex;               /* Use flexbox */
+  align-items: center;         /* Vertically center text */
+  justify-content: center;     /* Horizontally center text */
+  transform: scale(1);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  margin-right: 15px;
+  font-weight: 600;
+  width: 160px;
+  height: 50px;
+}
+
+.btnsecondary {
+  background: linear-gradient(to left, #97cdff, #6da6f7);
+>>>>>>> main
   padding: 15px 30px;
   border-radius: 50px;
   text-decoration: none;
   color: rgb(255, 255, 255);
+<<<<<<< HEAD
   display: flex; /* Use flexbox */
   align-items: center; /* Vertically center text */
   justify-content: center; /* Horizontally center text */
@@ -102,6 +119,17 @@ html {
   width: 240px;
   height: 70px;
   font-size: 1.2rem; /* or use 20px */
+=======
+  display: flex;               /* Use flexbox */
+  align-items: center;         /* Vertically center text */
+  justify-content: center;     /* Horizontally center text */
+  transform: scale(1);
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  margin-right: 15px;
+  font-weight: 600;
+  width: 160px;
+  height: 50px;
+>>>>>>> main
 }
 
 .btnprimary:hover,

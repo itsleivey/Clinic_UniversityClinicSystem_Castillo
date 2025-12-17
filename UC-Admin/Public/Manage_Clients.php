@@ -154,7 +154,11 @@ $email = $current_user['email'] ?? '';
                 </button>
             </a>
     -->
+<<<<<<< HEAD
             <a href="admin_logout.php">
+=======
+            <a href="index.php">
+>>>>>>> main
                 <button class="buttons" id="logoutbtn">
                     <img src="assets/images/logout-icon.svg" class="button-icon-nav" loading="lazy">
                     <span class="nav-text">Logout</span>
