@@ -52,7 +52,7 @@ $email = $current_user['email'] ?? '';
     <link rel="stylesheet" href="assets/css/manageusers.css">
     <link rel="stylesheet" href="webicons/fontawesome-free-6.7.2-web/css/all.min.css">
     <script src="assets/js/dashboard_func.js" defer></script>
-    <script src="assets/js/manageclients.js" defer></script>
+    
 
     <style>
         @font-face {
