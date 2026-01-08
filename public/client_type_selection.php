@@ -117,16 +117,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_type_modal'])) {
                         <option value="">Select a Department</option>
                         <option value="College of Computer Studies">College of Computer Studies</option>
                         <option value="College of Food Nutrition and Dietetics">College of Food Nutrition and Dietetics</option>
-                        <option value="College of Industrial Technology">College of Industrial Technology</option>
                         <option value="College of Teacher Education">College of Teacher Education</option>
-                        <option value="College of Agriculture">College of Agriculture</option>
                         <option value="College of Arts and Sciences">College of Arts and Sciences</option>
                         <option value="College of Business Administration and Accountancy">College of Business Administration and Accountancy</option>
-                        <option value="College of Engineering">College of Engineering</option>
                         <option value="College of Criminal Justice Education">College of Criminal Justice Education</option>
                         <option value="College of Fisheries">College of Fisheries</option>
-                        <option value="College of Hospitality Management and Tourism">College of Hospitality Management and Tourism</option>
-                        <option value="College of Nursing and Allied Health">College of Nursing and Allied Health</option>
+                        <option value="College of Hospitality Management and Tourism">College of International Hospitality Management and Tourism</option>
                     </select>
                 </div>
                 <div class="form-group" id="modalCourseGroup">
@@ -156,16 +152,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_type_modal'])) {
         const coursesByDepartment = {
             "College of Computer Studies": ["Bachelor of Science in Information Technology", "Bachelor of Science in Computer Science"],
             "College of Food Nutrition and Dietetics": ["Bachelor of Science in Food Nutrition", "Bachelor of Science in Dietetics"],
-            "College of Industrial Technology": ["Bachelor of Industrial Technology major in Electrical Technology", "Bachelor of Industrial Technology major in Automotive Technology", "Bachelor of Industrial Technology major in Food Processing Technology"],
-            "College of Teacher Education": ["Bachelor of Secondary Education", "Bachelor of Elementary Education"],
-            "College of Agriculture": ["Bachelor of Science in Agriculture", "Bachelor of Science in Agricultural Technology"],
-            "College of Arts and Sciences": ["Bachelor of Arts in English", "Bachelor of Science in Mathematics"],
+            "College of Teacher Education": ["Bachelor of Secondary Education", "SPECIAL PROGRAM - Intensive Course in English Proficiency", "SPECIAL PROGRAM - Bachelor of Elementary Education","AREA OF SPECIALIZATION - General Elementary Education", "AREA OF SPECIALIZATION - Pre-Elementary Education", "AREA OF SPECIALIZATION - Certificate in Teaching Proficiency (CTP)", "Bachelor of Elementary Education"],
+            "College of Arts and Sciences": ["Bachelor of Science in Psychology"],
             "College of Business Administration and Accountancy": ["Bachelor of Science in Business Administration", "Bachelor of Science in Accountancy"],
-            "College of Engineering": ["Bachelor of Science in Electronics Engineering", "Bachelor of Science in Mechanical Engineering", "Bachelor of Science in Civil Engineering"],
             "College of Criminal Justice Education": ["Bachelor of Science in Criminology"],
-            "College of Fisheries": ["Bachelor of Science in Fisheries"],
-            "College of Hospitality Management and Tourism": ["Bachelor of Science in Hospitality Management", "Bachelor of Science in Tourism Management"],
-            "College of Nursing and Allied Health": ["Bachelor of Science in Nursing", "Bachelor of Science in Medical Technology"]
+            "College of Fisheries": ["Bachelor of Science in Fisheries","Bachelor of Science in Agri- Fisheries Business Management","Bachelor of Science in Fishery Education"],
+            "College of Hospitality Management and Tourism": ["Bachelor of Science in Hotel and Restaurant Management", "Bachelor of Science in Tourism"],
         };
 
         // Show modal when a card is clicked

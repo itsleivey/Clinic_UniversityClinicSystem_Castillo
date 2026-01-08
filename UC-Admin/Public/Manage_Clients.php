@@ -291,16 +291,12 @@ $email = $current_user['email'] ?? '';
                                             <option value="None">None</option>
                                             <option value="College of Computer Studies">College of Computer Studies</option>
                                             <option value="College of Food Nutrition and Dietetics">College of Food Nutrition and Dietetics</option>
-                                            <option value="College of Industrial Technology">College of Industrial Technology</option>
                                             <option value="College of Teacher Education">College of Teacher Education</option>
-                                            <option value="College of Agriculture">College of Agriculture</option>
                                             <option value="College of Arts and Sciences">College of Arts and Sciences</option>
                                             <option value="College of Business Administration and Accountancy">College of Business Administration and Accountancy</option>
-                                            <option value="College of Engineering">College of Engineering</option>
                                             <option value="College of Criminal Justice Education">College of Criminal Justice Education</option>
                                             <option value="College of Fisheries">College of Fisheries</option>
-                                            <option value="College of Hospitality Management and Tourism">College of Hospitality Management and Tourism</option>
-                                            <option value="College of Nursing and Allied Health">College of Nursing and Allied Health</option>
+                                            <option value="College of Hospitality Management and Tourism">College of International Hospitality Management and Tourism</option>
                                         </select>
                                     </div>
 
@@ -887,13 +883,17 @@ $email = $current_user['email'] ?? '';
         <div class="delete-modal-content">
             <div class="delete-modal-header">
                 <h3>Delete User</h3>
+                <button id="closeModal" class="btn-secondary" style="border: none; background: transparent; float: right; font-size: 18px; cursor: pointer;">
+                    <i class="fas fa-times"></i>
+                </button>
+
+
             </div>
-            <p>Are you sure you want to delete this user? The user will be archived and can be restored later.</p>
+            <p>Do you want to permanently delete or temporarily delete this user?</p>
 
             <div class="delete-modal-buttons">
-                <button id="closeModal" class="btn-secondary" style="border-radius: 3px;">Cancel</button>
-                <button id="permDeleteBtn" class="btn-danger" style="display:none">Delete</button>
-                <button id="tempDeleteBtn" class="btn-danger">Delete</button>
+                <button id="tempDeleteBtn" class="btn-warning">Archive</button>
+                <button id="permDeleteBtn" class="btn-danger">Delete</button>
             </div>
         </div>
 
